@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Web version & offline download
+    url: https://www.husir.org/tools/
+    about: All 75 tools in the browser, plus the offline ZIP
+  - name: How the no-upload claim is verified
+    url: https://www.husir.org/tools/no-upload/
+    about: Check it yourself in the browser's Network tab

@@ -1,0 +1,22 @@
+name: Tool idea
+description: Suggest a tool that would be useful
+title: "[idea] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What tool would help you?
+      description: The task you're trying to get done — the tool itself is often the easy part to guess.
+    validations:
+      required: true
+  - type: dropdown
+    id: upload
+    attributes:
+      label: Does it need your files to stay on your device?
+      options:
+        - Yes — I'd only use it if nothing is uploaded
+        - No, uploading would be fine
+        - Not sure
+    validations:
+      required: true

@@ -1,0 +1,42 @@
+name: Tool bug report
+description: Something in one of the tools doesn't work
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Which tool?
+      placeholder: e.g. PDF Toolbox, ID Photo Maker, Wi-Fi QR Code
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+      placeholder: e.g. Chrome 130 on Windows / Safari on iPhone / the offline ZIP
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happens
+      description: What you did, what you expected, and what you got instead.
+      placeholder: |
+        1. I opened ...
+        2. I clicked ...
+        3. I expected ... but got ...
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Any error message (optional)
+      description: Open developer tools → Console tab, and paste anything in red. Screenshots also help if the problem is visual.
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        **Please don't attach documents with personal data.** Every tool runs locally — nothing you open is uploaded —
+        but this issue is public, so redact or use a dummy file if needed.
