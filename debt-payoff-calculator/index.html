@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debt Payoff Calculator — Snowball vs Avalanche | HuSir Tools</title>
+<meta name="description" content="Compare snowball and avalanche debt payoff plans: debt-free date, total interest, and what extra monthly payments save you. Free & private.">
+<link rel="canonical" href="https://www.husir.org/tools/debt-payoff-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Debt Payoff Calculator — Snowball vs Avalanche">
+<meta property="og:description" content="Compare snowball and avalanche debt payoff plans: debt-free date, total interest, and what extra monthly payments save you. Free & private.">
+<meta property="og:url" content="https://www.husir.org/tools/debt-payoff-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Debt Payoff Calculator — Snowball vs Avalanche">
+<meta name="twitter:description" content="Compare snowball and avalanche debt payoff plans: debt-free date, total interest, and what extra monthly payments save you. Free & private.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.debt-row{display:grid;grid-template-columns:2.2fr 1.2fr .9fr 1.2fr auto;gap:8px;align-items:end;padding:10px;border:1px solid #eef0f6;border-radius:12px;margin-bottom:8px;background:#fcfcff}
+.debt-row .field-label{margin-top:0}
+.debt-row input{font-size:13px;padding:8px 10px}
+.rm{background:#fee2e2;color:#b91c1c;border:none;border-radius:8px;padding:9px 12px;cursor:pointer;font-size:13px;font-weight:700}
+@media(max-width:680px){.debt-row{grid-template-columns:1fr 1fr}.debt-row .name-w{grid-column:1/-1}.rm{grid-column:1/-1;padding:11px}}
+.methods{display:flex;gap:8px;margin-top:8px}
+.method{flex:1;border:2px solid #e2e6f0;border-radius:10px;padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;color:#555;transition:all .15s}
+.method small{display:block;font-weight:400;color:#94a3b8;margin-top:2px}
+.method.active{border-color:#667eea;background:#eef1ff;color:#4c1d95}
+.results-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.res-card{border:1px solid #e2e6f0;border-radius:12px;padding:14px}
+.res-card.win{border-color:#10b981;background:#f0fdf6}
+.res-card h4{font-size:14px;color:#333;margin-bottom:8px}
+.badge{display:inline-block;font-size:11px;background:#10b981;color:#fff;border-radius:20px;padding:2px 10px;margin-left:6px;font-weight:700}
+.due{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;background:#f6f7fb;font-size:13px;color:#475569;margin-top:6px}
+.order-item{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;background:#f6f7fb;font-size:13px;color:#475569;margin-top:6px}
+.order-item b{color:#1a1a2e}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3,.results-compare{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Debt Payoff Calculator",
+  "description": "Compare snowball and avalanche debt payoff plans: debt-free date, total interest, and what extra monthly payments save you. Free & private.",
+  "url": "https://www.husir.org/tools/debt-payoff-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Snowball or avalanche — which is better?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Avalanche minimizes total interest; snowball builds momentum by retiring the smallest balance first. Both keep your monthly payment the same — only the extra dollar goes to a different debt. Pick the one you will actually stick with."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I pay more than the minimum?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Minimums are designed to stretch repayment for years. Even $50–$100 extra a month can shave years off a high-APR card and save hundreds or thousands in interest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is monthly interest calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Interest accrues daily but is quoted annually. This tool approximates monthly interest as balance × APR ÷ 12, which is accurate enough for planning."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens when a debt is paid off?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Its minimum payment rolls onto the next debt in your chosen order, which is why the snowball accelerates as balances disappear."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I only pay minimums forever?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You may never pay off high-interest cards. If the calculator shows no debt-free date, increase the extra payment or attack the highest-APR balance first."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Debt Payoff Calculator", "item": "https://www.husir.org/tools/debt-payoff-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Debt Payoff Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>📉 Debt Payoff Calculator</h1>
+<p class="subtitle">Snowball vs avalanche · Debt-free date · Interest saved with extra payments</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Credit card balances, student loans, car notes, personal loans — when several debts carry different balances and interest rates, the order you pay them matters. This calculator compares the two classic strategies: the <strong>snowball</strong> method (smallest balance first, for quick wins and motivation) and the <strong>avalanche</strong> method (highest APR first, which usually saves the most interest). Add an extra monthly payment and it shows your projected debt-free date, total interest under each strategy, and exactly how much extra you save versus paying only the minimums.</p>
+<p>Enter each debt's balance, APR, and minimum payment, pick a strategy, and adjust the "extra per month" slider-style field until the timeline feels right. All math runs locally in your browser — nothing is uploaded, and you never need an account. The result is a payoff plan you can follow month by month; actual savings depend on keeping rates and minimums unchanged.</p>
+<div class="faq">
+<p><strong>❄️ Snowball or avalanche — which is better?</strong><br>Avalanche minimizes total interest; snowball builds momentum by retiring the smallest balance first. Both keep your monthly payment the same — only the extra dollar goes to a different debt. Pick the one you will actually stick with.</p>
+<p><strong>💳 Should I pay more than the minimum?</strong><br>Minimums are designed to stretch repayment for years. Even $50–$100 extra a month can shave years off a high-APR card and save hundreds or thousands in interest.</p>
+<p><strong>🧮 How is monthly interest calculated?</strong><br>Interest accrues daily but is quoted annually. This tool approximates monthly interest as balance × APR ÷ 12, which is accurate enough for planning.</p>
+<p><strong>🔄 What happens when a debt is paid off?</strong><br>Its minimum payment rolls onto the next debt in your chosen order, which is why the snowball accelerates as balances disappear.</p>
+<p><strong>📅 What if I only pay minimums forever?</strong><br>You may never pay off high-interest cards. If the calculator shows no debt-free date, increase the extra payment or attack the highest-APR balance first.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Monthly interest = balance × APR ÷ 12<br>Monthly payment stays fixed = sum of minimums + extra<br>Avalanche targets: highest APR → Snowball targets: lowest balance<br>Total interest = total paid − original balances
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Your debts</h3><button class="btn btn-ghost" id="btnAdd">+ Add debt</button></div>
+<div id="debtRows"></div>
+<label class="field-label">Extra payment per month ($)</label>
+<input type="number" id="extra" min="0" step="10" value="100">
+<p class="note">The extra amount is added on top of your minimums and is what changes the payoff order payoff speed.</p>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · Strategy &amp; results</h3></div>
+<div class="methods">
+<div class="method active" id="mSnow"><span>❄️ Snowball</span><small>Smallest balance first</small></div>
+<div class="method" id="mAva"><span>⚡ Avalanche</span><small>Highest APR first</small></div>
+</div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px" id="bigLabel">Debt-free date</div>
+<div class="result-big" id="bigDate">—</div>
+<div class="result-sub" id="bigSub">—</div>
+</div>
+<div class="results-compare">
+<div class="res-card" id="cardSnow">
+<h4>❄️ Snowball</h4>
+<div class="rowline" style="font-size:13px"><span>Debt-free</span><b id="snowDate">—</b></div>
+<div class="rowline" style="font-size:13px"><span>Total interest</span><b id="snowInt">—</b></div>
+<div class="rowline" style="font-size:13px;border-bottom:0"><span>Interest vs minimums</span><b id="snowSave">—</b></div>
+</div>
+<div class="res-card" id="cardAva">
+<h4>⚡ Avalanche</h4>
+<div class="rowline" style="font-size:13px"><span>Debt-free</span><b id="avaDate">—</b></div>
+<div class="rowline" style="font-size:13px"><span>Total interest</span><b id="avaInt">—</b></div>
+<div class="rowline" style="font-size:13px;border-bottom:0"><span>Interest vs minimums</span><b id="avaSave">—</b></div>
+</div>
+</div>
+<div style="margin-top:14px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px" id="orderTitle">Payoff order</div>
+<div id="orderList"></div>
+</div>
+<p class="note">Estimates assume minimums stay constant and extra payments are made every month. Rollover or 0% intro rates are not modeled. This is a planning tool, not financial advice.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a><a href="../rent-vs-buy-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E0; Rent vs Buy &amp; Affordability</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+var strategy='snowball';
+var rowId=0;
+
+function addRow(name,bal,apr,min){
+  rowId++;
+  var d=document.createElement('div');
+  d.className='debt-row';
+  d.id='row'+rowId;
+  d.innerHTML='<div class="name-w"><label class="field-label">Debt name</label><input type="text" class="d-name" value="'+name+'"></div>'+
+    '<div><label class="field-label">Balance ($)</label><input type="number" class="d-bal" min="0" step="50" value="'+bal+'"></div>'+
+    '<div><label class="field-label">APR %</label><input type="number" class="d-apr" min="0" step="0.1" value="'+apr+'"></div>'+
+    '<div><label class="field-label">Min payment ($)</label><input type="number" class="d-min" min="0" step="5" value="'+min+'"></div>'+
+    '<div><button class="rm" title="Remove debt">✕</button></div>';
+  d.querySelector('.rm').addEventListener('click',function(){d.remove();calc();});
+  d.querySelectorAll('input').forEach(function(i){i.addEventListener('input',calc);});
+  $('debtRows').appendChild(d);
+}
+function getDebts(){
+  var out=[];
+  document.querySelectorAll('#debtRows .debt-row').forEach(function(d){
+    var name=(d.querySelector('.d-name').value||'Debt').trim();
+    var bal=parseFloat(d.querySelector('.d-bal').value)||0;
+    var apr=parseFloat(d.querySelector('.d-apr').value)||0;
+    var min=parseFloat(d.querySelector('.d-min').value)||0;
+    if(bal>0) out.push({name:name,bal:bal,apr:apr,min:min});
+  });
+  return out;
+}
+function fmtDate(months){
+  var d=new Date();d.setMonth(d.getMonth()+months);
+  var s=d.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+  return s;
+}
+function fmtDur(m){
+  var y=Math.floor(m/12),mo=m%12;
+  return (y>0?y+' yr ':'')+(mo>0?mo+' mo':'')+(y===0&&mo===0?'0 mo':'');
+}
+function simulate(debts,extra){
+  var list=debts.map(function(d){return {name:d.name,bal:d.bal,apr:d.apr,min:d.min};});
+  var total0=list.reduce(function(a,d){return a+d.bal;},0);
+  var month=0,paid=0,order=[];
+  while(month<1200){
+    var rem=list.filter(function(d){return d.bal>0.005;});
+    if(rem.length===0) break;
+    month++;
+    rem.forEach(function(d){d.bal+=d.bal*d.apr/1200;});
+    // target for the extra dollar
+    var target=null;
+    rem.forEach(function(d){
+      if(!target) {target=d;return;}
+      if(strategy==='snowball'){if(d.bal<target.bal)target=d;}
+      else if(d.apr>target.apr){target=d;}
+    });
+    var pool=extra;
+    // pay minimums first (skip the target's minimum? standard: pay all minimums, then extra to target)
+    rem.forEach(function(d){
+      var pay=Math.min(d.min,d.bal);
+      d.bal-=pay;paid+=pay;
+    });
+    if(target&&pool>0){
+      var pay2=Math.min(pool,target.bal);
+      target.bal-=pay2;paid+=pay2;
+    }
+    rem.forEach(function(d){
+      if(d.bal<=0.005){
+        var found=false;
+        for(var oi=0;oi<order.length;oi++){if(order[oi].name===d.name){found=true;break;}}
+        if(!found) order.push({name:d.name,month:month});
+      }
+    });
+  }
+  if(month>=1200) return null;
+  return {months:month,interest:paid-total0,order:order,debtFreeDate:fmtDate(month)};
+}
+function simulateMin(debts){
+  var list=debts.map(function(d){return {name:d.name,bal:d.bal,apr:d.apr,min:d.min};});
+  var total0=list.reduce(function(a,d){return a+d.bal;},0);
+  var month=0,paid=0;
+  while(month<1200){
+    var rem=list.filter(function(d){return d.bal>0.005;});
+    if(rem.length===0)break;
+    month++;
+    rem.forEach(function(d){d.bal+=d.bal*d.apr/1200;});
+    rem.forEach(function(d){var pay=Math.min(d.min,d.bal);d.bal-=pay;paid+=pay;});
+  }
+  if(month>=1200)return null;
+  return {months:month,interest:paid-total0};
+}
+function calc(){
+  var debts=getDebts();
+  var extra=parseFloat($('extra').value)||0;
+  if(debts.length===0){
+    $('bigDate').textContent='—';
+    $('bigSub').textContent='Add at least one debt above';
+    $('snowDate').textContent='—';$('snowInt').textContent='—';$('snowSave').textContent='—';
+    $('avaDate').textContent='—';$('avaInt').textContent='—';$('avaSave').textContent='—';
+    $('orderList').innerHTML='';
+    return;
+  }
+  var minRun=simulateMin(debts);
+  var snow=simulate(debts,extra);
+  strategy='avalanche';
+  var ava=simulate(debts,extra);
+  strategy='snowball';
+  if(!minRun||!snow||!ava){
+    $('bigDate').textContent='⚠️ Not enough to make progress';
+    $('bigSub').textContent='Increase your extra payment so monthly payments exceed the interest accruing.';
+    return;
+  }
+  var pick=(strategy==='snowball')?snow:ava;
+  $('bigDate').textContent=pick.debtFreeDate+' ('+fmtDur(pick.months)+')';
+  $('bigSub').textContent='Total interest '+money(pick.interest)+' with an extra '+money(extra)+'/month';
+  $('snowDate').textContent=snow.debtFreeDate;$('snowInt').textContent=money(snow.interest);
+  $('snowSave').textContent='−'+money(Math.max(0,minRun.interest-snow.interest));
+  $('avaDate').textContent=ava.debtFreeDate;$('avaInt').textContent=money(ava.interest);
+  $('avaSave').textContent='−'+money(Math.max(0,minRun.interest-ava.interest));
+  $('cardSnow').classList.toggle('win',snow.interest<=ava.interest);
+  $('cardAva').classList.toggle('win',ava.interest<=snow.interest);
+  if(snow.interest===ava.interest){$('cardSnow').classList.add('win');$('cardAva').classList.add('win');}
+  var html='';
+  for(var i=0;i<pick.order.length;i++){
+    var o=pick.order[i];
+    html+='<div class="order-item"><span><b>'+(i+1)+'.</b> '+o.name+'</span><span>Paid off '+(i===0?'first':fmtDate(o.month))+'</span></div>';
+  }
+  $('orderList').innerHTML=html;
+}
+$('btnAdd').addEventListener('click',function(){addRow('New debt',1000,15,25);calc();});
+$('extra').addEventListener('input',calc);
+$('mSnow').addEventListener('click',function(){strategy='snowball';$('mSnow').classList.add('active');$('mAva').classList.remove('active');calc();});
+$('mAva').addEventListener('click',function(){strategy='avalanche';$('mAva').classList.add('active');$('mSnow').classList.remove('active');calc();});
+addRow('Credit card A',4800,22.9,150);
+addRow('Student loan',12000,5.5,150);
+addRow('Auto loan',8500,6.9,260);
+calc();
+</script>
+</body>
+</html>

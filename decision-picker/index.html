@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F3AF; Decision Picker — Pick in Seconds, Free | HuSir Tools</title>
+<meta name="description" content="Stuck choosing? Put options in a list, add optional weights, and pick one randomly — fair and fun. Raffle mode removes each winner. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/decision-picker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🎯 Decision Picker — Free &amp; Private">
+<meta property="og:description" content="Stuck choosing? Put options in a list, add optional weights, and pick one randomly — fair and fun. Raffle mode removes each winner. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/decision-picker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🎯 Decision Picker — Free &amp; Private">
+<meta name="twitter:description" content="Stuck choosing? Put options in a list, add optional weights, and pick one randomly — fair and fun. Raffle mode removes each winner. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:inherit;font-size:14px;line-height:1.6;outline:none;background:#fafbfc;color:#1a1a2e;resize:vertical;min-height:150px}
+textarea:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:10px 18px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.3)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-ghost{background:#f0f0f0;color:#555;font-weight:600;font-size:13px}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.chk{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#334155;cursor:pointer;padding:4px 0}
+.chk input{width:auto;accent-color:#f59e0b;margin:0}
+.stage{background:#1a1a2e;border-radius:16px;padding:26px 20px;text-align:center;margin-top:14px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stage .hint{color:#8b93a7;font-size:13px}
+.stage .result{color:#fff;font-size:30px;font-weight:800;letter-spacing:.5px;word-break:break-word}
+.stage .meta{color:#fbbf24;font-size:12.5px;margin-top:8px}
+.stage .roll{color:#fde68a;font-size:26px;font-weight:700;min-height:34px}
+.tally{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tally .t{background:#f8fafc;border:1px solid #eef0f7;border-radius:999px;padding:5px 12px;font-size:12.5px;color:#334155}
+.tally .t b{color:#4c1d95}
+.history{margin-top:8px;font-size:12px;color:#7c86a0;line-height:1.7}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.stage .result{font-size:23px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🎯 Decision Picker",
+  "description": "Stuck choosing? Put options in a list, add optional weights, and pick one randomly — fair and fun. Raffle mode removes each winner. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/decision-picker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "⚖️ How do weights work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each option counts toward a total: unweighted options count as 1, Name | 3 counts as 3. One weighted entry is picked at random — so with options A and B|3, B wins 3 out of 4 draws."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🎲 Is the randomness fair?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — draws use crypto.getRandomValues, the same secure source used for passwords. Each draw is independent and unbiased."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔁 Can two people pick the same winner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "By default yes (drawn with replacement). Turn on “Remove picked option” for raffle style: each option can win only once until the list is empty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📋 Where does the tally come from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Counts track every pick made in this browser session, so you can see whether results look fair over many draws. It resets when you clear or reload with a fresh list."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Is my list uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Options are read and randomized entirely on your device with zero network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Decision Picker", "item": "https://www.husir.org/tools/decision-picker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Decision Picker</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F3AF; Decision Picker</h1>
+<p class="subtitle">Random picker with weights &middot; raffle mode &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Type your options &#8212; one per line &#8212; hit &#8220;Pick one&#8221;, and let this page make the call. Use it for deciding where to eat, whose name to draw for a giveaway, which task to start first, or what movie to watch. Every option has equal odds by default; to bias the draw, append a weight: <code>Pizza | 3</code> is three times more likely than an unweighted option.</p>
+<p>Raffle mode removes each winner after the pick, so a list of names produces a unique random ordering with no repeats &#8212; perfect for door-prize drawings, classroom turns, or choosing who presents first. A session tally shows how often each option has been chosen, and a short history shows recent results. Randomness comes from the browser&rsquo;s secure random source; everything runs locally, so nothing about your choices is uploaded.</p>
+<div class="faq">
+<p><strong>&#x2696;&#xFE0F; How do weights work?</strong><br>Each option counts toward a total: unweighted options count as 1, <code>Name | 3</code> counts as 3. One weighted entry is picked at random &#8212; so with options A and B|3, B wins 3 out of 4 draws.</p>
+<p><strong>&#x1F3B2; Is the randomness fair?</strong><br>Yes &#8212; draws use <code>crypto.getRandomValues</code>, the same secure source used for passwords. Each draw is independent and unbiased.</p>
+<p><strong>&#x1F501; Can two people pick the same winner?</strong><br>By default yes (drawn with replacement). Turn on &#8220;Remove picked option&#8221; for raffle style: each option can win only once until the list is empty.</p>
+<p><strong>&#x1F4CB; Where does the tally come from?</strong><br>Counts track every pick made in this browser session, so you can see whether results look fair over many draws. It resets when you clear or reload with a fresh list.</p>
+<p><strong>&#x1F512; Is my list uploaded?</strong><br>Never. Options are read and randomized entirely on your device with zero network calls.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; How it works</b><br>
+Total weight = &#931; option weights (unweighted = 1)<br>
+Draw = random in [0, total) &#8594; the option whose cumulative weight crosses that point wins<br>
+Odds of an option = its weight &#247; total weight &#215; 100%
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F4DD; Your options</h3><span id="optCount" style="font-size:12px;color:#98a1b3">0 options</span></div>
+  <textarea id="opts" spellcheck="false" placeholder="One option per line&#8230;&#10;&#10;Pizza&#10;Tacos | 3&#10;Sushi&#10;Cook at home"></textarea>
+  <div class="btnrow">
+    <label class="chk"><input type="checkbox" id="removeMode"> Remove picked option after choosing (raffle mode)</label>
+  </div>
+  <div class="btnrow">
+    <button class="btn btn-primary" id="pickBtn" type="button">&#x1F3B2; Pick one</button>
+    <button class="btn btn-ghost" id="exampleBtn" type="button">&#x27F3; Example list</button>
+    <button class="btn btn-ghost" id="clearBtn" type="button">&#x1F5D1;&#xFE0F; Clear</button>
+  </div>
+  <div class="stage">
+    <div class="hint" id="stageHint">Add at least two options, then press &#8220;Pick one&#8221;.</div>
+    <div class="roll" id="roll" style="display:none"></div>
+    <div class="result" id="result" style="display:none"></div>
+    <div class="meta" id="meta" style="display:none"></div>
+  </div>
+  <div class="field-label">Session tally</div>
+  <div class="tally" id="tally"><span style="color:#cbd2e0;font-size:12.5px">No picks yet</span></div>
+  <div class="history" id="history"></div>
+  <p class="hint">Draws use the browser&rsquo;s secure random source — your options never leave this page.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../poll-vote-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E3; Poll &amp; Vote Counter</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a><a href="../random-group-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F465; Random Group Generator</a><a href="../spin-wheel-pro/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A1; Lucky Spin Wheel</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var EXAMPLE='Dinner tonight\nPizza\nTacos | 3\nSushi\nCook at home\n\nWeekend plan\nHike\nMovie night\nStay in';
+var counts={},picks=[];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function parseOpts(text){
+  var out=[];
+  (text||'').split('\n').forEach(function(line){
+    var s=line.trim();
+    if(!s)return;
+    var name=s,w=1;
+    var i=s.lastIndexOf('|');
+    if(i>-1){
+      var maybe=parseFloat(s.slice(i+1).trim());
+      if(!isNaN(maybe)&&maybe>0){name=s.slice(0,i).trim();w=maybe;}
+    }
+    if(name)out.push({name:name,w:w});
+  });
+  return out;
+}
+function currentOpts(){return parseOpts($('opts').value);}
+function updateMeta(){
+  var opts=currentOpts();
+  $('optCount').textContent=opts.length+(opts.length===1?' option':' options');
+  var tally=$('tally');
+  if(!opts.length){tally.innerHTML='<span style="color:#cbd2e0;font-size:12.5px">No picks yet</span>';return;}
+  tally.innerHTML=opts.map(function(o){
+    var n=counts[o.name]||0;
+    return '<span class="t">'+esc(o.name)+' <b>'+n+'</b>'+(o.w!==1?' <span style="color:#7c86a0">· w'+o.w+'</span>':'')+'</span>';
+  }).join('')||'<span style="color:#cbd2e0;font-size:12.5px">No picks yet</span>';
+  if(picks.length){
+    $('history').textContent='Recent: '+picks.slice(-8).map(function(h){return h.name;}).join(' → ');
+  }else{$('history').textContent='';}
+}
+function randFloat(){
+  if(window.crypto&&crypto.getRandomValues){
+    var a=new Uint32Array(1);
+    crypto.getRandomValues(a);
+    return a[0]/4294967296;
+  }
+  return Math.random();
+}
+function weightedPick(opts){
+  var total=0;
+  opts.forEach(function(o){total+=o.w;});
+  var r=randFloat()*total,acc=0;
+  for(var i=0;i<opts.length;i++){
+    acc+=opts[i].w;
+    if(r<acc)return {opt:opts[i],total:total};
+  }
+  return {opt:opts[opts.length-1],total:total};
+}
+var rolling=false;
+function pick(){
+  if(rolling)return;
+  var opts=currentOpts();
+  if(opts.length<1){alert('Add at least one option first.');return;}
+  var res=weightedPick(opts);
+  rolling=true;
+  $('stageHint').style.display='none';
+  var roll=$('roll'),result=$('result'),meta=$('meta');
+  roll.style.display='block';result.style.display='none';meta.style.display='none';
+  var steps=0;
+  var iv=setInterval(function(){
+    steps++;
+    roll.textContent=opts[Math.floor(randFloat()*opts.length)].name;
+    if(steps>=10){
+      clearInterval(iv);
+      roll.style.display='none';
+      result.style.display='block';
+      result.textContent=res.opt.name;
+      counts[res.opt.name]=(counts[res.opt.name]||0)+1;
+      picks.push({name:res.opt.name});
+      var odds=Math.round(res.opt.w/res.total*1000)/10;
+      meta.style.display='block';
+      meta.textContent='weight '+res.opt.w+' of '+res.total+' ('+odds+'%) · pick #'+(picks.length);
+      if($('removeMode').checked){
+        var lines=$('opts').value.split('\n').filter(function(l){
+          return l.trim()&&l.trim().split('|')[0].trim()!==res.opt.name;
+        });
+        $('opts').value=lines.join('\n');
+      }
+      updateMeta();
+      rolling=false;
+    }
+  },60);
+}
+$('pickBtn').addEventListener('click',pick);
+$('opts').addEventListener('input',function(){updateMeta();});
+$('exampleBtn').addEventListener('click',function(){$('opts').value=EXAMPLE;updateMeta();});
+$('clearBtn').addEventListener('click',function(){$('opts').value='';counts={};picks=[];updateMeta();$('result').style.display='none';$('meta').style.display='none';$('roll').style.display='none';$('stageHint').style.display='block';});
+updateMeta();
+</script>
+</body>
+</html>

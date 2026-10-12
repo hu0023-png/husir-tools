@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://www.husir.org/tools/batch-qrcode/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Batch QR Code Generator — Table & Asset Codes">
+<meta property="og:description" content="Generate dozens of QR codes at once from a list or numbered range. Print sheets or download PNGs. Includes dynamic QR codes you can update without reprinting.">
+<meta property="og:url" content="https://www.husir.org/tools/batch-qrcode/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Batch QR Code Generator — Table & Asset Codes">
+<meta name="twitter:description" content="Generate dozens of QR codes at once from a list or numbered range. Print sheets or download PNGs. Includes dynamic QR codes you can update without reprinting.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<title>Batch QR Code Generator — Table & Asset Codes | HuSir Tools</title>
+<meta name="description" content="Generate dozens of QR codes at once from a list or numbered range. Print sheets or download PNGs. Includes dynamic QR codes you can update without reprinting.">
+<meta name="robots" content="index, follow">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh; padding: 32px 16px;
+  }
+  .container { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+  .title-wrap { text-align: center; }
+  h1 { text-align: center; color: #fff; font-size: 30px; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 800; letter-spacing: 1px; }
+  .subtitle { text-align: center; color: rgba(255,255,255,0.78); font-size: 14px; }
+  .panel { background: #fff; border-radius: 16px; padding: 22px 26px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .panel-header h3 { font-size: 16px; color: #333; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 5px; padding: 10px 20px; border-radius: 10px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; white-space: nowrap; justify-content: center; }
+  .btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
+  .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; box-shadow: 0 4px 16px rgba(102,126,234,0.4); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(102,126,234,0.55); }
+  .btn-outline { background: #fff; color: #667eea; border: 2px solid #667eea; }
+  .btn-outline:hover { background: #f5f3ff; }
+  .btn-ghost { background: #f0f0f0; color: #555; }
+  .btn-ghost:hover { background: #e0e0e0; }
+  .field-label { display: block; font-size: 13px; font-weight: 600; color: #444; margin: 12px 0 5px; }
+  input[type=text], input[type=password], input[type=url], input[type=number], input[type=tel], select, textarea {
+    width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; background: #fafbfc; color: #111827; }
+  input:focus, select:focus, textarea:focus { border-color: #667eea; background: #fff; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .row { display: flex; flex-wrap: wrap; gap: 20px; }
+  .col { flex: 1; min-width: 270px; }
+  .hint { background: #f5f3ff; color: #4c1d95; padding: 9px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 10px; line-height: 1.6; }
+  .warn { background: #fff7ed; color: #9a3412; padding: 9px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 10px; line-height: 1.6; }
+  .preview-box { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 260px; border: 2px dashed #d1d5db; border-radius: 14px; background: #fafafa; padding: 16px; }
+  .preview-box canvas { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+  .preview-empty { color: #9ca3af; font-size: 14px; text-align: center; line-height: 1.8; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: #fff; padding: 10px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .toast.show { opacity: 1; }
+  .mode-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+  .mode-tab { flex: 1; padding: 10px 8px; border: 2px solid #d1d5db; border-radius: 10px; background: #fff; color: #555; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .mode-tab.active { border-color: #667eea; background: #f5f3ff; color: #4c1d95; }
+  @media (max-width: 600px) {
+    .row { flex-direction: column; }
+    .panel { padding: 16px 14px; }
+    h1 { font-size: 24px; }
+    .subtitle { font-size: 12px; }
+    body { padding: 20px 8px; }
+    .container { gap: 12px; }
+  }
+</style>
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Batch QR Code Generator",
+  "description": "Generate dozens of QR codes at once from a list or numbered range. Print sheets or download PNGs. Includes dynamic QR codes you can update without reprinting.",
+  "url": "https://www.husir.org/tools/batch-qrcode/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Static or dynamic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Static codes embed the text or URL directly and never change. Dynamic codes store a short ID in the QR and load current content from go.html — editable later, but they need a host (instructions are on this page)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will a plain-text QR display the text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — phone cameras show plain text, and URLs open automatically in the browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I make table numbers STA-01 through STA-50?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the template STA-{n} with start 1, end 50, and zero-padding 2."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some codes fail after printing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Check contrast, leave a quiet zone of four modules around the code, and use M error correction normally — Q or H for fabric, curved surfaces, or small labels."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I include Chinese or other characters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the generator encodes UTF-8 text, and QR readers display it correctly."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Batch QR Code Generator", "item": "https://www.husir.org/tools/batch-qrcode/"}]}</script>
+</head>
+<body>
+
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Batch QR Code Generator</span></span></nav>
+
+  <div class="title-wrap">
+    <h1>🔲 Batch QR Code Generator</h1>
+    <p class="subtitle">Generate dozens or hundreds of QR codes at once &mdash; table codes, asset tags, inventory numbers, invite codes</p>
+  </div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Generate dozens or hundreds of different QR codes from one list — perfect for table numbers, asset tags, inventory labels, check-in codes, and event invitations. Type one value per line, or use the numbering template: write something like <code>STA-{n}</code>, pick a start and end number, and {n} is replaced automatically (zero-padding gives STA-001, STA-002, and so on).</p>
+<p>You can also create dynamic codes whose content lives in your own go.html file, so you can edit the text or link later without reprinting. Everything runs 100% in your browser: your list is never uploaded, keeping internal codes, URLs, and plain text private.</p>
+<div class="faq">
+<p><strong>Static or dynamic?</strong><br>Static codes embed the text or URL directly and never change. Dynamic codes store a short ID in the QR and load current content from go.html — editable later, but they need a host (instructions are on this page).</p>
+<p><strong>Will a plain-text QR display the text?</strong><br>Yes — phone cameras show plain text, and URLs open automatically in the browser.</p>
+<p><strong>How do I make table numbers STA-01 through STA-50?</strong><br>Use the template STA-{n} with start 1, end 50, and zero-padding 2.</p>
+<p><strong>Why do some codes fail after printing?</strong><br>Check contrast, leave a quiet zone of four modules around the code, and use M error correction normally — Q or H for fabric, curved surfaces, or small labels.</p>
+<p><strong>Can I include Chinese or other characters?</strong><br>Yes — the generator encodes UTF-8 text, and QR readers display it correctly.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+QR capacity (Version 40-L): 7,089 digits · 4,296 alphanumeric · 2,953 bytes — short codes scan more easily<br>Minimum print width ≈ viewing distance ÷ 10<br>Dynamic link pattern: <code>https://your-domain/go.html?id=01</code>
+</div>
+</div>
+</details>
+
+<div class="panel">
+    <div class="panel-header"><h3>📋 Data Source <span style="font-size:12px;font-weight:600;color:#94a3b8;">(Step 1)</span></h3></div>
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="list">Paste a list</button>
+      <button class="mode-tab" data-mode="number">Numbered range</button>
+    </div>
+    <div id="listFields">
+      <label class="field-label">One item per line</label>
+      <textarea id="listText" rows="7" placeholder="https://example.com/table/01&#10;https://example.com/table/02&#10;https://example.com/table/03&#10;&#10;Format &quot;label|content&quot; to show a label under the QR code:&#10;Table 1|https://example.com/table/01"></textarea>
+      <div class="hint">💡 Paste one URL or text per line. Use &laquo;label|content&raquo; when you want a label (e.g. &quot;Table 1&quot;) printed under the code.</div>
+    </div>
+    <div id="numberFields" style="display:none;">
+      <div class="row">
+        <div class="col">
+          <label class="field-label">Content template (use {n} as the number)</label>
+          <input type="text" id="numTemplate" placeholder="https://example.com/t/{n}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="field-label">Start number</label>
+          <input type="number" id="numStart" value="1" min="0" step="1">
+        </div>
+        <div class="col">
+          <label class="field-label">End number</label>
+          <input type="number" id="numEnd" value="20" min="1" step="1">
+        </div>
+        <div class="col">
+          <label class="field-label">Zero padding</label>
+          <select id="numPad">
+            <option value="0">None (1, 2, 3&hellip;)</option>
+            <option value="2">2 digits (01, 02&hellip;)</option>
+            <option value="3" selected>3 digits (001, 002&hellip;)</option>
+            <option value="4">4 digits (0001&hellip;)</option>
+          </select>
+        </div>
+      </div>
+      <div class="hint">💡 Example: template <b>https://shop.com/t/{n}</b>, start 1, end 30, 3-digit padding &rarr; 30 QR codes: &hellip;/t/001, &hellip;/t/002 &hellip;</div>
+    </div>
+  </div>
+
+  <div class="panel" style="background:#eff6ff;border:1px solid #dbeafe;">
+    <div class="panel-header"><h3>🔗 Dynamic QR Codes (edit content later, no reprint)</h3></div>
+    <div class="warn">💡 Plain text can be missed by some scanner apps that only open URLs. A dynamic QR code points to a page (go.html) that you host; change the content on the page later and the same QR code still works.</div>
+    <label class="field-label">Your domain (where go.html will be hosted)</label>
+    <input type="text" id="dynDomain" value="https://your-domain.com" placeholder="https://your-domain.com">
+    <div class="dyn-head">
+      <span style="font-size:13px;font-weight:600;color:#444;">Content entries (up to 10)</span>
+      <button class="btn btn-sm btn-outline" id="dynAddBtn">＋ Add entry</button>
+    </div>
+    <div id="dynRows"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="dynGenBtn">🔲 Generate Dynamic QR Codes</button>
+      <button class="btn btn-outline" id="dynCopyBtn">📄 Copy go.html code</button>
+      <button class="btn btn-ghost" id="dynDlBtn">⬇️ Download full go.html</button>
+    </div>
+    <details style="margin-top:12px;">
+      <summary style="cursor:pointer;font-size:13px;font-weight:600;color:#667eea;">View the generated go.html code (copyable)</summary>
+      <pre id="dynCode" style="white-space:pre-wrap;word-break:break-all;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:12px;font-size:12px;line-height:1.6;margin-top:8px;max-height:280px;overflow:auto;"></pre>
+    </details>
+    <div class="hint" style="background:#f0fdf4;color:#166534;line-height:1.9;">
+      📤 <b>How it works:</b> each QR code points to a page you host yourself (go.html?id=01, id=02, &hellip;). Later you edit that page and re-upload &mdash; the printed QR codes <b>never need to change</b>.<br>
+      💡 A plain URL (no title / no image) opens automatically when scanned; anything else is shown as text on the page.<br>
+      🖼 One image per entry (upload it or paste with Ctrl+V) &mdash; compressed and embedded in go.html, so scanners see it on the page.<br>
+      💡 Links can have a title and image too: go.html shows them as a card with an Open-link button (WeChat blocks silent auto-redirects).
+    </div>
+    <details style="margin-top:8px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;">
+      <summary style="cursor:pointer;font-size:13px;font-weight:700;color:#166534;">📤 How to host go.html &mdash; step by step</summary>
+      <div style="font-size:13px;line-height:1.9;color:#374151;padding-top:8px;">
+        <b>1. Download the file</b><br>
+        Click &laquo;Download full go.html&raquo; above &mdash; you get one small HTML file that already contains your content.
+        <br><br>
+        <b>2. Put it on any static host</b> (pick one):
+        <ul style="margin:6px 0 0 18px;padding-left:0;list-style:disc;">
+          <li style="margin-bottom:6px;"><b>Netlify Drop &mdash; easiest, no account:</b> open <code>app.netlify.com/drop</code>, drag a folder that contains go.html onto the page, and you get a public URL instantly (e.g. <code>https://xxxx.netlify.app</code>).</li>
+          <li style="margin-bottom:6px;"><b>surge.sh &mdash; free, needs a one-time account:</b>
+            <ol style="margin:6px 0 0 18px;padding-left:0;list-style:decimal;">
+              <li>Install once: <code>npm install -g surge</code></li>
+              <li>Put go.html in its own folder, e.g. <code>dynamic-qr</code></li>
+              <li>Open a terminal and go to that folder: <code>cd path/to/dynamic-qr</code>, then deploy with your domain: <code>surge . --domain your-name.surge.sh</code></li>
+              <li>First time only: surge asks for an email and password to create a free account, then publishes the folder &mdash; your page is at <code>https://your-name.surge.sh/go.html</code></li>
+              <li>Update later: replace go.html in the folder, then re-run <code>surge . --domain your-name.surge.sh</code></li>
+            </ol>
+          </li>
+          <li style="margin-bottom:6px;"><b>WordPress / any web space:</b> upload go.html to any folder you can host files in (site root, uploads, etc.) and note the URL.</li>
+        </ul>
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin:10px 0;color:#92400e;">
+          &#x26A0;&#xFE0F; <b>Where is the page? At /go.html, not at the bare domain.</b> After deploying, open <b>https://your-name.surge.sh/go.html</b> &mdash; the bare domain (<code>https://your-name.surge.sh</code>) shows nothing because there is no index.html, which is normal.<br>
+          <b>Never rename go.html to index.html</b> &mdash; your QR codes point to /go.html?id=&#8230; and renaming breaks every printed code. (Optional: to let the bare domain also open your page, add a small index.html that redirects to go.html &mdash; the QR codes keep working.)
+        </div>
+        <br>
+        <b>3. Test</b><br>
+        Open <b>https://your-hosted-url/go.html?id=01</b> in a browser (01 is the id inside your QR code). Without an id, the page lists all entries &mdash; handy for checking.
+        <br><br>
+        <b>4. Update content later</b><br>
+        Edit the CONTENTS table in go.html, re-upload the file, done. Guests scan the <b>same QR code</b> and see the new content.
+        <br><br>
+        <b>Notes:</b> dynamic QR codes need internet when scanned; keep IDs simple (01, 02, a1, b2); if you delete an entry, its old code shows &laquo;Content not found&raquo;.
+      </div>
+    </details>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h3>🎨 Appearance <span style="font-size:12px;font-weight:600;color:#94a3b8;">(Step 2)</span></h3></div>
+    <div class="row">
+      <div class="col">
+        <label class="field-label">QR size</label>
+        <select id="qrSize">
+          <option value="120">Small (120px)</option>
+          <option value="160" selected>Medium (160px) recommended</option>
+          <option value="200">Large (200px)</option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="field-label">Error correction</label>
+        <select id="errorLevel">
+          <option value="L">L (7%)</option>
+          <option value="M" selected>M (15%) recommended</option>
+          <option value="Q">Q (25%)</option>
+          <option value="H">H (30%)</option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="field-label">Foreground</label>
+        <input type="color" id="fgColor" value="#14532d" style="height:40px;padding:4px;cursor:pointer;">
+      </div>
+      <div class="col">
+        <label class="field-label">Background</label>
+        <input type="color" id="bgColor" value="#ffffff" style="height:40px;padding:4px;cursor:pointer;">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="generateBtn">🔲 Generate Batch</button>
+      <button class="btn btn-ghost" id="clearBtn">🧹 Clear</button>
+      <span id="countInfo" style="align-self:center;font-size:13px;color:#6b7280;font-weight:600;"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h3>🖼 Preview <span style="font-size:12px;font-weight:600;color:#94a3b8;">(Step 3)</span></h3><span style="font-size:12px;color:#9ca3af;">Total <b id="countNum" style="color:#667eea">0</b></span></div>
+    <div class="batch-grid" id="batchGrid">
+      <p class="preview-empty" style="color:#9ca3af;font-size:14px;text-align:center;padding:40px 0;">Choose a data source above, then click &laquo;Generate Batch&raquo;</p>
+    </div>
+    <div class="btn-row" style="justify-content:flex-end;">
+      <button class="btn btn-outline" id="downloadAllBtn" disabled>📥 Download all PNG</button>
+      <button class="btn btn-primary" id="printSheetBtn" disabled>🖨 Print sheet</button>
+    </div>
+    <div class="warn" style="margin-top:10px;">💡 When downloading many files the browser may ask &laquo;Allow multiple downloads&raquo; &mdash; click allow. The print sheet prints all codes at once (160px+ recommended).</div>
+  </div>
+</div>
+
+<!-- print sheet -->
+<div id="printSheet" style="display:none;"></div>
+
+<style>
+.batch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.batch-cell { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px 10px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fafafa; }
+.batch-cell canvas { max-width: 100%; height: auto; border-radius: 6px; }
+.batch-label { font-size: 12px; font-weight: 700; color: #111827; text-align: center; word-break: break-all; line-height: 1.4; max-width: 100%; }
+.batch-index { font-size: 11px; color: #6b7280; font-weight: 600; }
+.batch-content { font-size: 11px; color: #9ca3af; word-break: break-all; text-align: center; line-height: 1.4; max-width: 100%; }
+.dyn-head { display: flex; align-items: center; justify-content: space-between; margin: 14px 0 8px; }
+.dyn-row { display: grid; grid-template-columns: 46px 0.8fr 2fr 34px; gap: 8px; align-items: start; margin-bottom: 8px; }
+.dyn-row .dyn-id { text-align: center; font-weight: 700; color: #667eea; font-size: 14px; background: #f5f3ff; border-radius: 8px; padding: 9px 0; }
+.dyn-row .dyn-title { align-self: center; }
+.dyn-row .dyn-content { min-height: 40px; max-height: 160px; line-height: 1.5; }
+.dyn-row .dyn-imgs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; grid-column: 1 / -1; padding-top: 2px; }
+.dyn-row .dyn-imgprev { max-width: 120px; max-height: 64px; object-fit: contain; border: 1px solid #e5e7eb; border-radius: 8px; background: #fafafa; }
+.dyn-row .dyn-imgmeta { font-size: 12px; color: #6b7280; }
+.dyn-del { color: #dc2626; border-color: #fecaca; background: #fff; }
+.dyn-del:hover { background: #fef2f2; }
+#printSheet { width: 100%; }
+#printSheet .sheet-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; }
+#printSheet .sheet-cell { display: flex; flex-direction: column; align-items: center; gap: 2mm; border: 0.5mm dashed #999; padding: 3mm; }
+#printSheet .sheet-cell img { width: 100%; max-width: 40mm; }
+#printSheet .sheet-label { font-size: 12px; font-weight: 700; color: #000; text-align: center; }
+#printSheet .sheet-content { font-size: 10px; color: #333; word-break: break-all; text-align: center; }
+@media print {
+  @page { size: A4; margin: 8mm; }
+  body * { visibility: hidden; }
+  #printSheet, #printSheet * { visibility: visible; }
+  #printSheet { display: block !important; position: absolute; left: 0; top: 0; }
+}
+@media screen { #printSheet { position: fixed; left: -9999px; top: -9999px; } }
+@media (max-width: 600px) {
+  .dyn-row { grid-template-columns: 40px 1fr 34px; }
+  .dyn-row .dyn-id { grid-column: 1; grid-row: 1; }
+  .dyn-row .dyn-title { grid-column: 2; grid-row: 1; }
+  .dyn-row .dyn-content { grid-column: 2; grid-row: 2; }
+  .dyn-row .dyn-del { grid-column: 3; grid-row: 1; }
+}
+</style>
+
+<script>
+(function() {
+  var mode = 'list';
+  var items = [];
+  var canvases = [];
+  var listText = document.getElementById('listText');
+  var numTemplate = document.getElementById('numTemplate');
+  var numStart = document.getElementById('numStart');
+  var numEnd = document.getElementById('numEnd');
+  var numPad = document.getElementById('numPad');
+  var qrSize = document.getElementById('qrSize');
+  var errorLevel = document.getElementById('errorLevel');
+  var fgColor = document.getElementById('fgColor');
+  var bgColor = document.getElementById('bgColor');
+  var batchGrid = document.getElementById('batchGrid');
+  var countNum = document.getElementById('countNum');
+  var countInfo = document.getElementById('countInfo');
+  var downloadAllBtn = document.getElementById('downloadAllBtn');
+  var printSheetBtn = document.getElementById('printSheetBtn');
+  var printSheet = document.getElementById('printSheet');
+
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 2200);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function escJs(s) {
+    return String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, '\\n');
+  }
+
+  function toQRBytes(str) {
+    var bytes = [];
+    for (var i = 0; i < str.length; i++) {
+      var c = str.charCodeAt(i);
+      if (c < 0x80) { bytes.push(c); }
+      else if (c < 0x800) { bytes.push(0xC0|(c>>>6), 0x80|(c&0x3F)); }
+      else if (c < 0xD800 || c >= 0xE000) { bytes.push(0xE0|(c>>>12), 0x80|((c>>>6)&0x3F), 0x80|(c&0x3F)); }
+      else { i++; c = 0x10000 + ((c&0x3FF)<<10) + (str.charCodeAt(i)&0x3FF);
+             bytes.push(0xF0|(c>>>18), 0x80|((c>>>12)&0x3F), 0x80|((c>>>6)&0x3F), 0x80|(c&0x3F)); }
+    }
+    var out = '';
+    for (var j = 0; j < bytes.length; j++) { out += String.fromCharCode(bytes[j]); }
+    return out;
+  }
+
+  function buildItems() {
+    if (mode === 'list') {
+      var lines = listText.value.split(/\r?\n/);
+      var out = [];
+      lines.forEach(function(line) {
+        line = line.replace(/^\s+|\s+$/g, '');
+        if (!line) return;
+        var label = '', content = line;
+        var idx = line.indexOf('|');
+        if (idx > 0) { label = line.slice(0, idx).trim(); content = line.slice(idx + 1).trim(); }
+        if (content) out.push({ label: label, content: content });
+      });
+      return out;
+    }
+    var tpl = numTemplate.value.trim();
+    var start = parseInt(numStart.value) || 0;
+    var end = parseInt(numEnd.value) || 0;
+    if (end < start) { showToast('⚠️ End number must be &ge; start number'); return null; }
+    if (!tpl) { showToast('⚠️ Please enter a content template'); return null; }
+    var pad = parseInt(numPad.value);
+    var out = [];
+    for (var n = start; n <= end; n++) {
+      var numStr = pad ? ('000000' + n).slice(-pad) : String(n);
+      var label = numStr;
+      var content = tpl.indexOf('{n}') >= 0 ? tpl.split('{n}').join(numStr) : tpl + numStr;
+      out.push({ label: label, content: content });
+    }
+    return out;
+  }
+
+  function makeQR(content, level) {
+    var data = toQRBytes(content);
+    var typeNumber = 0, qr = null;
+    while (typeNumber <= 40) {
+      try { qr = qrcode(typeNumber, level); qr.addData(data); qr.make(); break; }
+      catch(e) { typeNumber += 1; }
+    }
+    return qr;
+  }
+
+  function renderCell(item, index, size) {
+    var qr = makeQR(item.content, errorLevel.value);
+    if (!qr) return null;
+    var moduleCount = qr.getModuleCount();
+    var native = document.createElement('canvas');
+    native.width = moduleCount; native.height = moduleCount;
+    var nctx = native.getContext('2d');
+    nctx.fillStyle = bgColor.value; nctx.fillRect(0, 0, moduleCount, moduleCount);
+    nctx.fillStyle = fgColor.value;
+    for (var r = 0; r < moduleCount; r++) {
+      for (var c = 0; c < moduleCount; c++) {
+        if (qr.isDark(r, c)) nctx.fillRect(c, r, 1, 1);
+      }
+    }
+    var out = document.createElement('canvas');
+    out.width = size; out.height = size;
+    var ctx = out.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(native, 0, 0, size, size);
+
+    var cell = document.createElement('div');
+    cell.className = 'batch-cell';
+    var idx = document.createElement('div');
+    idx.className = 'batch-index';
+    idx.textContent = '#' + (index + 1);
+    var label = document.createElement('div');
+    label.className = 'batch-label';
+    label.textContent = item.label || '';
+    var content = document.createElement('div');
+    content.className = 'batch-content';
+    content.textContent = item.content;
+    cell.appendChild(idx);
+    cell.appendChild(out);
+    cell.appendChild(label);
+    cell.appendChild(content);
+    return { cell: cell, canvas: out, item: item };
+  }
+
+  document.querySelectorAll('.mode-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      mode = tab.dataset.mode;
+      document.getElementById('listFields').style.display = mode === 'list' ? '' : 'none';
+      document.getElementById('numberFields').style.display = mode === 'number' ? '' : 'none';
+    });
+  });
+
+  function renderItems(list) {
+    items = list;
+    canvases = [];
+    batchGrid.innerHTML = '';
+    countNum.textContent = list.length;
+    countInfo.textContent = list.length + ' items &middot; generating&hellip;';
+    var size = parseInt(qrSize.value);
+    var i = 0;
+    function step() {
+      var until = Math.min(i + 15, list.length);
+      for (; i < until; i++) {
+        var res = renderCell(list[i], i, size);
+        if (res) {
+          canvases.push(res.canvas);
+          batchGrid.appendChild(res.cell);
+        }
+      }
+      countInfo.textContent = 'Done ' + canvases.length + ' / ' + list.length;
+      if (i < list.length) { setTimeout(step, 10); }
+      else {
+        downloadAllBtn.disabled = false;
+        printSheetBtn.disabled = false;
+        showToast('✅ Generated ' + canvases.length + ' QR codes');
+      }
+    }
+    step();
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', function() {
+    var list = buildItems();
+    if (!list) return;
+    if (list.length === 0) { showToast('⚠️ Nothing to generate'); return; }
+    if (list.length > 300) { showToast('⚠️ Maximum 300 at a time'); return; }
+    renderItems(list);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', function() {
+    items = []; canvases = [];
+    batchGrid.innerHTML = '<p class="preview-empty" style="color:#9ca3af;font-size:14px;text-align:center;padding:40px 0;">Choose a data source above, then click &laquo;Generate Batch&raquo;</p>';
+    countNum.textContent = '0';
+    countInfo.textContent = '';
+    downloadAllBtn.disabled = true;
+    printSheetBtn.disabled = true;
+    printSheet.innerHTML = '';
+  });
+
+  downloadAllBtn.addEventListener('click', function() {
+    if (!canvases.length) return;
+    showToast('📥 Downloading ' + canvases.length + ' files');
+    var i = 0;
+    function next() {
+      if (i >= canvases.length) { showToast('✅ Downloads complete'); return; }
+      var canvas = canvases[i];
+      var name = 'qr-' + ('0000' + (i + 1)).slice(-4) + '.png';
+      if (canvas.toBlob) {
+        canvas.toBlob(function(blob) {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url; a.download = name;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          setTimeout(function() { URL.revokeObjectURL(url); }, 500);
+          i++;
+          setTimeout(next, 350);
+        }, 'image/png');
+      } else {
+        var a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png'); a.download = name;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        i++;
+        setTimeout(next, 350);
+      }
+    }
+    next();
+  });
+
+  printSheetBtn.addEventListener('click', function() {
+    if (!canvases.length) return;
+    var html = '<div class="sheet-grid">';
+    canvases.forEach(function(canvas, i) {
+      var item = items[i] || {};
+      html += '<div class="sheet-cell">';
+      html += '<img src="' + canvas.toDataURL('image/png') + '">';
+      if (item.label) html += '<div class="sheet-label">' + escapeHtml(item.label) + '</div>';
+      html += '<div class="sheet-content">' + escapeHtml(item.content) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    printSheet.innerHTML = html;
+    printSheet.style.display = 'block';
+    setTimeout(function() { window.print(); }, 80);
+  });
+
+  // ---------- Dynamic QR codes (go.html) ----------
+  var DYN_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic QR · Content Page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+    background: #f3f4f6; min-height: 100vh; padding: 24px 16px;
+  }
+  .page {
+    max-width: 640px; margin: 0 auto; background: #fff;
+    border-radius: 16px; padding: 28px 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    min-height: 70vh;
+  }
+  h1 { font-size: 24px; color: #111827; margin-bottom: 16px; }
+  h2 { font-size: 20px; color: #111827; margin: 14px 0 8px; }
+  p { font-size: 16px; color: #374151; line-height: 1.8; margin: 8px 0; }
+  ul { list-style: none; margin-top: 12px; }
+  li { font-size: 14px; color: #374151; padding: 10px 0; border-bottom: 1px dashed #e5e7eb; word-break: break-all; }
+  li b { color: #667eea; }
+</style>
+</head>
+<body>
+<div class="page" id="content"><p style="color:#9ca3af">Loading…</p></div>
+
+<script>
+// ============================================================
+//  Dynamic QR content table — edit ONLY this, never reprint QR codes.
+//  Each ID maps to one item:
+//   · http(s) URL                → scanner opens/redirects to it automatically
+//   · anything else              → shown as text / HTML on this page
+//   · link with a title/image   → { "u": "…", "t": "…", "i": "data:image/…" } (shows a card with an Open button)
+// ============================================================
+__CONTENTS_ENTRIES__
+// ============================================================
+//  No changes needed below.
+// ============================================================
+
+(function () {
+  var box = document.getElementById('content');
+  var id = (new URLSearchParams(location.search)).get('id');
+  id = (id == null ? '' : String(id).trim());
+
+  function resolveEntry(v) {
+    if (v && typeof v === 'object') {
+      return { url: String(v.u == null ? '' : v.u).trim(), title: String(v.t == null ? '' : v.t).trim(), img: String(v.i == null ? '' : v.i), html: '' };
+    }
+    var s = String(v == null ? '' : v).trim();
+    if (/^https?:\\/\\//i.test(s)) { return { url: s, title: '', img: '', html: '' }; }
+    return { url: '', title: '', img: '', html: s };
+  }
+
+  if (!id) {
+    var keys = Object.keys(CONTENTS);
+    if (!keys.length) { box.innerHTML = '<p style="color:#9ca3af">Nothing configured yet.</p>'; return; }
+    var out = '';
+    keys.forEach(function (k) {
+      var e = resolveEntry(CONTENTS[k]);
+      out += '<div style="border-bottom:1px solid #e5e7eb;padding:16px 0;">';
+      if (e.url) {
+        out += '<p style="margin:0 0 6px;color:#9ca3af;font-weight:700;font-size:13px;">' + (e.title || k) + '</p>';
+        if (e.img) { out += '<img src="' + e.img + '" alt="" style="max-width:100%;height:auto;border-radius:10px;display:block;box-shadow:0 2px 10px rgba(0,0,0,0.08);">'; }
+        out += '<p style="margin:10px 0 0;"><a href="' + e.url + '" style="color:#2563eb;word-break:break-all;">' + e.url + '</a></p>';
+      } else {
+        out += '<p style="margin:0 0 6px;color:#9ca3af;font-weight:700;font-size:13px;">' + k + '</p>';
+        out += e.html;
+      }
+      out += '</div>';
+    });
+    box.innerHTML = out;
+    return;
+  }
+
+  var entry = resolveEntry(CONTENTS[id]);
+  if (!entry.url && !entry.html) {
+    box.innerHTML = '<h2 style="font-size:24px;color:#111827;margin:0 0 12px">Content not found</h2><p>Check the ID in the QR code, or contact the owner for the latest version.</p>';
+    return;
+  }
+
+  if (entry.url) {
+    if (entry.title || entry.img) {
+      var head = entry.title ? '<h2 style="font-size:20px;color:#111827;margin-bottom:4px;">' + entry.title + '</h2>' : '';
+      var pic = entry.img ? '<p style="margin:14px 0 0;"><img src="' + entry.img + '" alt="" style="max-width:100%;height:auto;border-radius:10px;display:block;box-shadow:0 2px 10px rgba(0,0,0,0.08);"></p>' : '';
+      var btn = '<p style="margin:18px 0 6px;text-align:center;"><a href="' + entry.url + '" style="display:inline-block;padding:11px 26px;border-radius:10px;background:#667eea;color:#fff;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(102,126,234,0.4);">Open link &#8599;</a></p>';
+      box.innerHTML = head + pic + btn + '<p style="font-size:12px;color:#9ca3af;word-break:break-all;text-align:center;margin:0;">' + entry.url + '</p>';
+      return;
+    }
+    box.innerHTML = '<h2 style="font-size:24px;color:#111827;margin:0 0 12px">Opening…</h2><p>If you are not redirected, tap: <a href="' + entry.url + '" style="color:#667eea;word-break:break-all;">' + entry.url + '</a></p>';
+    setTimeout(function () { location.replace(entry.url); }, 120);
+    return;
+  }
+
+  box.innerHTML = entry.html;
+})();
+<\/script>
+</body>
+</html>
+`;
+
+  var dynDomain = document.getElementById('dynDomain');
+  var dynRows = document.getElementById('dynRows');
+  var dynCode = document.getElementById('dynCode');
+  var MAX_DYN = 10;
+
+  function addDynRow() {
+    if (dynRows.querySelectorAll('.dyn-row').length >= MAX_DYN) { showToast('⚠️ Maximum 10 entries'); return; }
+    var div = document.createElement('div');
+    div.className = 'dyn-row';
+    div.innerHTML = '<span class="dyn-id"></span>' +
+      '<input class="dyn-title" placeholder="Title (shown above text or the link page)">' +
+      '<textarea class="dyn-content" rows="2" placeholder="Content: http://… link, or any text (multi-line OK)"></textarea>' +
+      '<button class="btn btn-sm dyn-del" title="Remove this entry">✕</button>' +
+      '<div class="dyn-imgs">' +
+        '<img class="dyn-imgprev" alt="image preview" hidden>' +
+        '<span class="dyn-imgmeta"></span>' +
+        '<button type="button" class="btn btn-sm btn-ghost dyn-imgbtn">🖼 Add image / paste (Ctrl+V)</button>' +
+        '<button type="button" class="btn btn-sm dyn-imgdel" title="Remove image">✕ Remove</button>' +
+        '<input type="file" class="dyn-imgfile" accept="image/*" hidden>' +
+      '</div>';
+    div.querySelector('.dyn-del').addEventListener('click', function() {
+      dynRows.removeChild(div);
+      updateDynIds();
+      updateDynCode();
+    });
+    bindDynImage(div);
+    dynRows.appendChild(div);
+    updateDynIds();
+  }
+
+  function scaleImage(file, done) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var img = new Image();
+      img.onload = function () {
+        var MAX = 1200;
+        var scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        var w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+        var cv = document.createElement('canvas');
+        cv.width = w; cv.height = h;
+        var ctx = cv.getContext('2d');
+        var keepPng = file.type === 'image/png' && scale === 1 && file.size < 500000;
+        if (!keepPng) { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); }
+        ctx.drawImage(img, 0, 0, w, h);
+        done(cv.toDataURL(keepPng ? 'image/png' : 'image/jpeg', 0.85));
+      };
+      img.onerror = function () { done(null); };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function bindDynImage(div) {
+    var btn = div.querySelector('.dyn-imgbtn');
+    var file = div.querySelector('.dyn-imgfile');
+    var prev = div.querySelector('.dyn-imgprev');
+    var meta = div.querySelector('.dyn-imgmeta');
+    var del = div.querySelector('.dyn-imgdel');
+    var dataUrl = null;
+    function refresh() {
+      if (!dataUrl) { prev.hidden = true; del.hidden = true; meta.textContent = ''; return; }
+      prev.src = dataUrl; prev.hidden = false; del.hidden = false;
+      meta.textContent = (dataUrl.length / 1024).toFixed(0) + ' KB (embedded in go.html)';
+      updateDynCode();
+    }
+    function setUrl(u) { dataUrl = u; refresh(); }
+    btn.addEventListener('click', function () { file.click(); });
+    file.addEventListener('change', function () {
+      if (!file.files || !file.files[0]) return;
+      var f = file.files[0];
+      if (!/^image\//i.test(f.type)) { showToast('⚠️ Please choose an image file'); file.value = ''; return; }
+      scaleImage(f, function (u) { file.value = ''; if (u) { setUrl(u); showToast('🖼 Image added — will be embedded in go.html'); } else { showToast('⚠️ Could not read that image'); } });
+    });
+    del.addEventListener('click', function () { dataUrl = null; file.value = ''; refresh(); });
+    div.addEventListener('paste', function (e) {
+      var items = (e.clipboardData && e.clipboardData.items) ? e.clipboardData.items : [];
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        if (it.type && it.type.indexOf('image/') === 0) {
+          var f = it.getAsFile();
+          if (f) {
+            e.preventDefault();
+            scaleImage(f, function (u) { if (u) { setUrl(u); showToast('🖼 Image pasted — will be embedded in go.html'); } else { showToast('⚠️ Could not read that image'); } });
+          }
+          break;
+        }
+      }
+    });
+    div._dynImg = function () { return dataUrl; };
+  }
+
+  function updateDynIds() {
+    var rows = dynRows.querySelectorAll('.dyn-row');
+    rows.forEach(function(row, i) {
+      row.querySelector('.dyn-id').textContent = ('00' + (i + 1)).slice(-2);
+    });
+    var addBtn = document.getElementById('dynAddBtn');
+    addBtn.disabled = rows.length >= MAX_DYN;
+    addBtn.textContent = rows.length >= MAX_DYN ? 'Limit reached (10)' : '＋ Add entry';
+  }
+
+  function collectDynEntries() {
+    var rows = dynRows.querySelectorAll('.dyn-row');
+    var out = [];
+    rows.forEach(function(row) {
+      var title = row.querySelector('.dyn-title').value.trim();
+      var content = row.querySelector('.dyn-content').value.trim();
+      var img = (row._dynImg ? row._dynImg() : null);
+      if (!content && !img) return;
+      var id = ('00' + (out.length + 1)).slice(-2);
+      var value;
+      var isUrl = /^https?:\/\//i.test(content);
+      if (isUrl) {
+        value = content;
+      } else {
+        var t = escapeHtml(title);
+        var c = escapeHtml(content).replace(/\n/g, '<br>');
+        var imgTag = img ? '<p style="margin:10px 0 0;"><img src="' + img + '" alt="" style="max-width:100%;height:auto;border-radius:10px;display:block;box-shadow:0 2px 10px rgba(0,0,0,0.08);"></p>' : '';
+        value = (t ? '<h2>' + t + '</h2>' : '') + (c ? '<p>' + c + '</p>' : '') + imgTag;
+      }
+      out.push({ id: id, title: title, content: content, value: value, isUrl: isUrl, img: img });
+    });
+    return out;
+  }
+
+  function buildContentsBlock(entries) {
+    var lines = entries.map(function(e) {
+      if (e.isUrl && (e.title || e.img)) {
+        var parts = ['  "' + e.id + '": { "u": "' + escJs(e.content) + '"'];
+        if (e.title) { parts.push('"t": "' + escJs(e.title) + '"'); }
+        if (e.img) { parts.push('"i": "' + escJs(e.img) + '"'); }
+        return parts.join(', ') + ' }';
+      }
+      return '  "' + e.id + '": "' + escJs(e.value) + '"';
+    });
+    return 'var CONTENTS = {\n' + lines.join(',\n') + '\n};';
+  }
+
+  function updateDynCode() {
+    var entries = collectDynEntries();
+    dynCode.textContent = entries.length ? buildContentsBlock(entries) : '// Fill in the entries above and the go.html code appears here';
+  }
+
+  document.getElementById('dynAddBtn').addEventListener('click', function() { addDynRow(); updateDynCode(); });
+  dynRows.addEventListener('input', updateDynCode);
+
+  document.getElementById('dynCopyBtn').addEventListener('click', function() {
+    var entries = collectDynEntries();
+    if (!entries.length) { showToast('⚠️ Add some content first'); return; }
+    var text = buildContentsBlock(entries);
+    var done = function() { showToast('📄 go.html code copied'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function() { showToast('⚠️ Copy failed'); });
+    } else { showToast('⚠️ Copy not supported in this browser'); }
+  });
+
+  document.getElementById('dynDlBtn').addEventListener('click', function() {
+    var entries = collectDynEntries();
+    if (!entries.length) { showToast('⚠️ Add some content first'); return; }
+    var html = DYN_TEMPLATE.replace('__CONTENTS_ENTRIES__', buildContentsBlock(entries));
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'go.html';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+    showToast('⬇️ go.html downloaded &mdash; host it, then generate codes');
+  });
+
+  document.getElementById('dynGenBtn').addEventListener('click', function() {
+    var entries = collectDynEntries();
+    if (!entries.length) { showToast('⚠️ Add some content first'); return; }
+    var domain = dynDomain.value.trim().replace(/\/+$/, '');
+    if (!/^https?:\/\//i.test(domain)) { showToast('⚠️ Domain must start with http(s)://'); return; }
+    var list = entries.map(function(e) { return { label: e.title || e.id, content: domain + '/go.html?id=' + e.id }; });
+    renderItems(list);
+    showToast('✅ Generated ' + list.length + ' dynamic QR codes');
+  });
+
+  addDynRow();
+  addDynRow();
+})();
+</script>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../wifi-qrcode/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4F6; WiFi QR Code Generator</a><a href="../qrcode-gen/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4F1; QR Code Generator</a><a href="../qr-scanner/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4F7; QR Code Scanner</a><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none;">🛠 More Free Tools &rarr;</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+
+<div id="toast" class="toast"></div>
+
+<script>
+var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(l=4*u+17),e(0,0),e(l-7,0),e(0,l-7),i(),o(),v(t,r),7<=u&&h(t),null==n&&(n=w(u,f,c)),d(n,r)}var u=t,f=y[r],g=null,l=0,n=null,c=[],s={},e=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||l<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||l<=r+n||(g[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},o=function(){for(var t=8;t<l-8;t+=1)null==g[t][6]&&(g[t][6]=t%2==0);for(var r=8;r<l-8;r+=1)null==g[6][r]&&(g[6][r]=r%2==0)},i=function(){for(var t=B.getPatternPosition(u),r=0;r<t.length;r+=1)for(var e=0;e<t.length;e+=1){var n=t[r],o=t[e];if(null==g[n][o])for(var i=-2;i<=2;i+=1)for(var a=-2;a<=2;a+=1)g[n+i][o+a]=-2==i||2==i||-2==a||2==a||0==i&&0==a}},h=function(t){for(var r=B.getBCHTypeNumber(u),e=0;e<18;e+=1){var n=!t&&1==(r>>e&1);g[Math.floor(e/3)][e%3+l-8-3]=n}for(e=0;e<18;e+=1){n=!t&&1==(r>>e&1);g[e%3+l-8-3][Math.floor(e/3)]=n}},v=function(t,r){for(var e=f<<3|r,n=B.getBCHTypeInfo(e),o=0;o<15;o+=1){var i=!t&&1==(n>>o&1);o<6?g[o][8]=i:o<8?g[o+1][8]=i:g[l-15+o][8]=i}for(o=0;o<15;o+=1){i=!t&&1==(n>>o&1);o<8?g[8][l-o-1]=i:o<9?g[8][15-o-1+1]=i:g[8][15-o-1]=i}g[l-8][8]=!t},d=function(t,r){for(var e=-1,n=l-1,o=7,i=0,a=B.getMaskFunction(r),u=l-1;0<u;u-=2)for(6==u&&(u-=1);;){for(var f=0;f<2;f+=1)if(null==g[n][u-f]){var c=!1;i<t.length&&(c=1==(t[i]>>>o&1)),a(n,u-f)&&(c=!c),g[n][u-f]=c,-1==(o-=1)&&(i+=1,o=7)}if((n+=e)<0||l<=n){n-=e,e=-e;break}}},w=function(t,r,e){for(var n=b.getRSBlocks(t,r),o=M(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=C(i[u],l.getLength()-1).mod(l);a[u]=new Array(l.getLength()-1);for(g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=0<=s?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};s.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=x(t);break;case"Alphanumeric":e=m(t);break;case"Byte":e=L(t);break;case"Kanji":e=D(t);break;default:throw"mode:"+r}c.push(e),n=null},s.isDark=function(t,r){if(t<0||l<=t||r<0||l<=r)throw t+","+r;return g[t][r]},s.getModuleCount=function(){return l},s.make=function(){if(u<1){for(var t=1;t<40;t++){for(var r=b.getRSBlocks(t,f),e=M(),n=0;n<c.length;n++){var o=c[n];e.put(o.getMode(),4),e.put(o.getLength(),B.getLengthInBits(o.getMode(),t)),o.write(e)}var i=0;for(n=0;n<r.length;n++)i+=r[n].dataCount;if(e.getLengthInBits()<=8*i)break}u=t}a(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){a(!0,e);var n=B.getLostPoint(s);(0==e||n<t)&&(t=n,r=e)}return r}())},s.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<s.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<s.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=s.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},s.createSvgTag=function(t,r,e,n){var o={};"object"==typeof t&&(t=(o=t).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,f,c=s.getModuleCount()*t+2*r,g="";for(f="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",g+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',g+=o.scalable?"":' width="'+c+'px" height="'+c+'px"',g+=' viewBox="0 0 '+c+" "+c+'" ',g+=' preserveAspectRatio="xMinYMin meet"',g+=n.text||e.text?' role="img" aria-labelledby="'+p([n.id,e.id].join(" ").trim())+'"':"",g+=">",g+=n.text?'<title id="'+p(n.id)+'">'+p(n.text)+"</title>":"",g+=e.text?'<description id="'+p(e.id)+'">'+p(e.text)+"</description>":"",g+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',g+='<path d="',a=0;a<s.getModuleCount();a+=1)for(u=a*t+r,i=0;i<s.getModuleCount();i+=1)s.isDark(a,i)&&(g+="M"+(i*t+r)+","+u+f);return g+='" stroke="transparent" fill="black"/>',g+="</svg>"},s.createDataURL=function(o,t){o=o||2,t=void 0===t?4*o:t;var r=s.getModuleCount()*o+2*t,i=t,a=r-t;return I(r,r,function(t,r){if(i<=t&&t<a&&i<=r&&r<a){var e=Math.floor((t-i)/o),n=Math.floor((r-i)/o);return s.isDark(n,e)?0:1}return 1})},s.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=s.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=s.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=p(e),o+='"'),o+="/>"};var p=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return s.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*s.getModuleCount()+2*t,u=t,f=a-t,c={"██":"█","█ ":"▀"," █":"▄","  ":" "},g={"██":"▀","█ ":"▀"," █":" ","  ":" "},l="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<f&&u<=r&&r<f&&s.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<f&&u<=r+1&&r+1<f&&s.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",l+=t<1&&f<=r+1?g[i]:c[i];l+="\n"}return a%2&&0<t?l.substring(0,l.length-a-1)+Array(1+a).join("▀"):l.substring(0,l.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=s.getModuleCount()*t+2*r,u=r,f=a-r,c=Array(t+1).join("██"),g=Array(t+1).join("  "),l="",h="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),h="",n=0;n<a;n+=1)i=1,u<=n&&n<f&&u<=e&&e<f&&s.isDark(o,Math.floor((n-u)/t))&&(i=0),h+=i?c:g;for(o=0;o<t;o+=1)l+=h+"\n"}return l.substring(0,l.length-1)},s.renderTo2dContext=function(t,r){r=r||2;for(var e=s.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=s.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},s}i.stringToBytes=(i.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,i.createStringToBytes=function(u,f){var i=function(){function t(){var t=r.read();if(-1==t)throw"eof";return t}for(var r=S(u),e=0,n={};;){var o=r.read();if(-1==o)break;var i=t(),a=t()<<8|t();n[String.fromCharCode(o<<8|i)]=a,e+=1}if(e!=f)throw e+" != "+f;return n}(),a="?".charCodeAt(0);return function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);if(n<128)r.push(n);else{var o=i[t.charAt(e)];"number"==typeof o?(255&o)==o?r.push(o):(r.push(o>>>8),r.push(255&o)):r.push(a)}}return r}};var r,t,a=1,u=2,o=4,f=8,y={L:1,M:0,Q:3,H:2},e=0,n=1,c=2,g=3,l=4,h=5,s=6,v=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],(t={}).getBCHTypeInfo=function(t){for(var r=t<<10;0<=d(r)-d(1335);)r^=1335<<d(r)-d(1335);return 21522^(t<<10|r)},t.getBCHTypeNumber=function(t){for(var r=t<<12;0<=d(r)-d(7973);)r^=7973<<d(r)-d(7973);return t<<12|r},t.getPatternPosition=function(t){return r[t-1]},t.getMaskFunction=function(t){switch(t){case e:return function(t,r){return(t+r)%2==0};case n:return function(t,r){return t%2==0};case c:return function(t,r){return r%3==0};case g:return function(t,r){return(t+r)%3==0};case l:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case h:return function(t,r){return t*r%2+t*r%3==0};case s:return function(t,r){return(t*r%2+t*r%3)%2==0};case v:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},t.getErrorCorrectPolynomial=function(t){for(var r=C([1],0),e=0;e<t;e+=1)r=r.multiply(C([1,w.gexp(e)],0));return r},t.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case o:case f:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case o:return 16;case f:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case o:return 16;case f:return 12;default:throw"mode:"+t}}},t.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);5<i&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},t);function d(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r}var w=function(){for(var r=new Array(256),e=new Array(256),t=0;t<8;t+=1)r[t]=1<<t;for(t=8;t<256;t+=1)r[t]=r[t-4]^r[t-5]^r[t-6]^r[t-8];for(t=0;t<255;t+=1)e[r[t]]=t;var n={glog:function(t){if(t<1)throw"glog("+t+")";return e[t]},gexp:function(t){for(;t<0;)t+=255;for(;256<=t;)t-=255;return r[t]}};return n}();function C(n,o){if(void 0===n.length)throw n.length+"/"+o;var r=function(){for(var t=0;t<n.length&&0==n[t];)t+=1;for(var r=new Array(n.length-t+o),e=0;e<n.length-t;e+=1)r[e]=n[e+t];return r}(),i={getAt:function(t){return r[t]},getLength:function(){return r.length},multiply:function(t){for(var r=new Array(i.getLength()+t.getLength()-1),e=0;e<i.getLength();e+=1)for(var n=0;n<t.getLength();n+=1)r[e+n]^=w.gexp(w.glog(i.getAt(e))+w.glog(t.getAt(n)));return C(r,0)},mod:function(t){if(i.getLength()-t.getLength()<0)return i;for(var r=w.glog(i.getAt(0))-w.glog(t.getAt(0)),e=new Array(i.getLength()),n=0;n<i.getLength();n+=1)e[n]=i.getAt(n);for(n=0;n<t.getLength();n+=1)e[n]^=w.gexp(w.glog(t.getAt(n))+r);return C(e,0).mod(t)}};return i}function p(){var e=[],o={writeByte:function(t){e.push(255&t)},writeShort:function(t){o.writeByte(t),o.writeByte(t>>>8)},writeBytes:function(t,r,e){r=r||0,e=e||t.length;for(var n=0;n<e;n+=1)o.writeByte(t[n+r])},writeString:function(t){for(var r=0;r<t.length;r+=1)o.writeByte(t.charCodeAt(r))},toByteArray:function(){return e},toString:function(){var t="";t+="[";for(var r=0;r<e.length;r+=1)0<r&&(t+=","),t+=e[r];return t+="]"}};return o}var k,A,b=(k=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],(A={}).getRSBlocks=function(t,r){var e=function(t,r){switch(r){case y.L:return k[4*(t-1)+0];case y.M:return k[4*(t-1)+1];case y.Q:return k[4*(t-1)+2];case y.H:return k[4*(t-1)+3];default:return}}(t,r);if(void 0===e)throw"bad rs block @ typeNumber:"+t+"/errorCorrectionLevel:"+r;for(var n,o,i=e.length/3,a=[],u=0;u<i;u+=1)for(var f=e[3*u+0],c=e[3*u+1],g=e[3*u+2],l=0;l<f;l+=1)a.push((n=g,o=void 0,(o={}).totalCount=c,o.dataCount=n,o));return a},A),M=function(){var e=[],n=0,o={getBuffer:function(){return e},getAt:function(t){var r=Math.floor(t/8);return 1==(e[r]>>>7-t%8&1)},put:function(t,r){for(var e=0;e<r;e+=1)o.putBit(1==(t>>>r-e-1&1))},getLengthInBits:function(){return n},putBit:function(t){var r=Math.floor(n/8);e.length<=r&&e.push(0),t&&(e[r]|=128>>>n%8),n+=1}};return o},x=function(t){var r=a,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+2<r.length;)t.put(o(r.substring(e,e+3)),10),e+=3;e<r.length&&(r.length-e==1?t.put(o(r.substring(e,e+1)),4):r.length-e==2&&t.put(o(r.substring(e,e+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return e},m=function(t){var r=u,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+1<r.length;)t.put(45*o(r.charAt(e))+o(r.charAt(e+1)),11),e+=2;e<r.length&&t.put(o(r.charAt(e)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return e},L=function(t){var r=o,e=i.stringToBytes(t),n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=0;r<e.length;r+=1)t.put(e[r],8)}};return n},D=function(t){var r=f,e=i.stringToBytesFuncs.SJIS;if(!e)throw"sjis not supported.";!function(){var t=e("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=e(t),n={getMode:function(){return r},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return n},S=function(t){var e=t,n=0,o=0,i=0,r={read:function(){for(;i<8;){if(n>=e.length){if(0==i)return-1;throw"unexpected end of file./"+i}var t=e.charAt(n);if(n+=1,"="==t)return i=0,-1;t.match(/^\s$/)||(o=o<<6|a(t.charCodeAt(0)),i+=6)}var r=o>>>i-8&255;return i-=8,r}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return r},I=function(t,r,e){for(var n=function(t,r){var n=t,o=r,l=new Array(t*r),e={setPixel:function(t,r,e){l[r*n+t]=e},write:function(t){t.writeString("GIF87a"),t.writeShort(n),t.writeShort(o),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(n),t.writeShort(o),t.writeByte(0);var r=i(2);t.writeByte(2);for(var e=0;255<r.length-e;)t.writeByte(255),t.writeBytes(r,e,255),e+=255;t.writeByte(r.length-e),t.writeBytes(r,e,r.length-e),t.writeByte(0),t.writeString(";")}},i=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,o=h(),i=0;i<r;i+=1)o.add(String.fromCharCode(i));o.add(String.fromCharCode(r)),o.add(String.fromCharCode(e));var a=p(),u=function(t){var e=t,n=0,o=0,r={write:function(t,r){if(t>>>r!=0)throw"length over";for(;8<=n+r;)e.writeByte(255&(t<<n|o)),r-=8-n,t>>>=8-n,n=o=0;o|=t<<n,n+=r},flush:function(){0<n&&e.writeByte(o)}};return r}(a);u.write(r,n);var f=0,c=String.fromCharCode(l[f]);for(f+=1;f<l.length;){var g=String.fromCharCode(l[f]);f+=1,o.contains(c+g)?c+=g:(u.write(o.indexOf(c),n),o.size()<4095&&(o.size()==1<<n&&(n+=1),o.add(c+g)),c=g)}return u.write(o.indexOf(c),n),u.write(e,n),u.flush(),a.toByteArray()},h=function(){var r={},e=0,n={add:function(t){if(n.contains(t))throw"dup key:"+t;r[t]=e,e+=1},size:function(){return e},indexOf:function(t){return r[t]},contains:function(t){return void 0!==r[t]}};return n};return e}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=p();n.write(a);for(var u=function(){function e(t){a+=String.fromCharCode(r(63&t))}var n=0,o=0,i=0,a="",t={},r=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return t.writeByte=function(t){for(n=n<<8|255&t,o+=8,i+=1;6<=o;)e(n>>>o-6),o-=6},t.flush=function(){if(0<o&&(e(n<<6-o),o=n=0),i%3!=0)for(var t=3-i%3,r=0;r<t;r+=1)a+="="},t.toString=function(){return a},t}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return i}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||57344<=n?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});
+
+</script>
+</body>
+</html>

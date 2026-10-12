@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pet Age Calculator — Dog & Cat Years | HuSir Tools</title>
+<meta name="description" content="Convert your dog or cat's age into human years with the 15/9/+4–6 guideline, find their life stage, and see a full age chart. Private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/pet-age-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Pet Age Calculator — Dog & Cat Years">
+<meta property="og:description" content="Convert your dog or cat">
+<meta property="og:url" content="https://www.husir.org/tools/pet-age-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pet Age Calculator — Dog & Cat Years">
+<meta name="twitter:description" content="Convert your dog or cat">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#34b3a0 0%,#0e7c86 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=date],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#0e7c86;background:#fff}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin-top:8px}
+.radio-row{display:flex;gap:14px;margin-top:6px;font-size:13px;color:#555}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#34b3a0,#0e7c86);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f0fdfa;border:2px solid #99f6e4;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#115e59;word-break:break-word}
+.result-sub{font-size:12.5px;color:#5b8b86;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kpi{background:#f0fdfa;border:2px solid #ccfbf1;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:#5b8b86;font-weight:600;margin-bottom:3px}
+.kpi .v{font-size:16px;font-weight:800;color:#134e4a}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.tablewrap{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f0fdfa;color:#115e59;padding:8px 10px;text-align:left;font-size:12px}
+td{padding:7px 10px;border-bottom:1px solid #eef0f7;color:#475569}
+td:last-child,th:last-child{text-align:right}
+tr:last-child td{border-bottom:0}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pet Age Calculator",
+  "description": "Convert your dog or cat's age into human years with the 15/9/+4–6 guideline, find their life stage, and see a full age chart. Private, no signup.",
+  "url": "https://www.husir.org/tools/pet-age-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is “1 dog year = 7 human years” wrong?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pets mature much faster than humans early in life — a 1-year-old dog is roughly a 15-year-old human, not a 7-year-old. Dogs also slow down as they age (large breeds especially), so a flat 7× never fits the real curve."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does dog size matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Large breeds age faster as adults: a Great Dane is usually senior by 8, while a Chihuahua may not be senior until 11 or 12. Small dogs often live into their mid-teens; giant breeds rarely do. The size options here use the common small/medium/large split."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do cats age the same way as dogs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Very close in the first two years (1 year ≈ 15 human, 2 years ≈ 24). After that, most charts use +4 human years per cat year — a 10-year-old cat is roughly 56 and considered mature-to-senior."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is the age different between months and years?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 6-month-old kitten is already halfway through its “first 15 human years,” so the calculator fills in between the yearly marks instead of rounding. That is why a 1.5-year-old dog shows roughly 19–20 rather than just “15.”"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I treat my pet as a senior?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common vet guidance: cats and small dogs around age 10–11, medium dogs around 10, and large/giant breeds around 7–8. Senior pets benefit from yearly (or twice-yearly) checkups, blood work, dental care, and joint-friendly exercise."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is any pet-age chart?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Charts are population averages, not per-pet science. Breed, weight, diet, and luck all change the real answer — treat this as a starting point and let your vet set the care plan."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Pet Age Calculator", "item": "https://www.husir.org/tools/pet-age-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Pet Age Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🐾 Pet Age Calculator</h1>
+<p class="subtitle">Dog &amp; cat age in human years · life stage · full age chart</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#0e7c86;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f0fdfa;border:1px dashed #5eead4;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#134e4a}
+.info-block code{background:#ccfbf1;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>“Dog years” is everyone's favorite party fact, but the old “multiply by 7” rule badly overestimates young pets and underestimates seniors. The widely used modern guideline is the 15/9/+4–6 method: most dogs and cats reach about 15 human years by their first birthday, about 24 by their second, and then age 4 human years per year after that — with larger dog breeds aging faster than small ones once they are past the puppy stage.</p>
+<p>This calculator applies that guideline to your pet's exact age in years and months. Pick dog or cat (and a size for dogs), enter the age, and you get the human-year equivalent, a life-stage label (puppy, adolescent, adult, or senior for dogs; kitten, adult, or senior for cats), and a full comparison chart up to age 15–20 so you can see how the numbers climb. Knowing a pet's rough “human” age helps owners notice when joints, teeth, and energy levels start to change and when senior care, diet, or more frequent vet checkups deserve attention.</p>
+<p>Nothing here is medical advice and no single chart is perfect — size, breed, genetics, and lifestyle all matter. The numbers are a friendly, useful frame for understanding your pet, not a diagnosis. Everything runs locally in your browser with no signup and no data uploaded.</p>
+<div class="faq">
+<p><strong>🐕 Why is “1 dog year = 7 human years” wrong?</strong><br>Pets mature much faster than humans early in life — a 1-year-old dog is roughly a 15-year-old human, not a 7-year-old. Dogs also slow down as they age (large breeds especially), so a flat 7× never fits the real curve.</p>
+<p><strong>📏 Why does dog size matter?</strong><br>Large breeds age faster as adults: a Great Dane is usually senior by 8, while a Chihuahua may not be senior until 11 or 12. Small dogs often live into their mid-teens; giant breeds rarely do. The size options here use the common small/medium/large split.</p>
+<p><strong>🐈 Do cats age the same way as dogs?</strong><br>Very close in the first two years (1 year ≈ 15 human, 2 years ≈ 24). After that, most charts use +4 human years per cat year — a 10-year-old cat is roughly 56 and considered mature-to-senior.</p>
+<p><strong>🔁 Why is the age different between months and years?</strong><br>A 6-month-old kitten is already halfway through its “first 15 human years,” so the calculator fills in between the yearly marks instead of rounding. That is why a 1.5-year-old dog shows roughly 19–20 rather than just “15.”</p>
+<p><strong>🩺 When should I treat my pet as a senior?</strong><br>Common vet guidance: cats and small dogs around age 10–11, medium dogs around 10, and large/giant breeds around 7–8. Senior pets benefit from yearly (or twice-yearly) checkups, blood work, dental care, and joint-friendly exercise.</p>
+<p><strong>🧬 How accurate is any pet-age chart?</strong><br>Charts are population averages, not per-pet science. Breed, weight, diet, and luck all change the real answer — treat this as a starting point and let your vet set the care plan.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas (15/9/+4–6 guideline)</b><br>
+First year = 15 human years · Second year = +9 (so age 2 = 24)<br>Each year after: dogs add 4 (small) / 5 (medium) / 6 (large), cats add 4<br>Example: 6-year-old small dog = 24 + (6 − 2) × 4 = 40 human years
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Your pet</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Pet type</label>
+<div class="radio-row">
+<label><input type="radio" name="petType" value="dog" checked> 🐕 Dog</label>
+<label><input type="radio" name="petType" value="cat"> 🐈 Cat</label>
+</div>
+</div>
+<div id="sizeWrap">
+<label class="field-label">Dog size</label>
+<select id="size">
+<option value="small">Small (under 20 lb)</option>
+<option value="medium" selected>Medium (20–50 lb)</option>
+<option value="large">Large (over 50 lb)</option>
+</select>
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Age — years</label>
+<input type="number" id="years" min="0" max="35" step="1" value="4">
+</div>
+<div>
+<label class="field-label">Age — extra months (0–11)</label>
+<input type="number" id="months" min="0" max="11" step="1" value="0">
+</div>
+</div>
+<div style="text-align:center;margin-top:16px"><button class="btn btn-ghost" id="btnExample">Use example: 2-year-old small dog</button></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · In human years</h3></div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#5b8b86;margin-bottom:2px">Your pet is about</div>
+<div class="result-big" id="big">0</div>
+<div class="result-sub" id="bigNote">human years old</div>
+</div>
+<div class="grid3">
+<div class="kpi"><div class="k">Life stage</div><div class="v" id="kStage">—</div></div>
+<div class="kpi"><div class="k">Real age</div><div class="v" id="kReal">—</div></div>
+<div class="kpi"><div class="k">Senior around age</div><div class="v" id="kSenior">—</div></div>
+</div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">📅 Age comparison chart</div>
+<div class="tablewrap"><table id="tbl"></table></div>
+</div>
+<p class="note">Uses the common 15 / 9 / +4–6 guideline. Every pet is different — this is a fun and useful estimate, not veterinary advice. Small breeds age slower as adults; large breeds faster.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../age-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F382; Age &amp; Date Calculator</a><a href="../bmi-calorie-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2696;&#xFE0F; BMI &amp; Calorie Calculator</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a><a href="../due-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F930; Pregnancy Due Date Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,parseFloat($(id).value)||0);}
+function petType(){var r=document.querySelector('input[name="petType"]:checked');return r?r.value:'dog';}
+function dogRate(size){return size==='small'?4:(size==='large'?6:5);}
+function humanAtYear(kind,size,y){
+  var rate=(kind==='cat')?4:dogRate(size);
+  if(y<=1)return 15*y;
+  if(y<=2)return 15+9*(y-1);
+  return 24+(y-2)*rate;
+}
+function humanYears(kind,size,yearsFrac){
+  var low=Math.floor(yearsFrac), frac=yearsFrac-low;
+  return humanAtYear(kind,size,low)+(humanAtYear(kind,size,low+1)-humanAtYear(kind,size,low))*frac;
+}
+function stageFor(kind,size,y){
+  if(kind==='cat'){
+    if(y<1)return 'Kitten';
+    if(y<11)return 'Adult';
+    return 'Senior';
+  }
+  if(y<1)return 'Puppy';
+  if(y<3)return 'Adolescent';
+  var senior=(size==='small')?11:(size==='large'?8:10);
+  return y<senior?'Adult':'Senior';
+}
+function seniorAge(kind,size){
+  return kind==='cat'?11:(size==='small'?11:(size==='large'?8:10));
+}
+function calc(){
+  var kind=petType(), size=$('size').value;
+  var y=Math.min(40,num('years')), mo=Math.min(11,Math.round(num('months')));
+  var yearsFrac=y+mo/12;
+  var human=humanYears(kind,size,yearsFrac);
+  $('sizeWrap').style.display=(kind==='dog')?'':'none';
+  $('big').textContent=(human>=100?Math.round(human):(human<10?human.toFixed(1):Math.round(human))).toLocaleString('en-US');
+  $('bigNote').textContent=(kind==='dog'?'dog':'cat')+' years → human years · '+(human<10?'≈ rough estimate for a young pet':'');
+  var stage=stageFor(kind,size,yearsFrac);
+  $('kStage').textContent=stage;
+  $('kReal').textContent=(y>0?y+' yr'+(y>1?'s':''):'')+(mo>0?(y>0?' ':'')+mo+' mo':'');
+  var sen=seniorAge(kind,size);
+  $('kSenior').textContent=(kind==='cat'?'Cat':'Dog')+' ≈ '+sen+' yrs';
+  var maxRow=(kind==='cat')?20:15;
+  var tr='<tr><th>Pet age (years)</th><th>≈ Human years</th><th>Life stage</th></tr>';
+  for(var i=1;i<=maxRow;i++){
+    tr+='<tr><td>'+i+'</td><td>'+Math.round(humanAtYear(kind,size,i))+'</td><td>'+stageFor(kind,size,i)+'</td></tr>';
+  }
+  $('tbl').innerHTML=tr;
+}
+['years','months','size'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('size').addEventListener('change',calc);
+document.querySelectorAll('input[name="petType"]').forEach(function(r){r.addEventListener('change',calc);});
+$('btnExample').addEventListener('click',function(){
+  document.querySelector('input[name="petType"][value="dog"]').checked=true;
+  $('size').value='small';$('years').value=2;$('months').value=0;
+  calc();
+});
+calc();
+</script>
+</body>
+</html>

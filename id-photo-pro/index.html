@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free ID photo editor and maker: crop a photo to passport or visa size, change the background, and print a photo sheet. Nothing is uploaded — no signup.">
+<meta name="keywords" content="ID photo maker, ID photo editor, online id photo editor, passport photo, change photo background, free online photo tool, visa photo, print layout, background remover">
+<meta property="og:title" content="Free ID Photo Editor & Maker Online — Passport Photos">
+<meta property="og:description" content="Crop to passport or visa size, change the background, and print a photo sheet in your browser. No upload, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.husir.org/tools/id-photo-pro/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free ID Photo Editor & Maker Online">
+<meta name="twitter:description" content="Edit an ID photo, change the background, crop to passport size, and print. Free, no signup, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/id-photo-pro/">
+<meta name="robots" content="index, follow">
+<style>
+/* ---- v2 additions ---- */
+#touchUpPanel .check-row{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#475569;margin-top:10px;cursor:pointer}
+#touchUpPanel .check-row input{width:auto;min-height:auto;margin:0}
+#brushModal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:99998;overflow:auto;padding:18px}
+#brushModal .brush-card{max-width:940px;margin:12px auto;background:#fff;border-radius:16px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+#brushModal h3{margin:0 0 4px;font-size:17px;color:#0f172a}
+#brushModal .btn{border:none;cursor:pointer;min-height:0;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600}
+#brushModal .btn.on{outline:2px solid #0f172a;outline-offset:1px}
+#brushToolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
+#brushSizeRow{display:flex;align-items:center;gap:8px;font-size:13px;color:#475569}
+#brushSizeRow input{width:150px;min-height:auto}
+#brushCanvasWrap{text-align:center;background:#e9edf5;border-radius:12px;padding:8px;overflow:auto;max-height:64vh}
+#brushCanvas{cursor:crosshair;touch-action:none;max-width:100%;max-height:58vh;box-shadow:0 2px 12px rgba(0,0,0,.15);background:#fff}
+</style>
+<title>Free ID Photo Editor &amp; Maker Online — Passport Photos | HuSir Tools</title>
+<style>
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* BODY */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+/* CONTAINER */
+.container { max-width: 800px; margin: 0 auto; }
+
+/* TITLE - exact pattern */
+h1 {
+  text-align: center; color: #fff; font-size: 32px; margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  cursor: pointer; padding: 6px 12px; border-radius: 8px;
+  border: 2px dashed transparent; transition: all 0.2s;
+  outline: none; display: inline-block; margin-left: auto; margin-right: auto;
+}
+h1:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.1); }
+h1:focus { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); }
+.title-wrap { text-align: center; }
+.title-hint { display: block; text-align: center; color: rgba(255,255,255,0.5); font-size: 11px; margin-top: 2px; margin-bottom: 2px; }
+.subtitle { text-align: center; color: rgba(255,255,255,0.75); margin-bottom: 24px; font-size: 14px; }
+
+/* PANELS */
+.panel { background: #fff; border-radius: 16px; padding: 20px 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); margin-bottom: 20px; }
+.panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.panel-header h3 { font-size: 16px; color: #333; }
+
+/* BUTTONS */
+.btn { padding: 10px 20px; border-radius: 10px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
+.btn-add { background: #10b981; color: #fff; }
+.btn-add:hover { background: #059669; }
+.btn-export { background: #ec4899; color: #fff; }
+.btn-export:hover { background: #db2777; }
+.btn-reset { background: #f0f0f0; color: #666; }
+.btn-reset:hover { background: #e0e0e0; }
+.btn-import { background: #8b5cf6; color: #fff; }
+.btn-import:hover { background: #7c3aed; }
+.btn-scan { background: #f59e0b; color: #7c2d12; }
+.btn-scan:hover { background: #d97706; }
+
+/* TOAST */
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: #fff; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+/* SHORTCUT */
+.shortcut-hint { text-align: center; color: rgba(255,255,255,0.5); font-size: 11px; }
+.shortcut-hint kbd { background: rgba(255,255,255,0.15); border-radius: 4px; padding: 1px 6px; font-family: inherit; font-size: 10px; border: 1px solid rgba(255,255,255,0.2); }
+
+/* STEP INDICATOR */
+.step-indicator { display: flex; gap: 0; margin-bottom: 20px; }
+.step-tab { flex: 1; padding: 12px 8px; text-align: center; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); border: none; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; position: relative; }
+.step-tab:first-child { border-radius: 12px 0 0 12px; }
+.step-tab:last-child { border-radius: 0 12px 12px 0; }
+.step-tab.active { background: #fff; color: #667eea; }
+.step-tab.completed { background: rgba(16,185,129,0.3); color: rgba(255,255,255,0.8); }
+.step-tab:hover:not(.active) { background: rgba(255,255,255,0.25); }
+.step-tab .step-num { display: inline-block; width: 22px; height: 22px; border-radius: 50%; line-height: 22px; font-size: 11px; margin-right: 4px; background: rgba(255,255,255,0.2); }
+.step-tab.active .step-num { background: #667eea; color: #fff; }
+.step-tab.completed .step-num { background: #10b981; color: #fff; }
+.step-content { display: none; }
+.step-content.active { display: block; }
+
+/* UPLOAD ZONE */
+.dropzone { border: 2px dashed #d0d0d0; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fafafa; }
+.dropzone:hover { border-color: #667eea; background: #f0f0ff; }
+.dropzone.dragover { border-color: #667eea; background: #e8e8ff; }
+.dropzone .icon { font-size: 48px; margin-bottom: 8px; }
+.dropzone p { color: #999; font-size: 14px; margin: 4px 0; }
+.dropzone .or-text { color: #bbb; font-size: 12px; margin: 8px 0; }
+.preview-wrap { display: flex; justify-content: center; margin-top: 12px; }
+.preview-wrap canvas { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+/* CROP */
+.crop-container { position: relative; display: inline-block; line-height: 0; cursor: crosshair; user-select: none; -webkit-user-select: none; max-width: 100%; }
+.crop-container img, .crop-container canvas { display: block; max-width: 100%; border-radius: 8px; }
+.crop-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.crop-mask { position: absolute; background: rgba(0,0,0,0.5); pointer-events: none; }
+.crop-box { position: absolute; border: 2px solid #667eea; box-shadow: 0 0 0 9999px rgba(0,0,0,0.4); pointer-events: auto; cursor: move; }
+.crop-box::after { content:''; position:absolute; top:0;left:0;right:0;bottom:0; border:1px dashed #fff; }
+.crop-handle { position: absolute; width: 12px; height: 12px; background: #fff; border: 2px solid #667eea; border-radius: 3px; z-index: 2; }
+.crop-handle.tl { top: -6px; left: -6px; cursor: nw-resize; }
+.crop-handle.tr { top: -6px; right: -6px; cursor: ne-resize; }
+.crop-handle.bl { bottom: -6px; left: -6px; cursor: sw-resize; }
+.crop-handle.br { bottom: -6px; right: -6px; cursor: se-resize; }
+.crop-handle.tm { top: -6px; left: 50%; margin-left: -6px; cursor: n-resize; }
+.crop-handle.bm { bottom: -6px; left: 50%; margin-left: -6px; cursor: s-resize; }
+.crop-handle.ml { top: 50%; left: -6px; margin-top: -6px; cursor: w-resize; }
+.crop-handle.mr { top: 50%; right: -6px; margin-top: -6px; cursor: e-resize; }
+.crop-guide { position: absolute; pointer-events: none; z-index: 1; }
+.crop-guide .head-oval { position: absolute; border: 2px dashed rgba(102,126,234,0.7); border-radius: 50%; }
+.crop-guide .eye-line { position: absolute; left: 20%; width: 60%; height: 0; border-top: 1px dashed rgba(102,126,234,0.4); }
+.crop-guide .chin-dot { position: absolute; width: 4px; height: 4px; background: rgba(102,126,234,0.5); border-radius: 50%; left: 50%; transform: translateX(-50%); }
+.crop-info { margin-top: 8px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #666; }
+.preset-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.preset-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #d0d0d0; background: #fff; cursor: pointer; font-size: 12px; transition: all 0.15s; }
+.preset-btn:hover { border-color: #667eea; color: #667eea; }
+.preset-btn.active { background: #667eea; color: #fff; border-color: #667eea; }
+
+/* COLOR PRESETS */
+.color-presets { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.color-circle { width: 36px; height: 36px; border-radius: 50%; border: 3px solid #e0e0e0; cursor: pointer; transition: all 0.15s; position: relative; }
+.color-circle:hover { transform: scale(1.1); }
+.color-circle.selected { border-color: #333; box-shadow: 0 0 0 3px rgba(102,126,234,0.3); }
+.color-circle.custom { background: conic-gradient(red,yellow,lime,cyan,blue,magenta,red); }
+.color-picker-input { width: 40px; height: 36px; border: none; cursor: pointer; border-radius: 6px; }
+
+/* SLIDERS */
+.slider-group { margin-bottom: 12px; }
+.slider-group label { display: flex; justify-content: space-between; font-size: 13px; color: #555; margin-bottom: 4px; }
+.slider-group label span { color: #999; }
+.slider-group input[type="range"] { width: 100%; accent-color: #667eea; }
+
+/* BEAUTIFY */
+.beautify-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+/* PRINT */
+.print-canvas-wrap { display: flex; justify-content: center; margin: 12px 0; }
+.print-canvas-wrap canvas { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.layout-info { text-align: center; font-size: 14px; color: #555; margin: 8px 0; font-weight: 600; }
+.export-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+
+/* TOGGLE */
+.toggle-wrap { display: flex; gap: 4px; margin: 8px 0; }
+.toggle-btn { padding: 6px 16px; border-radius: 8px; border: 1px solid #d0d0d0; background: #fff; cursor: pointer; font-size: 12px; transition: all 0.15s; }
+.toggle-btn.active { background: #667eea; color: #fff; border-color: #667eea; }
+
+/* CANVAS OBSCURED */
+.hidden-canvases { position: absolute; left: -9999px; top: -9999px; visibility: hidden; }
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  h1 { font-size: 24px; }
+  .step-tab { font-size: 10px; padding: 8px 4px; }
+  .step-tab .step-num { width: 16px; height: 16px; line-height: 16px; font-size: 9px; }
+  .panel { padding: 14px 16px; }
+  .slider-group input[type="range"] { width: 100%; }
+  .btn { padding: 8px 14px; font-size: 12px; }
+  .dropzone { padding: 20px; }
+  .dropzone .icon { font-size: 32px; }
+}
+
+  /* Page background watermark */
+  .wm-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999; overflow: hidden;
+  }
+  .wm-overlay span {
+    position: absolute;
+    font-size: 36px; font-weight: 800;
+    color: rgba(255,255,255,0.13);
+    transform: rotate(-20deg);
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    user-select: none;
+  }
+  .upgrade-bar {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    background: #1e293b;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+    padding: 14px 20px; margin-top: 16px; color: rgba(255,255,255,0.92);
+    font-size: 14px;
+  }
+  .btn-upgrade {
+    background: #f59e0b; color: #7c2d12; padding: 10px 20px;
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all 0.15s; display: inline-block;
+  }
+  .btn-upgrade:hover { background: #fbbf24; transform: translateY(-1px); }
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Online ID Photo & Passport Maker",
+  "description": "Make passport, visa, and ID photos in your browser. Remove or change background, crop to size, and create a print sheet without uploading.",
+  "url": "https://www.husir.org/tools/id-photo-pro/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which sizes are included?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Standard presets such as the US 2×2-inch passport size (51×51 mm) and common 35×45 mm visa dimensions are included; always double-check the issuing authority's current requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What background should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Choose white or the specific color your application requires — plain, evenly lit backgrounds are the norm for official photos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I print it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The layout tab arranges copies on a sheet; print at 100% scale (no fit-to-page) so the size stays exact."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will it be accepted everywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Official photo rules change and vary by country — compare your output with the latest requirements, and use a professional service if you are unsure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my photo uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — all editing happens locally in your browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I edit an existing ID photo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — upload the photo you already have and use this online ID photo editor to re-crop it, change the background, adjust brightness, and export a print-ready sheet in passport, visa, or ID size."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Free Online ID Photo Editor & Passport Maker", "item": "https://www.husir.org/tools/id-photo-pro/"}]}</script>
+</head>
+<body>
+
+<div class="wm-overlay" id="wmOverlay"></div>
+<script>
+(function() {
+  var ov = document.getElementById('wmOverlay');
+  var cw = Math.ceil(window.innerWidth / 380) + 1;
+  var rh = Math.ceil(window.innerHeight / 180) + 1;
+  var html = '';
+  for (var r = 0; r < rh; r++) {
+    for (var c = 0; c < cw; c++) {
+      html += '<span style="left:' + (c * 380 - 120) + 'px;top:' + (r * 180) + 'px;">FREE VERSION</span>';
+    }
+  }
+  ov.innerHTML = html;
+})();
+</script>
+<div class="toast" id="toast"></div>
+
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Free Online ID Photo &amp; Passport Maker</span></span></nav>
+
+  <div class="title-wrap">
+    <h1 id="mainTitle" contenteditable="true" spellcheck="false">Free Online ID Photo Editor &amp; Passport Maker</h1>
+  </div>
+  <span class="title-hint">Click title to edit</span>
+  <p class="subtitle">Upload &middot; Change Background &middot; Crop to Standard Sizes &middot; Print Layout — All in Your Browser</p>
+    <div style="text-align:center;margin:12px 0 18px"><span style="display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:rgba(17,24,39,.62);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 14px">&#x1F512; Local Processing &mdash; files never leave your device</span></div>
+
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Make an ID or passport photo from a selfie with this free online ID photo editor: upload a photo, crop to the right head-and-shoulders framing, replace the background with the color you need, then export in standard sizes — including the US 2×2 passport size and common international visa dimensions — on a ready-to-print sheet.</p>
+<p>The whole workflow — crop, background change, beautify, layout, and export — runs in your browser with no upload, so your photo never leaves your device. Handy before passport renewals, visa applications, school IDs, and job paperwork.</p>
+<div class="faq">
+<p><strong>📏 Which sizes are included?</strong><br>Standard presets such as the US 2×2-inch passport size (51×51 mm) and common 35×45 mm visa dimensions are included; always double-check the issuing authority's current requirements.</p>
+<p><strong>🎨 What background should I use?</strong><br>Choose white or the specific color your application requires — plain, evenly lit backgrounds are the norm for official photos.</p>
+<p><strong>🖨️ How do I print it?</strong><br>The layout tab arranges copies on a sheet; print at 100% scale (no fit-to-page) so the size stays exact.</p>
+<p><strong>🧾 Will it be accepted everywhere?</strong><br>Official photo rules change and vary by country — compare your output with the latest requirements, and use a professional service if you are unsure.</p>
+<p><strong>🖼️ Can I edit an existing ID photo?</strong><br>Yes — upload the photo you already have and use this ID photo editor to re-crop it, change the background, adjust the brightness, and export a print-ready sheet in passport, visa, or ID size.</p>
+<p><strong>🔒 Is my photo uploaded?</strong><br>No — all editing happens locally in your browser.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+US passport photo: 2×2 in (51×51 mm); head height about 1–1.375 in (25–35 mm)<br>Common visa photo: 35×45 mm (confirm the destination country's rule)<br>Print sheet layouts put several copies on one page<br>Always check the latest official requirements before submitting
+</div>
+</div>
+</details>
+
+<!-- Step Indicator -->
+  <div class="step-indicator" id="stepIndicator">
+    <button class="step-tab active" data-step="1"><span class="step-num">1</span> Upload</button>
+    <button class="step-tab" data-step="2"><span class="step-num">2</span> Crop</button>
+    <button class="step-tab" data-step="3"><span class="step-num">3</span> Background</button>
+    <button class="step-tab" data-step="4"><span class="step-num">4</span> Enhance</button>
+    <button class="step-tab" data-step="5"><span class="step-num">5</span> Layout & Export</button>
+  </div>
+
+  <!-- Step 1: Upload -->
+  <div class="step-content active" data-step="1">
+    <div class="panel">
+      <div class="panel-header"><h3>Upload Photo</h3></div>
+      <div class="dropzone" id="dropzone" >
+        <div class="icon">&#128247;</div>
+        <p>Drag photo here or click to select</p>
+        <p style="font-size:11px;color:#bbb;">Supports JPG, PNG formats</p>
+        <div class="or-text">or</div>
+        <button type="button" class="btn btn-scan btn-sm" id="btnCamera" style="margin-top:4px;" onclick="event.stopPropagation();">&#128248; Take Photo</button>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" style="display:none;" >
+      <div class="preview-wrap" id="previewWrap"></div>
+    </div>
+  </div>
+
+  <!-- Step 2: Crop -->
+  <div class="step-content" data-step="2">
+    <div class="panel">
+      <div class="panel-header"><h3>Crop Photo</h3></div>
+      <div class="preset-btns" id="presetBtns">
+        <button class="preset-btn active" data-preset="1inch">1" (25x35mm)</button>
+        <button class="preset-btn" data-preset="2inch">2" (35x49mm)</button>
+        <button class="preset-btn" data-preset="small1">1" (22x32mm)</button>
+        <button class="preset-btn" data-preset="small2">2" (33x48mm)</button>
+        <button class="preset-btn" data-preset="big1">1" (Large) (33x48mm)</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <span style="font-size:12px;color:#888;white-space:nowrap;">International Visa Sizes：</span>
+        <select id="intlSizeSelect" style="padding:6px 10px;border-radius:8px;border:1px solid #d0d0d0;font-size:12px;outline:none;font-family:inherit;">
+          <option value="">-- Select Country/Region --</option>
+          <optgroup label="══════ Asia ══════">
+            <option value="cn-passport">China (33×48mm White)</option>
+            <option value="hk">Hong Kong (40×50mm White)</option>
+            <option value="macau">Macau (35×45mm White)</option>
+            <option value="taiwan">Taiwan (35×45mm White)</option>
+            <option value="japan">Japan (35×45mm White)</option>
+            <option value="korea">South Korea (35×45mm White)</option>
+            <option value="singapore">Singapore (35×45mm White)</option>
+            <option value="malaysia">Malaysia (35×50mm White)</option>
+            <option value="thailand">Thailand (35×45mm White)</option>
+            <option value="vietnam">Vietnam (40×60mm White)</option>
+            <option value="philippines">Philippines (35×45mm White)</option>
+            <option value="indonesia">Indonesia (35×45mm White)</option>
+            <option value="india">India (51×51mm White)</option>
+            <option value="pakistan">Pakistan (35×45mm White)</option>
+            <option value="bangladesh">Bangladesh (35×45mm White)</option>
+            <option value="srilanka">Sri Lanka (35×45mm White)</option>
+            <option value="nepal">Nepal (35×45mm White)</option>
+            <option value="myanmar">Myanmar (35×45mm White)</option>
+            <option value="cambodia">Cambodia (35×45mm White)</option>
+            <option value="laos">Laos (35×45mm White)</option>
+            <option value="mongolia">Mongolia (35×45mm White)</option>
+            <option value="kazakhstan">Kazakhstan (35×45mm White)</option>
+            <option value="uzbekistan">Uzbekistan (35×45mm White)</option>
+            <option value="saudi">Saudi Arabia (40×60mm White)</option>
+            <option value="uae">UAE (35×45mm White)</option>
+            <option value="qatar">Qatar (35×45mm White)</option>
+            <option value="kuwait">Kuwait (35×45mm White)</option>
+            <option value="oman">Oman (35×45mm White)</option>
+            <option value="bahrain">Bahrain (35×45mm White)</option>
+            <option value="jordan">Jordan (35×45mm White)</option>
+            <option value="lebanon">Lebanon (35×45mm White)</option>
+            <option value="israel">Israel (35×45mm White)</option>
+            <option value="turkey">Turkey (35×45mm White)</option>
+            <option value="iran">Iran (35×45mm White)</option>
+            <option value="iraq">Iraq (35×45mm White)</option>
+          </optgroup>
+          <optgroup label="══════ Europe ══════">
+            <option value="uk">UK (35×45mm Light Gray)</option>
+            <option value="france">France (35×45mm Light Gray)</option>
+            <option value="germany">Germany (35×45mm Light Gray)</option>
+            <option value="italy">Italy (35×45mm White)</option>
+            <option value="spain">Spain (32×26mm White)</option>
+            <option value="portugal">Portugal (35×45mm White)</option>
+            <option value="netherlands">Netherlands (35×45mm Light Gray)</option>
+            <option value="belgium">Belgium (35×45mm Light Gray)</option>
+            <option value="switzerland">Switzerland (35×45mm White)</option>
+            <option value="austria">Austria (35×45mm Light Gray)</option>
+            <option value="sweden">Sweden (35×45mm Light Gray)</option>
+            <option value="norway">Norway (40×50mm White)</option>
+            <option value="denmark">Denmark (35×45mm White)</option>
+            <option value="finland">Finland (36×47mm Light Gray)</option>
+            <option value="iceland">Iceland (35×45mm White)</option>
+            <option value="ireland">Ireland (35×45mm White)</option>
+            <option value="poland">Poland (35×45mm White)</option>
+            <option value="czech">Czech Republic (35×45mm White)</option>
+            <option value="slovakia">Slovakia (35×45mm White)</option>
+            <option value="hungary">Hungary (35×45mm White)</option>
+            <option value="romania">Romania (35×45mm White)</option>
+            <option value="bulgaria">Bulgaria (35×45mm White)</option>
+            <option value="greece">Greece (35×45mm White)</option>
+            <option value="croatia">Croatia (35×45mm White)</option>
+            <option value="slovenia">Slovenia (35×45mm White)</option>
+            <option value="serbia">Serbia (35×45mm White)</option>
+            <option value="ukraine">Ukraine (35×45mm White)</option>
+            <option value="russia">Russia (35×45mm White)</option>
+            <option value="belarus">Belarus (35×45mm White)</option>
+            <option value="lithuania">Lithuania (35×45mm White)</option>
+            <option value="latvia">Latvia (35×45mm White)</option>
+            <option value="estonia">Estonia (35×45mm White)</option>
+            <option value="moldova">Moldova (35×45mm White)</option>
+            <option value="schengen">Schengen Area (35×45mm White)</option>
+          </optgroup>
+          <optgroup label="══════ North America ══════">
+            <option value="us">USA (51×51mm White)</option>
+            <option value="canada">Canada (50×70mm White)</option>
+            <option value="mexico">Mexico (35×45mm White)</option>
+            <option value="cuba">Cuba (35×45mm White)</option>
+            <option value="jamaica">Jamaica (35×45mm White)</option>
+            <option value="bahamas">Bahamas (51×51mm White)</option>
+            <option value="dominican">Dominican Republic (35×45mm White)</option>
+            <option value="haiti">Haiti (35×45mm White)</option>
+            <option value="panama">Panama (35×45mm White)</option>
+            <option value="costarica">Costa Rica (35×45mm White)</option>
+            <option value="guatemala">Guatemala (35×45mm White)</option>
+            <option value="honduras">Honduras (35×45mm White)</option>
+            <option value="elsalvador">El Salvador (35×45mm White)</option>
+            <option value="nicaragua">Nicaragua (35×45mm White)</option>
+          </optgroup>
+          <optgroup label="══════ South America ══════">
+            <option value="brazil">Brazil (35×45mm White)</option>
+            <option value="argentina">Argentina (40×40mm White)</option>
+            <option value="chile">Chile (35×45mm White)</option>
+            <option value="colombia">Colombia (35×45mm White)</option>
+            <option value="peru">Peru (35×45mm White)</option>
+            <option value="ecuador">Ecuador (35×45mm White)</option>
+            <option value="venezuela">Venezuela (35×45mm White)</option>
+            <option value="bolivia">Bolivia (35×45mm White)</option>
+            <option value="paraguay">Paraguay (35×45mm White)</option>
+            <option value="uruguay">Uruguay (35×45mm White)</option>
+          </optgroup>
+          <optgroup label="══════ Oceania ══════">
+            <option value="australia">Australia (35×45mm White)</option>
+            <option value="nz">New Zealand (35×45mm White)</option>
+            <option value="fiji">Fiji (35×45mm White)</option>
+            <option value="papua">Papua New Guinea (35×45mm White)</option>
+          </optgroup>
+          <optgroup label="══════ Africa ══════">
+            <option value="southafrica">South Africa (35×45mm White)</option>
+            <option value="egypt">Egypt (40×60mm White)</option>
+            <option value="nigeria">Nigeria (35×45mm White)</option>
+            <option value="kenya">Kenya (35×45mm White)</option>
+            <option value="ghana">Ghana (35×45mm White)</option>
+            <option value="morocco">Morocco (35×45mm White)</option>
+            <option value="algeria">Algeria (35×45mm White)</option>
+            <option value="tunisia">Tunisia (35×45mm White)</option>
+            <option value="ethiopia">Ethiopia (35×45mm White)</option>
+            <option value="tanzania">Tanzania (35×45mm White)</option>
+            <option value="uganda">Uganda (35×45mm White)</option>
+            <option value="angola">Angola (35×45mm White)</option>
+            <option value="mauritius">Mauritius (35×45mm White)</option>
+            <option value="ivorycoast">Cote d\'Ivoire (35×45mm White)</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="crop-info" id="cropInfo">
+        <span><strong id="cropPresetName">--</strong></span>
+        <span>Size: <strong id="cropSizePx">--</strong></span>
+        <span>@300DPI: <strong id="cropSizeMm">--</strong></span>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <div class="crop-container" id="cropContainer" style="display:none;">
+          <canvas id="cropCanvas"></canvas>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn btn-add" id="btnApplyCrop" style="display:none;">Confirm Crop</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Background Change -->
+  <div class="step-content" data-step="3">
+    <div class="panel">
+      <div class="panel-header"><h3>Change Background</h3></div>
+      <div class="color-presets" id="colorPresets">
+        <div class="color-circle selected" data-color="#FFFFFF" style="background:#FFFFFF;" title="White"></div>
+        <div class="color-circle" data-color="#438EDB" style="background:#438EDB;" title="Blue"></div>
+        <div class="color-circle" data-color="#FF0000" style="background:#FF0000;" title="Red"></div>
+        <div class="color-circle custom" id="customColorCircle" title="Custom Color"></div>
+        <input type="color" class="color-picker-input" id="colorPicker" value="#FFFFFF">
+      </div>
+      <div class="toggle-wrap">
+        <button class="toggle-btn active" id="btnShowAfter">After</button>
+        <button class="toggle-btn" id="btnShowBefore">Before</button>
+      </div>
+      <div class="slider-group">
+        <label>Tolerance <span id="toleranceVal">35</span></label>
+        <input type="range" id="toleranceSlider" min="10" max="200" value="35" step="1">
+        <span style="font-size:11px;color:#999;display:block;margin-top:2px;">If clothing gets recolored, lower this slider</span>
+        <span style="font-size:11px;color:#c05621;display:block;margin-top:2px;">White shirt on a light backdrop leaves traces even at low tolerance &mdash; use Manual Touch-up below.</span>
+      </div>
+      <div class="slider-group">
+        <label>Edge Smoothing <span id="smoothingVal">5</span></label>
+        <input type="range" id="smoothingSlider" min="0" max="20" value="5" step="1">
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <div class="preview-wrap" id="bgPreviewWrap"></div>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn btn-add" id="btnApplyBg">Apply Background</button>
+      </div>
+      <div id="touchUpPanel" style="margin-top:14px;padding-top:12px;border-top:1px dashed #d5dbe8">
+      <div class="panel-header"><h3>Manual Touch-up</h3></div>
+      <p style="font-size:12.5px;color:#475569;line-height:1.65;margin:0 0 10px">Auto cutout works by color similarity, so white or light clothing on a light backdrop can keep faint traces even at very low tolerance. Fix them with the brush editor below, or enable defringe to remove edge halo automatically.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-primary" id="btnOpenBrush" type="button">&#x270F;&#xFE0F; Open Brush Editor</button>
+        <label class="check-row"><input type="checkbox" id="defringeCheck" checked> Defringe edges &mdash; replaces edge halo with the true clothing color</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Beautify -->
+  <div class="step-content" data-step="4">
+    <div class="panel">
+      <div class="panel-header"><h3>Beautify</h3></div>
+      <div class="slider-group">
+        <label>Skin Smooth <span id="skinSmoothVal">3</span></label>
+        <input type="range" id="skinSmoothSlider" min="0" max="10" value="3" step="1">
+      </div>
+      <div class="slider-group">
+        <label>Brightness <span id="brightnessVal">0</span></label>
+        <input type="range" id="brightnessSlider" min="-50" max="50" value="0" step="1">
+      </div>
+      <div class="slider-group">
+        <label>Contrast <span id="contrastVal">0</span></label>
+        <input type="range" id="contrastSlider" min="-50" max="50" value="0" step="1">
+      </div>
+      <div class="slider-group">
+        <label>Saturation <span id="saturationVal">0</span></label>
+        <input type="range" id="saturationSlider" min="-50" max="50" value="0" step="1">
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <div class="preview-wrap" id="beautifyPreviewWrap"></div>
+      </div>
+      <div class="beautify-actions" style="justify-content:center;">
+        <button class="btn btn-reset" id="btnResetBeautify">Reset</button>
+        <button class="btn btn-add" id="btnApplyBeautify">Apply Enhance</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5: Print Layout & Export -->
+  <div class="step-content" data-step="5">
+    <div class="panel">
+      <div class="panel-header"><h3>Layout & Export</h3></div>
+      <div class="layout-info" id="layoutInfo">Fit --  -- Photo</div>
+      <div class="print-canvas-wrap" id="printCanvasWrap"></div>
+      <div class="export-btns">
+        <button class="btn btn-export" id="btnDownloadPNG">Download Single Photo (PNG)</button>
+        <button class="btn btn-export" id="btnDownloadJPG">Download Single Photo (JPG)</button>
+        <button class="btn btn-import" id="btnDownloadPrint">Download Layout (PNG)</button>
+      </div>
+      <div class="upgrade-bar">
+        <span>🔒 Free version — downloaded photos include a watermark · Pro $2.99 one-time, no subscription</span>
+        <span class="btn-upgrade" onclick="window.open('https://3350178180297.gumroad.com/l/id-phot-maker?_gl=1*f7t8ao*_ga*MjEzODU3NTM5Ny4xNzg1NjMwMjE2*_ga_6LJN6D94N6*czE3ODU2MzAyMTYkbzEkZzAkdDE3ODU2MzAyMTYkajYwJGwwJGgw')" style="cursor:pointer;">Unlock Pro →</span>
+      </div>
+      <div style="text-align:center;margin:10px auto 0;max-width:660px;padding:9px 16px;background:#fef3c7;border:1px solid #fcd34d;border-radius:12px;color:#92400e;font-size:13.5px;font-weight:600;line-height:1.5">🎁 Free until Dec 31, 2026 &mdash; <a href="https://www.husir.org/pro-pack/" style="color:#b45309;font-weight:700;text-decoration:underline">get the no-watermark pack &rarr;</a></div>
+    </div>
+  </div>
+
+  <p class="shortcut-hint">Keyboard: <kbd>1</kbd>-<kbd>5</kbd> switch steps</p>
+</div>
+
+<!-- Hidden canvases for processing -->
+<div class="hidden-canvases">
+  <canvas id="workCanvas"></canvas>
+  <canvas id="tempCanvas"></canvas>
+  <canvas id="outputCanvas"></canvas>
+  <canvas id="printCanvas"></canvas>
+</div>
+
+<script>
+'use strict';
+
+function loadImage(file) {
+  if (!file || !file.type.match(/image\//)) {
+    showToast('Please select an image file');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      originalImage = img;
+      currentImageData = imageDataFromImage(img);
+      cropRect = null;
+      completedSteps.clear();
+      completedSteps.add(1);
+      drawImageDataToCanvas(workCanvas, currentImageData);
+      showPreviewInWrap(previewWrap, workCanvas, 320);
+      showToast('Photo loaded');
+      goToStep(2);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ──────────────────── DOM refs ────────────────────
+const $ = id => document.getElementById(id);
+
+const mainTitle      = $('mainTitle');
+const toast          = $('toast');
+const stepIndicator  = $('stepIndicator');
+const dropzone       = $('dropzone');
+const fileInput      = $('fileInput');
+const btnCamera      = $('btnCamera');
+const previewWrap    = $('previewWrap');
+const cropContainer  = $('cropContainer');
+const cropCanvas     = $('cropCanvas');
+const cropCtx        = cropCanvas.getContext('2d');
+const btnApplyCrop   = $('btnApplyCrop');
+const presetBtns     = $('presetBtns');
+const cropSizePx     = $('cropSizePx');
+const cropSizeMm     = $('cropSizeMm');
+const cropPresetName = $('cropPresetName');
+const colorPresets   = $('colorPresets');
+const colorPicker    = $('colorPicker');
+const toleranceSlider = $('toleranceSlider');
+const smoothingSlider = $('smoothingSlider');
+const toleranceVal   = $('toleranceVal');
+const smoothingVal   = $('smoothingVal');
+const bgPreviewWrap  = $('bgPreviewWrap');
+const btnApplyBg     = $('btnApplyBg');
+const btnShowAfter   = $('btnShowAfter');
+const btnShowBefore  = $('btnShowBefore');
+const skinSmoothSlider = $('skinSmoothSlider');
+const brightnessSlider = $('brightnessSlider');
+const contrastSlider  = $('contrastSlider');
+const saturationSlider = $('saturationSlider');
+const skinSmoothVal  = $('skinSmoothVal');
+const brightnessVal  = $('brightnessVal');
+const contrastVal    = $('contrastVal');
+const saturationVal  = $('saturationVal');
+const beautifyPreviewWrap = $('beautifyPreviewWrap');
+const btnResetBeautify = $('btnResetBeautify');
+const btnApplyBeautify = $('btnApplyBeautify');
+const printCanvasWrap = $('printCanvasWrap');
+const layoutInfo     = $('layoutInfo');
+const btnDownloadPNG = $('btnDownloadPNG');
+const btnDownloadJPG = $('btnDownloadJPG');
+const btnDownloadPrint = $('btnDownloadPrint');
+
+const workCanvas     = $('workCanvas');
+const workCtx        = workCanvas ? workCanvas.getContext('2d') : null;
+const tempCanvas     = $('tempCanvas');
+const tempCtx        = tempCanvas.getContext('2d');
+const outputCanvas   = $('outputCanvas');
+const outputCtx      = outputCanvas.getContext('2d');
+const printCanvas    = $('printCanvas');
+const printCtx       = printCanvas.getContext('2d');
+
+// ──────────────────── State ────────────────────
+// Per-country: headTop (fraction from top), headH (fraction of photo height), eye (fraction from top)
+// Based on official embassy/ICAO standards. null values → use default (4%, 74%, 35%).
+const PRESETS = {
+  // ── Common Sizes ──
+  '1inch':  { name: '1" (25×35mm)', w: 25, h: 35, cat: 'common', headTop: null, headH: null, eye: null },
+  '2inch':  { name: '2" (35×49mm)', w: 35, h: 49, cat: 'common', headTop: null, headH: null, eye: null },
+  'small1': { name: '1" (22×32mm)', w: 22, h: 32, cat: 'common', headTop: null, headH: null, eye: null },
+  'small2': { name: '2" (33×48mm)', w: 33, h: 48, cat: 'common', headTop: null, headH: null, eye: null },
+  'big1':   { name: '1" (Large) (33×48mm)', w: 33, h: 48, cat: 'common', headTop: null, headH: null, eye: null },
+
+  // ── Asia ──
+  'cn-passport': { name: 'China (33×48mm)', w: 33, h: 48, cat: 'intl',
+    headTop: 0.06, headH: 0.63, eye: 0.34, headOvalW: 0.55, bgColor: '#FFFFFF' },
+  'hk':      { name: 'Hong Kong (40×50mm)', w: 40, h: 50, cat: 'intl', bgColor: '#FFFFFF' },
+  'macau':   { name: 'Macau (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'taiwan':  { name: 'Taiwan (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'japan':   { name: 'Japan (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'korea':   { name: 'South Korea (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'singapore': { name: 'Singapore (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'malaysia': { name: 'Malaysia (35×50mm)', w: 35, h: 50, cat: 'intl', bgColor: '#FFFFFF' },
+  'thailand': { name: 'Thailand (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'vietnam':  { name: 'Vietnam (40×60mm)', w: 40, h: 60, cat: 'intl', bgColor: '#FFFFFF' },
+  'philippines': { name: 'Philippines (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'indonesia': { name: 'Indonesia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'india':   { name: 'India (51×51mm)', w: 51, h: 51, cat: 'intl',
+    headTop: 0.04, headH: 0.82, eye: 0.41, headOvalW: 0.55, bgColor: '#FFFFFF' },
+  'pakistan': { name: 'Pakistan (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'bangladesh': { name: 'Bangladesh (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'srilanka': { name: 'Sri Lanka (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'nepal':   { name: 'Nepal (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'myanmar': { name: 'Myanmar (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'cambodia': { name: 'Cambodia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'laos':    { name: 'Laos (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'mongolia': { name: 'Mongolia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'kazakhstan': { name: 'Kazakhstan (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'uzbekistan': { name: 'Uzbekistan (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'saudi':   { name: 'Saudi Arabia (40×60mm)', w: 40, h: 60, cat: 'intl', bgColor: '#FFFFFF' },
+  'uae':     { name: 'UAE (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'qatar':   { name: 'Qatar (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'kuwait':  { name: 'Kuwait (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'oman':    { name: 'Oman (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'bahrain': { name: 'Bahrain (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'jordan':  { name: 'Jordan (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'lebanon': { name: 'Lebanon (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'israel':  { name: 'Israel (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'turkey':  { name: 'Turkey (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'iran':    { name: 'Iran (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'iraq':    { name: 'Iraq (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+
+  // ── Europe ──
+  'uk':      { name: 'UK (35×45mm)', w: 35, h: 45, cat: 'intl',
+    headTop: 0.15, headH: 0.67, eye: 0.45, headOvalW: 0.55, bgColor: '#F0F0F0' },
+  'france':  { name: 'France (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#F0F0F0' },
+  'germany': { name: 'Germany (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#F0F0F0' },
+  'italy':   { name: 'Italy (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'spain':   { name: 'Spain (32×26mm)', w: 32, h: 26, cat: 'intl', bgColor: '#FFFFFF' },
+  'portugal': { name: 'Portugal (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'netherlands': { name: 'Netherlands (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#F0F0F0' },
+  'belgium': { name: 'Belgium (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#F0F0F0' },
+  'switzerland': { name: 'Switzerland (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'austria': { name: 'Austria (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#F0F0F0' },
+  'sweden':  { name: 'Sweden (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#F0F0F0' },
+  'norway':  { name: 'Norway (40×50mm)', w: 40, h: 50, cat: 'intl', bgColor: '#FFFFFF' },
+  'denmark': { name: 'Denmark (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'finland': { name: 'Finland (36×47mm)', w: 36, h: 47, cat: 'intl', bgColor: '#F0F0F0' },
+  'iceland': { name: 'Iceland (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'ireland': { name: 'Ireland (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'poland':  { name: 'Poland (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'czech':   { name: 'Czech Republic (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'slovakia': { name: 'Slovakia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'hungary': { name: 'Hungary (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'romania': { name: 'Romania (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'bulgaria': { name: 'Bulgaria (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'greece':  { name: 'Greece (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'croatia': { name: 'Croatia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'slovenia': { name: 'Slovenia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'serbia':  { name: 'Serbia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'ukraine': { name: 'Ukraine (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'russia':  { name: 'Russia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'belarus': { name: 'Belarus (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'lithuania': { name: 'Lithuania (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'latvia':  { name: 'Latvia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'estonia': { name: 'Estonia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'moldova': { name: 'Moldova (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'schengen': { name: 'Schengen Area (35×45mm)', w: 35, h: 45, cat: 'intl',
+    headTop: 0.10, headH: 0.76, eye: 0.44, headOvalW: 0.55, bgColor: '#FFFFFF' },
+
+  // ── North America ──
+  'us':      { name: 'USA (51×51mm)', w: 51, h: 51, cat: 'intl',
+    headTop: 0.20, headH: 0.59, eye: 0.47, headOvalW: 0.55, bgColor: '#FFFFFF' },
+  'canada':  { name: 'Canada (50×70mm)', w: 50, h: 70, cat: 'intl',
+    headTop: 0.12, headH: 0.48, eye: 0.34, headOvalW: 0.55, bgColor: '#FFFFFF' },
+  'mexico':  { name: 'Mexico (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'cuba':    { name: 'Cuba (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'jamaica': { name: 'Jamaica (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'bahamas': { name: 'Bahamas (51×51mm)', w: 51, h: 51, cat: 'intl', bgColor: '#FFFFFF' },
+  'dominican': { name: 'Dominican Republic (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'haiti':   { name: 'Haiti (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'panama':  { name: 'Panama (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'costarica': { name: 'Costa Rica (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'guatemala': { name: 'Guatemala (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'honduras': { name: 'Honduras (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'elsalvador': { name: 'El Salvador (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'nicaragua': { name: 'Nicaragua (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+
+  // ── South America ──
+  'brazil':  { name: 'Brazil (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'argentina': { name: 'Argentina (40×40mm)', w: 40, h: 40, cat: 'intl', bgColor: '#FFFFFF' },
+  'chile':   { name: 'Chile (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'colombia': { name: 'Colombia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'peru':    { name: 'Peru (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'ecuador': { name: 'Ecuador (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'venezuela': { name: 'Venezuela (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'bolivia': { name: 'Bolivia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'paraguay': { name: 'Paraguay (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'uruguay': { name: 'Uruguay (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+
+  // ── Oceania ──
+  'australia': { name: 'Australia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'nz':       { name: 'New Zealand (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'fiji':     { name: 'Fiji (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'papua':    { name: 'Papua New Guinea (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+
+  // ── Africa ──
+  'southafrica': { name: 'South Africa (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'egypt':      { name: 'Egypt (40×60mm)', w: 40, h: 60, cat: 'intl', bgColor: '#FFFFFF' },
+  'nigeria':    { name: 'Nigeria (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'kenya':      { name: 'Kenya (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'ghana':      { name: 'Ghana (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'morocco':    { name: 'Morocco (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'algeria':    { name: 'Algeria (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'tunisia':    { name: 'Tunisia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'ethiopia':   { name: 'Ethiopia (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'tanzania':   { name: 'Tanzania (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'uganda':     { name: 'Uganda (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'angola':     { name: 'Angola (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'mauritius':  { name: 'Mauritius (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+  'ivorycoast': { name: 'Cote d\'Ivoire (35×45mm)', w: 35, h: 45, cat: 'intl', bgColor: '#FFFFFF' },
+};
+const DPI = 300;
+
+let currentStep = 1;
+let originalImage = null;
+let currentImageData = null;
+let cropRect = null;
+let bgColor = '#FFFFFF';
+let bgTolerance = 35;
+let edgeSmoothing = 5;
+let bgOriginalData = null;
+let bgCommitted = false;
+let skinSmoothing = 3;
+let brightness = 0, contrast = 0, saturation = 0;
+let selectedPreset = '1inch';
+let showAfterBg = true;
+let completedSteps = new Set();
+
+// ──────────────────── Utilities ────────────────────
+function esc(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => { toast.classList.remove('show'); }, 2000);
+}
+
+function mmToPx(mm) { return Math.round(mm * DPI / 25.4); }
+
+// ──────────────────── Step Navigation ────────────────────
+function goToStep(step) {
+  if (step < 1 || step > 5) return;
+  if (step > 1 && !originalImage) { showToast('Please upload a photo first'); return; }
+  if (step >= 3 && !cropRect) { showToast('Please crop the photo first'); step = 2; }
+
+  currentStep = step;
+  document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+  document.querySelector('.step-content[data-step="' + step + '"]').classList.add('active');
+
+  document.querySelectorAll('.step-tab').forEach(el => {
+    el.classList.remove('active', 'completed');
+    const s = parseInt(el.dataset.step);
+    if (s === step) el.classList.add('active');
+    else if (completedSteps.has(s) && s < step) el.classList.add('completed');
+  });
+
+  if (step === 2) {
+    // Always restore original when returning to crop step (keep cropRect for positioning)
+    if (cropRect && originalImage) {
+      currentImageData = imageDataFromImage(originalImage);
+      drawImageDataToCanvas(workCanvas, currentImageData);
+      completedSteps.delete(2);
+      completedSteps.delete(3);
+      completedSteps.delete(4);
+    }
+    setupCropStep();
+  }
+  if (step === 3) setupBgStep();
+  if (step === 4) setupBeautifyStep();
+  if (step === 5) setupPrintStep();
+}
+
+// ──────────────────── Step switching from indicator ────────────────────
+stepIndicator.addEventListener('click', e => {
+  const tab = e.target.closest('.step-tab');
+  if (!tab) return;
+  const step = parseInt(tab.dataset.step);
+  goToStep(step);
+});
+
+// ──────────────────── Keyboard ────────────────────
+document.addEventListener('keydown', e => {
+  const tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+  const num = parseInt(e.key);
+  if (num >= 1 && num <= 5) goToStep(num);
+});
+
+// ──────────────────── Title Editing + localStorage ────────────────────
+(function(){
+  const saved = localStorage.getItem('idphoto_maker_title');
+  if (saved) mainTitle.textContent = saved;
+  mainTitle.addEventListener('blur', () => {
+    localStorage.setItem('idphoto_maker_title', mainTitle.textContent.trim() || 'ID Photo / Passport Maker');
+  });
+  mainTitle.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); mainTitle.blur(); }
+  });
+})();
+
+// ──────────────────── Canvas helpers ────────────────────
+function imageDataFromImage(img) {
+  const c = document.createElement('canvas');
+  c.width = img.naturalWidth || img.width;
+  c.height = img.naturalHeight || img.height;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  return ctx.getImageData(0, 0, c.width, c.height);
+}
+
+function imageDataFromCanvas(canvas) {
+  return canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+}
+
+function drawImageDataToCanvas(canvas, imageData) {
+  canvas.width = imageData.width;
+  canvas.height = imageData.height;
+  canvas.getContext('2d').putImageData(imageData, 0, 0);
+}
+
+function hexToRgb(hex) {
+  hex = hex.replace('#', '');
+  return {
+    r: parseInt(hex.substring(0, 2), 16),
+    g: parseInt(hex.substring(2, 4), 16),
+    b: parseInt(hex.substring(4, 6), 16)
+  };
+}
+
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const d = max - min;
+  let h = 0;
+  const s = max === 0 ? 0 : d / max;
+  const v = max;
+  if (d !== 0) {
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+  }
+  return { h: h * 360, s: s * 100, v: v * 100 };
+}
+
+function cloneImageData(imageData) {
+  return new ImageData(
+    new Uint8ClampedArray(imageData.data),
+    imageData.width,
+    imageData.height
+  );
+}
+
+// ──────────────────── Step 1: Upload ────────────────────
+
+function showPreviewInWrap(wrap, sourceCanvas, maxW) {
+  wrap.innerHTML = '';
+  const preview = document.createElement('canvas');
+  const ratio = sourceCanvas.width / sourceCanvas.height;
+  const w = Math.min(maxW, sourceCanvas.width);
+  const h = w / ratio;
+  preview.width = w;
+  preview.height = h;
+  preview.style.maxWidth = '100%';
+  preview.style.borderRadius = '8px';
+  preview.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+  const pctx = preview.getContext('2d');
+  pctx.drawImage(sourceCanvas, 0, 0, w, h);
+  wrap.appendChild(preview);
+}
+
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('dragover'); });
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length) loadImage(fileInput.files[0]);
+});
+
+btnCamera.addEventListener('click', async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.play();
+    // Create a simple camera overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;';
+    video.style.cssText = 'max-width:90%;max-height:70%;border-radius:12px;';
+    const capBtn = document.createElement('button');
+    capBtn.textContent = 'Capture';
+    capBtn.style.cssText = 'margin-top:20px;padding:14px 40px;border-radius:50px;border:none;background:#fff;font-size:16px;font-weight:600;cursor:pointer;';
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'Close';
+    closeBtn.style.cssText = 'margin-top:10px;padding:8px 20px;border-radius:50px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:#fff;font-size:14px;cursor:pointer;';
+
+    overlay.appendChild(video);
+    overlay.appendChild(capBtn);
+    overlay.appendChild(closeBtn);
+    document.body.appendChild(overlay);
+
+    capBtn.onclick = () => {
+      const capCanvas = document.createElement('canvas');
+      capCanvas.width = video.videoWidth;
+      capCanvas.height = video.videoHeight;
+      const capCtx = capCanvas.getContext('2d');
+      capCtx.drawImage(video, 0, 0);
+      capCanvas.toBlob(blob => {
+        loadImage(blob);
+      }, 'image/png');
+      stream.getTracks().forEach(t => t.stop());
+      document.body.removeChild(overlay);
+    };
+    closeBtn.onclick = () => {
+      stream.getTracks().forEach(t => t.stop());
+      document.body.removeChild(overlay);
+    };
+  } catch(err) {
+    showToast('Cannot access camera: ' + err.message);
+  }
+});
+
+// ──────────────────── Step 2: Crop ────────────────────
+function setupCropStep() {
+  if (!currentImageData) return;
+  drawImageDataToCanvas(workCanvas, currentImageData);
+  cropContainer.style.display = 'inline-block';
+
+  const displayMaxW = Math.min(600, workCanvas.width);
+  const scale = displayMaxW / workCanvas.width;
+  const displayH = workCanvas.height * scale;
+
+  cropCanvas.width = displayMaxW;
+  cropCanvas.height = displayH;
+  cropCtx.drawImage(workCanvas, 0, 0, displayMaxW, displayH);
+
+  // Remove old crop UI
+  const oldBox = cropContainer.querySelector('.crop-box');
+  if (oldBox) oldBox.remove();
+
+  // Create crop box
+  const preset = PRESETS[selectedPreset];
+  const aspectRatio = preset.w / preset.h;
+
+  // Start with a centered crop box at 80% of the smaller dimension
+  let boxW, boxH;
+  if (displayMaxW / displayH > aspectRatio) {
+    boxH = displayH * 0.8;
+    boxW = boxH * aspectRatio;
+  } else {
+    boxW = displayMaxW * 0.8;
+    boxH = boxW / aspectRatio;
+  }
+  let boxX = (displayMaxW - boxW) / 2;
+  let boxY = (displayH - boxH) / 2;
+
+  // If returning to crop step with a saved cropRect, keep center, adapt to new aspect ratio
+  if (cropRect) {
+    // Use center of old crop, but size based on current preset's aspect ratio
+    var oldCx = cropRect.x + cropRect.width / 2;
+    var oldCy = cropRect.y + cropRect.height / 2;
+    var oldArea = Math.min(cropRect.width, cropRect.height) * Math.max(cropRect.width, cropRect.height);
+    // Compute new size: area proportional to old, but current preset's aspect ratio
+    var nh = Math.sqrt(oldArea / aspectRatio);
+    var nw = nh * aspectRatio;
+    // Clamp to fit within canvas
+    if (nw > displayMaxW / scale) { nw = displayMaxW / scale; nh = nw / aspectRatio; }
+    if (nh > displayH / scale) { nh = displayH / scale; nw = nh * aspectRatio; }
+    boxW = nw * scale;
+    boxH = nh * scale;
+    boxX = oldCx * scale - boxW / 2;
+    boxY = oldCy * scale - boxH / 2;
+    // Clamp to canvas bounds
+    boxX = Math.max(0, Math.min(boxX, displayMaxW - boxW));
+    boxY = Math.max(0, Math.min(boxY, displayH - boxH));
+  }
+
+  const box = document.createElement('div');
+  box.className = 'crop-box';
+  box.style.left = boxX + 'px';
+  box.style.top = boxY + 'px';
+  box.style.width = boxW + 'px';
+  box.style.height = boxH + 'px';
+
+  const handles = ['tl','tr','bl','br','tm','bm','ml','mr'];
+  handles.forEach(cls => {
+    const h = document.createElement('div');
+    h.className = 'crop-handle ' + cls;
+    box.appendChild(h);
+  });
+
+  cropContainer.appendChild(box);
+  btnApplyCrop.style.display = 'inline-block';
+
+  // Head outline guide for standard visa photo positioning
+  // Proportions from PRESETS (per-country official standards) or defaults
+  var guidePreset = PRESETS[selectedPreset] || {};
+  var gHeadTop    = guidePreset.headTop    != null ? guidePreset.headTop    : 0.04;
+  var gHeadH      = guidePreset.headH      != null ? guidePreset.headH      : 0.74;
+  var gEye        = guidePreset.eye        != null ? guidePreset.eye        : 0.35;
+  var gHeadOvalW  = guidePreset.headOvalW  != null ? guidePreset.headOvalW  : 0.55;
+
+  var guide = document.createElement('div');
+  guide.className = 'crop-guide';
+  guide.style.width = boxW + 'px';
+  guide.style.height = boxH + 'px';
+
+  // Head oval: centered, positioned per country standard
+  var headOval = document.createElement('div');
+  headOval.className = 'head-oval';
+  var headTop = boxH * gHeadTop;
+  var headHeight = boxH * gHeadH;
+  var headWidth = boxW * gHeadOvalW;
+  var headLeft = (boxW - headWidth) / 2;
+  headOval.style.top = headTop + 'px';
+  headOval.style.left = headLeft + 'px';
+  headOval.style.width = headWidth + 'px';
+  headOval.style.height = headHeight + 'px';
+  guide.appendChild(headOval);
+
+  // Eye line guide per country standard
+  var eyeLine = document.createElement('div');
+  eyeLine.className = 'eye-line';
+  eyeLine.style.top = (boxH * gEye) + 'px';
+  guide.appendChild(eyeLine);
+
+  // Chin position dot (center of the bottom of the oval)
+  var chinDot = document.createElement('div');
+  chinDot.className = 'chin-dot';
+  chinDot.style.top = (headTop + headHeight) + 'px';
+  guide.appendChild(chinDot);
+
+  box.appendChild(guide);
+
+  function updateCropInfo() {
+    // Read current position from DOM for accuracy
+    var bx = document.querySelector('.crop-box');
+    var curW = bx ? parseFloat(bx.style.width) : boxW;
+    var curH = bx ? parseFloat(bx.style.height) : boxH;
+    var curX = bx ? parseFloat(bx.style.left) : boxX;
+    var curY = bx ? parseFloat(bx.style.top) : boxY;
+
+    const preset = PRESETS[selectedPreset];
+    cropPresetName.textContent = preset ? preset.name : '--';
+    const realW = Math.round(curW / scale);
+    const realH = Math.round(curH / scale);
+    const mmW = (realW / DPI * 25.4).toFixed(1);
+    const mmH = (realH / DPI * 25.4).toFixed(1);
+    cropSizePx.textContent = realW + ' x ' + realH + ' px';
+    cropSizeMm.textContent = mmW + ' x ' + mmH + ' mm';
+
+    // Update guide positions to stay proportional when box is resized
+    if (guide) {
+      guide.style.width = curW + 'px';
+      guide.style.height = curH + 'px';
+      var ht2 = curH * gHeadTop;
+      var hh2 = curH * gHeadH;
+      var hw2 = curW * gHeadOvalW;
+      var hl2 = (curW - hw2) / 2;
+      headOval.style.top = ht2 + 'px';
+      headOval.style.left = hl2 + 'px';
+      headOval.style.width = hw2 + 'px';
+      headOval.style.height = hh2 + 'px';
+      eyeLine.style.top = (curH * gEye) + 'px';
+      chinDot.style.top = (ht2 + hh2) + 'px';
+    }
+  }
+  updateCropInfo();
+
+  // Drag the box
+  let dragging = false, dragStartX, dragStartY, startLeft, startTop;
+  box.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('crop-handle')) return;
+    dragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    startLeft = parseFloat(box.style.left);
+    startTop = parseFloat(box.style.top);
+    e.preventDefault();
+  });
+
+  // Handle resize
+  let resizing = false, resizeHandle = null, resizeStartX, resizeStartY;
+  let resizeStartL, resizeStartT, resizeStartW, resizeStartH;
+
+  box.querySelectorAll('.crop-handle').forEach(handle => {
+    handle.addEventListener('mousedown', e => {
+      resizing = true;
+      resizeHandle = handle.className.replace('crop-handle ', '');
+      resizeStartX = e.clientX;
+      resizeStartY = e.clientY;
+      resizeStartL = parseFloat(box.style.left);
+      resizeStartT = parseFloat(box.style.top);
+      resizeStartW = parseFloat(box.style.width);
+      resizeStartH = parseFloat(box.style.height);
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (dragging) {
+      let nx = startLeft + (e.clientX - dragStartX);
+      let ny = startTop + (e.clientY - dragStartY);
+      nx = Math.max(0, Math.min(nx, displayMaxW - boxW));
+      ny = Math.max(0, Math.min(ny, displayH - boxH));
+      box.style.left = nx + 'px';
+      box.style.top = ny + 'px';
+      boxX = nx; boxY = ny;
+    }
+    if (resizing) {
+      let dx = e.clientX - resizeStartX;
+      let dy = e.clientY - resizeStartY;
+      let nw = resizeStartW, nh = resizeStartH, nl = resizeStartL, nt = resizeStartT;
+
+      if (resizeHandle.indexOf('r') !== -1) nw = resizeStartW + dx;
+      if (resizeHandle.indexOf('l') !== -1) { nw = resizeStartW - dx; nl = resizeStartL + dx; }
+      if (resizeHandle.indexOf('b') !== -1) nh = resizeStartH + dy;
+      if (resizeHandle.indexOf('t') !== -1) { nh = resizeStartH - dy; nt = resizeStartT + dy; }
+      if (resizeHandle === 'tm') { nh = resizeStartH - dy; nt = resizeStartT + dy; nw = resizeStartW; }
+      if (resizeHandle === 'bm') { nh = resizeStartH + dy; nw = resizeStartW; }
+      if (resizeHandle === 'ml') { nw = resizeStartW - dx; nl = resizeStartL + dx; nh = resizeStartH; }
+      if (resizeHandle === 'mr') { nw = resizeStartW + dx; nh = resizeStartH; }
+
+      // Constrain within canvas and maintain aspect ratio
+      nl = Math.max(0, nl);
+      nt = Math.max(0, nt);
+
+      if (resizeHandle === 'mr' || resizeHandle === 'ml') {
+        let th = nw / aspectRatio;
+        if (nt + th > displayH) { th = displayH - nt; nw = th * aspectRatio; }
+        if (th < 40) { th = 40; nw = 40 * aspectRatio; }
+        if (resizeHandle === 'ml' && nl < 0) { nl = 0; nw = resizeStartW + resizeStartL; th = nw / aspectRatio; }
+        nh = th;
+      } else {
+        nw = nh * aspectRatio;
+        if (nl + nw > displayMaxW) { nw = displayMaxW - nl; nh = nw / aspectRatio; }
+        if (nh < 40) { nh = 40; nw = 40 * aspectRatio; }
+      }
+
+      if (nl + nw > displayMaxW) nw = displayMaxW - nl;
+      if (nt + nh > displayH) nh = displayH - nt;
+
+      nw = Math.max(40, nw);
+      nh = Math.max(40, nh);
+
+      box.style.left = nl + 'px';
+      box.style.top = nt + 'px';
+      box.style.width = nw + 'px';
+      box.style.height = nh + 'px';
+      boxW = nw; boxH = nh; boxX = nl; boxY = nt;
+      updateCropInfo();
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (dragging) { dragging = false; updateCropInfo(); }
+    if (resizing) { resizing = false; updateCropInfo(); }
+  });
+
+  // Touch support
+  box.addEventListener('touchstart', e => {
+    if (e.target.classList.contains('crop-handle')) return;
+    if (e.touches.length === 1) {
+      dragging = true;
+      dragStartX = e.touches[0].clientX;
+      dragStartY = e.touches[0].clientY;
+      startLeft = parseFloat(box.style.left);
+      startTop = parseFloat(box.style.top);
+    }
+  }, {passive: false});
+
+  box.querySelectorAll('.crop-handle').forEach(handle => {
+    handle.addEventListener('touchstart', e => {
+      resizing = true;
+      resizeHandle = handle.className.replace('crop-handle ', '');
+      resizeStartX = e.touches[0].clientX;
+      resizeStartY = e.touches[0].clientY;
+      resizeStartL = parseFloat(box.style.left);
+      resizeStartT = parseFloat(box.style.top);
+      resizeStartW = parseFloat(box.style.width);
+      resizeStartH = parseFloat(box.style.height);
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  document.addEventListener('touchmove', e => {
+    if (dragging && e.touches.length === 1) {
+      let nx = startLeft + (e.touches[0].clientX - dragStartX);
+      let ny = startTop + (e.touches[0].clientY - dragStartY);
+      nx = Math.max(0, Math.min(nx, displayMaxW - boxW));
+      ny = Math.max(0, Math.min(ny, displayH - boxH));
+      box.style.left = nx + 'px';
+      box.style.top = ny + 'px';
+      boxX = nx; boxY = ny;
+    }
+    if (resizing && e.touches.length === 1) {
+      let dx = e.touches[0].clientX - resizeStartX;
+      let dy = e.touches[0].clientY - resizeStartY;
+      let nw = resizeStartW, nh = resizeStartH, nl = resizeStartL, nt = resizeStartT;
+      if (resizeHandle.indexOf('r') !== -1) nw = resizeStartW + dx;
+      if (resizeHandle.indexOf('l') !== -1) { nw = resizeStartW - dx; nl = resizeStartL + dx; }
+      if (resizeHandle.indexOf('b') !== -1) nh = resizeStartH + dy;
+      if (resizeHandle.indexOf('t') !== -1) { nh = resizeStartH - dy; nt = resizeStartT + dy; }
+      if (resizeHandle === 'tm') { nh = resizeStartH - dy; nt = resizeStartT + dy; nw = resizeStartW; }
+      if (resizeHandle === 'bm') { nh = resizeStartH + dy; nw = resizeStartW; }
+      if (resizeHandle === 'ml') { nw = resizeStartW - dx; nl = resizeStartL + dx; nh = resizeStartH; }
+      if (resizeHandle === 'mr') { nw = resizeStartW + dx; nh = resizeStartH; }
+      nl = Math.max(0, nl); nt = Math.max(0, nt);
+      if (resizeHandle === 'mr' || resizeHandle === 'ml') {
+        let th = nw / aspectRatio;
+        if (nt + th > displayH) { th = displayH - nt; nw = th * aspectRatio; }
+        if (th < 40) { th = 40; nw = 40 * aspectRatio; }
+        nh = th;
+      } else { nw = nh * aspectRatio; }
+      if (nl + nw > displayMaxW) nw = displayMaxW - nl;
+      if (nt + nh > displayH) nh = displayH - nt;
+      nw = Math.max(40, nw); nh = Math.max(40, nh);
+      box.style.left = nl + 'px'; box.style.top = nt + 'px';
+      box.style.width = nw + 'px'; box.style.height = nh + 'px';
+      boxW = nw; boxH = nh; boxX = nl; boxY = nt;
+      updateCropInfo();
+    }
+  }, {passive: false});
+
+  document.addEventListener('touchend', () => {
+    if (dragging) { dragging = false; updateCropInfo(); }
+    if (resizing) { resizing = false; updateCropInfo(); }
+  });
+
+  // Preset buttons
+  presetBtns.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.preset === selectedPreset) btn.classList.add('active');
+    btn.onclick = function() {
+      selectedPreset = this.dataset.preset;
+      presetBtns.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      // Reset international dropdown
+      var intlSel = document.getElementById('intlSizeSelect');
+      if (intlSel) { intlSel.value = ''; intlSel.style.borderColor = '#d0d0d0'; intlSel.style.background = '#fff'; }
+      cropRect = null; // Reset old crop when changing preset
+      syncBgColorFromPreset(selectedPreset);
+      setupCropStep();
+    };
+  });
+
+  // Apply crop button
+  btnApplyCrop.onclick = function() {
+    // Read from box CSS for reliable position (vs closure vars that may be stale)
+    var bx = document.querySelector('.crop-box');
+    var cssLeft = bx ? parseFloat(bx.style.left) : boxX;
+    var cssTop  = bx ? parseFloat(bx.style.top) : boxY;
+    var cssW    = bx ? parseFloat(bx.style.width) : boxW;
+    var cssH    = bx ? parseFloat(bx.style.height) : boxH;
+
+    const rx = Math.round(cssLeft / scale);
+    const ry = Math.round(cssTop / scale);
+    const rw = Math.round(cssW / scale);
+    const rh = Math.round(cssH / scale);
+
+    cropRect = { x: rx, y: ry, width: rw, height: rh };
+
+    // Create cropped imageData
+    const srcData = currentImageData;
+    const cropped = new ImageData(rw, rh);
+    for (let y = 0; y < rh; y++) {
+      for (let x = 0; x < rw; x++) {
+        const srcIdx = ((ry + y) * srcData.width + (rx + x)) * 4;
+        const dstIdx = (y * rw + x) * 4;
+        cropped.data[dstIdx] = srcData.data[srcIdx];
+        cropped.data[dstIdx + 1] = srcData.data[srcIdx + 1];
+        cropped.data[dstIdx + 2] = srcData.data[srcIdx + 2];
+        cropped.data[dstIdx + 3] = srcData.data[srcIdx + 3];
+      }
+    }
+
+    currentImageData = cropped;
+    drawImageDataToCanvas(workCanvas, currentImageData);
+    bgOriginalData = cloneImageData(cropped);
+    bgCommitted = false;
+    completedSteps.add(2);
+    showToast('Crop applied');
+    goToStep(3);
+  };
+
+  updateCropInfo();
+}
+
+// International size select handler
+function selectIntlSize() {
+  var sel = document.getElementById('intlSizeSelect');
+  if (!sel || !sel.value) return;
+  selectedPreset = sel.value;
+  presetBtns.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  // Highlight dropdown to show active selection
+  sel.style.borderColor = '#667eea';
+  sel.style.background = '#f8f9ff';
+  cropRect = null; // Reset old crop when changing preset
+  syncBgColorFromPreset(selectedPreset);
+  setupCropStep();
+  var preset = PRESETS[selectedPreset];
+  showToast('Selected：' + (preset ? preset.name : ''));
+}
+
+// Auto-set background color & UI when a country preset is selected
+function syncBgColorFromPreset(presetKey) {
+  var preset = PRESETS[presetKey];
+  if (!preset || !preset.bgColor) return;
+  bgColor = preset.bgColor;
+  colorPicker.value = bgColor;
+  // Update the color circle selection
+  document.querySelectorAll('.color-circle').forEach(function(c) {
+    c.classList.remove('selected');
+    if (c.dataset.color === bgColor) c.classList.add('selected');
+  });
+  // If no circle matches, select custom
+  if (!document.querySelector('.color-circle.selected')) {
+    document.getElementById('customColorCircle').classList.add('selected');
+  }
+}
+
+// ──────────────────── Step 3: Background Change ────────────────────
+
+// Flood fill to create a mask of background pixels
+function floodFillMask(imageData, tolerance) {
+  const { width, height, data } = imageData;
+  const mask = new Uint8Array(width * height); // 1 = background, 0 = foreground
+  const visited = new Uint8Array(width * height);
+
+  // Sample colors from edges (not just corners) to determine background color
+  // This is more robust when corners are occluded
+  const samples = [];
+  const step = Math.ceil(Math.min(width, height) / 10);
+
+  // Sample top edge
+  for (let x = 0; x < width; x += step) {
+    const idx = x * 4;
+    samples.push({ r: data[idx], g: data[idx+1], b: data[idx+2] });
+  }
+  // Sample bottom edge
+  for (let x = 0; x < width; x += step) {
+    const idx = ((height - 1) * width + x) * 4;
+    samples.push({ r: data[idx], g: data[idx+1], b: data[idx+2] });
+  }
+  // Sample left edge
+  for (let y = 0; y < height; y += step) {
+    const idx = (y * width) * 4;
+    samples.push({ r: data[idx], g: data[idx+1], b: data[idx+2] });
+  }
+  // Sample right edge
+  for (let y = 0; y < height; y += step) {
+    const idx = (y * width + width - 1) * 4;
+    samples.push({ r: data[idx], g: data[idx+1], b: data[idx+2] });
+  }
+
+  // Find the dominant background color by clustering similar colors
+  // Group samples that are close to each other, pick the largest group
+  const groups = [];
+  const assigned = new Set();
+  for (let i = 0; i < samples.length; i++) {
+    if (assigned.has(i)) continue;
+    const group = [samples[i]];
+    assigned.add(i);
+    for (let j = i + 1; j < samples.length; j++) {
+      if (assigned.has(j)) continue;
+      const dr = samples[j].r - samples[i].r;
+      const dg = samples[j].g - samples[i].g;
+      const db = samples[j].b - samples[i].b;
+      if (dr*dr + dg*dg + db*db < 6400) { // distance < 80
+        group.push(samples[j]);
+        assigned.add(j);
+      }
+    }
+    groups.push(group);
+  }
+  // Pick largest group as background
+  groups.sort((a, b) => b.length - a.length);
+  const bgGroup = groups[0];
+  let bgR = 0, bgG = 0, bgB = 0;
+  bgGroup.forEach(s => { bgR += s.r; bgG += s.g; bgB += s.b; });
+  bgR = Math.round(bgR / bgGroup.length);
+  bgG = Math.round(bgG / bgGroup.length);
+  bgB = Math.round(bgB / bgGroup.length);
+
+  // Use full user tolerance regardless of background brightness
+  var bgLuminance = (bgR + bgG + bgB) / 3;
+  var maxDist = tolerance;
+
+  // Flood fill from all edge pixels
+  const queue = [];
+  const addToQueue = (x, y) => {
+    if (x < 0 || x >= width || y < 0 || y >= height) return;
+    const idx = y * width + x;
+    if (visited[idx]) return;
+    visited[idx] = 1;
+    const pi = idx * 4;
+    const dr = data[pi] - bgR;
+    const dg = data[pi+1] - bgG;
+    const db = data[pi+2] - bgB;
+    const dist = Math.sqrt(dr*dr + dg*dg + db*db);
+    if (dist <= maxDist) {
+      mask[idx] = 1;
+      queue.push({ x, y });
+    }
+  };
+
+  // Start from all edge pixels
+  for (let x = 0; x < width; x++) {
+    addToQueue(x, 0);
+    addToQueue(x, height - 1);
+  }
+  for (let y = 0; y < height; y++) {
+    addToQueue(0, y);
+    addToQueue(width - 1, y);
+  }
+
+  // BFS - compare each neighbor to the DETECTED BACKGROUND color, not to the current pixel
+  let qi = 0;
+  while (qi < queue.length) {
+    const { x, y } = queue[qi++];
+    const neighbors = [
+      { x: x + 1, y }, { x: x - 1, y },
+      { x, y: y + 1 }, { x, y: y - 1 }
+    ];
+    for (const n of neighbors) {
+      if (n.x < 0 || n.x >= width || n.y < 0 || n.y >= height) continue;
+      const ni = n.y * width + n.x;
+      if (visited[ni]) continue;
+      visited[ni] = 1;
+      const npi = ni * 4;
+      // KEY FIX: compare to background color, not to previous pixel
+      const dr = data[npi] - bgR;
+      const dg = data[npi+1] - bgG;
+      const db = data[npi+2] - bgB;
+      const dist = Math.sqrt(dr*dr + dg*dg + db*db);
+      if (dist <= maxDist) {
+        mask[ni] = 1;
+        queue.push(n);
+      }
+    }
+  }
+
+  // Morphological opening: erode then dilate to remove thin bridges into clothing
+  // (e.g., white clothing leaking into white background flood fill)
+  if (bgLuminance > 160) {
+    var openRadius = bgLuminance > 200 ? 2 : 1;
+    // Erosion: keep only pixels fully surrounded by background
+    var eroded = new Uint8Array(width * height);
+    for (var ey = 0; ey < height; ey++) {
+      for (var ex = 0; ex < width; ex++) {
+        var ei = ey * width + ex;
+        if (mask[ei] !== 1) continue;
+        var allBg = true;
+        for (var edy = -openRadius; edy <= openRadius && allBg; edy++) {
+          for (var edx = -openRadius; edx <= openRadius && allBg; edx++) {
+            var enx = ex + edx, eny = ey + edy;
+            if (enx < 0 || enx >= width || eny < 0 || eny >= height) continue;
+            if (mask[eny * width + enx] !== 1) { allBg = false; break; }
+          }
+        }
+        if (allBg) eroded[ei] = 1;
+      }
+    }
+    // Dilation: restore edges from eroded mask
+    var opened = new Uint8Array(width * height);
+    for (var dy = 0; dy < height; dy++) {
+      for (var dx = 0; dx < width; dx++) {
+        if (eroded[dy * width + dx] === 1) {
+          for (var ddy = -openRadius; ddy <= openRadius; ddy++) {
+            for (var ddx = -openRadius; ddx <= openRadius; ddx++) {
+              var dnx = dx + ddx, dny = dy + ddy;
+              if (dnx < 0 || dnx >= width || dny < 0 || dny >= height) continue;
+              opened[dny * width + dnx] = 1;
+            }
+          }
+        }
+      }
+    }
+    return { mask: opened, bgColor: { r: bgR, g: bgG, b: bgB } };
+  }
+
+  return { mask, bgColor: { r: bgR, g: bgG, b: bgB } };
+}
+
+function replaceBackgroundClassic(imageData, newColorHex, tolerance, smoothing) {
+  const { width, height, data } = imageData;
+  const result = cloneImageData(imageData);
+  const newColor = hexToRgb(newColorHex);
+
+  const { mask, bgColor: detectedBg } = floodFillMask(imageData, tolerance);
+
+  // Build edge mask: 1 = background, 2 = edge/transition zone, 0 = foreground (untouched)
+  const edgeMask = new Uint8Array(width * height);
+  const edgeRadius = Math.max(1, Math.ceil(smoothing / 3));
+
+  // Mark background pixels
+  for (let i = 0; i < mask.length; i++) {
+    if (mask[i] === 1) edgeMask[i] = 1;
+  }
+
+  // Mark edge pixels: foreground pixels near background
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = y * width + x;
+      if (edgeMask[idx] !== 0) continue; // already background or edge
+      // Check if any neighbor is background
+      let nearBg = false;
+      for (let dy = -edgeRadius; dy <= edgeRadius; dy++) {
+        for (let dx = -edgeRadius; dx <= edgeRadius; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+          if (mask[ny * width + nx] === 1) { nearBg = true; break; }
+        }
+        if (nearBg) break;
+      }
+      if (nearBg) edgeMask[idx] = 2;
+    }
+  }
+
+  // Apply replacement based on edge mask
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = (y * width + x) * 4;
+      const m = edgeMask[y * width + x];
+
+      if (m === 1) {
+        // Definite background: full replacement
+        result.data[idx] = newColor.r;
+        result.data[idx + 1] = newColor.g;
+        result.data[idx + 2] = newColor.b;
+      } else if (m === 2 && smoothing > 0) {
+        // Edge/transition zone: check color distance and blend
+        const dr = data[idx] - detectedBg.r;
+        const dg = data[idx+1] - detectedBg.g;
+        const db = data[idx+2] - detectedBg.b;
+        const distSq = dr*dr + dg*dg + db*db;
+        const tolSq = tolerance * tolerance;
+
+        if (distSq < tolSq) {
+          // Blend proportionally based on distance
+          let blendFactor = 1 - Math.sqrt(distSq) / tolerance;
+          blendFactor = Math.pow(blendFactor, Math.max(0.2, smoothing / 10));
+          const bf = Math.max(0, Math.min(1, blendFactor));
+          result.data[idx] = Math.round(newColor.r * bf + data[idx] * (1 - bf));
+          result.data[idx + 1] = Math.round(newColor.g * bf + data[idx+1] * (1 - bf));
+          result.data[idx + 2] = Math.round(newColor.b * bf + data[idx+2] * (1 - bf));
+        }
+      }
+      // m === 0: foreground pixel, do nothing
+    }
+  }
+
+  return result;
+}
+
+function setupBgStep() {
+  if (!currentImageData) return;
+  bgColor = colorPicker.value;
+  bgTolerance = parseInt(toleranceSlider.value);
+  edgeSmoothing = parseInt(smoothingSlider.value);
+
+  renderBgPreview();
+}
+
+function renderBgPreview() {
+  if (!currentImageData) return;
+  let displayData;
+  if (showAfterBg) {
+    displayData = replaceBackground(
+      currentImageData,
+      bgColor,
+      bgTolerance,
+      edgeSmoothing
+    );
+  } else {
+    displayData = currentImageData;
+  }
+  drawImageDataToCanvas(outputCanvas, displayData);
+  showPreviewInWrap(bgPreviewWrap, outputCanvas, 320);
+}
+
+colorPresets.addEventListener('click', e => {
+  const circle = e.target.closest('.color-circle');
+  if (!circle || circle.classList.contains('custom')) return;
+  document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
+  circle.classList.add('selected');
+  bgColor = circle.dataset.color;
+  colorPicker.value = bgColor;
+  renderBgPreview();
+});
+
+colorPicker.addEventListener('input', () => {
+  bgColor = colorPicker.value;
+  document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
+  document.getElementById('customColorCircle').classList.add('selected');
+  renderBgPreview();
+});
+
+toleranceSlider.addEventListener('input', () => {
+  bgTolerance = parseInt(toleranceSlider.value);
+  toleranceVal.textContent = bgTolerance;
+  renderBgPreview();
+});
+
+smoothingSlider.addEventListener('input', () => {
+  edgeSmoothing = parseInt(smoothingSlider.value);
+  smoothingVal.textContent = edgeSmoothing;
+  renderBgPreview();
+});
+
+btnShowAfter.addEventListener('click', () => {
+  showAfterBg = true;
+  btnShowAfter.classList.add('active');
+  btnShowBefore.classList.remove('active');
+  renderBgPreview();
+});
+
+btnShowBefore.addEventListener('click', () => {
+  showAfterBg = false;
+  btnShowBefore.classList.add('active');
+  btnShowAfter.classList.remove('active');
+  renderBgPreview();
+});
+
+btnApplyBg.addEventListener('click', () => {
+  if (!currentImageData) return;
+  currentImageData = replaceBackground(
+    currentImageData,
+    bgColor,
+    bgTolerance,
+    edgeSmoothing
+  );
+  drawImageDataToCanvas(workCanvas, currentImageData);
+  bgCommitted = true;
+  completedSteps.add(3);
+  showToast('Background changed');
+  goToStep(4);
+});
+
+// ──────────────────── Step 4: Beautify ────────────────────
+
+function isSkinPixel(r, g, b) {
+  const hsv = rgbToHsv(r, g, b);
+  return (hsv.h >= 0 && hsv.h <= 50 && hsv.s >= 20 && hsv.s <= 70 && hsv.v >= 30 && hsv.v <= 100);
+}
+
+// Separable box blur (fast approximation of Gaussian)
+function boxBlur(imageData, radius) {
+  const { width, height, data } = imageData;
+  const src = new Uint8ClampedArray(data);
+  const dst = new Uint8ClampedArray(data.length);
+
+  if (radius < 1) return imageData;
+
+  // Horizontal pass
+  const iarr = 1 / (radius + radius + 1);
+  for (let i = 0; i < height; i++) {
+    let ti = i * width;
+    let li = ti;
+    let ri = ti + radius;
+    let fvR = src[(ti) * 4];
+    let fvG = src[(ti) * 4 + 1];
+    let fvB = src[(ti) * 4 + 2];
+    let lvR = src[(ti + width - 1) * 4];
+    let lvG = src[(ti + width - 1) * 4 + 1];
+    let lvB = src[(ti + width - 1) * 4 + 2];
+    let valR = (radius + 1) * fvR;
+    let valG = (radius + 1) * fvG;
+    let valB = (radius + 1) * fvB;
+
+    for (let j = 0; j < radius; j++) {
+      valR += src[(ti + j) * 4];
+      valG += src[(ti + j) * 4 + 1];
+      valB += src[(ti + j) * 4 + 2];
+    }
+
+    for (let j = 0; j <= radius; j++) {
+      valR += src[(ri) * 4] - fvR;
+      valG += src[(ri) * 4 + 1] - fvG;
+      valB += src[(ri) * 4 + 2] - fvB;
+      dst[(ti) * 4] = Math.round(valR * iarr);
+      dst[(ti) * 4 + 1] = Math.round(valG * iarr);
+      dst[(ti) * 4 + 2] = Math.round(valB * iarr);
+      ri++; ti++;
+    }
+
+    for (let j = radius + 1; j < width - radius; j++) {
+      valR += src[(ri) * 4] - src[(li) * 4];
+      valG += src[(ri) * 4 + 1] - src[(li++) * 4 + 1];
+      valB += src[(ri++) * 4 + 2] - src[(li) * 4 + 2];
+      dst[(ti) * 4] = Math.round(valR * iarr);
+      dst[(ti) * 4 + 1] = Math.round(valG * iarr);
+      dst[(ti++) * 4 + 2] = Math.round(valB * iarr);
+    }
+
+    for (let j = width - radius; j < width; j++) {
+      valR += lvR - src[(li) * 4];
+      valG += lvG - src[(li) * 4 + 1];
+      valB += lvB - src[(li++) * 4 + 2];
+      dst[(ti) * 4] = Math.round(valR * iarr);
+      dst[(ti) * 4 + 1] = Math.round(valG * iarr);
+      dst[(ti++) * 4 + 2] = Math.round(valB * iarr);
+    }
+  }
+
+  // Vertical pass
+  for (let i = 0; i < width; i++) {
+    let ti = i;
+    let li = ti;
+    let ri = ti + radius * width;
+    let fvR = dst[(ti) * 4];
+    let fvG = dst[(ti) * 4 + 1];
+    let fvB = dst[(ti) * 4 + 2];
+    let lvR = dst[(ti + width * (height - 1)) * 4];
+    let lvG = dst[(ti + width * (height - 1)) * 4 + 1];
+    let lvB = dst[(ti + width * (height - 1)) * 4 + 2];
+    let valR = (radius + 1) * fvR;
+    let valG = (radius + 1) * fvG;
+    let valB = (radius + 1) * fvB;
+
+    for (let j = 0; j < radius; j++) {
+      valR += dst[(ti + j * width) * 4];
+      valG += dst[(ti + j * width) * 4 + 1];
+      valB += dst[(ti + j * width) * 4 + 2];
+    }
+
+    for (let j = 0; j <= radius; j++) {
+      valR += dst[(ri) * 4] - fvR;
+      valG += dst[(ri) * 4 + 1] - fvG;
+      valB += dst[(ri) * 4 + 2] - fvB;
+      data[(ti) * 4] = Math.round(valR * iarr);
+      data[(ti) * 4 + 1] = Math.round(valG * iarr);
+      data[(ti) * 4 + 2] = Math.round(valB * iarr);
+      ri += width; ti += width;
+    }
+
+    for (let j = radius + 1; j < height - radius; j++) {
+      valR += dst[(ri) * 4] - dst[(li) * 4];
+      valG += dst[(ri) * 4 + 1] - dst[(li) * 4 + 1];
+      valB += dst[(ri) * 4 + 2] - dst[(li) * 4 + 2];
+      data[(ti) * 4] = Math.round(valR * iarr);
+      data[(ti) * 4 + 1] = Math.round(valG * iarr);
+      data[(ti) * 4 + 2] = Math.round(valB * iarr);
+      li += width; ri += width; ti += width;
+    }
+
+    for (let j = height - radius; j < height; j++) {
+      valR += lvR - dst[(li) * 4];
+      valG += lvG - dst[(li) * 4 + 1];
+      valB += lvB - dst[(li) * 4 + 2];
+      data[(ti) * 4] = Math.round(valR * iarr);
+      data[(ti) * 4 + 1] = Math.round(valG * iarr);
+      data[(ti) * 4 + 2] = Math.round(valB * iarr);
+      li += width; ti += width;
+    }
+  }
+
+  return imageData;
+}
+
+function applySkinSmoothing(imageData, radius) {
+  if (radius < 1) return cloneImageData(imageData);
+  const { width, height, data } = imageData;
+  const result = cloneImageData(imageData);
+
+  // Create skin mask
+  const skinMask = new Uint8Array(width * height);
+  for (let i = 0; i < width * height; i++) {
+    const pi = i * 4;
+    skinMask[i] = isSkinPixel(data[pi], data[pi+1], data[pi+2]) ? 1 : 0;
+  }
+
+  // Apply box blur to the result
+  const blurred = cloneImageData(imageData);
+  boxBlur(blurred, radius);
+
+  // Blend: use blurred for skin pixels, original for non-skin
+  for (let i = 0; i < width * height; i++) {
+    const pi = i * 4;
+    if (skinMask[i] === 1) {
+      // Blend smoothed with a factor to avoid over-blurring
+      const blend = 0.7;
+      result.data[pi] = Math.round(blurred.data[pi] * blend + data[pi] * (1 - blend));
+      result.data[pi + 1] = Math.round(blurred.data[pi+1] * blend + data[pi+1] * (1 - blend));
+      result.data[pi + 2] = Math.round(blurred.data[pi+2] * blend + data[pi+2] * (1 - blend));
+    }
+  }
+
+  return result;
+}
+
+function applyBrightness(imageData, value) {
+  if (value === 0) return cloneImageData(imageData);
+  const result = cloneImageData(imageData);
+  const { data } = result;
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = Math.min(255, Math.max(0, data[i] + value));
+    data[i+1] = Math.min(255, Math.max(0, data[i+1] + value));
+    data[i+2] = Math.min(255, Math.max(0, data[i+2] + value));
+  }
+  return result;
+}
+
+function applyContrast(imageData, value) {
+  if (value === 0) return cloneImageData(imageData);
+  const factor = (259 * (value + 255)) / (255 * (259 - value));
+  const result = cloneImageData(imageData);
+  const { data } = result;
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = Math.min(255, Math.max(0, factor * (data[i] - 128) + 128));
+    data[i+1] = Math.min(255, Math.max(0, factor * (data[i+1] - 128) + 128));
+    data[i+2] = Math.min(255, Math.max(0, factor * (data[i+2] - 128) + 128));
+  }
+  return result;
+}
+
+function applySaturation(imageData, value) {
+  if (value === 0) return cloneImageData(imageData);
+  const result = cloneImageData(imageData);
+  const { data } = result;
+  const factor = 1 + value / 100;
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i], g = data[i+1], b = data[i+2];
+    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+    data[i] = Math.min(255, Math.max(0, gray + factor * (r - gray)));
+    data[i+1] = Math.min(255, Math.max(0, gray + factor * (g - gray)));
+    data[i+2] = Math.min(255, Math.max(0, gray + factor * (b - gray)));
+  }
+  return result;
+}
+
+function applyAllBeautify(imageData, skinSmooth, bright, cont, sat) {
+  let result = cloneImageData(imageData);
+  result = applySkinSmoothing(result, skinSmooth);
+  result = applyBrightness(result, bright);
+  result = applyContrast(result, cont);
+  result = applySaturation(result, sat);
+  return result;
+}
+
+function setupBeautifyStep() {
+  if (!currentImageData) return;
+  renderBeautifyPreview();
+}
+
+function renderBeautifyPreview() {
+  if (!currentImageData) return;
+  const result = applyAllBeautify(currentImageData, skinSmoothing, brightness, contrast, saturation);
+  drawImageDataToCanvas(outputCanvas, result);
+  showPreviewInWrap(beautifyPreviewWrap, outputCanvas, 320);
+}
+
+skinSmoothSlider.addEventListener('input', () => {
+  skinSmoothing = parseInt(skinSmoothSlider.value);
+  skinSmoothVal.textContent = skinSmoothing;
+  renderBeautifyPreview();
+});
+
+brightnessSlider.addEventListener('input', () => {
+  brightness = parseInt(brightnessSlider.value);
+  brightnessVal.textContent = brightness;
+  renderBeautifyPreview();
+});
+
+contrastSlider.addEventListener('input', () => {
+  contrast = parseInt(contrastSlider.value);
+  contrastVal.textContent = contrast;
+  renderBeautifyPreview();
+});
+
+saturationSlider.addEventListener('input', () => {
+  saturation = parseInt(saturationSlider.value);
+  saturationVal.textContent = saturation;
+  renderBeautifyPreview();
+});
+
+btnResetBeautify.addEventListener('click', () => {
+  skinSmoothing = 3;
+  brightness = 0;
+  contrast = 0;
+  saturation = 0;
+  skinSmoothSlider.value = 3;
+  brightnessSlider.value = 0;
+  contrastSlider.value = 0;
+  saturationSlider.value = 0;
+  skinSmoothVal.textContent = '3';
+  brightnessVal.textContent = '0';
+  contrastVal.textContent = '0';
+  saturationVal.textContent = '0';
+  renderBeautifyPreview();
+});
+
+btnApplyBeautify.addEventListener('click', () => {
+  if (!currentImageData) return;
+  const result = applyAllBeautify(currentImageData, skinSmoothing, brightness, contrast, saturation);
+  currentImageData = result;
+  drawImageDataToCanvas(workCanvas, currentImageData);
+  completedSteps.add(4);
+  showToast('Enhance applied');
+  goToStep(5);
+});
+
+// ──────────────────── Step 5: Print Layout & Export ────────────────────
+function setupPrintStep() {
+  if (!currentImageData) return;
+  renderPrintLayout();
+}
+
+function renderPrintLayout() {
+  if (!currentImageData) return;
+
+  const preset = PRESETS[selectedPreset];
+  const photoW = mmToPx(preset.w);
+  const photoH = mmToPx(preset.h);
+
+  // First, resize the current image data to the target photo size
+  drawImageDataToCanvas(tempCanvas, currentImageData);
+  const resized = document.createElement('canvas');
+  resized.width = photoW;
+  resized.height = photoH;
+  const rctx = resized.getContext('2d');
+  // Maintain aspect ratio, fit within
+  const srcAspect = tempCanvas.width / tempCanvas.height;
+  const dstAspect = photoW / photoH;
+  let sx, sy, sw, sh;
+  if (srcAspect > dstAspect) {
+    sh = tempCanvas.height;
+    sw = tempCanvas.height * dstAspect;
+    sx = (tempCanvas.width - sw) / 2;
+    sy = 0;
+  } else {
+    sw = tempCanvas.width;
+    sh = tempCanvas.width / dstAspect;
+    sx = 0;
+    sy = (tempCanvas.height - sh) / 2;
+  }
+  rctx.drawImage(tempCanvas, sx, sy, sw, sh, 0, 0, photoW, photoH);
+
+  // Paper: 6x4 inches = 152x102mm at 300DPI = 1800x1200px
+  const paperW = 1800;
+  const paperH = 1200;
+  const margin = 20; // px margin
+
+  // Try both orientations to maximize count
+  const layouts = [];
+
+  // Portrait paper (1800 x 1200)
+  const colsP = Math.floor((paperW - margin * 2) / photoW);
+  const rowsP = Math.floor((paperH - margin * 2) / photoH);
+  layouts.push({ cols: colsP, rows: rowsP, count: colsP * rowsP, paperW, paperH, orientation: 'portrait' });
+
+  // Landscape paper (1200 x 1800)
+  const colsL = Math.floor((paperH - margin * 2) / photoW);
+  const rowsL = Math.floor((paperW - margin * 2) / photoH);
+  layouts.push({ cols: colsL, rows: rowsL, count: colsL * rowsL, paperW: paperH, paperH: paperW, orientation: 'landscape' });
+
+  // Pick best
+  let bestLayout = layouts[0];
+  if (layouts[1].count > bestLayout.count) bestLayout = layouts[1];
+
+  const { cols, rows, count, paperW: pw, paperH: ph } = bestLayout;
+  layoutInfo.textContent = 'Fit ' + count + '  ' + preset.name + ' Photo';
+
+  // Calculate spacing
+  const totalW = cols * photoW;
+  const totalH = rows * photoH;
+  const gapX = cols > 1 ? (pw - margin * 2 - totalW) / (cols - 1) : 0;
+  const gapY = rows > 1 ? (ph - margin * 2 - totalH) / (rows - 1) : 0;
+  const offsetX = (pw - margin * 2 - totalW - gapX * (cols - 1)) / 2 + margin;
+  const offsetY = (ph - margin * 2 - totalH - gapY * (rows - 1)) / 2 + margin;
+
+  printCanvas.width = pw;
+  printCanvas.height = ph;
+  printCtx.fillStyle = '#FFFFFF';
+  printCtx.fillRect(0, 0, pw, ph);
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = offsetX + col * (photoW + gapX);
+      const y = offsetY + row * (photoH + gapY);
+      printCtx.drawImage(resized, x, y, photoW, photoH);
+
+      // Subtle crop marks (small L-shaped corners)
+      printCtx.strokeStyle = 'rgba(0,0,0,0.15)';
+      printCtx.lineWidth = 1;
+      const cm = 6; // crop mark length
+      // Top-left
+      printCtx.beginPath();
+      printCtx.moveTo(x, y + cm); printCtx.lineTo(x, y); printCtx.lineTo(x + cm, y);
+      printCtx.stroke();
+      // Top-right
+      printCtx.beginPath();
+      printCtx.moveTo(x + photoW - cm, y); printCtx.lineTo(x + photoW, y); printCtx.lineTo(x + photoW, y + cm);
+      printCtx.stroke();
+      // Bottom-left
+      printCtx.beginPath();
+      printCtx.moveTo(x, y + photoH - cm); printCtx.lineTo(x, y + photoH); printCtx.lineTo(x + cm, y + photoH);
+      printCtx.stroke();
+      // Bottom-right
+      printCtx.beginPath();
+      printCtx.moveTo(x + photoW - cm, y + photoH); printCtx.lineTo(x + photoW, y + photoH); printCtx.lineTo(x + photoW, y + photoH - cm);
+      printCtx.stroke();
+    }
+  }
+
+  // Show preview
+  printCanvasWrap.innerHTML = '';
+  const preview = document.createElement('canvas');
+  const scale = Math.min(500, pw) / pw;
+  preview.width = pw * scale;
+  preview.height = ph * scale;
+  preview.style.maxWidth = '100%';
+  preview.style.borderRadius = '8px';
+  preview.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+  const pctx = preview.getContext('2d');
+  pctx.drawImage(printCanvas, 0, 0, preview.width, preview.height);
+  printCanvasWrap.appendChild(preview);
+
+  // Store resized photo for download
+  window._resizedPhotoCanvas = resized;
+}
+
+// Download single photo
+function downloadSingle(format) {
+  if (!currentImageData) return;
+  const preset = PRESETS[selectedPreset];
+  const photoW = mmToPx(preset.w);
+  const photoH = mmToPx(preset.h);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = photoW;
+  canvas.height = photoH;
+  const ctx = canvas.getContext('2d');
+
+  drawImageDataToCanvas(tempCanvas, currentImageData);
+  ctx.drawImage(tempCanvas, 0, 0, photoW, photoH);
+
+  // Draw watermark
+  ctx.save();
+  ctx.globalAlpha = 1.0;
+  ctx.fillStyle = '#ffffff';
+  var fs = Math.max(18, Math.min(36, photoW / 12));
+  ctx.font = 'bold ' + fs + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.translate(photoW / 2, photoH / 2);
+  ctx.rotate(-0.35);
+  ctx.fillText('FREE VERSION', 0, 0);
+  ctx.restore();
+
+  const mime = format === 'jpg' ? 'image/jpeg' : 'image/png';
+  const ext = format === 'jpg' ? 'jpg' : 'png';
+  const link = document.createElement('a');
+  link.download = 'ID Photo_' + PRESETS[selectedPreset].name + '.' + ext;
+  link.href = canvas.toDataURL(mime, 0.95);
+  link.click();
+  showToast('Downloading');
+}
+
+btnDownloadPNG.addEventListener('click', () => downloadSingle('png'));
+btnDownloadJPG.addEventListener('click', () => downloadSingle('jpg'));
+
+btnDownloadPrint.addEventListener('click', () => {
+  if (!printCanvas.width) { showToast('Please generate layout first'); return; }
+  // Composite watermark onto print canvas
+  var wmCanvas = document.createElement('canvas');
+  wmCanvas.width = printCanvas.width;
+  wmCanvas.height = printCanvas.height;
+  var wmCtx = wmCanvas.getContext('2d');
+  wmCtx.drawImage(printCanvas, 0, 0);
+  wmCtx.save();
+  wmCtx.globalAlpha = 1.0;
+  wmCtx.fillStyle = '#ffffff';
+  wmCtx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  wmCtx.textAlign = 'center';
+  wmCtx.textBaseline = 'middle';
+  wmCtx.translate(wmCanvas.width / 2, wmCanvas.height / 2);
+  wmCtx.rotate(-0.35);
+  for (var i = -2; i <= 2; i++) {
+    for (var j = -3; j <= 3; j++) {
+      wmCtx.fillText('FREE VERSION', i * 400, j * 300);
+    }
+  }
+  wmCtx.restore();
+  const link = document.createElement('a');
+  link.download = 'ID Photo Print Layout_' + PRESETS[selectedPreset].name + '.png';
+  link.href = wmCanvas.toDataURL('image/png');
+  link.click();
+  showToast('Downloading');
+});
+
+// ──────────────────── Init ────────────────────
+// Initialize slider displays
+toleranceVal.textContent = bgTolerance;
+smoothingVal.textContent = edgeSmoothing;
+skinSmoothVal.textContent = skinSmoothing;
+brightnessVal.textContent = '0';
+contrastVal.textContent = '0';
+saturationVal.textContent = '0';
+
+// Bind international size dropdown
+var intlSizeSel = document.getElementById('intlSizeSelect');
+if (intlSizeSel) intlSizeSel.addEventListener('change', selectIntlSize);
+
+</script>
+<script>
+/* Libraries are fetched from several CDNs in turn: cdn.jsdelivr.net is unreachable
+   on some networks (many China ISPs block or throttle it), and a library that never
+   arrived used to mean the tool failed silently -- Export did nothing, the chart
+   never drew, the preview stayed blank. Now a failed host falls through to the next,
+   and a call made before the library arrives is queued instead of being lost. */
+window.husirLib=(function(){var L={"html2canvas": ["https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"]},ready={},waiting={};
+function mark(n){ready[n]=!0;var q=waiting[n]||[];waiting[n]=[];for(var i=0;i<q.length;i++){try{q[i]()}catch(e){}}}
+function attempt(n,i){var a=L[n];if(i>=a.length)return;var s=document.createElement('script'),done=!1;
+function drop(){if(s.parentNode)s.parentNode.removeChild(s)}
+var t=setTimeout(function(){if(done)return;done=!0;drop();attempt(n,i+1)},8000);
+s.onload=function(){if(done)return;done=!0;clearTimeout(t);mark(n)};
+s.onerror=function(){if(done)return;done=!0;clearTimeout(t);drop();attempt(n,i+1)};
+s.src=a[i];document.head.appendChild(s)}
+for(var n in L){if(window[n])ready[n]=!0;else attempt(n,0)}
+return{isReady:function(n){return!!ready[n]},when:function(n,f){if(ready[n]){f();return}var q=waiting[n]=waiting[n]||[];if(q.indexOf(f)<0)q.push(f)}}})();
+</script>
+<script>
+/* html2canvas is always called with await/.then, so a call that arrives before the
+   library does can wait for it instead of throwing "html2canvas is not defined". */
+(function(){var n='html2canvas';if(window[n])return;
+var proxy=function(){var a=arguments,self=this;
+if(window[n]&&window[n]!==proxy)return window[n].apply(self,a);
+return new Promise(function(res,rej){var done=!1;
+var t=setTimeout(function(){if(done)return;done=!0;rej(new Error('html2canvas could not be downloaded - check your internet connection'))},30000);
+window.husirLib.when(n,function(){if(done)return;done=!0;clearTimeout(t);
+if(window[n]&&window[n]!==proxy){try{res(window[n].apply(self,a))}catch(e){rej(e)}}else{rej(new Error('html2canvas failed to load'))}})})};
+window[n]=proxy})();
+</script>
+
+  <div style="max-width:800px;margin:32px auto 0;padding:24px 20px;background:rgba(255,255,255,0.08);border-radius:12px;color:rgba(255,255,255,0.7);font-size:13px;line-height:1.8;">
+    <h2 style="color:#fff;font-size:16px;font-weight:700;margin-bottom:10px;">How to Make an ID Photo Online for Free</h2>
+    <p>This free online ID photo maker lets you create passport, visa, and ID photos in 5 easy steps — no software download, no account required.</p>
+    <h2 style="color:#fff;font-size:16px;font-weight:700;margin:18px 0 10px;">Free Online ID Photo Editor</h2>
+    <p>Already have a photo and just need to fix it? This online ID photo editor re-crops an existing image, changes the background to white, blue, red, or any custom color, brightens the face, and exports the result in passport, visa, or ID size — all in your browser, with no upload.</p>
+    <p><strong>1. Upload</strong> — Choose a photo from your device. Works with JPG, PNG, and WebP formats.</p>
+    <p><strong>2. Crop</strong> — Adjust the crop area to frame your face properly for ID standards.</p>
+    <p><strong>3. Change Background</strong> — Automatically detect and replace the background with white, blue, red, or any custom color. Fine-tune with edge smoothing and tolerance controls for a professional result.</p>
+    <p><strong>4. Beautify</strong> — Adjust brightness, contrast, and saturation. Apply skin smoothing for a polished look.</p>
+    <p><strong>5. Export &amp; Print</strong> — Choose from 30+ preset sizes (US Passport, EU Visa, China ID, Japan, Korea, and more). Download single photos in PNG or JPG, or generate a multi-photo print layout ready for printing.</p>
+    <p style="margin-top:10px;"><strong>Privacy guaranteed:</strong> All processing happens locally in your browser. Your photos are never uploaded to any server.</p>
+  </div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../grid-splitter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9E9; Grid Image Splitter</a><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.55);font-size:13px;text-decoration:none;">🛠 More free tools →</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+<div id="brushModal" role="dialog" aria-modal="true">
+  <div class="brush-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+      <div>
+        <h3>&#x270F;&#xFE0F; Manual Touch-up</h3>
+        <p style="font-size:12.5px;color:#64748b;margin:2px 0 0">Brush over the traces. <strong>Restore original</strong> brings back shirt/clothing pixels the auto cutout removed; <strong>Paint background</strong> fills remaining gaps with your chosen color.</p>
+      </div>
+      <button class="btn btn-ghost" id="btnBrushClose" type="button" style="flex:0 0 auto">&#x2715; Close</button>
+    </div>
+    <div id="brushToolbar">
+      <button type="button" class="btn on" id="btnModeRestore" style="background:#16a34a;color:#fff">&#x21A9; Restore original</button>
+      <button type="button" class="btn" id="btnModeErase" style="background:#64748b;color:#fff">&#x1F9FD; Paint background</button>
+      <span id="brushSizeRow"><label for="brushSize">Brush</label><input type="range" id="brushSize" min="4" max="220" value="30"></span>
+      <span id="brushSizeVal" style="font-size:12px;color:#64748b"></span>
+    </div>
+    <div id="brushCanvasWrap"><canvas id="brushCanvas"></canvas></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap">
+      <span style="font-size:11.5px;color:#94a3b8">Tip: stroke the same spot a few times for a stronger effect.</span>
+      <button type="button" class="btn btn-primary" id="btnBrushConfirm" style="flex:0 0 auto">&#x2714; Confirm &amp; Continue</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  if (typeof replaceBackgroundClassic !== 'function') return;
+  var defringeCheck = document.getElementById('defringeCheck');
+  try {
+  function defringeEnabled(){ return !!(defringeCheck && defringeCheck.checked); }
+
+  // v2 wrapper: classic background replace + automatic defringe
+  window.replaceBackground = function(imageData, newColorHex, tolerance, smoothing){
+    var res = replaceBackgroundClassic(imageData, newColorHex, tolerance, smoothing);
+    if (defringeEnabled()) { try { return defringeResult(imageData, res, tolerance, smoothing); } catch (e) { return res; } }
+    return res;
+  };
+
+  function defringeResult(orig, res, tolerance, smoothing){
+    var er = Math.max(1, Math.ceil(smoothing / 3));
+    var w = orig.width, h = orig.height, od = orig.data, rd = res.data;
+    var fm = floodFillMask(orig, tolerance);
+    var mask = fm.mask, bg = fm.bgColor;
+    var minClean = Math.max(20, tolerance * 0.9);
+    var out = new Uint8ClampedArray(rd);
+    var ring = new Uint8Array(w * h);
+    var y, x, dy, dx, nx, ny, i;
+    for (y = 0; y < h; y++) {
+      for (x = 0; x < w; x++) {
+        i = y * w + x;
+        if (mask[i]) continue;
+        var near = false;
+        for (dy = -er; dy <= er && !near; dy++) {
+          for (dx = -er; dx <= er && !near; dx++) {
+            nx = x + dx; ny = y + dy;
+            if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue;
+            if (mask[ny * w + nx]) near = true;
+          }
+        }
+        if (near) ring[i] = 1;
+      }
+    }
+    var R = er + 2;
+    var samples = [];
+    for (dy = -R; dy <= R; dy += 2) for (dx = -R; dx <= R; dx += 2) samples.push([dx, dy]);
+    for (y = 0; y < h; y++) {
+      for (x = 0; x < w; x++) {
+        i = y * w + x;
+        if (!ring[i]) continue;
+        var sr = 0, sg = 0, sb = 0, cnt = 0;
+        for (var s = 0; s < samples.length; s++) {
+          nx = x + samples[s][0]; ny = y + samples[s][1];
+          if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue;
+          var ni = ny * w + nx;
+          if (mask[ni] || ring[ni]) continue;
+          var pi = ni * 4;
+          var dr = od[pi] - bg.r, dg = od[pi + 1] - bg.g, db = od[pi + 2] - bg.b;
+          if (dr * dr + dg * dg + db * db < minClean * minClean) continue;
+          sr += od[pi]; sg += od[pi + 1]; sb += od[pi + 2]; cnt++;
+        }
+        if (cnt >= 2) {
+          var oi = i * 4;
+          out[oi] = Math.round(sr / cnt);
+          out[oi + 1] = Math.round(sg / cnt);
+          out[oi + 2] = Math.round(sb / cnt);
+        }
+      }
+    }
+    return new ImageData(out, w, h);
+  }
+
+  if (defringeCheck) defringeCheck.addEventListener('change', function(){ if (typeof renderBgPreview === 'function') renderBgPreview(); });
+
+  var modal = document.getElementById('brushModal');
+  var cvs = document.getElementById('brushCanvas');
+  var ctx = cvs ? cvs.getContext('2d') : null;
+  if (!modal || !cvs || !ctx) return;
+  var brushBuf = null, brushOrig = null, brushMode = 'restore';
+  var brushPainting = false, brushQueued = false;
+  var sizeIn = document.getElementById('brushSize');
+  var sizeVal = document.getElementById('brushSizeVal');
+  var btnRestore = document.getElementById('btnModeRestore');
+  var btnErase = document.getElementById('btnModeErase');
+
+  function hexToRgb(hx){ var v = String(hx || '#FFFFFF').replace('#',''); return { r: parseInt(v.substr(0,2),16) || 255, g: parseInt(v.substr(2,2),16) || 255, b: parseInt(v.substr(4,2),16) || 255 }; }
+  function brushSizePx(){ return Math.max(2, parseInt(sizeIn.value, 10) || 30); }
+  function setModeBtn(){ btnRestore.classList.toggle('on', brushMode === 'restore'); btnErase.classList.toggle('on', brushMode === 'erase'); }
+  function schedulePaint(){ if (brushQueued || !brushBuf) return; brushQueued = true; requestAnimationFrame(function(){ brushQueued = false; if (brushBuf) ctx.putImageData(brushBuf, 0, 0); }); }
+  function strokeAt(e){
+    if (!brushBuf || !brushOrig) return;
+    var rect = cvs.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+    var sx = cvs.width / rect.width, sy = cvs.height / rect.height;
+    var cx = (e.clientX - rect.left) * sx;
+    var cy = (e.clientY - rect.top) * sy;
+    var r = brushSizePx() / 2;
+    var bgc = hexToRgb(bgColor);
+    var d = brushBuf.data, od = brushOrig.data;
+    var x0 = Math.max(0, Math.floor(cx - r)), x1 = Math.min(brushBuf.width - 1, Math.ceil(cx + r));
+    var y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(brushBuf.height - 1, Math.ceil(cy + r));
+    for (var y = y0; y <= y1; y++) {
+      for (var x = x0; x <= x1; x++) {
+        var dist = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
+        if (dist > r) continue;
+        var i = (y * brushBuf.width + x) * 4;
+        var wgt = 1 - dist / r; wgt = wgt * wgt;
+        if (brushMode === 'restore') {
+          d[i]     = od[i]     * wgt + d[i]     * (1 - wgt);
+          d[i + 1] = od[i + 1] * wgt + d[i + 1] * (1 - wgt);
+          d[i + 2] = od[i + 2] * wgt + d[i + 2] * (1 - wgt);
+          d[i + 3] = Math.max(d[i + 3], od[i + 3]);
+        } else {
+          d[i]     = bgc.r * wgt + d[i]     * (1 - wgt);
+          d[i + 1] = bgc.g * wgt + d[i + 1] * (1 - wgt);
+          d[i + 2] = bgc.b * wgt + d[i + 2] * (1 - wgt);
+          d[i + 3] = 255;
+        }
+      }
+    }
+    schedulePaint();
+  }
+  function openBrush(){
+    if (!currentImageData) return;
+    brushOrig = (bgOriginalData && bgOriginalData.width === currentImageData.width && bgOriginalData.height === currentImageData.height) ? bgOriginalData : cloneImageData(currentImageData);
+    try { brushBuf = replaceBackground(currentImageData, bgColor, bgTolerance, edgeSmoothing); }
+    catch (err) { brushBuf = cloneImageData(currentImageData); }
+    cvs.width = brushBuf.width; cvs.height = brushBuf.height;
+    ctx.putImageData(brushBuf, 0, 0);
+    var auto = Math.max(8, Math.round(Math.min(cvs.width, cvs.height) / 40));
+    sizeIn.value = auto; sizeVal.textContent = auto + ' px';
+    brushMode = 'restore'; setModeBtn();
+    modal.style.display = 'block';
+  }
+  function closeBrush(){ modal.style.display = 'none'; brushBuf = null; brushOrig = null; }
+
+  cvs.addEventListener('pointerdown', function(e){ brushPainting = true; try { cvs.setPointerCapture(e.pointerId); } catch (err) {} strokeAt(e); });
+  cvs.addEventListener('pointermove', function(e){ if (brushPainting) strokeAt(e); });
+  ['pointerup', 'pointercancel'].forEach(function(ev){ cvs.addEventListener(ev, function(){ brushPainting = false; }); });
+  document.getElementById('btnOpenBrush').addEventListener('click', openBrush);
+  document.getElementById('btnBrushClose').addEventListener('click', closeBrush);
+  document.getElementById('btnBrushConfirm').addEventListener('click', function(){
+    if (!brushBuf) return;
+    currentImageData = brushBuf;
+    drawImageDataToCanvas(workCanvas, currentImageData);
+    bgCommitted = true;
+    if (!completedSteps.has(3)) completedSteps.add(3);
+    closeBrush();
+    showToast('Touch-up applied');
+    goToStep(4);
+  });
+  btnRestore.addEventListener('click', function(){ brushMode = 'restore'; setModeBtn(); });
+  btnErase.addEventListener('click', function(){ brushMode = 'erase'; setModeBtn(); });
+  sizeIn.addEventListener('input', function(){ sizeVal.textContent = parseInt(sizeIn.value, 10) + ' px'; });
+  } catch (err) { /* never block the main app */ }
+})();
+</script>
+</body>
+</html>

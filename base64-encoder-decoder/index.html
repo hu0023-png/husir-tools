@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F521; Base64 Encoder &amp; Decoder | HuSir Tools</title>
+<meta name="description" content="Encode or decode Base64 instantly in your browser: paste text or Base64, switch direction, copy. UTF-8 safe for emoji and CJK. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/base64-encoder-decoder/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🔡 Base64 Encoder & Decoder">
+<meta property="og:description" content="Encode or decode Base64 instantly in your browser: paste text or Base64, switch direction, copy. UTF-8 safe for emoji and CJK. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/base64-encoder-decoder/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🔡 Base64 Encoder & Decoder">
+<meta name="twitter:description" content="Encode or decode Base64 instantly in your browser: paste text or Base64, switch direction, copy. UTF-8 safe for emoji and CJK. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.55;outline:none;background:#fafbfc;resize:vertical;min-height:130px;color:#1a1a2e}
+textarea:focus{border-color:#667eea;background:#fff}
+textarea[readonly]{background:#f8faff;border-color:#e6e9f5}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.mode-seg{display:inline-flex;background:#eef0f7;border-radius:10px;padding:4px;gap:4px;flex-wrap:wrap}
+.mode-seg button{border:none;background:transparent;padding:9px 18px;border-radius:8px;font-size:13.5px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit}
+.mode-seg button.active{background:#fff;color:#4c1d95;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.chk{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#334155;cursor:pointer;padding:4px 0}
+.chk input{width:auto;accent-color:#667eea;margin:0}
+.status{font-size:12.5px;color:#10b981;font-weight:600}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:10px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.mode-seg button{padding:8px 12px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🔡 Base64 Encoder & Decoder",
+  "description": "Encode or decode Base64 instantly in your browser: paste text or Base64, switch direction, copy. UTF-8 safe for emoji and CJK. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/base64-encoder-decoder/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "💬 Is Base64 encryption?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is reversible encoding, not security. Anyone can decode Base64, so never use it to protect passwords or secrets — it only makes data safe to transport, not private."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "💰 Why do strings end with = ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Base64 encodes 3 input bytes as 4 characters. When the last group is short, it pads the output with = so the length is always a multiple of 4. “Hi” (2 bytes) becomes SGk=."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🌍 Does it work with Chinese, emoji, or accents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Text is first encoded as UTF-8 bytes, so “你好，世界🌍” round-trips perfectly instead of turning into “?” marks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔗 What is URL-safe Base64?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Regular Base64 uses + and /, which have special meaning in URLs. URL-safe mode swaps them for - and _ and trims the padding, matching JWT and many API specs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⚠️ Why did decoding fail?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Remove line breaks, check that you are using the matching alphabet (standard vs. URL-safe), and make sure padding is correct. If the decoded bytes are not valid UTF-8 text, this page shows “not valid text” instead of gibberish."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Base64 Encoder & Decoder", "item": "https://www.husir.org/tools/base64-encoder-decoder/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Base64 Encoder &amp; Decoder</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F521; Base64 Encoder &amp; Decoder</h1>
+<p class="subtitle">Text &#x21C4; Base64 &middot; UTF-8 safe &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Base64 converts any text into a safe 64-character alphabet (A&#8211;Z, a&#8211;z, 0&#8211;9, <code>+</code>, <code>/</code>) so data can travel through systems that only handle plain ASCII &#8212; email, JSON, URLs, and config files. This tool encodes and decodes entirely in your browser: type or paste plain text to get its Base64 form, or paste Base64 to read the original text back.</p>
+<p>Full Unicode is supported (emoji, Chinese, accented letters) because the page converts text to UTF-8 bytes before encoding. Developers reach for Base64 when embedding small images in HTML or CSS as <code>data:</code> URIs, pasting tokens into configs, decoding the payload of a JWT, or inspecting email attachments. Nothing is uploaded &#8212; the page works offline with zero network calls.</p>
+<div class="faq">
+<p><strong>&#x1F4AC; Is Base64 encryption?</strong><br>No. It is reversible encoding, not security. Anyone can decode Base64, so never use it to protect passwords or secrets &#8212; it only makes data safe to transport, not private.</p>
+<p><strong>&#x1F4B0; Why do strings end with = ?</strong><br>Base64 encodes 3 input bytes as 4 characters. When the last group is short, it pads the output with <code>=</code> so the length is always a multiple of 4. &#8220;Hi&#8221; (2 bytes) becomes <code>SGk=</code>.</p>
+<p><strong>&#x1F30D; Does it work with Chinese, emoji, or accents?</strong><br>Yes. Text is first encoded as UTF-8 bytes, so &#8220;&#x4F60;&#x597D;&#xFF0C;&#x4E16;&#x754C;&#x1F30D;&#8221; round-trips perfectly instead of turning into &#8220;?&#8221; marks.</p>
+<p><strong>&#x1F517; What is URL-safe Base64?</strong><br>Regular Base64 uses <code>+</code> and <code>/</code>, which have special meaning in URLs. URL-safe mode swaps them for <code>-</code> and <code>_</code> and trims the padding, matching JWT and many API specs.</p>
+<p><strong>&#x26A0;&#xFE0F; Why did decoding fail?</strong><br>Remove line breaks, check that you are using the matching alphabet (standard vs. URL-safe), and make sure padding is correct. If the decoded bytes are not valid UTF-8 text, this page shows &#8220;not valid text&#8221; instead of gibberish.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+3 bytes &#8594; 4 Base64 characters &nbsp;&middot;&nbsp; Output length = ceil(n / 3) &#215; 4<br>
+Alphabet: A&#8211;Z a&#8211;z 0&#8211;9 + / &nbsp; &middot; &nbsp; Example: &#8220;Hi&#8221; &#8594; <code>SGk=</code> &nbsp; &#8220;Hello&#8221; &#8594; <code>SGVsbG8=</code><br>
+URL-safe: <code>+</code> &#8594; <code>-</code>, <code>/</code> &#8594; <code>_</code>, padding removed
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F504; Mode</h3><span class="status" style="color:#98a1b3;font-weight:400">100% local &#183; nothing uploaded</span></div>
+  <div class="mode-seg" role="tablist">
+    <button type="button" id="modeEnc" class="active">&#x2B07;&#xFE0F; Encode &#8594; Base64</button>
+    <button type="button" id="modeDec">&#x2B06;&#xFE0F; Decode &#8594; Text</button>
+  </div>
+  <label class="field-label" id="inputLabel" for="input">Text to encode</label>
+  <textarea id="input" spellcheck="false" placeholder="Type or paste text here, e.g. Hello, HuSir! 你好 🌍"></textarea>
+  <div class="btnrow">
+    <button class="btn btn-ghost" id="sampleBtn" type="button">&#x27F3; Try an example</button>
+    <button class="btn btn-ghost" id="swapBtn" type="button">&#x21C5; Send result to input</button>
+    <label class="chk"><input type="checkbox" id="urlsafe"> URL-safe alphabet (<code>-</code> <code>_</code>, no padding)</label>
+  </div>
+  <label class="field-label" for="output">Result</label>
+  <textarea id="output" readonly spellcheck="false" placeholder="Result appears here as you type"></textarea>
+  <div class="btnrow">
+    <button class="btn btn-primary" id="copyBtn" type="button">&#x1F4CB; Copy result</button>
+    <span class="status" id="status"></span>
+  </div>
+  <p class="hint">Encoding/decoding happens live on your device &#8212; your text never leaves this page.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../url-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F517; URL Encoder &amp; Decoder</a><a href="../json-yaml-formatter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E6; JSON &amp; YAML Formatter</a><a href="../text-diff-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F50D; Text Diff Checker</a><a href="../regex-tester/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9EA; Regex Tester</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var ENC_SAMPLE='Hello, HuSir! 你好，世界 🌍';
+var DEC_SAMPLE='SGVsbG8sIEh1U2lyISDkvaDlpb3vvIzkuJbnlYwg8J+MjQ==';
+
+function setMode(enc){
+  $('modeEnc').classList.toggle('active',enc);
+  $('modeDec').classList.toggle('active',!enc);
+  $('inputLabel').textContent=enc?'Text to encode':'Base64 to decode';
+  $('input').placeholder=enc?'Type or paste text here, e.g. Hello, HuSir! 你好 🌍':'Paste Base64 here, e.g. SGVsbG8sIEh1U2lyIQ==';
+  $('sampleBtn').textContent=enc?'⟳ Try a text example':'⟳ Try a Base64 example';
+  convert();
+}
+function bytesToB64(bytes){
+  var bin='',chunk=0x8000,i;
+  for(i=0;i<bytes.length;i+=chunk){
+    bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+chunk));
+  }
+  var b64=btoa(bin);
+  if($('urlsafe').checked){
+    b64=b64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  return b64;
+}
+function b64ToBytes(s){
+  if($('urlsafe').checked){
+    s=s.replace(/-/g,'+').replace(/_/g,'/');
+    while(s.length%4)s+='=';
+  }
+  if(!/^[A-Za-z0-9+/]*={0,2}$/.test(s)){return null;}
+  var bin=atob(s),bytes=new Uint8Array(bin.length),i;
+  for(i=0;i<bin.length;i++){bytes[i]=bin.charCodeAt(i);}
+  return bytes;
+}
+function convert(){
+  var raw=$('input').value;
+  var out=$('output'),err='';
+  if(!raw){
+    out.value='';return;
+  }
+  var enc=$('modeEnc').classList.contains('active');
+  try{
+    if(enc){
+      var bytes=new TextEncoder().encode(raw);
+      out.value=bytesToB64(bytes);
+    }else{
+      var clean=raw.replace(/\s+/g,'');
+      var b=b64ToBytes(clean);
+      if(!b){out.value='';err='Not valid Base64 — check characters and padding.';}
+      else{
+        try{
+          out.value=new TextDecoder('utf-8',{fatal:true}).decode(b);
+        }catch(e){
+          out.value='';
+          err='Decoded bytes are not valid UTF-8 text (e.g. a file or image). Try the standard alphabet if URL-safe was selected.';
+        }
+      }
+    }
+  }catch(e){
+    out.value='';err='Something went wrong — please check the input.';
+  }
+  $('status').textContent=err;
+  $('status').style.color=err?'#dc2626':'#10b981';
+}
+function copyResult(){
+  var out=$('output');
+  if(!out.value){return;}
+  function done(){var st=$('status');st.textContent='✅ Copied!';st.style.color='#10b981';setTimeout(function(){st.textContent='';},1400);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(out.value).then(done).catch(function(){fallback(out.value,done);});
+  }else{fallback(out.value,done);}
+}
+function fallback(txt,done){
+  var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('modeEnc').addEventListener('click',function(){setMode(true);});
+$('modeDec').addEventListener('click',function(){setMode(false);});
+$('input').addEventListener('input',convert);
+$('urlsafe').addEventListener('change',convert);
+$('swapBtn').addEventListener('click',function(){
+  var v=$('output').value;
+  if(!v){return;}
+  $('input').value=v;
+  var isEnc=$('modeEnc').classList.contains('active');
+  setMode(!isEnc);
+});
+$('sampleBtn').addEventListener('click',function(){
+  $('input').value=$('modeEnc').classList.contains('active')?ENC_SAMPLE:DEC_SAMPLE;
+  convert();
+});
+$('copyBtn').addEventListener('click',copyResult);
+setMode(true);
+</script>
+</body>
+</html>

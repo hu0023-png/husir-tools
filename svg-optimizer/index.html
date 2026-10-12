@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Optimizer & Minifier | HuSir Tools</title>
+<meta name="description" content="Clean and minify SVG icons locally: strip comments, metadata, and editor cruft, round decimals, shrink file size. Nothing is uploaded.">
+<link rel="canonical" href="https://www.husir.org/tools/svg-optimizer/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="SVG Optimizer & Minifier">
+<meta property="og:description" content="Clean and minify SVG icons locally: strip comments, metadata, and editor cruft, round decimals, shrink file size. Nothing is uploaded.">
+<meta property="og:url" content="https://www.husir.org/tools/svg-optimizer/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SVG Optimizer & Minifier">
+<meta name="twitter:description" content="Clean and minify SVG icons locally: strip comments, metadata, and editor cruft, round decimals, shrink file size. Nothing is uploaded.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+textarea,input[type=file]{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:13px;font-family:inherit;outline:none;background:#fafbfc}
+textarea{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.5;resize:vertical}
+textarea:focus{border-color:#667eea;background:#fff}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin:8px 0}
+.checkline input{width:auto;min-width:0}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kpi{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:#7c86a0;font-weight:600;margin-bottom:3px}
+.kpi .v{font-size:17px;font-weight:800;color:#1a1a2e}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.preview-box{border:2px dashed #cbd5e1;border-radius:12px;min-height:150px;display:flex;align-items:center;justify-content:center;padding:16px;background:#f8fafc}
+.preview-box svg{max-width:100%;height:auto;background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.error-box{display:none;background:#fef2f2;border:2px solid #fecaca;color:#b91c1c;border-radius:10px;padding:10px 14px;font-size:13px;margin-top:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid3{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SVG Optimizer & Minifier",
+  "description": "Clean and minify SVG icons locally: strip comments, metadata, and editor cruft, round decimals, shrink file size. Nothing is uploaded.",
+  "url": "https://www.husir.org/tools/svg-optimizer/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What exactly gets removed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Comments, the <?xml?> declaration and doctype, <metadata>, empty <g> layers, <script> and foreignObject, and on* event attributes. Optional: extra decimal places and all line breaks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much smaller will my file be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Icons exported from tools like Illustrator, Figma, or Inkscape often shrink 20–50% just from removing metadata, comments, and whitespace — sometimes more. A hand-written icon may only drop a few percent; that is normal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will the icon still look identical?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This tool only removes information the renderer ignores or recreates (whitespace, comments, empty layers). It never alters paths, colors, gradients, or dimensions, so the pixels should not change."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to run on files I cannot share?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — nothing is uploaded anywhere. The file is parsed and rewritten entirely inside your browser, which makes this a good fit for client work or proprietary icon sets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did I get a “not well-formed XML” message?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SVG is XML, so it must follow XML rules: every tag closed, attributes quoted. Many web pages contain inline SVG with HTML-style looseness — copy just the <svg>…</svg> block, or save the icon as a real .svg file first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work for animated or complex SVGs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simple animations inside <animate> survive fine. Scripted or HTML-embedded SVGs are deliberately sanitized, so interactive widgets should not rely on this output."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "SVG Optimizer & Minifier", "item": "https://www.husir.org/tools/svg-optimizer/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">SVG Optimizer &amp; Minifier</span></span></nav>
+
+<div class="title-wrap">
+<h1>🧹 SVG Optimizer &amp; Minifier</h1>
+<p class="subtitle">Strip the cruft · shrink icon files · 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>SVG icons exported from design tools carry a lot of invisible baggage: editor metadata, XML declarations, comments, empty group layers, and coordinates with a dozen decimal places. None of that helps the icon render — it only makes the file bigger and the code harder to read. This optimizer parses your SVG, removes that cruft, optionally rounds long decimals, and rewrites the file as compact, production-ready markup.</p>
+<p>Use it before you ship an icon set to a website, an app, or a design system — smaller SVGs load faster and keep HTML cleaner. Paste code from your design tool, or upload a .svg file directly. You control every cleanup with the checkboxes: strip comments, remove metadata and empty groups, round decimals to two places, and minify or pretty-print the final output. A live preview and byte-count comparison let you verify the result before you download it.</p>
+<p>Because everything runs locally in your browser with no upload, the tool is safe for private or client files. For extra safety it also strips <code>&lt;script&gt;</code> elements, <code>foreignObject</code>, and event-handler attributes from any SVG you process, so a downloaded icon can never carry executable content. The parser is strict: if your file is not well-formed XML, it will tell you instead of guessing. Note this is a conservative cleaner, not a full vector re-drawer — it never merges paths or removes shapes, so the visual result stays identical.</p>
+<div class="faq">
+<p><strong>🧽 What exactly gets removed?</strong><br>Comments, the <code>&lt;?xml?&gt;</code> declaration and doctype, <code>&lt;metadata&gt;</code>, empty <code>&lt;g&gt;</code> layers, <code>&lt;script&gt;</code> and <code>foreignObject</code>, and <code>on*</code> event attributes. Optional: extra decimal places and all line breaks.</p>
+<p><strong>📉 How much smaller will my file be?</strong><br>Icons exported from tools like Illustrator, Figma, or Inkscape often shrink 20–50% just from removing metadata, comments, and whitespace — sometimes more. A hand-written icon may only drop a few percent; that is normal.</p>
+<p><strong>🎨 Will the icon still look identical?</strong><br>Yes. This tool only removes information the renderer ignores or recreates (whitespace, comments, empty layers). It never alters paths, colors, gradients, or dimensions, so the pixels should not change.</p>
+<p><strong>🖼️ Is it safe to run on files I cannot share?</strong><br>Yes — nothing is uploaded anywhere. The file is parsed and rewritten entirely inside your browser, which makes this a good fit for client work or proprietary icon sets.</p>
+<p><strong>⚠️ Why did I get a “not well-formed XML” message?</strong><br>SVG is XML, so it must follow XML rules: every tag closed, attributes quoted. Many web pages contain inline SVG with HTML-style looseness — copy just the <code>&lt;svg&gt;…&lt;/svg&gt;</code> block, or save the icon as a real .svg file first.</p>
+<p><strong>🧩 Does it work for animated or complex SVGs?</strong><br>Simple animations inside <code>&lt;animate&gt;</code> survive fine. Scripted or HTML-embedded SVGs are deliberately sanitized, so interactive widgets should not rely on this output.</p>
+</div>
+<div class="formula"><b>📦 What the cleaner does</b><br>
+1. Parse SVG as strict XML<br>2. Drop comments, XML declaration, doctype, &lt;metadata&gt;, empty &lt;g&gt; layers<br>3. Strip &lt;script&gt;, foreignObject, and on* event attributes (sanitize)<br>4. Optional: round decimals to 2 places &amp; remove whitespace between tags<br>5. Re-serialize to clean SVG markup
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Paste or upload your SVG</h3></div>
+<textarea id="src" rows="10" spellcheck="false" placeholder="Paste SVG code here, or upload a .svg file below…"></textarea>
+<div class="btn-row">
+<button class="btn btn-ghost" id="btnSample">✨ Load a sample icon</button>
+<label class="btn btn-ghost" style="cursor:pointer">📁 Upload .svg file<input type="file" id="file" accept=".svg,image/svg+xml" style="display:none"></label>
+</div>
+<div class="checkline"><input type="checkbox" id="optComments" checked><span>Remove comments</span></div>
+<div class="checkline"><input type="checkbox" id="optMeta" checked><span>Remove metadata, editor tags &amp; empty groups</span></div>
+<div class="checkline"><input type="checkbox" id="optSafe" checked><span>Sanitize: strip scripts, foreignObject &amp; event handlers</span></div>
+<div class="checkline"><input type="checkbox" id="optRound"><span>Round decimals to 2 places</span></div>
+<div class="checkline"><input type="checkbox" id="optMinify" checked><span>Minify (remove line breaks &amp; indentation)</span></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · Result</h3></div>
+<div class="grid3">
+<div class="kpi"><div class="k">Original size</div><div class="v" id="kBefore">0 B</div></div>
+<div class="kpi"><div class="k">Optimized size</div><div class="v" id="kAfter">0 B</div></div>
+<div class="kpi"><div class="k">Smaller by</div><div class="v" id="kSaved">0%</div></div>
+</div>
+<div class="error-box" id="errBox"></div>
+<div style="font-size:13px;font-weight:700;color:#333;margin:16px 0 6px">👁️ Preview</div>
+<div class="preview-box" id="preview"><span style="color:#94a3b8;font-size:13px">Optimized icon appears here</span></div>
+<div style="font-size:13px;font-weight:700;color:#333;margin:16px 0 6px">💾 Optimized code</div>
+<textarea id="out" rows="9" readonly spellcheck="false" placeholder="—"></textarea>
+<div class="btn-row">
+<button class="btn btn-primary" id="btnCopy">📋 Copy code</button>
+<button class="btn btn-ghost" id="btnDl">⬇️ Download .svg</button>
+</div>
+<p class="note">Your file never leaves your device. The cleaner is conservative — it removes metadata and whitespace but never redraws paths, so the rendered icon stays the same. Files optimized here are safe to publish or embed.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a><a href="../grid-splitter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9E9; Grid Image Splitter</a><a href="../color-contrast-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Color Contrast Checker</a><a href="../color-code-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F308; Color Code Converter</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var SAMPLE='<?xml version="1.0" encoding="UTF-8"?>\n<!-- Created with InkTouch Studio 4.2 -->\n<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">\n  <metadata id="editor">InkTouch Studio export metadata</metadata>\n  <g id="layer_master">\n    <!-- main heart shape -->\n    <path fill="#e11d48" d="M64 22.0000001 C 42.0000002 8.0000001 16 26.0000000 16 52.0000000 C 16 78.0000000 64 110.0000000 64 110.0000000 C 64 110.0000000 112 78.0000000 112 52.0000000 C 112 26.0000000 86 8.0000001 64 22.0000001 Z"/>\n    <g id="empty_legacy_group"></g>\n    <rect x="24" y="24" width="2.0000000001" height="2.0000000001" fill="#000000" opacity="0.200000001"/>\n  </g>\n</svg>\n';
+function fmtBytes(n){
+  if(n<1024)return n+' B';
+  if(n<1048576)return (n/1024).toFixed(1)+' KB';
+  return (n/1048576).toFixed(2)+' MB';
+}
+function stripUnsafe(root){
+  var all=root.querySelectorAll('*');
+  for(var i=0;i<all.length;i++){
+    var el=all[i];
+    var tag=el.tagName.toLowerCase();
+    if(tag==='script'||tag==='foreignobject'){el.parentNode.removeChild(el);continue;}
+    var attrs=el.attributes;
+    for(var j=attrs.length-1;j>=0;j--){
+      var name=attrs[j].name.toLowerCase();
+      var val=attrs[j].value.toLowerCase();
+      if(name.indexOf('on')===0||name.indexOf(':on')>=0){el.removeAttribute(attrs[j].name);}
+      else if((name==='href'||name.indexOf('href')>=0)&&val.indexOf('javascript:')===0){el.removeAttribute(attrs[j].name);}
+    }
+  }
+}
+function optimize(){
+  var raw=$('src').value;
+  var err=$('errBox'), out=$('out');
+  err.style.display='none';
+  if(!raw||!raw.trim()){$('kBefore').textContent='0 B';$('kAfter').textContent='0 B';$('kSaved').textContent='0%';out.value='';$('preview').innerHTML='<span style="color:#94a3b8;font-size:13px">Optimized icon appears here</span>';return;}
+  var before=raw.trim().length;
+  var s=raw;
+  if($('optComments').checked){s=s.replace(/<!--[\s\S]*?-->/g,'');}
+  s=s.replace(/<\?xml[^>]*\?>/gi,'').replace(/<!DOCTYPE[^>]*>/gi,'');
+  if(/<\s*script[\s\S]*?<\s*\/\s*script\s*>/i.test(s)){s=s.replace(/<\s*script[\s\S]*?<\s*\/\s*script\s*>/gi,'');}
+  var doc=null;
+  try{doc=new DOMParser().parseFromString(s,'image/svg+xml');}catch(e){}
+  var perr=doc&&doc.querySelector('parsererror');
+  var root=doc&&doc.documentElement;
+  if(perr||!root||root.tagName.toLowerCase()!=='svg'){
+    err.textContent='Sorry — this does not parse as well-formed SVG (XML). Check that every tag is closed and attributes are quoted, then try again.';
+    err.style.display='block';
+    $('kBefore').textContent=fmtBytes(before);
+    $('kAfter').textContent='—';
+    $('kSaved').textContent='—';
+    out.value='';
+    $('preview').innerHTML='<span style="color:#94a3b8;font-size:13px">Optimized icon appears here</span>';
+    return;
+  }
+  if($('optMeta').checked){
+    var meta=root.querySelectorAll('metadata');
+    for(var i=0;i<meta.length;i++){if(meta[i].parentNode){meta[i].parentNode.removeChild(meta[i]);}}
+    var changed=true;
+    while(changed){
+      changed=false;
+      var gs=root.querySelectorAll('g');
+      for(var k=0;k<gs.length;k++){
+        if(gs[k].childNodes.length===0&&gs[k].parentNode){gs[k].parentNode.removeChild(gs[k]);changed=true;break;}
+      }
+    }
+  }
+  if($('optSafe').checked){stripUnsafe(root);}
+  var cleaned=new XMLSerializer().serializeToString(root);
+  if($('optRound').checked){
+    cleaned=cleaned.replace(/(\d+\.\d{3,})/g,function(m){var v=parseFloat(m);return String(Math.round(v*100)/100);});
+  }
+  if($('optMinify').checked){cleaned=cleaned.replace(/>\s+</g,'><').trim();}
+  else{cleaned=cleaned.replace(/></g,'>\n<');}
+  var after=cleaned.length;
+  $('kBefore').textContent=fmtBytes(before);
+  $('kAfter').textContent=fmtBytes(after);
+  var saved=before>0?Math.round((before-after)/before*100):0;
+  $('kSaved').textContent=Math.max(0,saved)+'%';
+  out.value=cleaned;
+  var holder=$('preview');
+  try{holder.innerHTML=cleaned;}catch(e){holder.innerHTML='<span style="color:#b91c1c;font-size:13px">Preview failed — the code may still be valid.</span>';}
+}
+$('src').addEventListener('input',optimize);
+['optComments','optMeta','optSafe','optRound','optMinify'].forEach(function(id){$(id).addEventListener('change',optimize);});
+$('btnSample').addEventListener('click',function(){$('src').value=SAMPLE;optimize();});
+$('file').addEventListener('change',function(){
+  var f=this.files&&this.files[0];
+  if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){$('src').value=r.result;optimize();};
+  r.readAsText(f);
+  this.value='';
+});
+$('btnCopy').addEventListener('click',function(){
+  if(!$('out').value){return;}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText($('out').value).then(function(){$('btnCopy').textContent='✅ Copied!';setTimeout(function(){$('btnCopy').textContent='📋 Copy code';},1500);});
+  }else{
+    $('out').select();document.execCommand('copy');
+    $('btnCopy').textContent='✅ Copied!';setTimeout(function(){$('btnCopy').textContent='📋 Copy code';},1500);
+  }
+});
+$('btnDl').addEventListener('click',function(){
+  if(!$('out').value){return;}
+  var blob=new Blob([$('out').value],{type:'image/svg+xml'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='optimized.svg';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);a.remove();},500);
+});
+$('btnSample').click();
+</script>
+</body>
+</html>

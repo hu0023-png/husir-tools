@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rent vs Buy Calculator — Should I Rent or Buy? | HuSir Tools</title>
+<meta name="description" content="Compare renting vs buying over any time horizon and find out how much home you can afford from income and down payment. Free & private.">
+<link rel="canonical" href="https://www.husir.org/tools/rent-vs-buy-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Rent vs Buy Calculator — Should I Rent or Buy?">
+<meta property="og:description" content="Compare renting vs buying over any time horizon and find out how much home you can afford from income and down payment. Free & private.">
+<meta property="og:url" content="https://www.husir.org/tools/rent-vs-buy-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rent vs Buy Calculator — Should I Rent or Buy?">
+<meta name="twitter:description" content="Compare renting vs buying over any time horizon and find out how much home you can afford from income and down payment. Free & private.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:27px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.sect-title{font-size:12px;font-weight:800;color:#4c1d95;text-transform:uppercase;letter-spacing:.6px;margin:14px 0 2px}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:16px}
+.result-big{font-size:23px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong,.rowline b{color:#1a1a2e}
+.rowline.green b{color:#059669}
+.rowline.red b{color:#dc2626}
+.meter{margin-top:10px;height:10px;background:#eef0f6;border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,#10b981,#059669);border-radius:99px}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:6px 12px;border-radius:99px;border:1.5px solid #e2e6f0;background:#fff;font-size:12px;font-weight:600;color:#555;cursor:pointer}
+.chip.active{border-color:#667eea;background:#eef1ff;color:#4c1d95}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rent vs Buy & Home Affordability",
+  "description": "Compare renting vs buying over any time horizon and find out how much home you can afford from income and down payment. Free & private.",
+  "url": "https://www.husir.org/tools/rent-vs-buy-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long should I plan to stay before buying?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Buying usually wins after roughly 5–7 years because closing costs and the down payment take years to be recovered through equity and price growth. Under 3–5 years, renting is often cheaper once selling costs are included."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in the mortgage payment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Principal and interest (P&I) plus the property tax, insurance, maintenance, and HOA portions you enter. Property tax and maintenance are modeled as percentages of the home's current value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the renter's invested money grow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because the down payment and any monthly savings from renting are assumed to earn an investment return. If you would not actually invest that money, set the return to 0%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is \"affordable\" defined?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lenders typically cap the housing payment at ~28% of gross monthly income and total monthly debts at ~36%. The tool uses the stricter of the two caps for your numbers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — it is a transparent estimate. Local taxes, insurance markets, mortgage fees, and lifestyle costs vary widely."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Rent vs Buy & Home Affordability", "item": "https://www.husir.org/tools/rent-vs-buy-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Rent vs Buy &amp; Home Affordability</span></span></nav>
+
+<div class="title-wrap">
+<h1>🏠 Rent vs Buy &amp; Home Affordability</h1>
+<p class="subtitle">Compare renting vs buying · Break-even year · How much house you can afford</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Should you keep renting or buy a home? The honest answer depends on how long you will stay, the price you pay, and what your money could earn elsewhere. This tool models both paths side by side: as a buyer you pay a down payment, mortgage principal and interest, property tax, insurance, maintenance, and HOA dues while building equity; as a renter you pay rent that grows each year and invest the money you did not spend. It then shows which path leaves you ahead at your chosen time horizon and in which year buying starts to win.</p>
+<p>The second section answers the other classic question: how much home can I afford? Using your income, other debts, down payment, and typical lender caps (a housing payment near 28% of gross income and total debts near 36%), it back-solves a realistic maximum price — including property tax and insurance — so you can search listings with a number, not a guess.</p>
+<p>All figures are editable assumptions and all math runs locally in your browser. Home prices, rates, taxes, and rents vary by city; update the defaults to match your market.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>📏 How long should I plan to stay before buying?</strong><br>Buying usually wins after roughly 5–7 years because closing costs and the down payment take years to be recovered through equity and price growth. Under 3–5 years, renting is often cheaper once selling costs are included.</p>
+<p><strong>🏦 What is included in the mortgage payment?</strong><br>Principal and interest (P&amp;I) plus the property tax, insurance, maintenance, and HOA portions you enter. Property tax and maintenance are modeled as percentages of the home's current value.</p>
+<p><strong>📈 Why does the renter's invested money grow?</strong><br>Because the down payment and any monthly savings from renting are assumed to earn an investment return. If you would not actually invest that money, set the return to 0%.</p>
+<p><strong>💵 How is "affordable" defined?</strong><br>Lenders typically cap the housing payment at ~28% of gross monthly income and total monthly debts at ~36%. The tool uses the stricter of the two caps for your numbers.</p>
+<p><strong>⚠️ Is this financial advice?</strong><br>No — it is a transparent estimate. Local taxes, insurance markets, mortgage fees, and lifestyle costs vary widely.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Monthly P&amp;I = P × r(1+r)ⁿ ÷ ((1+r)ⁿ − 1), r = APR÷12, n = months<br>Buyer net worth at year Y = home value − mortgage balance remaining<br>Renter net worth = invested down payment + monthly savings, compounded<br>Break-even year = first year buyer net worth ≥ renter net worth
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Section 1 · Compare renting vs buying</h3></div>
+<div class="sect-title">🏘️ The home &amp; mortgage</div>
+<div class="grid2">
+<div><label class="field-label">Home price ($)</label><input type="number" id="price" min="0" step="5000" value="350000"></div>
+<div><label class="field-label">Down payment (%)</label><input type="number" id="dp" min="0" step="1" value="20"></div>
+<div><label class="field-label">Interest rate (%)</label><input type="number" id="rate" min="0" step="0.05" value="6.5"></div>
+<div><label class="field-label">Loan term (years)</label><input type="number" id="term" min="1" step="1" value="30"></div>
+<div><label class="field-label">Property tax (% of value / year)</label><input type="number" id="taxPct" min="0" step="0.05" value="1.1"></div>
+<div><label class="field-label">Home insurance ($ / year)</label><input type="number" id="ins" min="0" step="50" value="1400"></div>
+<div><label class="field-label">Maintenance (% of value / year)</label><input type="number" id="maintPct" min="0" step="0.1" value="1"></div>
+<div><label class="field-label">HOA ($ / month)</label><input type="number" id="hoa" min="0" step="10" value="0"></div>
+</div>
+<div class="sect-title">💰 Renting &amp; the alternative</div>
+<div class="grid2">
+<div><label class="field-label">Monthly rent ($)</label><input type="number" id="rent" min="0" step="50" value="2100"></div>
+<div><label class="field-label">Rent increase (% / year)</label><input type="number" id="rentG" min="0" step="0.5" value="3"></div>
+<div><label class="field-label">Home value growth (% / year)</label><input type="number" id="homeG" min="0" step="0.5" value="3"></div>
+<div><label class="field-label">Investment return on savings (% / year)</label><input type="number" id="invR" min="0" step="0.5" value="6"></div>
+</div>
+<div><label class="field-label">Time horizon (years)</label><input type="number" id="years" min="1" step="1" value="10"></div>
+<div class="chips" id="yearChips">
+<span class="chip" data-y="5">5 yrs</span><span class="chip active" data-y="10">10 yrs</span><span class="chip" data-y="15">15 yrs</span><span class="chip" data-y="30">30 yrs</span>
+</div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Verdict over <span id="verY">10</span> years</div>
+<div class="result-big" id="verdict">—</div>
+<div class="result-sub" id="verdictSub">—</div>
+</div>
+<div style="margin-top:14px">
+<div class="rowline"><span>Buyer total monthly cost (P&amp;I + tax + insurance + maintenance + HOA)</span><strong id="rBuyM">—</strong></div>
+<div class="rowline"><span>Home value at horizon</span><strong id="rHomeV">—</strong></div>
+<div class="rowline"><span>Mortgage balance remaining</span><strong id="rLoanL">—</strong></div>
+<div class="rowline green"><span>Buyer net worth (equity)</span><b id="rBuyNW">—</b></div>
+<div class="rowline"><span>Total rent paid over horizon</span><strong id="rRentPaid">—</strong></div>
+<div class="rowline green"><span>Renter portfolio value (down payment + savings, invested)</span><b id="rRentNW">—</b></div>
+<div class="rowline" id="rBe" style="border-bottom:0"><span>Buying starts to win after</span><strong>—</strong></div>
+</div>
+<p class="note">Defaults are editable. The renter is assumed to invest the down payment plus any monthly savings; set the investment return to 0% if you would keep it in cash.</p>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Section 2 · How much home can you afford?</h3></div>
+<div class="grid2">
+<div><label class="field-label">Annual gross income ($)</label><input type="number" id="income" min="0" step="1000" value="100000"></div>
+<div><label class="field-label">Other monthly debts — car, cards, student loans ($)</label><input type="number" id="debts" min="0" step="25" value="450"></div>
+<div><label class="field-label">Down payment you have saved ($)</label><input type="number" id="downAmt" min="0" step="1000" value="60000"></div>
+<div><label class="field-label">Housing cap — % of gross income (typical 28)</label><input type="number" id="front" min="1" step="1" value="28"></div>
+</div>
+<div class="grid2">
+<div><label class="field-label">Total debt cap — % incl. this mortgage (typical 36)</label><input type="number" id="back" min="1" step="1" value="36"></div>
+<div><label class="field-label">Interest rate (%)</label><input type="number" id="aRate" min="0" step="0.05" value="6.5"></div>
+<div><label class="field-label">Term (years)</label><input type="number" id="aTerm" min="1" step="1" value="30"></div>
+<div><label class="field-label">Property tax (% / year)</label><input type="number" id="aTaxPct" min="0" step="0.05" value="1.1"></div>
+</div>
+<div class="grid2">
+<div><label class="field-label">Home insurance ($ / year)</label><input type="number" id="aIns" min="0" step="50" value="1400"></div>
+<div><label class="field-label">HOA ($ / month)</label><input type="number" id="aHoa" min="0" step="10" value="0"></div>
+</div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Maximum home price you can afford</div>
+<div class="result-big" id="affPrice">—</div>
+<div class="result-sub" id="affSub">—</div>
+</div>
+<div style="margin-top:14px" id="affRows"></div>
+<div class="meter"><i id="affMeter" style="width:0%"></i></div>
+<p class="note" style="margin-top:6px">Shown as the distance from the price you entered earlier. Pre-approval, PMI, and local taxes may tighten the number; this is a starting estimate.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../mortgage-refinance-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🏡 Mortgage Refinance Calculator</a><a href="../debt-payoff-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C9; Debt Payoff Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function num(id){return Math.max(0,parseFloat($(id).value)||0);}
+function money(x){return '$'+Math.round(x).toLocaleString('en-US');}
+function money2(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pmt(loan,rate,termY){
+  if(loan<=0) return 0;
+  var r=rate/1200,n=termY*12;
+  if(r===0) return loan/n;
+  return loan*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+}
+function calcRVB(){
+  var price=num('price'),dp=num('dp'),rate=num('rate'),term=num('term');
+  var taxPct=num('taxPct')/100,ins=num('ins'),maintPct=num('maintPct')/100,hoa=num('hoa');
+  var rent0=num('rent'),rentG=num('rentG')/100,homeG=num('homeG')/100,invR=num('invR')/100;
+  var Y=Math.max(1,Math.round(num('years')));
+  $('verY').textContent=Y;
+  var down=price*dp/100,loan=price-down;
+  var M=pmt(loan,rate,term);
+  var months=Y*12,invM=Math.pow(1+invR,1/12)-1;
+  var renter=down; // invests the down payment
+  var rentPaid=0;
+  var buyPaid=down;
+  var homeV=price;
+  var remLoan=loan;
+  for(var t=1;t<=months;t++){
+    var yr=(t-1)/12;
+    var rentM=rent0*Math.pow(1+rentG,yr);
+    var homeVt=price*Math.pow(1+homeG,t/12);
+    var buyM=M+homeVt*taxPct/12+ins/12+homeVt*maintPct/12+hoa;
+    var diff=buyM-rentM;
+    renter=renter*(1+invM)+diff;
+    rentPaid+=rentM;
+    // amortize loan
+    var ir=rate/1200;
+    var int=remLoan*ir;
+    var princ=M-int;
+    if(princ>remLoan)princ=remLoan;
+    remLoan-=princ;
+  }
+  homeV=price*Math.pow(1+homeG,Y);
+  var buyerNW=Math.max(0,homeV-remLoan);
+  var verdict,sub;
+  if(renter>buyerNW){verdict='Renting wins over '+Y+' years';sub='Renter portfolio '+money(renter)+' vs buyer equity '+money(buyerNW);}
+  else if(buyerNW>renter){verdict='Buying wins over '+Y+' years';sub='Buyer equity '+money(buyerNW)+' vs renter portfolio '+money(renter);}
+  else{verdict='Roughly a tie over '+Y+' years';sub='Buyer equity '+money(buyerNW)+' vs renter portfolio '+money(renter);}
+  $('verdict').textContent=verdict;
+  $('verdictSub').textContent=sub;
+  // break-even year
+  var be='Not within '+Y+' years';
+  var renB=down,loanB=loan,homeB=price;
+  for(var y=1;y<=Y;y++){
+    var eq=Math.max(0,homeB*Math.pow(1+homeG,y)-loanRem(loan,rate,term,y));
+    var ren2=down*Math.pow(1+invR,y);
+    // monthly savings side contribution (approximation using final avg diff)
+    for(var m=1;m<=12;m++){
+      var rM=rent0*Math.pow(1+rentG,(y-1)+(m-1)/12);
+      var bM=M+homeB*Math.pow(1+homeG,(y-1)+(m-1)/12)*taxPct/12+ins/12+homeB*Math.pow(1+homeG,(y-1)+(m-1)/12)*maintPct/12+hoa;
+      ren2=ren2*(1+invM)+(bM-rM);
+    }
+    if(eq>=ren2){be='Year '+y;break;}
+  }
+  $('rBe').innerHTML='<span>Buying starts to win after</span><strong>'+be+'</strong>';
+  $('rBuyM').textContent=money2(M+price*taxPct/12+ins/12+price*maintPct/12+hoa);
+  $('rHomeV').textContent=money(homeV);
+  $('rLoanL').textContent=money(Math.max(0,remLoan));
+  $('rBuyNW').textContent=money(buyerNW);
+  $('rRentPaid').textContent=money(rentPaid);
+  $('rRentNW').textContent=money(renter);
+}
+function loanRem(loan,rate,termY,years){
+  var r=rate/1200,n=termY*12,M=pmt(loan,rate,termY),bal=loan;
+  for(var m=1;m<=Math.min(n,years*12);m++){
+    var int=bal*r,princ=M-int;
+    if(princ>bal)princ=bal;
+    bal-=princ;
+    if(bal<=0)return 0;
+  }
+  return Math.max(0,bal);
+}
+function solvePrice(allowed,down,rate,termY,taxPct,ins,hoa){
+  var lo=0,hi=2000000;
+  function need(p){
+    var ln=p>down?p-down:0;
+    var pmi=pmt(ln,rate,termY);
+    var other=p*taxPct/12+ins/12+hoa;
+    return pmi+other;
+  }
+  while(need(hi)<allowed) hi*=2;
+  for(var i=0;i<60;i++){
+    var mid=(lo+hi)/2;
+    if(need(mid)<allowed) lo=mid; else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+function calcAff(){
+  var income=num('income'),debts=num('debts'),down=num('downAmt');
+  var front=num('front')/100,back=num('back')/100;
+  var rate=num('aRate'),term=num('aTerm'),taxPct=num('aTaxPct')/100;
+  var ins=num('aIns'),hoa=num('aHoa');
+  var monthly=income/12;
+  var capHousing=monthly*front;
+  var capTotal=monthly*back-debts;
+  var allowed=Math.min(capHousing,capTotal);
+  var price=solvePrice(allowed,down,rate,term,taxPct,ins,hoa);
+  var loan=Math.max(0,price-down);
+  var M=pmt(loan,rate,term);
+  var needDown20=price*0.2;
+  $('affPrice').textContent=money(price);
+  $('affSub').textContent='With a '+money(down)+' down payment and a '+money2(M)+'/mo principal &amp; interest payment';
+  var rows='';
+  rows+='<div class="rowline"><span>Maximum allowed housing payment (PITI + HOA)</span><strong>'+money2(allowed)+'</strong></div>';
+  rows+='<div class="rowline"><span>Principal &amp; interest</span><strong>'+money2(M)+'</strong></div>';
+  rows+='<div class="rowline"><span>Property tax</span><strong>'+money2(price*taxPct/12)+'</strong></div>';
+  rows+='<div class="rowline"><span>Insurance + HOA</span><strong>'+money2(ins/12+hoa)+'</strong></div>';
+  rows+='<div class="rowline"><span>Loan amount</span><strong>'+money(loan)+'</strong></div>';
+  rows+='<div class="rowline"><span>Down payment ('+Math.round(down/Math.max(1,price)*100)+'%)</span><strong>'+money(down)+'</strong></div>';
+  rows+='<div class="rowline" style="border-bottom:0"><span>For a 20% down purchase you would need</span><strong>'+money(needDown20)+'</strong></div>';
+  $('affRows').innerHTML=rows;
+  var base=num('price');
+  if(base>0){
+    var ratio=Math.min(100,Math.round(price/base*100));
+    $('affMeter').style.width=ratio+'%';
+  } else { $('affMeter').style.width='0%'; }
+}
+var rvbIds=['price','dp','rate','term','taxPct','ins','maintPct','hoa','rent','rentG','homeG','invR','years'];
+rvbIds.forEach(function(id){$(id).addEventListener('input',calcRVB);});
+document.querySelectorAll('#yearChips .chip').forEach(function(c){
+  c.addEventListener('click',function(){
+    document.querySelectorAll('#yearChips .chip').forEach(function(x){x.classList.remove('active');});
+    c.classList.add('active');
+    $('years').value=c.dataset.y;
+    calcRVB();
+  });
+});
+var affIds=['income','debts','downAmt','front','back','aRate','aTerm','aTaxPct','aIns','aHoa'];
+affIds.forEach(function(id){$(id).addEventListener('input',calcAff);});
+calcRVB();
+calcAff();
+</script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule of 72 Calculator — Years to Double Money | HuSir Tools</title>
+<meta name="description" content="How many years to double your money at any rate (Rule of 72) plus simple interest earned on a principal. Free, private, runs in your browser.">
+<link rel="canonical" href="https://www.husir.org/tools/rule-of-72-simple-interest/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Rule of 72 Calculator — Years to Double Money">
+<meta property="og:description" content="How many years to double your money at any rate (Rule of 72) plus simple interest earned on a principal. Free, private, runs in your browser.">
+<meta property="og:url" content="https://www.husir.org/tools/rule-of-72-simple-interest/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rule of 72 Calculator — Years to Double Money">
+<meta name="twitter:description" content="How many years to double your money at any rate (Rule of 72) plus simple interest earned on a principal. Free, private, runs in your browser.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=date],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kpi{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:#7c86a0;font-weight:600;margin-bottom:3px}
+.kpi .v{font-size:17px;font-weight:800;color:#1a1a2e}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong{color:#1a1a2e}
+.tablewrap{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f3f4fb;color:#4c1d95;padding:8px 10px;text-align:left;font-size:12px}
+td{padding:7px 10px;border-bottom:1px solid #eef0f7;color:#475569}
+td:last-child,th:last-child{text-align:right}
+tr:last-child td{border-bottom:0}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rule of 72 & Simple Interest",
+  "description": "How many years to double your money at any rate (Rule of 72) plus simple interest earned on a principal. Free, private, runs in your browser.",
+  "url": "https://www.husir.org/tools/rule-of-72-simple-interest/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why 72 and not 70?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "72 has many easy divisors (2, 3, 4, 6, 8, 9, 12), so mental math stays clean, and it tracks the true math closely across the 4–12% rates people actually use. The mathematically exact figure for continuous compounding is about 69.3, but 72 is friendlier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the Rule of 72 work for simple interest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — it assumes compounding. With simple interest, doubling takes 100 ÷ rate years (e.g. 20 years at 5%). This tool shows both numbers side by side so the difference is easy to see."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where does simple interest actually appear?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some personal loans, short-term CDs and bonds, car loans (flat-rate quotes), and most “interest charged per day” situations such as payday-style lending or late fees. Mortgages and most bank savings compound, which is why their math differs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What return should I test?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Historical long-run US stock returns are often quoted near 7–10% before inflation; high-yield savings have paid roughly 3.5–4.5% APY in recent years. Test both a low and a high rate — doubling time swings a lot between them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is 72 ÷ rate the same as the exact doubling time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Almost. At 6%, the rule says 12.0 years; the exact answer with annual compounding is 11.9. At 15% the rule drifts (4.8 vs 5.0 exact), so this page shows the exact figure too."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. These are quick planning numbers. Inflation, taxes, and fees reduce real returns, and loan agreements have fine print — verify terms with the lender before borrowing."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Rule of 72 & Simple Interest", "item": "https://www.husir.org/tools/rule-of-72-simple-interest/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Rule of 72 &amp; Simple Interest</span></span></nav>
+
+<div class="title-wrap">
+<h1>🧮 Rule of 72 &amp; Simple Interest</h1>
+<p class="subtitle">How fast money doubles · and what simple interest earns along the way</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>The Rule of 72 is the fastest mental shortcut in personal finance: divide 72 by an annual return to estimate how many years it takes money to double when interest compounds. At 8%, money doubles in about 72 ÷ 8 = 9 years; at 6%, about 12 years. The rule is surprisingly accurate for the 4–12% range where most investments live, and it makes the cost of low returns concrete — a savings account at 0.5% would need 144 years to double, which is why parking long-term money in cash quietly loses buying power.</p>
+<p>This page gives you both directions — rate to doubling time, or target years to the required rate — plus the exact compounding answer for comparison and the sobering “simple interest” alternative, where doubling takes 100 ÷ rate years because interest is never reinvested. The second panel is a plain simple-interest calculator: the everyday math of loans, bonds, and short-term savings, where interest is paid only on the original principal. A side-by-side note shows how much compounding adds over the same term.</p>
+<p>Everything is calculated locally in your browser — no account, no login, no data uploaded. These are arithmetic tools for understanding, not investment or loan advice: real returns vary, fees apply, and loans come with terms and penalties that no formula box can fully capture.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>➗ Why 72 and not 70?</strong><br>72 has many easy divisors (2, 3, 4, 6, 8, 9, 12), so mental math stays clean, and it tracks the true math closely across the 4–12% rates people actually use. The mathematically exact figure for continuous compounding is about 69.3, but 72 is friendlier.</p>
+<p><strong>💡 Does the Rule of 72 work for simple interest?</strong><br>No — it assumes compounding. With simple interest, doubling takes 100 ÷ rate years (e.g. 20 years at 5%). This tool shows both numbers side by side so the difference is easy to see.</p>
+<p><strong>🧾 Where does simple interest actually appear?</strong><br>Some personal loans, short-term CDs and bonds, car loans (flat-rate quotes), and most “interest charged per day” situations such as payday-style lending or late fees. Mortgages and most bank savings compound, which is why their math differs.</p>
+<p><strong>📈 What return should I test?</strong><br>Historical long-run US stock returns are often quoted near 7–10% before inflation; high-yield savings have paid roughly 3.5–4.5% APY in recent years. Test both a low and a high rate — doubling time swings a lot between them.</p>
+<p><strong>🔁 Is 72 ÷ rate the same as the exact doubling time?</strong><br>Almost. At 6%, the rule says 12.0 years; the exact answer with annual compounding is 11.9. At 15% the rule drifts (4.8 vs 5.0 exact), so this page shows the exact figure too.</p>
+<p><strong>⚠️ Is this financial advice?</strong><br>No. These are quick planning numbers. Inflation, taxes, and fees reduce real returns, and loan agreements have fine print — verify terms with the lender before borrowing.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Rule of 72: years to double ≈ 72 ÷ annual rate (rate in %)<br>Exact doubling years = ln(2) ÷ ln(1 + rate)<br>Simple-interest doubling years = 100 ÷ rate<br>Simple interest earned = principal × rate × years<br>Maturity amount = principal × (1 + rate × years)
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Rule of 72 — doubling your money</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Annual return (%)</label>
+<input type="number" id="r72" min="0.1" max="30" step="0.1" value="7">
+</div>
+<div>
+<label class="field-label">…or years until I want it to double</label>
+<input type="number" id="doubleYears" min="1" max="60" step="0.5" placeholder="e.g. 10">
+</div>
+</div>
+<div class="grid3">
+<div class="kpi"><div class="k">Rule of 72 estimate</div><div class="v" id="kEst">—</div></div>
+<div class="kpi"><div class="k">Exact (compounded)</div><div class="v" id="kExact">—</div></div>
+<div class="kpi"><div class="k">If only simple interest</div><div class="v" id="kSimple">—</div></div>
+</div>
+<div class="rowline" style="margin-top:14px"><span>Required rate to double in <span id="reqLabel">—</span></span><strong id="kReq">—</strong></div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">📊 Years to double at common rates (compounded)</div>
+<div class="tablewrap"><table id="tbl72"></table></div>
+</div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · Simple interest on a principal</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Principal ($)</label>
+<input type="number" id="p" min="0" step="500" value="10000">
+</div>
+<div>
+<label class="field-label">Annual rate (%)</label>
+<input type="number" id="r" min="0" max="50" step="0.1" value="5">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Time (years)</label>
+<input type="number" id="t" min="0.5" max="40" step="0.5" value="5">
+</div>
+<div></div>
+</div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Interest earned</div>
+<div class="result-big" id="siBig">$0</div>
+<div class="result-sub" id="siNote">—</div>
+</div>
+<div class="grid3">
+<div class="kpi"><div class="k">Maturity amount</div><div class="v" id="kMaturity">$0</div></div>
+<div class="kpi"><div class="k">If compounded annually</div><div class="v" id="kCompound">$0</div></div>
+<div class="kpi"><div class="k">Compounding adds</div><div class="v" id="kExtra">$0</div></div>
+</div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">📅 Year by year (simple interest)</div>
+<div class="tablewrap"><table id="tblSi"></table></div>
+</div>
+<p class="note">Simple interest charges the same amount each year because it is paid only on the original principal. Rule-of-72 math above assumes compounding, so simple-interest doubling is much slower — 100 ÷ rate years.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../savings-goal-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Savings Goal Calculator</a><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a><a href="../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function money2(x){return '$'+Math.max(0,x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function num(id){return Math.max(0,parseFloat($(id).value)||0);}
+var editing='r72';
+function fmt(n){return (Math.round(n*10)/10).toLocaleString('en-US');}
+function calc72(){
+  var rate=num('r72');
+  var yrs=parseFloat($('doubleYears').value);
+  var usingRate=(editing==='r72'||isNaN(yrs)||yrs<=0);
+  if(usingRate){
+    if(rate<=0){$('kEst').textContent='—';$('kExact').textContent='—';$('kSimple').textContent='—';$('kReq').textContent='—';$('reqLabel').textContent='—';}
+    else{
+      $('kEst').textContent=fmt(72/rate)+' yrs';
+      $('kExact').textContent=fmt(Math.log(2)/Math.log(1+rate/100))+' yrs';
+      $('kSimple').textContent=fmt(100/rate)+' yrs';
+      $('kReq').textContent='—';
+      $('reqLabel').textContent='—';
+    }
+  }else{
+    var req=72/yrs;
+    var exReq=(Math.pow(2,1/yrs)-1)*100;
+    $('kReq').textContent=req.toFixed(1)+'%  (exact '+exReq.toFixed(1)+'%)';
+    $('reqLabel').textContent=yrs+' years';
+    var exact2=Math.log(2)/Math.log(1+(rate||7)/100);
+    $('kEst').textContent=rate>0?fmt(72/rate)+' yrs':'—';
+    $('kExact').textContent=rate>0?fmt(exact2)+' yrs':'—';
+    $('kSimple').textContent=rate>0?fmt(100/rate)+' yrs':'—';
+  }
+  var tr='<tr><th>Annual rate</th><th>Rule of 72</th><th>Exact (compounded)</th></tr>';
+  for(var i=1;i<=12;i++){
+    tr+='<tr><td>'+i+'%</td><td>'+fmt(72/i)+' yrs</td><td>'+fmt(Math.log(2)/Math.log(1+i/100))+' yrs</td></tr>';
+  }
+  $('tbl72').innerHTML=tr;
+}
+$('r72').addEventListener('input',function(){editing='r72';$('doubleYears').value='';calc72();});
+$('doubleYears').addEventListener('input',function(){
+  var v=parseFloat($('doubleYears').value);
+  if(!isNaN(v)&&v>0){editing='years';calc72();}
+  else{editing='r72';calc72();}
+});
+function calcSi(){
+  var p=num('p'),rate=num('r')/100,t=Math.max(0.25,num('t'));
+  var interest=p*rate*t;
+  $('siBig').textContent=money2(interest);
+  $('siNote').textContent='at '+money2(p)+' × '+fmt(rate*100)+'% × '+fmt(t)+' yr'+(t===1?'':'s');
+  $('kMaturity').textContent=money2(p+interest);
+  var compound=p*Math.pow(1+rate,t);
+  $('kCompound').textContent=money2(compound);
+  $('kExtra').textContent=money2(Math.max(0,compound-p-interest));
+  var tr='<tr><th>Year</th><th>Interest that year</th><th>Total balance</th></tr>';
+  var full=Math.floor(t);
+  for(var i=1;i<=Math.min(40,full);i++){
+    tr+='<tr><td>'+i+'</td><td>'+money2(p*rate)+'</td><td>'+money2(p+p*rate*i)+'</td></tr>';
+  }
+  var rem=t-full;
+  if(rem>0.005){
+    tr+='<tr><td>Year '+(full+1)+' (partial '+fmt(rem)+' yr)</td><td>'+money2(p*rate*rem)+'</td><td>'+money2(p+interest)+'</td></tr>';
+  }
+  $('tblSi').innerHTML=tr;
+}
+['p','r','t'].forEach(function(id){$(id).addEventListener('input',calcSi);});
+calc72();
+calcSi();
+</script>
+</body>
+</html>

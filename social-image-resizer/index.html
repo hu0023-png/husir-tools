@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Image Resizer | HuSir Tools</title>
+<meta name="description" content="Resize and crop one photo to perfect social media sizes — Instagram post, story, Facebook, X, LinkedIn, Pinterest, YouTube. Cover or contain, zoom and drag, export PNG or JPG. Private, offline.">
+<link rel="canonical" href="https://www.husir.org/tools/social-image-resizer/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Social Media Image Resizer">
+<meta property="og:description" content="Resize and crop one photo to perfect social media sizes — Instagram post, story, Facebook, X, LinkedIn, Pinterest, YouTube. Cover or contain, zoom and drag, export PNG or JPG. Private, offline.">
+<meta property="og:url" content="https://www.husir.org/tools/social-image-resizer/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Social Media Image Resizer">
+<meta name="twitter:description" content="Resize and crop one photo to perfect social media sizes — Instagram post, story, Facebook, X, LinkedIn, Pinterest, YouTube. Cover or contain, zoom and drag, export PNG or JPG. Private, offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.preset-btn{border:2px solid #e0e0e0;border-radius:10px;padding:9px 8px;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;text-align:center;transition:all .15s}
+.preset-btn b{display:block;font-size:13px;color:#333;margin-bottom:2px}
+.preset-btn span{font-size:11.5px;color:#9aa3b5}
+.preset-btn:hover{border-color:#667eea}
+.preset-btn.active{border-color:#667eea;background:#f5f3ff}
+.preset-btn.active b{color:#4c1d95}
+.custom-row{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.custom-row input[type=number]{width:88px;padding:8px 10px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc}
+.custom-row input:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-sm{padding:7px 12px;font-size:12.5px}
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;border:2px solid #e0e0e0;border-radius:10px;overflow:hidden}
+.seg button{border:none;background:#fff;padding:9px 16px;font-size:13px;font-weight:600;color:#666;cursor:pointer;font-family:inherit}
+.seg button.active{background:#f5f3ff;color:#4c1d95}
+.color-opt{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#666;font-weight:600}
+.color-opt input[type=color]{width:34px;height:34px;border:2px solid #e0e0e0;border-radius:8px;padding:2px;cursor:pointer;background:#fff}
+.preview-wrap{position:relative;border:2px dashed #e0e0e0;border-radius:12px;background:
+#f4f4f8;display:flex;align-items:center;justify-content:center;min-height:280px;padding:14px;cursor:grab;user-select:none;-webkit-user-select:none}
+.preview-wrap.drag{cursor:grabbing}
+.preview-wrap canvas{max-width:100%;max-height:56vh;border-radius:8px;box-shadow:0 4px 18px rgba(0,0,0,.14);background:#fff}
+.drop-hint{color:#9aa3b5;font-size:14px;text-align:center;padding:60px 10px}
+.warn{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.info-line{font-size:12.5px;color:#9aa3b5;margin-top:8px;line-height:1.5}
+.zoom-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.dl-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.btn{min-height:44px;padding-left:14px;padding-right:14px}.seg button{padding:10px 14px}.preset-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],input[type=number]{min-height:44px}}</style>
+<style>
+.ft-file{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;font:600 13.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;cursor:pointer;border:2px dashed rgba(255,255,255,.5);box-shadow:0 3px 12px rgba(102,126,234,.35);user-select:none;-webkit-user-select:none;transition:filter .15s;text-decoration:none}
+.ft-file:hover{filter:brightness(1.08)}
+.ft-file input{display:none}
+.ft-file-sm{padding:7px 13px;font-size:12.5px}
+.ft-file-lg{padding:14px 26px;font-size:15.5px}
+.ft-file-block{width:100%}
+@media(max-width:600px){.ft-file,.ft-file-sm,.ft-file-lg{min-height:44px}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Social Media Image Resizer",
+  "description": "Resize and crop one photo to perfect social media sizes — Instagram post, story, Facebook, X, LinkedIn, Pinterest, YouTube. Cover or contain, zoom and drag, export PNG or JPG. Private, offline.",
+  "url": "https://www.husir.org/tools/social-image-resizer/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which size should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common safe sizes: Instagram post 1080×1080, portrait 1080×1350, story/reel 1080×1920, Facebook & LinkedIn post 1200×630, X/Twitter 1600×900, Pinterest 1000×1500, YouTube thumbnail 1280×720. Using larger pixels than the minimum keeps quality on retina screens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does enlarging a small image keep it sharp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — upscaling only stretches existing pixels. Start from a source at least as large as the target for the cleanest result; the tool warns you when your photo is smaller than the target."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Cover or Contain — what is the difference?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cover scales the photo to fill the whole frame and crops the overflow (best for posts). Contain fits the entire photo inside with matching bars on the sides (best for stories where nothing may be cut)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I move the crop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — drag the photo inside the preview to reposition it and use the zoom buttons or your scroll wheel to frame the subject exactly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my photo uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The file is processed only in your browser and never leaves your device."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Social Media Image Resizer", "item": "https://www.husir.org/tools/social-image-resizer/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Social Media Image Resizer</span></span></nav>
+
+<div class="title-wrap">
+<h1>📐 Social Media Image Resizer</h1>
+<p class="subtitle">One upload &middot; pick a platform size &middot; zoom &amp; drag &middot; export PNG or JPG</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Posting the same photo everywhere? Every platform crops and zooms differently, so one picture rarely fits all. This tool resizes and crops one image to the exact pixel dimensions each platform expects — Instagram post, portrait, story or reel, Facebook post, X/Twitter, LinkedIn, Pinterest, and YouTube thumbnails — so you can publish once and look sharp everywhere.</p>
+<p>Choose a preset (or type your own pixels), pick Cover to crop and fill the frame or Contain to show the whole photo with a background color, then zoom and drag to choose exactly which part of the picture shows. Everything runs locally: your image is never uploaded, which makes it safe for product shots, event photos, or client content.</p>
+<div class="faq">
+<p><strong>🖼 Which size should I use?</strong><br>Common safe sizes: Instagram post 1080×1080, portrait 1080×1350, story/reel 1080×1920, Facebook &amp; LinkedIn post 1200×630, X/Twitter 1600×900, Pinterest 1000×1500, YouTube thumbnail 1280×720. Using larger pixels than the minimum keeps quality on retina screens.</p>
+<p><strong>📈 Does enlarging a small image keep it sharp?</strong><br>No — upscaling only stretches existing pixels. Start from a source at least as large as the target for the cleanest result; the tool warns you when your photo is smaller than the target.</p>
+<p><strong>🖌 Cover or Contain — what is the difference?</strong><br>Cover scales the photo to fill the whole frame and crops the overflow (best for posts). Contain fits the entire photo inside with matching bars on the sides (best for stories where nothing may be cut).</p>
+<p><strong>✋ Can I move the crop?</strong><br>Yes — drag the photo inside the preview to reposition it and use the zoom buttons or your scroll wheel to frame the subject exactly.</p>
+<p><strong>🔒 Is my photo uploaded?</strong><br>No. The file is processed only in your browser and never leaves your device.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Frame pixels = width × height (Instagram story = 1080 × 1920).<br>
+Aspect ratio = width &divide; height (1080&nbsp;×&nbsp;1350 = 4:5 portrait).<br>
+Cover scale = max(targetW&nbsp;&divide;&nbsp;sourceW, targetH&nbsp;&divide;&nbsp;sourceH); Contain scale = min(...).<br>
+For sharp exports keep source ≥ target and export JPG at 85–92% quality.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>1 · Choose an image</h3></div>
+  <label class="ft-file ft-file-block" for="fileInput">&#x1F4C1; Choose an image&hellip;</label>
+  <input type="file" id="fileInput" accept="image/*" hidden>
+  <div class="info-line" id="fileInfo">No image loaded yet.</div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>2 · Pick a size &amp; frame</h3></div>
+  <div class="preset-grid" id="presetGrid"></div>
+  <div class="custom-row">
+    <span style="font-size:13px;color:#666;font-weight:600">Custom:</span>
+    <input type="number" id="cw" min="50" max="4096" value="1080" aria-label="Width in pixels">
+    <span style="color:#9aa3b5;font-size:13px">×</span>
+    <input type="number" id="ch" min="50" max="4096" value="1080" aria-label="Height in pixels">
+    <button class="btn btn-ghost btn-sm" id="applyCustom" type="button">Apply</button>
+  </div>
+  <div class="field-label">Fit</div>
+  <div class="mode-row">
+    <div class="seg" id="modeSeg">
+      <button type="button" data-mode="cover" class="active">Cover (crop to fill)</button>
+      <button type="button" data-mode="contain">Contain (whole photo)</button>
+    </div>
+    <label class="color-opt" id="bgRow" style="display:none">Background
+      <input type="color" id="bgColor" value="#ffffff">
+    </label>
+  </div>
+  <div class="zoom-row">
+    <button class="btn btn-ghost btn-sm" id="zoomOut" type="button">−</button>
+    <button class="btn btn-ghost btn-sm" id="zoomReset" type="button">1×</button>
+    <button class="btn btn-ghost btn-sm" id="zoomIn" type="button">+</button>
+    <span style="font-size:12.5px;color:#9aa3b5">Drag the photo to reposition it</span>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>3 · Preview &amp; export</h3></div>
+  <div class="preview-wrap" id="previewWrap">
+    <canvas id="cv" width="1080" height="1080" style="display:none"></canvas>
+    <div class="drop-hint" id="dropHint">📤 Drop an image here or click "Choose an image" above</div>
+  </div>
+  <div class="warn" id="warnBox"></div>
+  <div class="info-line" id="sizeInfo"></div>
+  <div class="dl-row">
+    <button class="btn btn-primary" id="dlPng" type="button" disabled>⬇ Download PNG</button>
+    <button class="btn btn-primary" id="dlJpg" type="button" disabled>⬇ Download JPG</button>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../grid-splitter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9E9; Grid Image Splitter</a><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a><a href="../color-contrast-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Color Contrast Checker</a><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+(function () {
+  var PRESETS = [
+    { n: 'Instagram Post', w: 1080, h: 1080 },
+    { n: 'Instagram Portrait', w: 1080, h: 1350 },
+    { n: 'Instagram Story / Reel', w: 1080, h: 1920 },
+    { n: 'Facebook Post', w: 1200, h: 630 },
+    { n: 'X / Twitter Post', w: 1600, h: 900 },
+    { n: 'LinkedIn Post', w: 1200, h: 627 },
+    { n: 'Pinterest Pin', w: 1000, h: 1500 },
+    { n: 'YouTube Thumbnail', w: 1280, h: 720 }
+  ];
+  var fileInput = document.getElementById('fileInput');
+  var fileInfo = document.getElementById('fileInfo');
+  var presetGrid = document.getElementById('presetGrid');
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var previewWrap = document.getElementById('previewWrap');
+  var dropHint = document.getElementById('dropHint');
+  var warnBox = document.getElementById('warnBox');
+  var sizeInfo = document.getElementById('sizeInfo');
+  var bgRow = document.getElementById('bgRow');
+  var bgColor = document.getElementById('bgColor');
+  var modeSeg = document.getElementById('modeSeg');
+  var dlPng = document.getElementById('dlPng');
+  var dlJpg = document.getElementById('dlJpg');
+  var img = null;
+  var tw = 1080, th = 1080;
+  var mode = 'cover';
+  var zoom = 1, offX = 0, offY = 0;
+  var dragging = false, lastX = 0, lastY = 0;
+
+  PRESETS.forEach(function (p) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset-btn';
+    b.innerHTML = '<b>' + p.n + '</b><span>' + p.w + ' × ' + p.h + '</span>';
+    b.addEventListener('click', function () {
+      setActivePreset(b);
+      setTarget(p.w, p.h);
+    });
+    presetGrid.appendChild(b);
+  });
+
+  function setActivePreset(btn) {
+    Array.prototype.slice.call(presetGrid.children).forEach(function (el) { el.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+  function setTarget(w, h) {
+    tw = Math.max(50, Math.min(4096, Math.round(w)));
+    th = Math.max(50, Math.min(4096, Math.round(h)));
+    cv.width = tw; cv.height = th;
+    zoom = 1; offX = 0; offY = 0;
+    document.getElementById('cw').value = tw;
+    document.getElementById('ch').value = th;
+    draw();
+  }
+
+  function loadFile(file) {
+    if (!file || file.type.indexOf('image/') !== 0) return;
+    var url = URL.createObjectURL(file);
+    var im = new Image();
+    im.onload = function () {
+      img = im;
+      fileInfo.textContent = file.name + ' — ' + img.width + ' × ' + img.height + ' px loaded';
+      dropHint.style.display = 'none';
+      cv.style.display = 'block';
+      zoom = 1; offX = 0; offY = 0;
+      dlPng.disabled = false; dlJpg.disabled = false;
+      draw();
+    };
+    im.src = url;
+  }
+  fileInput.addEventListener('change', function () { loadFile(fileInput.files[0]); });
+
+  function draw() {
+    if (!img) return;
+    var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+    var s0 = mode === 'cover' ? Math.max(tw / iw, th / ih) : Math.min(tw / iw, th / ih);
+    var s = s0 * zoom;
+    var w = iw * s, h = ih * s;
+    var maxX = Math.max(0, (w - tw) / 2), maxY = Math.max(0, (h - th) / 2);
+    offX = Math.max(-maxX, Math.min(maxX, offX));
+    offY = Math.max(-maxY, Math.min(maxY, offY));
+    ctx.save();
+    ctx.fillStyle = mode === 'contain' ? bgColor.value : '#ffffff';
+    ctx.fillRect(0, 0, tw, th);
+    ctx.translate(tw / 2 + offX, th / 2 + offY);
+    ctx.scale(s, s);
+    ctx.drawImage(img, -iw / 2, -ih / 2);
+    ctx.restore();
+    var warn = [];
+    if (iw < tw || ih < th) warn.push('Source is smaller than the target — export may look soft. Use the largest source you have.');
+    warnBox.style.display = warn.length ? 'block' : 'none';
+    warnBox.textContent = warn.join(' ');
+    sizeInfo.textContent = 'Canvas: ' + tw + ' × ' + th + ' px · visible source zoom ' + (zoom >= 10 ? zoom.toFixed(1) : zoom.toFixed(2)) + '×';
+  }
+
+  bgColor.addEventListener('input', draw);
+  document.getElementById('applyCustom').addEventListener('click', function () {
+    setTarget(parseInt(document.getElementById('cw').value, 10) || tw, parseInt(document.getElementById('ch').value, 10) || th);
+    Array.prototype.slice.call(presetGrid.children).forEach(function (el) { el.classList.remove('active'); });
+  });
+
+  modeSeg.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button') : null;
+    if (!b || !b.getAttribute('data-mode')) return;
+    mode = b.getAttribute('data-mode');
+    Array.prototype.slice.call(modeSeg.children).forEach(function (el) { el.classList.toggle('active', el === b); });
+    bgRow.style.display = mode === 'contain' ? 'inline-flex' : 'none';
+    if (mode === 'cover' && zoom < 1) zoom = 1;
+    draw();
+  });
+
+  function clampZoom(z) {
+    var min = mode === 'cover' ? 1 : 0.5;
+    return Math.max(min, Math.min(8, z));
+  }
+  document.getElementById('zoomIn').addEventListener('click', function () { zoom = clampZoom(zoom * 1.25); draw(); });
+  document.getElementById('zoomOut').addEventListener('click', function () { zoom = clampZoom(zoom / 1.25); draw(); });
+  document.getElementById('zoomReset').addEventListener('click', function () { zoom = 1; offX = 0; offY = 0; draw(); });
+
+  function screenToCanvas(dx, dy) {
+    var r = cv.getBoundingClientRect();
+    var kx = cv.width / r.width, ky = cv.height / r.height;
+    return [dx * kx, dy * ky];
+  }
+  previewWrap.addEventListener('mousedown', function (e) {
+    if (!img) return;
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    previewWrap.classList.add('drag');
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!dragging) return;
+    var d = screenToCanvas(e.clientX - lastX, e.clientY - lastY);
+    offX += d[0]; offY += d[1];
+    lastX = e.clientX; lastY = e.clientY;
+    draw();
+  });
+  window.addEventListener('mouseup', function () { dragging = false; previewWrap.classList.remove('drag'); });
+
+  var ts = null;
+  previewWrap.addEventListener('touchstart', function (e) {
+    if (!img || e.touches.length !== 1) return;
+    dragging = true; ts = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
+  previewWrap.addEventListener('touchmove', function (e) {
+    if (!dragging || !ts || e.touches.length !== 1) return;
+    var dx = e.touches[0].clientX - ts.x, dy = e.touches[0].clientY - ts.y;
+    var d = screenToCanvas(dx, dy);
+    offX += d[0]; offY += d[1];
+    ts = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    draw();
+    e.preventDefault();
+  }, { passive: false });
+  previewWrap.addEventListener('touchend', function () { dragging = false; ts = null; previewWrap.classList.remove('drag'); });
+
+  previewWrap.addEventListener('wheel', function (e) {
+    if (!img) return;
+    e.preventDefault();
+    zoom = clampZoom(zoom * (e.deltaY < 0 ? 1.15 : 1 / 1.15));
+    draw();
+  }, { passive: false });
+
+  ['dragover', 'drop'].forEach(function (ev) {
+    previewWrap.addEventListener(ev, function (e) {
+      e.preventDefault();
+      if (ev === 'drop' && e.dataTransfer && e.dataTransfer.files.length) loadFile(e.dataTransfer.files[0]);
+    });
+  });
+  document.addEventListener('drop', function (e) { e.preventDefault(); });
+
+  function download(type) {
+    if (!img) return;
+    var name = 'social-' + tw + 'x' + th + '-' + Date.now();
+    if (type === 'jpg') {
+      var jpgCanvas = document.createElement('canvas');
+      jpgCanvas.width = tw; jpgCanvas.height = th;
+      var jctx = jpgCanvas.getContext('2d');
+      jctx.fillStyle = mode === 'contain' ? bgColor.value : '#ffffff';
+      jctx.fillRect(0, 0, tw, th);
+      jctx.drawImage(cv, 0, 0);
+      var a = document.createElement('a');
+      a.download = name + '.jpg';
+      a.href = jpgCanvas.toDataURL('image/jpeg', 0.92);
+      a.click();
+    } else {
+      var a2 = document.createElement('a');
+      a2.download = name + '.png';
+      a2.href = cv.toDataURL('image/png');
+      a2.click();
+    }
+  }
+  dlPng.addEventListener('click', function () { download('png'); });
+  dlJpg.addEventListener('click', function () { download('jpg'); });
+})();
+</script>
+</body>
+</html>

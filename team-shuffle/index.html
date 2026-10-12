@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Seating Chart Randomizer &amp; Team Shuffle | HuSir Tools</title>
+<meta name="description" content="Shuffle students or participants into balanced teams and seating charts. No signup, no upload, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/team-shuffle/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Seating Chart Randomizer & Team Shuffle">
+<meta property="og:description" content="Shuffle students or participants into balanced teams and seating charts. No signup, no upload, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/team-shuffle/">
+<meta property="og:image" content="https://www.husir.org/tools/og-team-shuffle.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Seating Chart Randomizer & Team Shuffle">
+<meta name="twitter:description" content="Shuffle students or participants into balanced teams and seating charts. No signup, no upload, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-team-shuffle.png">
+<meta name="robots" content="index, follow">
+<script>
+/* Libraries are fetched from several CDNs in turn: cdn.jsdelivr.net is unreachable
+   on some networks (many China ISPs block or throttle it), and a library that never
+   arrived used to mean the tool failed silently -- Export did nothing, the chart
+   never drew, the preview stayed blank. Now a failed host falls through to the next,
+   and a call made before the library arrives is queued instead of being lost. */
+window.husirLib=(function(){var L={"html2canvas": ["https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"]},ready={},waiting={};
+function mark(n){ready[n]=!0;var q=waiting[n]||[];waiting[n]=[];for(var i=0;i<q.length;i++){try{q[i]()}catch(e){}}}
+function attempt(n,i){var a=L[n];if(i>=a.length)return;var s=document.createElement('script'),done=!1;
+function drop(){if(s.parentNode)s.parentNode.removeChild(s)}
+var t=setTimeout(function(){if(done)return;done=!0;drop();attempt(n,i+1)},8000);
+s.onload=function(){if(done)return;done=!0;clearTimeout(t);mark(n)};
+s.onerror=function(){if(done)return;done=!0;clearTimeout(t);drop();attempt(n,i+1)};
+s.src=a[i];document.head.appendChild(s)}
+for(var n in L){if(window[n])ready[n]=!0;else attempt(n,0)}
+return{isReady:function(n){return!!ready[n]},when:function(n,f){if(ready[n]){f();return}var q=waiting[n]=waiting[n]||[];if(q.indexOf(f)<0)q.push(f)}}})();
+</script>
+<script>
+/* html2canvas is always called with await/.then, so a call that arrives before the
+   library does can wait for it instead of throwing "html2canvas is not defined". */
+(function(){var n='html2canvas';if(window[n])return;
+var proxy=function(){var a=arguments,self=this;
+if(window[n]&&window[n]!==proxy)return window[n].apply(self,a);
+return new Promise(function(res,rej){var done=!1;
+var t=setTimeout(function(){if(done)return;done=!0;rej(new Error('html2canvas could not be downloaded - check your internet connection'))},30000);
+window.husirLib.when(n,function(){if(done)return;done=!0;clearTimeout(t);
+if(window[n]&&window[n]!==proxy){try{res(window[n].apply(self,a))}catch(e){rej(e)}}else{rej(new Error('html2canvas failed to load'))}})})};
+window[n]=proxy})();
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Noto Sans SC", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 28px 16px;
+  }
+  .container { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+  .title-wrap { text-align: center; }
+  h1 {
+    text-align: center; color: #fff; font-size: 28px; margin-bottom: 2px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 800; letter-spacing: 2px;
+  }
+  .subtitle { color: rgba(255,255,255,0.7); font-size: 13px; }
+
+  .panel {
+    background: #fff; border-radius: 16px; padding: 20px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+  }
+  .panel-header h3 { font-size: 16px; color: #333; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .count-badge {
+    background: #667eea; color: #fff; font-size: 11px; font-weight: 700;
+    padding: 2px 10px; border-radius: 10px;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 10px 20px; border-radius: 10px; border: none;
+    font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    font-family: inherit; white-space: nowrap; justify-content: center;
+  }
+  .btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
+  .btn-lg { padding: 12px 28px; font-size: 16px; border-radius: 12px; }
+  .btn-shuffle {
+    background: linear-gradient(135deg, #667eea, #764ba2); color: #fff;
+    box-shadow: 0 4px 16px rgba(102,126,234,0.4); width: 100%;
+  }
+  .btn-shuffle:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(102,126,234,0.55); }
+  .btn-shuffle:active { transform: translateY(0); }
+  .btn-import { background: #10b981; color: #fff; }
+  .btn-import:hover { background: #059669; }
+  .btn-outline { background: #fff; color: #667eea; border: 2px solid #667eea; }
+  .btn-outline:hover { background: #f5f3ff; }
+  .btn-ghost { background: #f0f0f0; color: #555; }
+  .btn-ghost:hover { background: #e0e0e0; }
+  .btn-export { background: #ec4899; color: #fff; }
+  .btn-export:hover { background: #db2777; }
+  .btn-print { background: #3b82f6; color: #fff; }
+  .btn-print:hover { background: #2563eb; }
+
+  textarea {
+    width: 100%; min-height: 130px; border: 2px solid #e0e0e0; border-radius: 10px;
+    padding: 14px; font-size: 15px; font-family: inherit; line-height: 1.8;
+    resize: vertical; outline: none; transition: border-color 0.2s; background: #fafbfc;
+  }
+  textarea:focus { border-color: #667eea; background: #fff; }
+  .input-hint { font-size: 11px; color: #aaa; margin-top: 6px; }
+
+  .control-bar {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 14px;
+  }
+  .mode-group {
+    display: flex; background: #f0f0f5; border-radius: 10px; overflow: hidden;
+  }
+  .mode-btn {
+    border: none; background: transparent; padding: 8px 16px;
+    font-size: 13px; font-family: inherit; cursor: pointer; color: #888;
+    transition: all 0.15s; white-space: nowrap; font-weight: 600;
+  }
+  .mode-btn.active { background: #667eea; color: #fff; }
+  .num-input {
+    width: 64px; padding: 8px; border: 2px solid #e0e0e0; border-radius: 8px;
+    font-size: 15px; font-family: inherit; text-align: center; outline: none;
+    font-weight: 700; color: #667eea;
+  }
+  .num-input:focus { border-color: #667eea; }
+  .num-label { font-size: 14px; color: #666; font-weight: 600; }
+  .num-wrap { display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; }
+
+  .tab-bar {
+    display: flex; border-bottom: 2px solid #e8e8ed; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .tab {
+    border: none; background: transparent; padding: 10px 18px;
+    font-size: 14px; font-family: inherit; cursor: pointer; color: #999;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s; font-weight: 600; white-space: nowrap;
+  }
+  .tab.active { color: #667eea; border-bottom-color: #667eea; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .group-card {
+    background: #f9fafb; border-radius: 12px; padding: 16px;
+    border: 1.5px solid #e8e8ed; transition: border-color 0.2s;
+  }
+  .group-card:hover { border-color: #c4b5fd; }
+  .group-card.drag-over { border-color: #667eea !important; background: #f5f3ff !important; }
+  .group-card-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+  }
+  .group-name {
+    font-size: 15px; font-weight: 700; color: #1a1a2e;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .group-icon {
+    width: 28px; height: 28px; border-radius: 8px; display: flex;
+    align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+  }
+  .group-count {
+    font-size: 11px; color: #999; background: #e8e8ed;
+    padding: 2px 10px; border-radius: 10px; font-weight: 600;
+  }
+  .member-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .member-item {
+    font-size: 13px; color: #424245; padding: 6px 10px;
+    background: #fff; border-radius: 6px; cursor: grab; border: 1px solid transparent;
+    transition: all 0.15s; display: flex; align-items: center; gap: 7px;
+  }
+  .member-item:hover { border-color: #667eea; box-shadow: 0 1px 4px rgba(102,126,234,0.1); }
+  .member-item.dragging { opacity: 0.4; }
+  .member-num { color: #bbb; font-size: 11px; font-weight: 700; min-width: 18px; }
+
+  .bracket {
+    display: flex; gap: 4px; overflow-x: auto; padding: 12px 0;
+  }
+  .bracket-round {
+    display: flex; flex-direction: column; justify-content: space-around;
+    min-width: 150px; gap: 4px;
+  }
+  .bracket-round-title {
+    font-size: 11px; color: #999; text-align: center; margin-bottom: 6px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .bracket-match {
+    background: #f9fafb; border: 1.5px solid #e8e8ed; border-radius: 8px;
+    padding: 10px 12px; min-height: 52px; display: flex;
+    align-items: center; justify-content: center; flex-direction: column;
+  }
+  .bracket-slot { font-size: 13px; color: #424245; font-weight: 600; }
+
+  .seat-layout-controls {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px;
+  }
+  .layout-mode-group {
+    display: flex; background: #f0f0f5; border-radius: 10px; overflow: hidden;
+  }
+  .layout-mode-btn {
+    border: none; background: transparent; padding: 8px 16px;
+    font-size: 13px; font-family: inherit; cursor: pointer; color: #888;
+    transition: all 0.15s; white-space: nowrap; font-weight: 600;
+  }
+  .layout-mode-btn.active { background: #667eea; color: #fff; }
+
+  .seat-area {
+    background: #fafbfc; border: 2px dashed #e0e0e0; border-radius: 16px;
+    padding: 20px; min-height: 200px; position: relative;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+
+  .row-col-grid {
+    display: flex; flex-direction: column; gap: 8px; align-items: center;
+  }
+  .seat-row {
+    display: flex; gap: 8px; align-items: center; position: relative;
+  }
+  .row-label {
+    width: 30px; font-size: 11px; font-weight: 700; color: #999;
+    text-align: center; flex-shrink: 0;
+  }
+  .seat-cell {
+    width: 52px; height: 52px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff;
+    text-align: center; line-height: 1.2; padding: 2px;
+    transition: transform 0.15s; cursor: default;
+    word-break: break-all;
+  }
+  .seat-cell:hover { transform: scale(1.08); }
+  .seat-cell.empty { background: #e8e8ed !important; color: #ccc !important; }
+
+  .ushape-layout { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .ushape-top { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; }
+  .ushape-middle { display: flex; justify-content: space-between; }
+  .ushape-left, .ushape-right { display: flex; flex-direction: column; gap: 8px; }
+  .ushape-podium {
+    text-align: center; color: #ccc; font-size: 13px; font-weight: 600;
+    padding: 10px; margin-top: 4px;
+  }
+
+  .round-tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .round-table-wrap { display: flex; flex-direction: column; align-items: center; }
+  .round-table-label { font-size: 13px; font-weight: 700; color: #667eea; margin-bottom: 10px; }
+  .round-table {
+    position: relative; border-radius: 50%; border: 3px solid #e0e0e0;
+    background: #f9fafb; display: flex; align-items: center; justify-content: center;
+  }
+  .round-table-seat {
+    position: absolute; width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+    text-align: center; line-height: 1.2; padding: 2px;
+    word-break: break-all;
+  }
+
+  /* ── Image Preview ── */
+  .img-preview-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 1000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .img-preview-overlay.show { opacity: 1; pointer-events: auto; }
+  .img-preview-overlay img {
+    max-width: 92vw; max-height: 75vh; border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4); background: #fff;
+    -webkit-touch-callout: default;
+  }
+  .img-preview-hint {
+    color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 600;
+    margin-bottom: 12px; text-align: center;
+  }
+  .img-preview-actions {
+    display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;
+  }
+  .img-preview-close {
+    padding: 10px 28px; border-radius: 10px; border: none;
+    background: rgba(255,255,255,0.15); color: #fff;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s; font-family: inherit;
+  }
+  .img-preview-close:hover { background: rgba(255,255,255,0.25); }
+  .img-preview-dl {
+    padding: 10px 28px; border-radius: 10px; border: none;
+    background: #10b981; color: #fff;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s; font-family: inherit;
+  }
+  .img-preview-dl:hover { background: #059669; }
+
+  @page{size:letter;margin:1in}
+@media print {
+    body { background: #fff !important; padding: 0 !important; }
+    .container { max-width: 100% !important; gap: 0 !important; }
+    .panel { box-shadow: none !important; border-radius: 0 !important; break-inside: avoid; }
+    .title-wrap, #inputPanel, .tab-bar, .btn, .control-bar, .seat-layout-controls,
+    .shortcut-hint, .input-hint, #toast, .img-preview-overlay { display: none !important; }
+    .seat-area { border: 1px solid #ccc !important; }
+    #resultsPanel { display: block !important; }
+    .seat-area.print-friendly { border: 1px solid #999 !important; background: #fff !important; }
+    .panel-header { display: none !important; }
+    .panel { padding: 0 !important; margin: 0 !important; }
+    .seat-area { min-height: 0 !important; padding: 8px !important; }
+    .row-col-grid { gap: 4px !important; }
+    .seat-row { gap: 4px !important; }
+    .seat-cell { width: 30px !important; height: 30px !important; font-size: 9px !important; border-radius: 5px !important; }
+    .row-label { width: 16px !important; font-size: 8px !important; }
+
+  }
+
+  .empty-state { text-align: center; color: #ccc; padding: 50px 0; font-size: 14px; }
+
+  .toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: #10b981; color: #fff; padding: 10px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; z-index: 999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .toast.show { opacity: 1; }
+
+  .shortcut-hint {
+    text-align: center; color: rgba(255,255,255,0.45); font-size: 11px; margin-top: 8px;
+  }
+  .shortcut-hint kbd {
+    background: rgba(255,255,255,0.15); border-radius: 4px; padding: 1px 7px;
+    font-family: inherit; font-size: 10px; border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  @media (max-width: 600px) {
+    .control-bar { flex-wrap: wrap; gap: 8px; }
+    .mode-group { flex: 1 1 100%; justify-content: center; }
+    .mode-group .mode-btn { flex: 1; text-align: center; }
+    .num-wrap { margin: 0 auto; }
+    .group-grid { grid-template-columns: 1fr; }
+    .panel { padding: 14px 12px; }
+    .panel-header { flex-wrap: wrap; gap: 8px; }
+    .panel-header h3 { flex: 1 1 100%; }
+    .panel-header > div { flex-wrap: wrap; gap: 4px; }
+    .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+    h1 { font-size: 20px; }
+    .subtitle { font-size: 12px; }
+    body { padding: 16px 8px; }
+    .container { gap: 10px; }
+    .tab { padding: 7px 10px; font-size: 13px; }
+    .seat-cell { width: 40px; height: 40px; font-size: 10px; border-radius: 8px; }
+    .round-table-seat { width: 32px; height: 32px; font-size: 10px; }
+    .round-tables-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .seat-area { padding: 12px; }
+    .row-label { width: 20px; font-size: 10px; }
+    .seat-row { gap: 5px; }
+    .layout-mode-group .layout-mode-btn { padding: 6px 10px; font-size: 11px; }
+  }
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<style>
+.ft-file{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;font:600 13.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;cursor:pointer;border:2px dashed rgba(255,255,255,.5);box-shadow:0 3px 12px rgba(102,126,234,.35);user-select:none;-webkit-user-select:none;transition:filter .15s;text-decoration:none}
+.ft-file:hover{filter:brightness(1.08)}
+.ft-file input{display:none}
+.ft-file-sm{padding:7px 13px;font-size:12.5px}
+.ft-file-lg{padding:14px 26px;font-size:15.5px}
+.ft-file-block{width:100%}
+@media(max-width:600px){.ft-file,.ft-file-sm,.ft-file-lg{min-height:44px}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Seating Chart Randomizer",
+  "description": "Shuffle students or participants into balanced teams and seating charts. No signup, no upload, works offline.",
+  "url": "https://www.husir.org/tools/team-shuffle/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I reroll?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — shuffle again for a brand-new arrangement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Group size or number of groups?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set your preferred group size and the tool splits the list; the last group may be smaller. Seat mode uses the rows or seats you configure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I share the result?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Copy the output or export CSV and paste it into Google Sheets, Excel, or a slide."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are names uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the randomization happens on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is matchups mode for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pairing participants for debates, games, interviews, or peer feedback."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Seating Chart Randomizer", "item": "https://www.husir.org/tools/team-shuffle/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Seating Chart Randomizer</span></span></nav>
+
+  <div class="title-wrap">
+    <h1>💺 Seating Chart Randomizer</h1>
+    <p class="subtitle">Enter names · Groups & Seats & Matchups · All-in-one</p>
+  </div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Turn a list of names into groups, seats, or matchups in one click. Teachers use it for seating charts and breakout teams; trainers and hosts use it for icebreakers, games, and interviews. Enter names, choose a group size or rows/seats, shuffle, and everyone is placed instantly.</p>
+<p>Every shuffle runs locally in your browser, so names never leave the device — no signup or data storage. Re-roll as often as you like, then copy or export the results as CSV to paste into a spreadsheet or slide.</p>
+<div class="faq">
+<p><strong>🔀 Can I reroll?</strong><br>Yes — shuffle again for a brand-new arrangement.</p>
+<p><strong>👥 Group size or number of groups?</strong><br>Set your preferred group size and the tool splits the list; the last group may be smaller. Seat mode uses the rows or seats you configure.</p>
+<p><strong>📤 How do I share the result?</strong><br>Copy the output or export CSV and paste it into Google Sheets, Excel, or a slide.</p>
+<p><strong>🔒 Are names uploaded?</strong><br>No — the randomization happens on your device.</p>
+<p><strong>♟️ What is matchups mode for?</strong><br>Pairing participants for debates, games, interviews, or peer feedback.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Groups needed ≈ N ÷ group size (the last group may be smaller)<br>Matchups produce one pairing per two people in the shuffled list<br>CSV export keeps the displayed order for easy pasting
+</div>
+</div>
+</details>
+
+<div class="panel" id="inputPanel">
+    <div class="panel-header">
+      <h3>📋 Name List <span class="count-badge" id="nameCount">0 people</span></h3>
+      <div style="display:flex;gap:6px">
+        <button class="ft-file ft-file-sm" onclick="document.getElementById('fileInput').click()">📂 Import File</button>
+        <input type="file" id="fileInput" accept=".txt,.csv" style="display:none" onchange="handleFileImport(event)">
+        <button class="btn btn-ghost btn-sm" id="clearBtn">Clear</button>
+      </div>
+    </div>
+    <textarea id="nameInput" placeholder="One name per line. Supports line breaks, commas, spaces.&#10;&#10;Alice&#10;Bob&#10;Carol, Dave&#10;&#10;💡 Or use the top-right 「Import File」Batch Import TXT / CSV"></textarea>
+    <div class="input-hint">Enter names manually or import .txt / .csv files</div>
+    <div class="control-bar">
+      <div class="mode-group" id="modeGroup">
+        <button class="mode-btn active" data-mode="groups">🔢 By Group Count</button>
+        <button class="mode-btn" data-mode="size">👤 By Group Size</button>
+      </div>
+      <span class="num-wrap"><input type="number" class="num-input" id="groupNum" value="4" min="2" max="99"> <span class="num-label" id="numLabel">groups</span></span>
+    </div>
+    <button class="btn btn-lg btn-shuffle" id="shuffleBtn" style="margin-top:14px;">🎲 Randomize</button>
+    <p class="shortcut-hint"><kbd>⌘ + Enter</kbd> (Mac) <kbd>Ctrl + Enter</kbd> (Win) Quick Layout</p>
+  </div>
+
+  <div class="panel" id="resultsPanel" style="display:none;">
+    <div class="panel-header">
+      <h3 id="resultsTitle">🏁 Results</h3>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-outline btn-sm" id="copyBtn">📋 Copy Results</button>
+        <button class="btn btn-print btn-sm" id="printBtn">🖨️ Print Seating Chart</button>
+        <button class="btn btn-ghost btn-sm" id="reshuffleBtn">🔀 Reshuffle</button>
+        <button class="btn btn-export btn-sm" id="exportImgBtn">📸 Export Image</button>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab active" data-tab="Groups">📊 Group View</button>
+      <button class="tab" data-tab="Seats">💺 Seating Chart</button>
+      <button class="tab" data-tab="Bracket">🏆 Matchups</button>
+    </div>
+    <div class="tab-content active" id="tabGroups">
+      <div class="group-grid" id="groupGrid"></div>
+    </div>
+    <div class="tab-content" id="tabSeats">
+      <div class="seat-layout-controls">
+        <div class="layout-mode-group" id="layoutModeGroup">
+          <button class="layout-mode-btn active" data-layout="rowcol">📐 Grid Layout</button>
+          <button class="layout-mode-btn" data-layout="ushape">🔲 U-Shape</button>
+          <button class="layout-mode-btn" data-layout="round">⭕ Round Table</button>
+        </div>
+        <span class="num-wrap" id="rowColControls" style="gap:4px;">
+          <input type="number" class="num-input" id="seatRows" value="6" min="2" max="20" style="width:48px;">
+          <span style="font-size:12px;color:#999;">Rows ×</span>
+          <input type="number" class="num-input" id="seatCols" value="6" min="2" max="20" style="width:48px;">
+          <span style="font-size:12px;color:#999;">Cols</span>
+        </span>
+        <span class="num-wrap" id="roundTableControls" style="display:none;gap:4px;">
+          <input type="number" class="num-input" id="seatsPerTable" value="8" min="3" max="16" style="width:52px;">
+          <span style="font-size:12px;color:#999;">per table</span>
+        </span>
+      </div>
+      <div class="seat-area" id="seatArea"></div>
+    </div>
+    <div class="tab-content" id="tabBracket">
+      <div class="bracket" id="bracketView"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="emptyState" style="text-align:center;">
+    <div class="empty-state">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#c7c7cc" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <p style="font-size:15px;color:#bbb;">Enter names then click "Randomize」</p>
+      <p style="font-size:12px;color:#ddd;margin-top:4px;">Supports TXT / CSV import · Groups · Seating · Matchups</p>
+    </div>
+  </div>
+</div>
+
+<!-- Image Preview -->
+<div class="img-preview-overlay" id="imgPreviewOverlay">
+  <p class="img-preview-hint" id="imgPreviewHint">📱 Long press image to save to gallery</p>
+  <img id="imgPreviewImg" src="" alt="Export Image">
+  <div class="img-preview-actions">
+    <button class="img-preview-dl" id="imgPreviewDl">💾 Download Image</button>
+    <button class="img-preview-close" id="imgPreviewClose">✕ Close</button>
+  </div>
+</div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+  <div style="text-align:center;margin-top:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08)">
+    <a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:12px;font-weight:600;text-decoration:none;">🛠 More Free Tools →</a>
+    <span style="color:rgba(255,255,255,0.12);margin:0 8px;">|</span>
+    <a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.78);text-decoration:none;font-size:12px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">☕ Buy me a coffee</a>
+  </div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function() {
+  var nameInput = document.getElementById('nameInput');
+  var shuffleBtn = document.getElementById('shuffleBtn');
+  var clearBtn = document.getElementById('clearBtn');
+  var reshuffleBtn = document.getElementById('reshuffleBtn');
+  var copyBtn = document.getElementById('copyBtn');
+  var exportImgBtn = document.getElementById('exportImgBtn');
+  var printBtn = document.getElementById('printBtn');
+  var groupNum = document.getElementById('groupNum');
+  var numLabel = document.getElementById('numLabel');
+  var modeBtns = document.querySelectorAll('.mode-btn');
+  var resultsPanel = document.getElementById('resultsPanel');
+  var emptyState = document.getElementById('emptyState');
+  var groupGrid = document.getElementById('groupGrid');
+  var bracketView = document.getElementById('bracketView');
+  var seatArea = document.getElementById('seatArea');
+  var resultsTitle = document.getElementById('resultsTitle');
+  var nameCount = document.getElementById('nameCount');
+  var tabs = document.querySelectorAll('.tab');
+  var tabContents = document.querySelectorAll('.tab-content');
+  var layoutModeBtns = document.querySelectorAll('.layout-mode-btn');
+  var seatRowsEl = document.getElementById('seatRows');
+  var seatColsEl = document.getElementById('seatCols');
+  var seatsPerTableEl = document.getElementById('seatsPerTable');
+  var rowColControls = document.getElementById('rowColControls');
+  var roundTableControls = document.getElementById('roundTableControls');
+
+  var imgPreviewOverlay = document.getElementById('imgPreviewOverlay');
+  var imgPreviewImg = document.getElementById('imgPreviewImg');
+  var imgPreviewHint = document.getElementById('imgPreviewHint');
+  var imgPreviewClose = document.getElementById('imgPreviewClose');
+  var imgPreviewDl = document.getElementById('imgPreviewDl');
+
+  var GROUP_COLORS = [
+    '#667eea','#f59e0b','#10b981','#ef4444','#8b5cf6',
+    '#ec4899','#06b6d4','#f97316','#3b82f6','#84cc16',
+    '#e11d48','#6366f1','#14b8a6','#d946ef','#f43f5e',
+    '#0ea5e9','#a855f7','#22c55e','#eab308','#64748b'
+  ];
+  var GROUP_ICONS = ['🅰️','🅱️','©️','🅳','🅴','🅵','🅶','🅷','🅸','🅹','🅺','🅻','🅼','🅽','🅾️','🅿️','🆀','🆁','🆂','🆃'];
+
+  var currentMode = 'groups';
+  var currentLayout = 'rowcol';
+  var lastResult = null;
+  var lastExportedDataUrl = null;
+
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2000);
+  }
+
+  // ── Image preview overlay ──
+  imgPreviewClose.addEventListener('click', function(){ imgPreviewOverlay.classList.remove('show'); });
+  imgPreviewOverlay.addEventListener('click', function(e){
+    if (e.target === imgPreviewOverlay) imgPreviewOverlay.classList.remove('show');
+  });
+  imgPreviewDl.addEventListener('click', function(){
+    if (!lastExportedDataUrl) return;
+    var a = document.createElement('a');
+    a.download = 'Results_' + new Date().toISOString().slice(0,10) + '.png';
+    a.href = lastExportedDataUrl;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ document.body.removeChild(a); }, 100);
+    showToast('📸 Image downloaded');
+  });
+
+  function showImagePreview(dataUrl) {
+    lastExportedDataUrl = dataUrl;
+    imgPreviewImg.src = dataUrl;
+    imgPreviewHint.textContent = '';
+    imgPreviewDl.style.display = 'none';
+    imgPreviewOverlay.classList.add('show');
+  }
+
+  // ── File Import ──
+  window.handleFileImport = function(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var ext = file.name.split('.').pop().toLowerCase();
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var text = e.target.result;
+      if (ext === 'csv') {
+        var lines = text.split(/\n|\r\n/).filter(function(l){ return l.trim(); });
+        var firstCell = lines[0] ? lines[0].split(',')[0].trim() : '';
+        if (/^(name|Name|name|Name|participants|name list|participant|participant)/i.test(firstCell) || firstCell === '') {
+          lines.shift();
+        }
+        text = lines.map(function(l){ return l.split(',')[0].trim(); }).filter(function(s){ return s; }).join('\n');
+      }
+      nameInput.value = (nameInput.value && nameInput.value.trim() ? nameInput.value.trim() + '\n' : '') + text;
+      updateNameCount();
+      showToast('✅ Imported ' + parseNames(text).length + ' people');
+    };
+    reader.readAsText(file, 'UTF-8');
+    event.target.value = '';
+  };
+
+  modeBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      modeBtns.forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      currentMode = this.dataset.mode;
+      numLabel.textContent = currentMode === 'groups' ? 'groups' : ' people/groups';
+      groupNum.value = currentMode === 'groups' ? '4' : '3';
+    });
+  });
+
+  layoutModeBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      layoutModeBtns.forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      currentLayout = this.dataset.layout;
+      rowColControls.style.display = (currentLayout === 'rowcol') ? '' : 'none';
+      roundTableControls.style.display = (currentLayout === 'round') ? '' : 'none';
+      if (lastResult) renderSeats();
+    });
+  });
+
+  [seatRowsEl, seatColsEl, seatsPerTableEl].forEach(function(el){
+    el.addEventListener('input', function(){ if (lastResult) renderSeats(); });
+  });
+
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      tabContents.forEach(function(tc){ tc.classList.remove('active'); });
+      this.classList.add('active');
+      var target = document.getElementById('tab' + this.dataset.tab);
+      if (target) target.classList.add('active');
+      if (this.dataset.tab === 'Seats' && lastResult) renderSeats();
+    });
+  });
+
+  function parseNames(raw) {
+    if (!raw.trim()) return [];
+    return raw.split(/[，,\n\r]+|\s{2,}/)
+      .map(function(s){ return s.trim(); })
+      .filter(function(s){ return s.length > 0; });
+  }
+
+  function updateNameCount() {
+    var n = parseNames(nameInput.value).length;
+    nameCount.textContent = n + ' people';
+    nameCount.style.background = n > 0 ? '#10b981' : '#667eea';
+  }
+  nameInput.addEventListener('input', updateNameCount);
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function doGrouping() {
+    var names = parseNames(nameInput.value);
+    if (names.length === 0) { showToast('⚠️ Please enter names first'); return; }
+    var shuffled = shuffle(names);
+    var n = parseInt(groupNum.value) || 1;
+    var groups = [];
+    if (currentMode === 'groups') {
+      var groupCount = Math.min(n, shuffled.length);
+      for (var i = 0; i < groupCount; i++) groups.push([]);
+      shuffled.forEach(function(name, idx){ groups[idx % groupCount].push(name); });
+    } else {
+      var size = Math.max(1, n);
+      for (var i = 0; i < shuffled.length; i += size) groups.push(shuffled.slice(i, i + size));
+    }
+    lastResult = { groups: groups, mode: currentMode, param: n };
+    renderResults(groups);
+  }
+
+  function renderResults(groups) {
+    resultsPanel.style.display = 'block';
+    emptyState.style.display = 'none';
+    var total = groups.reduce(function(s, g){ return s + g.length; }, 0);
+    resultsTitle.innerHTML = '🏁 Results <span class="count-badge" style="background:#10b981;">' + groups.length + ' groups / ' + total + ' people</span>';
+
+    groupGrid.innerHTML = '';
+    groups.forEach(function(members, gi){
+      var card = document.createElement('div');
+      card.className = 'group-card';
+      card.dataset.group = gi;
+      var color = GROUP_COLORS[gi % GROUP_COLORS.length];
+      var icon = GROUP_ICONS[gi] || '#' + (gi + 1);
+      var header = document.createElement('div');
+      header.className = 'group-card-header';
+      header.innerHTML = '<span class="group-name"><span class="group-icon" style="background:' + color + ';color:#fff;font-size:12px;">' + icon + '</span>Round ' + (gi + 1) + ' groups</span><span class="group-count">' + members.length + ' people</span>';
+      card.appendChild(header);
+      var list = document.createElement('ul');
+      list.className = 'member-list';
+      members.forEach(function(name, mi){
+        var item = document.createElement('li');
+        item.className = 'member-item';
+        item.draggable = true;
+        item.dataset.fromGroup = gi;
+        item.dataset.memberIndex = mi;
+        item.innerHTML = '<span class="member-num" style="color:' + color + '">' + (mi + 1) + '.</span>' + escapeHtml(name);
+        item.addEventListener('dragstart', function(e){
+          this.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', JSON.stringify({fromGroup: gi, memberIndex: mi}));
+        });
+        item.addEventListener('dragend', function(){ this.classList.remove('dragging'); });
+        list.appendChild(item);
+      });
+      card.appendChild(list);
+      card.addEventListener('dragover', function(e){ e.preventDefault(); e.dataTransfer.dropEffect = 'move'; this.classList.add('drag-over'); });
+      card.addEventListener('dragleave', function(){ this.classList.remove('drag-over'); });
+      card.addEventListener('drop', function(e){
+        e.preventDefault(); this.classList.remove('drag-over');
+        try {
+          var data = JSON.parse(e.dataTransfer.getData('text/plain'));
+          var toGroup = parseInt(this.dataset.group);
+          if (data.fromGroup === toGroup) return;
+          var member = groups[data.fromGroup].splice(data.memberIndex, 1)[0];
+          groups[toGroup].push(member);
+          var cleaned = groups.filter(function(g){ return g.length > 0; });
+          if (cleaned.length === 0) cleaned.push([]);
+          lastResult.groups = cleaned;
+          renderResults(cleaned);
+          showToast('✅ Member moved');
+        } catch(_) {}
+      });
+      groupGrid.appendChild(card);
+    });
+
+    bracketView.innerHTML = buildBracket(groups);
+    renderSeats();
+
+    tabs.forEach(function(t){ t.classList.remove('active'); });
+    tabContents.forEach(function(tc){ tc.classList.remove('active'); });
+    tabs[0].classList.add('active');
+    document.getElementById('tabGroups').classList.add('active');
+  }
+
+  function buildBracket(groups) {
+    var allMembers = groups.flat();
+    if (allMembers.length < 2) return '<div class="empty-state"><p>Need at least 2 people to generate matchups</p></div>';
+    var size = 1;
+    while (size < allMembers.length) size *= 2;
+    var padded = allMembers.concat(new Array(size - allMembers.length).fill('Round empty'));
+    var currentRound = padded.map(function(name, i){ return { name: name, id: i }; });
+    var rounds = [currentRound];
+    while (currentRound.length > 1) {
+      var next = [];
+      for (var i = 0; i < currentRound.length; i += 2) {
+        var a = currentRound[i], b = currentRound[i + 1];
+        next.push({
+          name: (a.name !== 'Round empty' && b.name !== 'Round empty') ? a.name + '  🆚  ' + b.name : (a.name !== 'Round empty' ? a.name : b.name),
+          id: next.length
+        });
+      }
+      rounds.push(next);
+      currentRound = next;
+    }
+    var roundNames = rounds.length === 1 ? ['🏆 Final'] :
+      rounds.length === 2 ? ['SemiFinal', '🏆 Final'] :
+      rounds.length === 3 ? ['¼Final', 'SemiFinal', '🏆 Final'] :
+      ['1Round'].concat(Array(rounds.length - 2).fill('').map(function(_, i){ return '' + (i + 2) + 'Round'; }), ['🏆 Final']);
+    var html = '';
+    rounds.forEach(function(round, ri){
+      html += '<div class="bracket-round"><div class="bracket-round-title">' + roundNames[ri] + '</div>';
+      round.forEach(function(match){
+        var mb = (Math.pow(2, ri) - 1) * 4;
+        html += '<div class="bracket-match" style="margin-bottom:' + mb + 'px;"><span class="bracket-slot">' + escapeHtml(match.name) + '</span></div>';
+      });
+      html += '</div>';
+    });
+    return html;
+  }
+
+  function renderSeats() {
+    if (!lastResult) return;
+    var allMembers = lastResult.groups.flat();
+    if (currentLayout === 'rowcol') renderRowCol(allMembers);
+    else if (currentLayout === 'ushape') renderUShape(allMembers);
+    else if (currentLayout === 'round') renderRoundTables(allMembers);
+  }
+
+  function renderRowCol(members) {
+    var rows = parseInt(seatRowsEl.value) || 6;
+    var cols = parseInt(seatColsEl.value) || 6;
+    var total = rows * cols;
+    var padded = members.slice();
+    while (padded.length < total) padded.push('');
+    var html = '<div class="row-col-grid">';
+    for (var r = 0; r < rows; r++) {
+      html += '<div class="seat-row"><div class="row-label">' + (r + 1) + '</div>';
+      for (var c = 0; c < cols; c++) {
+        var idx = r * cols + c;
+        var name = padded[idx] || '';
+        var ci = (c * rows + r) % GROUP_COLORS.length;
+        var color = GROUP_COLORS[Math.abs(ci)];
+        var emptyCls = name ? '' : ' empty';
+        html += '<div class="seat-cell' + emptyCls + '" style="background:' + color + '" title="' + escapeHtml(name) + '">' + escapeHtml(name) + '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div><div class="ushape-podium">⬆ Podium ⬆</div>';
+    seatArea.innerHTML = html;
+  }
+
+  function renderUShape(members) {
+    var padded = members.slice();
+    var total = padded.length;
+    var topCount = Math.ceil(total * 0.35);
+    var sideCount = Math.ceil((total - topCount) / 2);
+    var leftCount = sideCount;
+    var rightCount = total - topCount - leftCount;
+    var topSeats = padded.slice(0, topCount);
+    var leftSeats = padded.slice(topCount, topCount + leftCount);
+    var rightSeats = padded.slice(topCount + leftCount, topCount + leftCount + rightCount);
+    while (topSeats.length < Math.max(4, topCount)) topSeats.push('');
+    while (leftSeats.length < Math.max(3, leftCount + 1)) leftSeats.push('');
+    while (rightSeats.length < Math.max(3, rightCount + 1)) rightSeats.push('');
+
+    function seatCell(name, idx) {
+      var color = GROUP_COLORS[idx % GROUP_COLORS.length];
+      var emptyCls = name ? '' : ' empty';
+      return '<div class="seat-cell' + emptyCls + '" style="background:' + color + ';width:44px;height:44px;font-size:11px;border-radius:8px;" title="' + escapeHtml(name) + '">' + escapeHtml(name) + '</div>';
+    }
+    var html = '<div class="ushape-layout">';
+    html += '<div class="ushape-top">';
+    topSeats.forEach(function(name, i){ html += seatCell(name, i); });
+    html += '</div><div class="ushape-middle">';
+    html += '<div class="ushape-left">';
+    leftSeats.forEach(function(name, i){ html += seatCell(name, topCount + i); });
+    html += '</div><div style="flex:1;min-width:60px;"></div><div class="ushape-right">';
+    rightSeats.slice().reverse().forEach(function(name, i){ html += seatCell(name, topCount + leftCount + i); });
+    html += '</div></div><div class="ushape-podium">⬆ Podium ⬆</div></div>';
+    seatArea.innerHTML = html;
+  }
+
+  function renderRoundTables(members) {
+    var perTable = parseInt(seatsPerTableEl.value) || 8;
+    var tableCount = Math.ceil(members.length / perTable);
+    var html = '<div class="round-tables-grid">';
+    for (var t = 0; t < tableCount; t++) {
+      var tableMembers = members.slice(t * perTable, (t + 1) * perTable);
+      var n = tableMembers.length;
+      var tableSize = Math.max(160, 80 + n * 12);
+      html += '<div class="round-table-wrap"><div class="round-table-label">Round ' + (t + 1) + ' tables (' + n + ' people)</div>';
+      html += '<div class="round-table" style="width:' + tableSize + 'px;height:' + tableSize + 'px;">';
+      tableMembers.forEach(function(name, i){
+        var angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+        var r = tableSize / 2 - 26;
+        var cx = tableSize / 2 + Math.cos(angle) * r - 20;
+        var cy = tableSize / 2 + Math.sin(angle) * r - 20;
+        var color = GROUP_COLORS[(t * perTable + i) % GROUP_COLORS.length];
+        html += '<div class="round-table-seat" style="background:' + color + ';left:' + cx + 'px;top:' + cy + 'px;" title="' + escapeHtml(name) + '">' + escapeHtml(name) + '</div>';
+      });
+      html += '</div></div>';
+    }
+    html += '</div>';
+    seatArea.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  shuffleBtn.addEventListener('click', doGrouping);
+
+  reshuffleBtn.addEventListener('click', function(){
+    if (!lastResult) return;
+    var allNames = lastResult.groups.flat();
+    var shuffled = shuffle(allNames);
+    var param = lastResult.param;
+    var groups = [];
+    if (lastResult.mode === 'groups') {
+      var gc = Math.min(param, shuffled.length);
+      for (var i = 0; i < gc; i++) groups.push([]);
+      shuffled.forEach(function(name, idx){ groups[idx % gc].push(name); });
+    } else {
+      var sz = Math.max(1, param);
+      for (var i = 0; i < shuffled.length; i += sz) groups.push(shuffled.slice(i, i + sz));
+    }
+    lastResult.groups = groups;
+    renderResults(groups);
+    showToast('🔀 Reshuffle');
+  });
+
+  clearBtn.addEventListener('click', function(){
+    nameInput.value = '';
+    lastResult = null;
+    resultsPanel.style.display = 'none';
+    emptyState.style.display = 'block';
+    groupGrid.innerHTML = '';
+    bracketView.innerHTML = '';
+    seatArea.innerHTML = '';
+    updateNameCount();
+  });
+
+  copyBtn.addEventListener('click', function(){
+    if (!lastResult) return;
+    var text = '';
+    lastResult.groups.forEach(function(members, i){
+      text += '━━━ Round ' + (i + 1) + ' groups (' + members.length + ' people) ━━━\n';
+      members.forEach(function(name, j){ text += '  ' + (j + 1) + '. ' + name + '\n'; });
+      text += '\n';
+    });
+    navigator.clipboard.writeText(text).then(function(){ showToast('📋 Copied to clipboard'); });
+  });
+
+  exportImgBtn.addEventListener('click', function(){
+    if (!lastResult) return;
+    showToast('⏳ Generating image...');
+    html2canvas(document.getElementById('resultsPanel'), {
+      scale: 2, backgroundColor: '#ffffff', useCORS: true
+    }).then(function(canvas){
+      try {
+        var dataUrl = canvas.toDataURL('image/png');
+        var isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          var overlay = document.createElement('div');
+          overlay.id = '__imgOverlay';
+          overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+          overlay.onclick = function(){ overlay.remove(); };
+          var img = document.createElement('img');
+          img.src = dataUrl;
+          img.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;';
+          overlay.appendChild(img);
+          document.body.appendChild(overlay);
+        } else {
+          var a = document.createElement('a');
+          a.download = 'Results_' + new Date().toISOString().slice(0,10) + '.png';
+          a.href = dataUrl;
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function(){ document.body.removeChild(a); }, 100);
+          showToast('📸 Image downloaded');
+        }
+      } catch(e) {
+        showToast('⚠️ Generation failed: ' + e.message);
+      }
+    }).catch(function(e){ showToast('⚠️ Export failed, Please retry'); });
+  });
+
+  printBtn.addEventListener('click', function(){
+    if (!lastResult) return;
+    tabs.forEach(function(t){ t.classList.remove('active'); });
+    tabContents.forEach(function(tc){ tc.classList.remove('active'); });
+    var seatsTab = document.querySelector('[data-tab="Seats"]');
+    if (seatsTab) seatsTab.classList.add('active');
+    var tabSeatsEl = document.getElementById('tabSeats');
+    if (tabSeatsEl) tabSeatsEl.classList.add('active');
+    seatArea.classList.add('print-friendly');
+    renderSeats();
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){ seatArea.classList.remove('print-friendly'); }, 500);
+    }, 300);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); doGrouping(); }
+  });
+
+  nameInput.value = 'Alice\nBob\nCarol\nDave\nEve\nFrank\nGrace\nHenry\nIris\nJack\nKate\nLiam';
+  updateNameCount();
+})();
+</script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;font-weight:600;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../classroom-tool/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9D1;&#x200D;&#x1F3EB; Classroom Toolkit</a><a href="../random-group-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F465; Random Group Generator</a><a href="../grade-stats/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Grade Stats &amp; Analysis</a><a href="../attendance-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">📋 Attendance Tracker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

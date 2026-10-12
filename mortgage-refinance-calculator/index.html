@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Refinance Calculator — Payment & Break-Even | HuSir Tools</title>
+<meta name="description" content="Compare your current mortgage with a rate-and-term refinance: new payment, total interest saved, and break-even months. Free & private.">
+<link rel="canonical" href="https://www.husir.org/tools/mortgage-refinance-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Mortgage Refinance Calculator — Payment & Break-Even">
+<meta property="og:description" content="Compare your current mortgage with a rate-and-term refinance: new payment, total interest saved, and break-even months. Free & private.">
+<meta property="og:url" content="https://www.husir.org/tools/mortgage-refinance-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mortgage Refinance Calculator — Payment & Break-Even">
+<meta name="twitter:description" content="Compare your current mortgage with a rate-and-term refinance: new payment, total interest saved, and break-even months. Free & private.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kpi{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:#7c86a0;font-weight:600;margin-bottom:3px}
+.kpi .v{font-size:17px;font-weight:800;color:#1a1a2e}
+.kpi .v.good{color:#059669}
+.kpi .v.bad{color:#dc2626}
+.verdict{background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:12px 16px;margin-top:14px;font-size:14px;color:#14532d;text-align:center;font-weight:600}
+.verdict.no{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong{color:#1a1a2e}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mortgage Refinance Calculator",
+  "description": "Compare your current mortgage with a rate-and-term refinance: new payment, total interest saved, and break-even months. Free & private.",
+  "url": "https://www.husir.org/tools/mortgage-refinance-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "When does refinancing make sense?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generally when the new rate is at least 0.5–1 percentage point lower and you plan to stay in the home longer than the break-even period. If you expect to move sooner than break-even, the closing costs usually make it a loss."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as closing costs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Origination and lender fees, appraisal, title insurance, recording fees, and points — commonly $4,000–$10,000 on a typical refinance. Your lender gives you a Loan Estimate with the real numbers before you commit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⏱ What is the break-even point?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the number of months until your monthly savings add up to the closing costs: closing costs ÷ monthly savings. If that is, say, 18 months, the refinance only “wins” if you keep the loan past month 18."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I keep the same term or restart at 30 years?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Restarting at 30 years lowers the payment but stretches interest over more years, and you may pay more total interest than the old loan. Compare “total interest” here — many homeowners refinance to a shorter term, like 15 years, to pay less interest overall."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about taxes, insurance, and escrow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator covers principal and interest only. Property taxes, homeowners insurance, and PMI are usually held in escrow and rarely change because of a refinance, so they do not affect the comparison much."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Rates move daily and your credit score, equity, and loan program determine the rate you actually get. Verify quotes with a lender and read the Loan Estimate carefully before closing."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Mortgage Refinance Calculator", "item": "https://www.husir.org/tools/mortgage-refinance-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Mortgage Refinance Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🏡 Mortgage Refinance Calculator</h1>
+<p class="subtitle">Rate-and-term refinance · monthly payment &amp; interest comparison · break-even months</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Refinancing means replacing your current mortgage with a new one, usually to lock in a lower interest rate (a rate-and-term refinance). A lower rate cuts your monthly principal-and-interest payment and the total interest you will pay — but only after you recover the closing costs, which in the U.S. typically run 2–5% of the loan amount. This calculator puts both loans side by side and answers the two questions that matter most: how much will I save each month, and how many months until the savings pay for the refinance?</p>
+<p>Enter your current balance, rate, and remaining years, then the new rate, term, and estimated closing costs. The tool computes each monthly payment with the standard amortization formula, shows your monthly savings, your break-even point (closing costs ÷ monthly savings), and the interest you would pay over the rest of your current loan versus the new loan. The verdict line tells you plainly whether the numbers justify refinancing.</p>
+<p>Everything is calculated locally in your browser — no account, no loan data uploaded, nothing tracked. Remember that a lower payment is not the whole story: taxes, insurance, and escrow are separate, and extending the term means more years of payments even at a lower rate.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>📉 When does refinancing make sense?</strong><br>Generally when the new rate is at least 0.5–1 percentage point lower and you plan to stay in the home longer than the break-even period. If you expect to move sooner than break-even, the closing costs usually make it a loss.</p>
+<p><strong>🧾 What counts as closing costs?</strong><br>Origination and lender fees, appraisal, title insurance, recording fees, and points — commonly $4,000–$10,000 on a typical refinance. Your lender gives you a Loan Estimate with the real numbers before you commit.</p>
+<p><strong>⏱️ What is the break-even point?</strong><br>It is the number of months until your monthly savings add up to the closing costs: closing costs ÷ monthly savings. If that is, say, 18 months, the refinance only “wins” if you keep the loan past month 18.</p>
+<p><strong>🔄 Should I keep the same term or restart at 30 years?</strong><br>Restarting at 30 years lowers the payment but stretches interest over more years, and you may pay more total interest than the old loan. Compare “total interest” here — many homeowners refinance to a shorter term, like 15 years, to pay less interest overall.</p>
+<p><strong>🏦 What about taxes, insurance, and escrow?</strong><br>This calculator covers principal and interest only. Property taxes, homeowners insurance, and PMI are usually held in escrow and rarely change because of a refinance, so they do not affect the comparison much.</p>
+<p><strong>⚠️ Is this financial advice?</strong><br>No. Rates move daily and your credit score, equity, and loan program determine the rate you actually get. Verify quotes with a lender and read the Loan Estimate carefully before closing.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Monthly payment M = P × r ÷ (1 − (1 + r)⁻ⁿ), where P = balance, r = monthly rate, n = months<br>Monthly savings = old payment − new payment<br>Break-even = closing costs ÷ monthly savings<br>Total interest over a loan = (payment × months) − principal
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Your current loan</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Current loan balance ($)</label>
+<input type="number" id="curBal" min="0" step="1000" value="320000">
+</div>
+<div>
+<label class="field-label">Current interest rate (%)</label>
+<input type="number" id="curRate" min="0" max="20" step="0.05" value="6.5">
+</div>
+</div>
+<div>
+<label class="field-label">Remaining years on current loan</label>
+<input type="number" id="curTerm" min="1" max="40" value="20">
+</div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · The refinance offer</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">New interest rate (%)</label>
+<input type="number" id="newRate" min="0" max="20" step="0.05" value="5.5">
+</div>
+<div>
+<label class="field-label">New loan term (years)</label>
+<select id="newTerm"><option value="15">15 years</option><option value="20" selected>20 years</option><option value="25">25 years</option><option value="30">30 years</option></select>
+</div>
+</div>
+<div>
+<label class="field-label">Estimated closing costs ($)</label>
+<input type="number" id="costs" min="0" step="250" value="6500">
+</div>
+<div style="text-align:center;margin-top:16px"><button class="btn btn-ghost" id="btnExample">Use example: 6.5% → 5.5% over 20 years</button></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 3 · Comparison</h3></div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Monthly payment (principal + interest)</div>
+<div class="result-big" id="big">—</div>
+<div class="result-sub" id="bigNote">—</div>
+</div>
+<div class="grid3">
+<div class="kpi"><div class="k">Your monthly savings</div><div class="v" id="kSave">—</div></div>
+<div class="kpi"><div class="k">Break-even point</div><div class="v" id="kBe">—</div></div>
+<div class="kpi"><div class="k">Interest saved over remaining term</div><div class="v" id="kInt">—</div></div>
+</div>
+<div class="verdict" id="verdict"></div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">🔍 Side by side</div>
+<div class="rowline"><span>Old monthly payment (P&amp;I)</span><strong id="rOld">—</strong></div>
+<div class="rowline"><span>New monthly payment (P&amp;I)</span><strong id="rNew">—</strong></div>
+<div class="rowline"><span>Old remaining term</span><strong id="rOldTerm">—</strong></div>
+<div class="rowline"><span>New term</span><strong id="rNewTerm">—</strong></div>
+<div class="rowline"><span>Interest paid on old loan (rest of term)</span><strong id="rOldInt">—</strong></div>
+<div class="rowline" style="border-bottom:0"><span>Interest paid on new loan (full term)</span><strong id="rNewInt">—</strong></div>
+</div>
+<p class="note">Compares principal and interest only. If you restart at a longer term, your monthly payment drops but total interest can rise — check the “interest saved” number above. Break-even assumes your monthly savings stay the same for the life of the loan.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a><a href="../rent-vs-buy-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E0; Rent vs Buy &amp; Affordability</a><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../debt-payoff-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C9; Debt Payoff Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function money(x){return '$'+Math.round(x).toLocaleString('en-US');}
+function money2(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function num(id){return Math.max(0,parseFloat($(id).value)||0);}
+function payment(P,annualRate,months){
+  if(months<=0) return 0;
+  var r=annualRate/100/12;
+  if(r===0) return P/months;
+  return P*r/(1-Math.pow(1+r,-months));
+}
+function calc(){
+  var bal=num('curBal'), curRate=num('curRate'), curYears=num('curTerm');
+  var newRate=num('newRate'), newYears=parseInt($('newTerm').value,10), costs=num('costs');
+  var oldPay=payment(bal,curRate,curYears*12);
+  var newPay=payment(bal,newRate,newYears*12);
+  var save=oldPay-newPay;
+  var oldInt=oldPay*curYears*12-bal;
+  var newInt=newPay*newYears*12-bal;
+  var be=costs>0&&save>0?costs/save:Infinity;
+  $('big').textContent=money2(oldPay)+' → '+money2(newPay);
+  $('bigNote').textContent='before → after refinance';
+  var kSave=$('kSave'), kBe=$('kBe'), kInt=$('kInt');
+  if(save>0){ kSave.textContent=money2(save); kSave.className='v good'; }
+  else { kSave.textContent=money2(save); kSave.className='v bad'; }
+  kBe.textContent=be===Infinity?'—':(be<12?Math.round(be)+' mo':(be<60?(Math.round(be/12*10)/10)+' yr':Math.round(be/12)+' yr'));
+  var interestSaved=Math.max(0,oldInt-newInt);
+  kInt.textContent=(oldInt-newInt>0)?money(interestSaved):'−'+money(-(oldInt-newInt));
+  kInt.className=(oldInt-newInt>0)?'v good':'v bad';
+  var v=$('verdict');
+  var beYr=be/12;
+  if(save>0&&be<120&&oldInt>newInt){
+    v.className='verdict'; v.textContent='✅ Refinancing pays off after '+kBe.textContent+' — worth it if you keep the loan past that point and total interest drops.';
+  }else if(save>0&&oldInt>newInt){
+    v.className='verdict no'; v.textContent='⚠️ You would save '+money2(save)+'/mo, but break-even is '+kBe.textContent+' and the longer term eats into interest savings. Consider a shorter term or lower closing costs.';
+  }else if(save>0){
+    v.className='verdict no'; v.textContent='⚠️ Lower payment, but restarting the term adds more interest than it saves. A shorter new term may work better.';
+  }else{
+    v.className='verdict no'; v.textContent='✖️ The new payment is not lower — refinancing at this rate is unlikely to help.';
+  }
+  $('rOld').textContent=money2(oldPay);
+  $('rNew').textContent=money2(newPay);
+  $('rOldTerm').textContent=curYears+' years';
+  $('rNewTerm').textContent=newYears+' years';
+  $('rOldInt').textContent=money(oldInt);
+  $('rNewInt').textContent=money(newInt);
+}
+['curBal','curRate','curTerm','newRate','newTerm','costs'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('btnExample').addEventListener('click',function(){
+  $('curBal').value=320000;$('curRate').value=6.5;$('curTerm').value=20;
+  $('newRate').value=5.5;$('newTerm').value='20';$('costs').value=6500;
+  calc();
+});
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Calculator (Mortgage & Auto) — Amortization Table | HuSir Tools</title>
+<meta name="description" content="Calculate monthly payments for mortgages and car loans with a full amortization table: principal, interest, and total cost. Free, private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/loan-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Loan Calculator (Mortgage & Auto) — Amortization Table">
+<meta property="og:description" content="Calculate monthly payments for mortgages and car loans with a full amortization table: principal, interest, and total cost. Free, private, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/loan-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Loan Calculator (Mortgage & Auto) — Amortization Table">
+<meta name="twitter:description" content="Calculate monthly payments for mortgages and car loans with a full amortization table: principal, interest, and total cost. Free, private, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.stat{background:#f8faff;border:1px solid #e6e9f5;border-radius:10px;padding:10px 14px;text-align:center}
+.stat span{display:block;font-size:11.5px;color:#7c86a0;margin-bottom:2px}
+.stat strong{font-size:16px;color:#1a1a2e}
+.amort{width:100%;border-collapse:collapse;font-size:12.5px}
+.amort th{position:sticky;top:0;background:#f3f4fb;color:#5a6478;text-align:right;padding:7px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+.amort th:first-child,.amort td:first-child{text-align:left}
+.amort td{padding:6px 10px;text-align:right;border-top:1px solid #f1f2f8;color:#475569}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan Calculator",
+  "description": "Calculate monthly payments for mortgages and car loans with a full amortization table: principal, interest, and total cost. Free, private, no signup.",
+  "url": "https://www.husir.org/tools/loan-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should I enter as the loan amount?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the amount you will actually finance after your down payment — for a house, that is the price minus down payment; for a car, the out-the-door price minus trade-in and down payment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does APR include fees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "APR includes most lender fees by definition. The tool uses the APR you type, so the result is a close estimate; property tax, insurance, and PMI are not included."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the monthly payment calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With the standard amortization formula: M = P × [r(1+r)ⁿ] ÷ [(1+r)ⁿ − 1], where P is the principal, r is the monthly rate (APR ÷ 12), and n is the number of months."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an amortization table?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It shows each month's payment split: early payments are mostly interest, and later payments are mostly principal — the table scrolls so you can inspect any month."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my information uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — all calculations happen locally on your device, and the offline copy needs no internet."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Loan Calculator", "item": "https://www.husir.org/tools/loan-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Loan Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🏦 Loan Calculator</h1>
+<p class="subtitle">Mortgage &amp; Auto · Monthly payment + amortization table</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Figure out what a loan really costs before you sign — a 30-year mortgage, a 15-year refi, a new car loan, or a personal loan. Enter the amount you are borrowing, the annual interest rate (APR), and the term; the calculator returns the monthly payment, total interest, total cost, and a month-by-month amortization table showing how each payment splits between interest and principal.</p>
+<p>It runs 100% in your browser — no bank account, no credit check, no upload. Use it to compare loan offers, test extra terms, and see how a lower rate or a shorter term changes the total interest you pay.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>🏠 What should I enter as the loan amount?</strong><br>Use the amount you will actually finance after your down payment — for a house, that is the price minus down payment; for a car, the out-the-door price minus trade-in and down payment.</p>
+<p><strong>📉 Does APR include fees?</strong><br>APR includes most lender fees by definition. The tool uses the APR you type, so the result is a close estimate; property tax, insurance, and PMI are not included.</p>
+<p><strong>🧾 How is the monthly payment calculated?</strong><br>With the standard amortization formula: M = P × [r(1+r)ⁿ] ÷ [(1+r)ⁿ − 1], where P is the principal, r is the monthly rate (APR ÷ 12), and n is the number of months.</p>
+<p><strong>📅 What is an amortization table?</strong><br>It shows each month's payment split: early payments are mostly interest, and later payments are mostly principal — the table scrolls so you can inspect any month.</p>
+<p><strong>🔒 Is my information uploaded?</strong><br>No — all calculations happen locally on your device, and the offline copy needs no internet.</p>
+</div>
+<div class="formula"><b>📐 Key formulas</b><br>
+Monthly payment M = P × [r(1+r)ⁿ] ÷ [(1+r)ⁿ − 1] (r = APR ÷ 12, n = months)<br>
+Total interest = M × n − P<br>
+Total cost = M × n = principal + total interest
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>🏦 Loan Details</h3></div>
+  <div class="field-label">Loan type (sets a starting term)</div>
+  <select id="purpose">
+    <option value="360" selected>Mortgage — 30-year (360 months)</option>
+    <option value="240">Mortgage — 20-year (240 months)</option>
+    <option value="180">Mortgage / Refi — 15-year (180 months)</option>
+    <option value="72">Auto loan — 6-year (72 months)</option>
+    <option value="60">Auto loan — 5-year (60 months)</option>
+    <option value="36">Personal loan — 3-year (36 months)</option>
+  </select>
+  <div class="grid2">
+    <div>
+      <div class="field-label">Loan amount ($)</div>
+      <input type="number" id="amount" value="350000" step="1000" min="0">
+    </div>
+    <div>
+      <div class="field-label">Annual rate / APR (%)</div>
+      <input type="number" id="rate" value="6.5" step="0.05" min="0">
+    </div>
+    <div>
+      <div class="field-label">Term (months)</div>
+      <input type="number" id="months" value="360" step="1" min="1">
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="result-box" style="margin-top:0">
+    <div style="font-size:12px;color:#7c86a0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Monthly payment</div>
+    <div class="result-big" id="mpay">—</div>
+    <div class="result-sub" id="sumline">—</div>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+    <div class="stat"><span>Total interest</span><strong id="totInt">—</strong></div>
+    <div class="stat"><span>Total paid</span><strong id="totPaid">—</strong></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>📅 Amortization Table</h3><button class="btn btn-ghost btn-sm" id="toggleRows" type="button">Show all rows</button></div>
+  <div style="max-height:340px;overflow:auto;border:1px solid #e6e9f5;border-radius:10px">
+    <table class="amort">
+      <thead><tr><th>Month</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../rent-vs-buy-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E0; Rent vs Buy &amp; Affordability</a><a href="../debt-payoff-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C9; Debt Payoff Calculator</a><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var $=function(id){return document.getElementById(id);};
+var showAll=false;
+function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtNum(x){return x.toLocaleString('en-US',{maximumFractionDigits:2});}
+function calc(){
+  var P=parseFloat($('amount').value)||0;
+  var apr=parseFloat($('rate').value)||0;
+  var n=Math.floor(parseFloat($('months').value))||1;
+  var r=apr/100/12;
+  var M = r===0 ? P/n : P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  $('mpay').textContent=money(M);
+  var tot=M*n;
+  $('totInt').textContent=money(tot-P);
+  $('totPaid').textContent=money(tot);
+  var years=(n/12).toFixed(1);
+  $('sumline').textContent='For '+n+' months ('+years+' yrs) at '+apr.toFixed(2)+'% APR on '+money(P);
+  render(P,r,M,n);
+}
+function render(P,r,M,n){
+  var body=$('tbody'),limit=showAll?n:Math.min(12,n);
+  var html='';
+  var bal=P;var month=1;
+  for(var i=0;i<limit;i++){
+    var interest=bal*r;
+    var principal=M-interest;
+    if(principal<0)principal=0;
+    bal=bal-principal;
+    if(bal<0)bal=0;
+    html+='<tr><td>'+month+'</td><td>'+money(M)+'</td><td>'+money(interest)+'</td><td>'+money(principal)+'</td><td>'+money(bal)+'</td></tr>';
+    month++;
+  }
+  body.innerHTML=html;
+}
+$('purpose').addEventListener('change',function(){$('months').value=$('purpose').value;calc();});
+['amount','rate','months'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('toggleRows').addEventListener('click',function(){
+  showAll=!showAll;
+  this.textContent=showAll?'Show first 12 rows':'Show all rows';
+  calc();
+});
+calc();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strong Random Password Generator — Free &amp; Local | HuSir Tools</title>
+<meta name="description" content="Generate strong random passwords locally with selectable length and character sets, plus a strength meter and copy button. No upload, no tracking, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/password-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Strong Random Password Generator">
+<meta property="og:description" content="Generate strong random passwords locally with selectable length and character sets, plus a strength meter and copy button. No upload, no tracking, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/password-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Strong Random Password Generator">
+<meta name="twitter:description" content="Generate strong random passwords locally with selectable length and character sets, plus a strength meter and copy button. No upload, no tracking, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.pw-box{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:20px;font-weight:700;color:#1a1a2e;background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:16px 14px;text-align:center;word-break:break-all;min-height:60px;display:flex;align-items:center;justify-content:center}
+.meter{height:8px;border-radius:99px;background:#e8eaf3;margin:12px 0 6px;overflow:hidden}
+.meter-fill{height:100%;width:0;border-radius:99px;transition:width .2s}
+.pw-meta{display:flex;justify-content:space-between;font-size:12px;color:#7c86a0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:10px}
+.opts label{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#334155;cursor:pointer;padding:5px 0}
+.opts input{width:auto;accent-color:#667eea}
+@media(max-width:600px){.opts{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Password Generator",
+  "description": "Generate strong random passwords locally with selectable length and character sets, plus a strength meter and copy button. No upload, no tracking, works offline.",
+  "url": "https://www.husir.org/tools/password-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What length should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For most accounts, 12–16 characters is a solid default; use 16+ for important accounts like email, banking, and your password manager."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is strength measured?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Entropy (in bits) ≈ length × log₂(pool size). A 12-character password from all 94 printable symbols has about 78 bits of entropy — far too many combinations to try by brute force."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why avoid similar characters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Characters like 0/O, 1/l/I look alike on paper and in fonts; excluding them makes passwords easier to read aloud and retype from a printed sheet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I reuse passwords?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — reuse is how one leaked site exposes other accounts. Generate a unique password per site and store them in a password manager."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the password uploaded anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Generation runs entirely on your device, and the page works offline with zero network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Password Generator", "item": "https://www.husir.org/tools/password-generator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Password Generator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🔐 Password Generator</h1>
+<p class="subtitle">Random &amp; strong · Length + character sets + strength meter</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Create strong, random passwords and passphrases right in your browser — no server, no clipboard spyware, no account. Choose the length, pick which character sets to include (lowercase, uppercase, numbers, symbols), and optionally exclude confusing characters like 1, l, I, 0, and O. Every password is generated locally with the browser's secure random source, and the strength meter estimates how hard it would be to brute-force.</p>
+<p>Use it for new accounts, password-manager master passwords, and one-off codes. Because nothing ever leaves your device, you can generate as many as you like without creating a trail.</p>
+<div class="faq">
+<p><strong>🔤 What length should I use?</strong><br>For most accounts, 12–16 characters is a solid default; use 16+ for important accounts like email, banking, and your password manager.</p>
+<p><strong>🎲 How is strength measured?</strong><br>Entropy (in bits) ≈ length × log₂(pool size). A 12-character password from all 94 printable symbols has about 78 bits of entropy — far too many combinations to try by brute force.</p>
+<p><strong>👀 Why avoid similar characters?</strong><br>Characters like 0/O, 1/l/I look alike on paper and in fonts; excluding them makes passwords easier to read aloud and retype from a printed sheet.</p>
+<p><strong>🔁 Should I reuse passwords?</strong><br>No — reuse is how one leaked site exposes other accounts. Generate a unique password per site and store them in a password manager.</p>
+<p><strong>🔒 Is the password uploaded anywhere?</strong><br>Never. Generation runs entirely on your device, and the page works offline with zero network calls.</p>
+</div>
+<div class="formula"><b>📐 How it works</b><br>
+Entropy ≈ length × log₂(pool size) — pool = lowercase 26 · +uppercase 52 · +digits 62 · +symbols 94<br>
+12 chars with symbols ≈ 78 bits · 16 chars with symbols ≈ 105 bits<br>
+Estimated brute-force time doubles with every extra bit of entropy
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>🔑 Generated Password</h3><button class="btn btn-ghost btn-sm" id="refreshBtn" type="button">⟳ Regenerate</button></div>
+  <div class="pw-box" id="pw">—</div>
+  <div class="meter"><div class="meter-fill" id="mfill"></div></div>
+  <div class="pw-meta"><span id="strength">—</span><span id="entropy"></span></div>
+  <button class="btn btn-primary" id="copyBtn" type="button" style="width:100%;justify-content:center;margin-top:12px">📋 Copy password</button>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>⚙️ Options</h3></div>
+  <div class="field-label">Length: <strong id="lenVal">16</strong></div>
+  <input type="range" id="len" min="6" max="64" value="16" style="width:100%;accent-color:#667eea">
+  <div class="opts">
+    <label><input type="checkbox" id="low" checked> Lowercase (a–z)</label>
+    <label><input type="checkbox" id="up" checked> Uppercase (A–Z)</label>
+    <label><input type="checkbox" id="num" checked> Numbers (0–9)</label>
+    <label><input type="checkbox" id="sym" checked> Symbols (!@#$…)</label>
+    <label><input type="checkbox" id="amb" checked> Exclude confusing chars (0 O 1 l I)</label>
+  </div>
+  <p style="font-size:11.5px;color:#98a1b3;margin-top:10px">Generated locally with crypto.getRandomValues — never sent anywhere.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../file-hash-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F512; File Hash Checker</a><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a><a href="../qr-scanner/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4F7; QR Code Scanner</a><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var $=function(id){return document.getElementById(id);};
+var SETS={low:'abcdefghijklmnopqrstuvwxyz',up:'ABCDEFGHIJKLMNOPQRSTUVWXYZ',num:'0123456789',sym:'!@#$%^&*()-_=+[]{};:,.<>?/~'};
+var AMB='0O1lI|`\'"';
+function pool(){
+  var p='';
+  ['low','up','num','sym'].forEach(function(k){if($(k).checked)p+=SETS[k];});
+  if($('amb').checked)p=p.split('').filter(function(c){return AMB.indexOf(c)===-1;}).join('');
+  return p;
+}
+function pick(chars){return chars[Math.floor(Math.random()*chars.length)];}
+function gen(){
+  var sets=['low','up','num','sym'].filter(function(k){return $(k).checked;});
+  var n=parseInt($('len').value,10);
+  var p=pool();
+  var out='';
+  if(sets.length===0||n<sets.length){out='Select at least one character set';show(out,0);return;}
+  var i;
+  // guarantee one char from each selected set
+  var used={};
+  sets.forEach(function(k){
+    used[k]=true;
+    var cs=SETS[k];
+    if($('amb').checked)cs=cs.split('').filter(function(c){return AMB.indexOf(c)===-1;}).join('');
+    out+=pick(cs);
+  });
+  for(i=sets.length;i<n;i++){out+=pick(p);}
+  // shuffle
+  var a=out.split('');
+  for(i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  var pw=a.join('');
+  var ent=n*Math.log2(Math.max(p.length,1));
+  show(pw,ent);
+}
+function show(pw,ent){
+  $('pw').textContent=pw;
+  var label='',color='';
+  if(ent<=0){label='—';color='#cbd2e0';}
+  else if(ent<45){label='Weak';color='#dc2626';}
+  else if(ent<60){label='Fair';color='#f59e0b';}
+  else if(ent<80){label='Strong';color='#10b981';}
+  else{label='Very strong';color='#059669';}
+  $('strength').textContent=label;
+  $('entropy').textContent='≈ '+ent.toFixed(0)+' bits of entropy';
+  $('mfill').style.width=Math.min(100,ent/105*100)+'%';
+  $('mfill').style.background=color;
+}
+function refresh(){gen();}
+$('refreshBtn').addEventListener('click',refresh);
+$('copyBtn').addEventListener('click',function(){
+  var pw=$('pw').textContent;
+  if(!pw||pw.indexOf('Select')===0)return;
+  function done(){var b=$('copyBtn');var old=b.textContent;b.textContent='✅ Copied!';setTimeout(function(){b.textContent=old;},1200);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(pw).then(done).catch(function(){fallback(pw,done);});
+  }else{fallback(pw,done);}
+});
+function fallback(pw,done){
+  var ta=document.createElement('textarea');ta.value=pw;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('len').addEventListener('input',function(){$('lenVal').textContent=$('len').value;refresh();});
+['low','up','num','sym','amb'].forEach(function(id){$(id).addEventListener('change',refresh);});
+refresh();
+
+</script>
+</body>
+</html>

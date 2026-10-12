@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F4E6; JSON &amp; YAML Formatter | HuSir Tools</title>
+<meta name="description" content="Format, validate, minify, and convert JSON &#8596; YAML in your browser. Catch syntax errors with line numbers, pretty-print, and copy. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/json-yaml-formatter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="📦 JSON & YAML Formatter">
+<meta property="og:description" content="Format, validate, minify, and convert JSON ↔ YAML in your browser. Catch syntax errors with line numbers, pretty-print, and copy. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/json-yaml-formatter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="📦 JSON & YAML Formatter">
+<meta name="twitter:description" content="Format, validate, minify, and convert JSON ↔ YAML in your browser. Catch syntax errors with line numbers, pretty-print, and copy. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<script>
+/* Libraries are fetched from several CDNs in turn: cdn.jsdelivr.net is unreachable
+   on some networks (many China ISPs block or throttle it), and a library that never
+   arrived used to mean the tool failed silently -- Export did nothing, the chart
+   never drew, the preview stayed blank. Now a failed host falls through to the next,
+   and a call made before the library arrives is queued instead of being lost. */
+window.husirLib=(function(){var L={"jsyaml": ["https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js", "https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js", "https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"]},ready={},waiting={};
+function mark(n){ready[n]=!0;var q=waiting[n]||[];waiting[n]=[];for(var i=0;i<q.length;i++){try{q[i]()}catch(e){}}}
+function attempt(n,i){var a=L[n];if(i>=a.length)return;var s=document.createElement('script'),done=!1;
+function drop(){if(s.parentNode)s.parentNode.removeChild(s)}
+var t=setTimeout(function(){if(done)return;done=!0;drop();attempt(n,i+1)},8000);
+s.onload=function(){if(done)return;done=!0;clearTimeout(t);mark(n)};
+s.onerror=function(){if(done)return;done=!0;clearTimeout(t);drop();attempt(n,i+1)};
+s.src=a[i];document.head.appendChild(s)}
+for(var n in L){if(window[n])ready[n]=!0;else attempt(n,0)}
+return{isReady:function(n){return!!ready[n]},when:function(n,f){if(ready[n]){f();return}var q=waiting[n]=waiting[n]||[];if(q.indexOf(f)<0)q.push(f)}}})();
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;outline:none;background:#fafbfc;resize:vertical;min-height:170px;color:#1a1a2e;white-space:pre}
+textarea:focus{border-color:#667eea;background:#fff}
+textarea[readonly]{background:#f8faff;border-color:#e6e9f5}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.mode-seg{display:inline-flex;background:#eef0f7;border-radius:10px;padding:4px;gap:4px;flex-wrap:wrap}
+.mode-seg button{border:none;background:transparent;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit}
+.mode-seg button.active{background:#fff;color:#4c1d95;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.radio-inline{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#334155;cursor:pointer;padding:4px 10px 4px 0}
+.radio-inline input{width:auto;accent-color:#667eea;margin:0}
+.status-ok{font-size:12.5px;color:#059669;font-weight:600;margin-right:12px}
+.status-err{font-size:12.5px;color:#dc2626;font-weight:600}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.mode-seg button{padding:8px 11px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "📦 JSON & YAML Formatter",
+  "description": "Format, validate, minify, and convert JSON ↔ YAML in your browser. Catch syntax errors with line numbers, pretty-print, and copy. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/json-yaml-formatter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "💬 JSON or YAML — which should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use JSON when machines exchange data (APIs, files, databases) — it is strict and universally supported. Use YAML when humans write and read configuration (CI files, Docker, app settings) — it allows comments and reads like plain text."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⚠️ Why is my YAML invalid?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common causes: tabs used for indentation (YAML only accepts spaces), inconsistent indentation depth, a value containing : or a leading # that was not quoted, or duplicate mapping keys. The error message points to the exact line."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📝 Will my comments survive conversion?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Comments are not part of the data model, so YAML → JSON drops them, and JSON → YAML never had any. Keep notes in a separate file if you need them back."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📊 Does it handle big files?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, comfortably into the megabyte range. Very large documents (10 MB+) are processed locally, so they only take as long as your browser needs — nothing is throttled by a server."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔄 Are YAML anchors and merge keys supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Features such as anchors (&name), aliases (*name), merge keys (<<), and multi-line strings (| and >) are parsed correctly before conversion."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔐 Is my data sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Parsing, formatting, and conversion happen entirely in your browser, and the page makes no network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "JSON & YAML Formatter", "item": "https://www.husir.org/tools/json-yaml-formatter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">JSON &amp; YAML Formatter</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F4E6; JSON &amp; YAML Formatter</h1>
+<p class="subtitle">Validate &middot; pretty-print &middot; minify &middot; convert &mdash; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Paste any JSON or YAML document and this tool validates it, tells you the exact line and column of a syntax error, and reformats the result. JSON can be pretty-printed with 2 or 4 spaces or minified to one line; YAML gets normalized to clean, canonical output. You can also convert between the two formats &#8212; JSON to YAML or YAML to JSON &#8212; without touching a command line.</p>
+<p>Typical uses: cleaning up a messy API response, debugging a <code>docker-compose.yml</code> or GitHub Actions workflow, checking a Jekyll or Hugo front-matter block, converting config snippets between formats for different tools, and spotting duplicate keys or bad indentation before a build fails. Everything runs locally on your device &#8212; paste private configs with confidence, because nothing is uploaded and the page works offline.</p>
+<div class="faq">
+<p><strong>&#x1F4AC; JSON or YAML &#8212; which should I use?</strong><br>Use JSON when machines exchange data (APIs, files, databases) &#8212; it is strict and universally supported. Use YAML when humans write and read configuration (CI files, Docker, app settings) &#8212; it allows comments and reads like plain text.</p>
+<p><strong>&#x26A0;&#xFE0F; Why is my YAML invalid?</strong><br>Common causes: tabs used for indentation (YAML only accepts spaces), inconsistent indentation depth, a value containing <code>: </code> or a leading <code>#</code> that was not quoted, or duplicate mapping keys. The error message points to the exact line.</p>
+<p><strong>&#x1F4DD; Will my comments survive conversion?</strong><br>No. Comments are not part of the data model, so YAML &#8594; JSON drops them, and JSON &#8594; YAML never had any. Keep notes in a separate file if you need them back.</p>
+<p><strong>&#x1F4CA; Does it handle big files?</strong><br>Yes, comfortably into the megabyte range. Very large documents (10&#160;MB+) are processed locally, so they only take as long as your browser needs &#8212; nothing is throttled by a server.</p>
+<p><strong>&#x1F504; Are YAML anchors and merge keys supported?</strong><br>Yes. Features such as anchors (<code>&amp;name</code>), aliases (<code>*name</code>), merge keys (<code>&lt;&lt;</code>), and multi-line strings (<code>|</code> and <code>&gt;</code>) are parsed correctly before conversion.</p>
+<p><strong>&#x1F510; Is my data sent anywhere?</strong><br>Never. Parsing, formatting, and conversion happen entirely in your browser, and the page makes no network calls.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+JSON escapes: <code>\"</code> <code>\\</code> <code>\/</code> <code>\b</code> <code>\f</code> <code>\n</code> <code>\r</code> <code>\t</code> <code>\uXXXX</code><br>
+YAML rule: spaces only &#8212; never tabs; keep child keys indented more than their parent<br>
+Same data, both forms &#8212; JSON: <code>{"name":"HuSir","tags":["a","b"]}</code> &#8596; YAML: <code>name: HuSir</code> + <code>tags: [a, b]</code>
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F9EA; Input</h3><span id="headNote" style="font-size:12px;color:#98a1b3">Paste JSON or YAML</span></div>
+  <div class="field-label">Source format</div>
+  <div class="mode-seg" id="srcSeg">
+    <button type="button" data-val="auto" class="active">&#x1F50D; Auto-detect</button>
+    <button type="button" data-val="json">JSON</button>
+    <button type="button" data-val="yaml">YAML</button>
+  </div>
+  <label class="field-label" for="input">Input</label>
+  <textarea id="input" spellcheck="false" placeholder='{&#10;  "hello": "world",&#10;  "list": [1, 2, 3]&#10;}'></textarea>
+  <div class="btnrow">
+    <button class="btn btn-ghost" id="sampleBtn" type="button">&#x27F3; Try an example</button>
+    <button class="btn btn-ghost" id="clearBtn" type="button">&#x1F5D1;&#xFE0F; Clear</button>
+  </div>
+
+  <div class="field-label">Action</div>
+  <div class="mode-seg" id="actSeg">
+    <button type="button" data-val="fmt" class="active">&#x2728; Format</button>
+    <button type="button" data-val="min">&#x1F5DC;&#xFE0F; Minify</button>
+    <button type="button" data-val="tojson">&#x2192; JSON</button>
+    <button type="button" data-val="toyaml">&#x2192; YAML</button>
+  </div>
+  <div class="btnrow">
+    <label class="radio-inline"><input type="radio" name="indent" value="2" checked> 2 spaces</label>
+    <label class="radio-inline"><input type="radio" name="indent" value="4"> 4 spaces</label>
+    <span style="font-size:12px;color:#98a1b3">Indent (JSON pretty / YAML output)</span>
+  </div>
+
+  <label class="field-label" for="output">Output</label>
+  <textarea id="output" readonly spellcheck="false" placeholder="Result appears here as you type"></textarea>
+  <div class="btnrow">
+    <button class="btn btn-primary" id="copyBtn" type="button">&#x1F4CB; Copy result</button>
+    <button class="btn btn-ghost" id="swapBtn" type="button">&#x21C5; Use result as input</button>
+    <span class="status-ok" id="okMsg"></span><span class="status-err" id="errMsg"></span>
+  </div>
+  <p class="hint">Parsing, formatting, and conversion happen live on your device &#8212; your data never leaves this page.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../regex-tester/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9EA; Regex Tester</a><a href="../text-diff-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F50D; Text Diff Checker</a><a href="../base64-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F521; Base64 Encoder &amp; Decoder</a><a href="../url-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F517; URL Encoder &amp; Decoder</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var srcMode='auto',action='fmt',indent='2';
+var JSON_EXAMPLE='{\n  "app": "husir-tools",\n  "version": 2,\n  "online": true,\n  "tags": ["offline", "privacy", "free"],\n  "owner": {\n    "name": "HuSir",\n    "email": "hu0023@gmail.com",\n    "languages": ["en", "zh"]\n  }\n}';
+var YAML_EXAMPLE='# demo config\napp: husir-tools\nversion: 2\nonline: true\ntags:\n  - offline\n  - privacy\n  - free\nowner:\n  name: HuSir\n  email: hu0023@gmail.com\n  languages:\n    - en\n    - zh\n';
+
+function bindSeg(id,setFn){
+  var seg=$(id);
+  Array.prototype.forEach.call(seg.querySelectorAll('button'),function(b){
+    b.addEventListener('click',function(){
+      Array.prototype.forEach.call(seg.querySelectorAll('button'),function(x){x.classList.remove('active');});
+      b.classList.add('active');
+      setFn(b.getAttribute('data-val'));
+      run();
+    });
+  });
+}
+bindSeg('srcSeg',function(v){srcMode=v;});
+bindSeg('actSeg',function(v){action=v;});
+
+function indentN(){return indent==='4'?4:2;}
+function dumpOpts(){return {indent:indentN(),lineWidth:-1,noRefs:true};}
+function detectKind(t){
+  if(srcMode!=='auto')return srcMode;
+  return (t[0]==='{'||t[0]==='[')?'json':'yaml';
+}
+function jsonLineCol(msg,text){
+  var m=msg.match(/position (\d+)/);
+  if(!m)return '';
+  var pos=+m[1],before=text.slice(0,pos);
+  var line=(before.match(/\n/g)||[]).length+1;
+  var col=pos-(before.lastIndexOf('\n')+1)+1;
+  return 'line '+line+', column '+col;
+}
+function parseInput(text){
+  var kind=detectKind(text);
+  if(kind==='json'){
+    try{return {ok:true,kind:'JSON',value:JSON.parse(text)};}
+    catch(e){
+      var pos=jsonLineCol(e.message,text);
+      return {ok:false,kind:'JSON',msg:e.message,pos:pos};
+    }
+  }
+  if(typeof jsyaml==='undefined'){
+    return {ok:false,kind:'YAML',msg:'YAML engine is still loading (slow or blocked CDN). Please try again in a few seconds.',pos:''};
+  }
+  try{
+    var v=jsyaml.load(text);
+    return {ok:true,kind:'YAML',value:v===undefined?null:v};
+  }catch(e){
+    var mark=e&&e.mark?('line '+(e.mark.line+1)+', column '+(e.mark.column+1)):'';
+    var msg=e&&e.message?e.message.split('\n')[0]:'Invalid YAML';
+    return {ok:false,kind:'YAML',msg:msg,pos:mark};
+  }
+}
+function countNodes(v){
+  var n=1;
+  if(Array.isArray(v)){for(var i=0;i<v.length;i++)n+=countNodes(v[i]);}
+  else if(v&&typeof v==='object'){for(var k in v){if(Object.prototype.hasOwnProperty.call(v,k))n+=countNodes(v[k]);}}
+  return n;
+}
+function typeOf(v){
+  if(v===null)return 'null';
+  if(Array.isArray(v))return 'array';
+  if(typeof v==='object')return 'object';
+  return typeof v;
+}
+function setMsg(ok,err){
+  $('okMsg').textContent=ok||'';
+  $('errMsg').textContent=err||'';
+}
+function run(){
+  if(typeof jsyaml==='undefined'){$('headNote').textContent='Loading the YAML engine…';window.husirLib.when('jsyaml',run);return;}
+  var text=$('input').value;
+  if(!text.trim()){$('output').value='';setMsg('','');$('headNote').textContent='Paste JSON or YAML';return;}
+  var r=parseInput(text.trim());
+  if(!r.ok){$('output').value='';setMsg('','❌ Invalid '+r.kind+(r.pos?' at '+r.pos:'')+' — '+r.msg);$('headNote').textContent='Syntax error';return;}
+  var out;
+  if(action==='min'&&r.kind==='JSON'){out=JSON.stringify(r.value);}
+  else if(action==='min'){out=JSON.stringify(r.value,null,indentN());setMsg('✅ Valid '+r.kind,'YAML has no safe compact form — showing compact JSON instead.');}
+  else if(action==='tojson'){out=JSON.stringify(r.value,null,indentN());}
+  else if(action==='toyaml'){out=jsyaml.dump(r.value,dumpOpts());}
+  else if(r.kind==='JSON'){out=JSON.stringify(r.value,null,indentN());}
+  else{out=jsyaml.dump(r.value,dumpOpts());}
+  $('output').value=out;
+  if(action!=='min'||r.kind==='JSON'){setMsg('✅ Valid '+r.kind+' · type '+typeOf(r.value)+' · '+countNodes(r.value)+' nodes','');}
+  $('headNote').textContent='Detected: '+r.kind+' · '+typeOf(r.value);
+}
+function copyResult(){
+  var out=$('output');
+  if(!out.value)return;
+  function done(){setMsg('✅ Copied!','');setTimeout(function(){if($('input').value.trim())run();else setMsg('','');},1300);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(out.value).then(done).catch(function(){fallback(out.value,done);});
+  }else{fallback(out.value,done);}
+}
+function fallback(txt,done){
+  var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('input').addEventListener('input',function(){run();});
+Array.prototype.forEach.call(document.querySelectorAll('input[name=indent]'),function(r){
+  r.addEventListener('change',function(){indent=r.value;run();});
+});
+$('sampleBtn').addEventListener('click',function(){
+  var t=$('input').value.trim();
+  var useYaml=(!t)||detectKind(t)==='json';
+  $('input').value=useYaml?YAML_EXAMPLE:JSON_EXAMPLE;
+  run();
+});
+$('clearBtn').addEventListener('click',function(){$('input').value='';$('output').value='';setMsg('','');});
+$('swapBtn').addEventListener('click',function(){
+  var v=$('output').value;
+  if(!v)return;
+  $('input').value=v;run();
+});
+$('copyBtn').addEventListener('click',copyResult);
+run();
+</script>
+</body>
+</html>

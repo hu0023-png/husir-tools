@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Classroom Toolkit — Picker, Points, Timer &amp; Quiz | HuSir Tools</title>
+<meta name="description" content="A browser-based classroom toolkit with student picker, points, timer, and quiz tools. No signup, no student data upload.">
+<link rel="canonical" href="https://www.husir.org/tools/classroom-tool/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Classroom Toolkit — Picker, Points, Timer & Quiz">
+<meta property="og:description" content="A browser-based classroom toolkit with student picker, points, timer, and quiz tools. No signup, no student data upload.">
+<meta property="og:url" content="https://www.husir.org/tools/classroom-tool/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Classroom Toolkit — Picker, Points, Timer & Quiz">
+<meta name="twitter:description" content="A browser-based classroom toolkit with student picker, points, timer, and quiz tools. No signup, no student data upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --c1: #FF6B6B; --c2: #4ECDC4; --c3: #FFE66D; --c4: #A78BFA;
+  --c5: #FF8A5C; --c6: #45B7D1; --c7: #96CEB4; --c8: #FFD93D;
+  --bg: #f0f4f8; --card: #fff; --text: #333; --muted: #888;
+  --radius: 16px; --shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+body { font-family: 'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+.container { max-width:900px; margin:0 auto; padding:0 16px 40px; }
+
+/* Tab Nav */
+.tab-nav { display:flex; gap:4px; padding:12px 0; position:sticky; top:0; background:var(--bg); z-index:100; }
+.tab-btn { flex:1; padding:14px 8px; border:none; border-radius:12px; font-size:15px; font-weight:600; cursor:pointer; transition:all .2s; background:var(--card); color:var(--muted); box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.tab-btn.active { color:#fff; transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+.tab-btn:nth-child(1).active { background:var(--c1); }
+.tab-btn:nth-child(2).active { background:var(--c2); }
+.tab-btn:nth-child(3).active { background:var(--c6); }
+.tab-btn:nth-child(4).active { background:var(--c4); }
+.tab-btn .icon { display:block; font-size:24px; margin-bottom:2px; }
+
+/* Panel */
+.panel { display:none; animation:fadeIn .3s; }
+.panel.active { display:block; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+.card { background:var(--card); border-radius:var(--radius); padding:24px; margin-bottom:16px; box-shadow:var(--shadow); }
+.card-title { font-size:18px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+
+/* Buttons */
+.btn { padding:12px 24px; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; transition:all .15s; }
+.btn:active { transform:scale(.96); }
+.btn-primary { background:var(--c2); color:#fff; }
+.btn-danger { background:var(--c1); color:#fff; }
+.btn-warn { background:var(--c5); color:#fff; }
+.btn-outline { background:#fff; border:2px solid #ddd; }
+.btn-sm { padding:8px 16px; font-size:13px; }
+.btn-xs { padding:4px 10px; font-size:12px; border-radius:6px; }
+.btn-block { display:block; width:100%; }
+.btn-group { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* Input */
+input[type="text"], input[type="number"], textarea, select {
+  padding:12px 16px; border:2px solid #e0e0e0; border-radius:10px; font-size:15px;
+  font-family:inherit; outline:none; transition:border .2s;
+}
+input:focus, textarea:focus, select:focus { border-color:var(--c2); }
+textarea { width:100%; min-height:120px; resize:vertical; }
+
+/* ======== NAME PICKER ======== */
+.picker-display { text-align:center; padding:40px 20px; background:linear-gradient(135deg, #fff5f5, #ffe8e8); border-radius:var(--radius); margin-bottom:16px; min-height:180px; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; }
+.picker-name { font-size:64px; font-weight:900; color:var(--c1); text-shadow:2px 2px 0 rgba(0,0,0,0.05); letter-spacing:4px; transition:all .05s; }
+.picker-name.rolling { animation:slotRoll .08s infinite; }
+@keyframes slotRoll { 0%{transform:translateY(-4px);} 50%{transform:translateY(4px);} 100%{transform:translateY(-4px);} }
+.picker-placeholder { font-size:24px; color:#ccc; }
+.picker-sub { margin-top:8px; color:var(--muted); font-size:13px; }
+.history-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.history-item { background:#f0f0f0; padding:4px 12px; border-radius:20px; font-size:13px; color:var(--muted); }
+
+/* ======== SCOREBOARD ======== */
+.score-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:12px; }
+.score-card { text-align:center; padding:20px 12px; border-radius:var(--radius); position:relative; }
+.score-card:nth-child(8n+1) { background:linear-gradient(135deg,#fff5f5,#ffe0e0); }
+.score-card:nth-child(8n+2) { background:linear-gradient(135deg,#e8faf8,#d0f0ec); }
+.score-card:nth-child(8n+3) { background:linear-gradient(135deg,#fffdf0,#fff8d0); }
+.score-card:nth-child(8n+4) { background:linear-gradient(135deg,#f5f0ff,#e8d8ff); }
+.score-card:nth-child(8n+5) { background:linear-gradient(135deg,#fff5f0,#ffe8d8); }
+.score-card:nth-child(8n+6) { background:linear-gradient(135deg,#f0f8ff,#d0e8ff); }
+.score-card:nth-child(8n+7) { background:linear-gradient(135deg,#f5fff5,#d8f8d8); }
+.score-card:nth-child(8n+8) { background:linear-gradient(135deg,#fffff0,#f8f8d0); }
+.score-name { font-size:18px; font-weight:700; margin-bottom:8px; border:none; background:transparent; text-align:center; width:100%; outline:none; }
+.score-value { font-size:52px; font-weight:900; line-height:1; margin:8px 0; }
+.score-stars { font-size:22px; color:#ffc107; letter-spacing:2px; }
+.score-btns { display:flex; gap:6px; justify-content:center; margin-top:10px; }
+.score-btn { width:44px; height:44px; border-radius:50%; border:none; font-size:22px; font-weight:700; cursor:pointer; transition:all .1s; display:flex; align-items:center; justify-content:center; color:#fff; }
+.score-btn:active { transform:scale(.9); }
+.score-btn.plus { background:var(--c2); }
+.score-btn.minus { background:var(--c1); }
+.score-btn.reset { background:#bbb; }
+
+.group-config { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
+.group-config label { font-weight:600; }
+
+/* ======== TIMER ======== */
+.timer-mode-tabs { display:flex; gap:8px; margin-bottom:20px; }
+.timer-mode-tab { flex:1; padding:10px; border:2px solid #e0e0e0; border-radius:10px; background:#fff; font-size:14px; font-weight:600; cursor:pointer; text-align:center; }
+.timer-mode-tab.active { border-color:var(--c6); background:#f0f8ff; color:var(--c6); }
+.timer-display { text-align:center; padding:30px; background:#1a1a2e; border-radius:var(--radius); color:#fff; margin-bottom:16px; }
+.timer-time { font-size:80px; font-weight:900; font-family:'Courier New',monospace; letter-spacing:4px; }
+.timer-time.warning { color:var(--c1); animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+.timer-label { font-size:14px; color:#aaa; margin-top:4px; }
+.preset-btns { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.preset-btn { padding:10px 18px; border:2px solid #e0e0e0; border-radius:10px; background:#fff; font-size:14px; font-weight:600; cursor:pointer; }
+.preset-btn:active { background:var(--c6); color:#fff; border-color:var(--c6); }
+.custom-time { display:flex; gap:8px; align-items:center; margin-bottom:16px; }
+.custom-time input { width:80px; text-align:center; }
+.lap-list { max-height:200px; overflow-y:auto; }
+.lap-item { display:flex; justify-content:space-between; padding:8px 12px; border-bottom:1px solid #f0f0f0; font-family:'Courier New',monospace; }
+
+/* ======== FULLSCREEN TIMER ======== */
+.fs-overlay { display:none; position:fixed; inset:0; background:#1a1a2e; z-index:999; flex-direction:column; align-items:center; justify-content:center; }
+.fs-overlay.show { display:flex; }
+.fs-time { font-size:20vw; font-weight:900; font-family:'Courier New',monospace; color:#fff; letter-spacing:8px; }
+.fs-time.warning { color:var(--c1); animation:pulse .8s infinite; }
+.fs-close { position:absolute; top:20px; right:20px; background:rgba(255,255,255,.2); border:none; color:#fff; width:48px; height:48px; border-radius:50%; font-size:20px; cursor:pointer; }
+
+/* ======== TIMER ALERT POPUP + CONFETTI ======== */
+.alert-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; align-items:center; justify-content:center; }
+.alert-overlay.show { display:flex; }
+.alert-popup { background:#fff; border-radius:20px; padding:40px 50px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.3); animation:popIn .4s cubic-bezier(.175,.885,.32,1.275); max-width:500px; width:90%; }
+@keyframes popIn { 0%{transform:scale(.5);opacity:0;} 100%{transform:scale(1);opacity:1;} }
+.alert-popup .icon { font-size:72px; margin-bottom:16px; animation:bounceAlert .6s infinite alternate; }
+@keyframes bounceAlert { 0%{transform:translateY(0);} 100%{transform:translateY(-16px);} }
+.alert-popup h2 { font-size:32px; color:var(--c1); margin-bottom:8px; }
+.alert-popup p { color:var(--muted); margin-bottom:20px; font-size:16px; }
+.alert-popup .btn { font-size:18px; padding:14px 40px; }
+
+/* Confetti */
+.confetti-container { position:fixed; inset:0; pointer-events:none; z-index:1001; }
+.confetti-piece { position:absolute; width:12px; height:12px; top:-20px; animation:confettiFall linear forwards; }
+@keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(105vh) rotate(720deg);opacity:0;} }
+
+/* ======== ARITHMETIC ======== */
+.diff-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:8px; margin-bottom:16px; }
+.diff-card { padding:14px; border:2px solid #e0e0e0; border-radius:12px; cursor:pointer; text-align:center; }
+.diff-card.active { border-color:var(--c4); background:#f5f0ff; }
+.diff-card .diff-name { font-weight:700; font-size:15px; margin-bottom:4px; }
+.diff-card .diff-desc { font-size:12px; color:var(--muted); }
+.quiz-area { text-align:center; padding:30px 20px; }
+.quiz-question { font-size:48px; font-weight:900; margin-bottom:24px; }
+.quiz-input { width:160px; text-align:center; font-size:32px; font-weight:700; padding:16px; }
+.quiz-progress { font-size:14px; color:var(--muted); margin-bottom:12px; }
+.quiz-result { margin-top:16px; }
+.result-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; margin:16px 0; }
+.result-item { padding:12px; background:#f8f8f8; border-radius:10px; }
+.result-item .num { font-size:28px; font-weight:900; }
+.result-item .lbl { font-size:12px; color:var(--muted); margin-top:2px; }
+.wrong-list { text-align:left; max-height:300px; overflow-y:auto; }
+.wrong-item { padding:8px 12px; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between; }
+.wrong-item .correct { color:var(--c2); font-weight:600; }
+
+/* ======== UTILITY ======== */
+.text-center { text-align:center; }
+.mt-8 { margin-top:8px; }
+.mt-16 { margin-top:16px; }
+.mb-8 { margin-bottom:8px; }
+.mb-16 { margin-bottom:16px; }
+.flex-between { display:flex; justify-content:space-between; align-items:center; }
+.gap-8 { gap:8px; }
+.stars { color:#ffc107; letter-spacing:2px; font-size:20px; }
+
+/* ======== RESPONSIVE ======== */
+@media (max-width:600px) {
+  .tab-btn { font-size:12px; padding:10px 4px; }
+  .tab-btn .icon { font-size:18px; }
+  .picker-name { font-size:42px; }
+  .timer-time { font-size:48px; }
+  .quiz-question { font-size:32px; }
+  .score-value { font-size:36px; }
+  .score-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<style>
+.ft-file{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;font:600 13.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;cursor:pointer;border:2px dashed rgba(255,255,255,.5);box-shadow:0 3px 12px rgba(102,126,234,.35);user-select:none;-webkit-user-select:none;transition:filter .15s;text-decoration:none}
+.ft-file:hover{filter:brightness(1.08)}
+.ft-file input{display:none}
+.ft-file-sm{padding:7px 13px;font-size:12.5px}
+.ft-file-lg{padding:14px 26px;font-size:15.5px}
+.ft-file-block{width:100%}
+@media(max-width:600px){.ft-file,.ft-file-sm,.ft-file-lg{min-height:44px}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Classroom Toolkit — Picker, Points, Timer & Quiz",
+  "description": "A browser-based classroom toolkit with student picker, points, timer, and quiz tools. No signup, no student data upload.",
+  "url": "https://www.husir.org/tools/classroom-tool/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I add my class list?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Type one name per line in the Student List box, then Save. You can also import a .txt or .csv file, and export the list later."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the picker avoid picking the same student twice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It marks picked names and focuses on the remaining list, so you can keep choosing new students until you reset for the next round."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⭐ Where do scores live?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only in your browser (local storage) — nothing is uploaded, which keeps minors' names private."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⏱ Does the timer work for classroom activities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — set the minutes you need in the Countdown Timer tab and start it when the activity begins."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work offline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the whole toolkit runs in the browser with no internet needed."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Free Classroom Toolkit — Picker, Points, Timer & Quiz", "item": "https://www.husir.org/tools/classroom-tool/"}]}</script>
+</head>
+<body>
+<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}</style>
+<h1 class="sr-only">Free Classroom Toolkit — Random Picker, Group Maker, Points &amp; Quiz</h1>
+
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Free Classroom Toolkit — Picker, Points, Timer &amp; Quiz</span></span></nav>
+
+
+  <!-- Tab Navigation -->
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>A free classroom toolkit with four helpers in one private page: a Name Picker for fair cold calls, a Scoreboard for points, a Countdown Timer for timed activities, and a Math Quiz with adjustable difficulty. Everything a teacher needs for a lesson stays in one tab — no signup and no student data upload.</p>
+<p>Enter your class list once (one name per line) and the page remembers it on that device. Use pick history and pick counts to see who has been chosen, track points live, and save or export the list as a simple text file.</p>
+<div class="faq">
+<p><strong>📋 How do I add my class list?</strong><br>Type one name per line in the Student List box, then Save. You can also import a .txt or .csv file, and export the list later.</p>
+<p><strong>🎯 Does the picker avoid picking the same student twice?</strong><br>It marks picked names and focuses on the remaining list, so you can keep choosing new students until you reset for the next round.</p>
+<p><strong>⭐ Where do scores live?</strong><br>Only in your browser (local storage) — nothing is uploaded, which keeps minors' names private.</p>
+<p><strong>⏱️ Does the timer work for classroom activities?</strong><br>Yes — set the minutes you need in the Countdown Timer tab and start it when the activity begins.</p>
+<p><strong>🌐 Does it work offline?</strong><br>Yes — the whole toolkit runs in the browser with no internet needed.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+One name per line in the Student List<br>Scoreboard: add or remove points per student<br>Math quiz: choose a difficulty, start, then review the results<br>Pick history and counts help you balance participation
+</div>
+</div>
+</details>
+
+<nav class="tab-nav">
+    <button class="tab-btn active" data-tab="picker"><span class="icon">🎯</span>Name Picker</button>
+    <button class="tab-btn" data-tab="score"><span class="icon">⭐</span>Scoreboard</button>
+    <button class="tab-btn" data-tab="timer"><span class="icon">⏱️</span>Countdown Timer</button>
+    <button class="tab-btn" data-tab="math"><span class="icon">🧮</span>Math Quiz</button>
+  </nav>
+
+  <!-- ==================== 1. Name Picker ==================== -->
+  <div class="panel active" id="panel-picker">
+    <div class="card">
+      <div class="card-title">📋 Student List</div>
+      <textarea id="nameInput" placeholder="Enter one name per line&#10;Example:&#10;Alice&#10;Bob&#10;Carol"></textarea>
+      <div class="btn-group mt-8">
+        <button class="btn btn-outline btn-sm" onclick="saveNames()">💾 Save List</button>
+        <button class="ft-file ft-file-sm" onclick="importNames()">📂 Import</button>
+        <input type="file" id="fileInput" accept=".txt,.csv" style="display:none;" onchange="handleFileImport(event)">
+        <button class="btn btn-outline btn-sm" onclick="exportNames()">📤 Export</button>
+        <button class="btn btn-outline btn-sm" onclick="clearNames()">🗑️ Clear</button>
+        <span style="flex:1"></span>
+        <span id="nameCount" style="color:var(--muted);font-size:13px;">0 students</span>
+      </div>
+    </div>
+
+    <div class="picker-display" id="pickerDisplay">
+      <span class="picker-placeholder">👆 Enter student names first</span>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary" style="font-size:22px;padding:16px 64px;" id="btnPick" onclick="startPick()" disabled>
+        🎲 Pick a Name
+      </button>
+    </div>
+
+    <div class="card mt-16" id="historyCard" style="display:none;">
+      <div class="card-title">📜 Pick History <span id="historyCount" style="font-size:13px;color:var(--muted);font-weight:400;"></span></div>
+      <div class="history-list" id="historyList"></div>
+      <button class="btn btn-outline btn-xs mt-8" onclick="clearHistory()">Clear History</button>
+    </div>
+  </div>
+
+  <!-- ==================== 2. Group Scoreboard ==================== -->
+  <div class="panel" id="panel-score">
+    <div class="card">
+      <div class="group-config">
+        <label>Number of Groups：</label>
+        <select id="groupCount" onchange="rebuildScoreboard()">
+          <option value="2">2</option><option value="3">3</option><option value="4" selected>4</option>
+          <option value="5">5</option><option value="6">6</option><option value="8">8</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="resetAllScores()">🔄 Reset All</button>
+      </div>
+      <div class="score-grid" id="scoreGrid"></div>
+    </div>
+  </div>
+
+  <!-- ==================== 3. Countdown Timer ==================== -->
+  <div class="panel" id="panel-timer">
+    <div class="card">
+      <div class="timer-mode-tabs">
+        <div class="timer-mode-tab active" data-tmode="countdown" onclick="switchTimerMode('countdown')">⏳ Countdown</div>
+        <div class="timer-mode-tab" data-tmode="stopwatch" onclick="switchTimerMode('stopwatch')">⏱️ Stopwatch</div>
+      </div>
+
+      <!-- Countdown -->
+      <div id="timerCountdown">
+        <div class="preset-btns">
+          <button class="preset-btn" onclick="setCountdown(30)">30s</button>
+          <button class="preset-btn" onclick="setCountdown(60)">1 min</button>
+          <button class="preset-btn" onclick="setCountdown(180)">3 min</button>
+          <button class="preset-btn" onclick="setCountdown(300)">5 min</button>
+          <button class="preset-btn" onclick="setCountdown(600)">10 min</button>
+        </div>
+        <div class="custom-time">
+          <span>Custom：</span>
+          <input type="number" id="customMin" value="1" min="0" max="99" style="width:60px;"> <span>m</span>
+          <input type="number" id="customSec" value="0" min="0" max="59" style="width:60px;"> <span>s</span>
+          <button class="btn btn-primary btn-sm" onclick="setCustomCountdown()">Set</button>
+        </div>
+      </div>
+
+      <!-- Timer Display -->
+      <div class="timer-display">
+        <div class="timer-time" id="timerDisplay">00:00</div>
+        <div class="timer-label" id="timerLabel">Ready</div>
+      </div>
+
+      <div class="btn-group" style="justify-content:center;">
+        <button class="btn btn-primary" id="btnTimerStart" onclick="toggleTimer()" style="min-width:100px;">▶ Start</button>
+        <button class="btn btn-outline" onclick="stopTimer()">⏹ Stop</button>
+        <button class="btn btn-outline btn-sm" id="btnFullscreen" onclick="openFullscreen()">📺 Fullscreen</button>
+        <button class="btn btn-outline btn-sm" id="btnLap" onclick="lapTimer()" style="display:none;">📝 Lap</button>
+      </div>
+
+      <!-- Lap list -->
+      <div class="card mt-16" id="lapCard" style="display:none;">
+        <div class="card-title">📝 Pick Counts</div>
+        <div class="lap-list" id="lapList"></div>
+        <button class="btn btn-outline btn-xs mt-8" onclick="clearLaps()" style="display:none;">Clear History</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 4. Math Quiz Generator ==================== -->
+  <div class="panel" id="panel-math">
+    <div class="card">
+      <div class="card-title">📊 Select Difficulty</div>
+      <div class="diff-grid" id="diffGrid">
+        <div class="diff-card active" data-level="1" onclick="selectDiff(1)">
+          <div class="diff-name">🌟 Beginner</div><div class="diff-desc">Addition ≤5</div>
+        </div>
+        <div class="diff-card" data-level="2" onclick="selectDiff(2)">
+          <div class="diff-name">🌱 Basic</div><div class="diff-desc">Add & Sub ≤10</div>
+        </div>
+        <div class="diff-card" data-level="3" onclick="selectDiff(3)">
+          <div class="diff-name">🌿 Intermediate</div><div class="diff-desc">Add & Sub ≤20</div>
+        </div>
+        <div class="diff-card" data-level="4" onclick="selectDiff(4)">
+          <div class="diff-name">🌳 Challenge</div><div class="diff-desc">Add & Multiply ≤100</div>
+        </div>
+        <div class="diff-card" data-level="5" onclick="selectDiff(5)">
+          <div class="diff-name">🏆 Advanced</div><div class="diff-desc">Mixed Operations</div>
+        </div>
+      </div>
+
+      <div class="flex-between mb-16">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label>Questions:</label>
+          <select id="quizCount" onchange="saveSettings()">
+            <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button class="btn btn-primary" style="font-size:18px;padding:14px 48px;" onclick="startQuiz()">🚀 Start Quiz</button>
+      </div>
+    </div>
+
+    <!-- Quiz in progress -->
+    <div class="card" id="quizCard" style="display:none;">
+      <div class="quiz-area">
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div>
+          <input type="number" class="quiz-input" id="quizInput" placeholder="?" onkeydown="if(event.key==='Enter')submitAnswer()" autocomplete="off">
+        </div>
+        <div class="btn-group mt-16" style="justify-content:center;">
+          <button class="btn btn-primary" onclick="submitAnswer()">✔ Confirm</button>
+          <button class="btn btn-outline" onclick="skipQuestion()">⏭ Skip</button>
+          <button class="btn btn-outline btn-sm" onclick="endQuiz()">⏹ End</button>
+        </div>
+        <div class="quiz-result" id="quizFeedback"></div>
+      </div>
+    </div>
+
+    <!-- Quiz result -->
+    <div class="card" id="resultCard" style="display:none;">
+      <div class="card-title">📊 Quiz Results</div>
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="wrong-list" id="wrongList"></div>
+      <div class="text-center mt-16">
+        <button class="btn btn-primary" onclick="startQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Fullscreen Timer Overlay -->
+<div class="fs-overlay" id="fsOverlay" onclick="closeFullscreen()">
+  <button class="fs-close" onclick="event.stopPropagation();closeFullscreen();">✕</button>
+  <div class="fs-time" id="fsTime">00:00</div>
+</div>
+
+<!-- Timer Alert Popup -->
+<div class="alert-overlay" id="alertOverlay">
+  <div class="alert-popup">
+    <div class="icon">⏰</div>
+    <h2>Time's Up!</h2>
+    <p>Countdown finished</p>
+    <button class="btn btn-danger" onclick="dismissAlert()" style="font-size:18px;padding:14px 40px;">OK</button>
+  </div>
+</div>
+
+<!-- Confetti container -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+// ==================== GLOBAL ====================
+let activeTab = 'picker';
+let allNames = [];
+let scoreGroups = [];
+
+// ==================== TAB SWITCHING ====================
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => {
+  activeTab = b.dataset.tab;
+  document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('panel-' + activeTab).classList.add('active');
+  if (activeTab === 'score') rebuildScoreboard();
+  if (activeTab === 'timer') updateTimerDisplay();
+}));
+
+// ==================== 1. RANDOM NAME PICKER ====================
+const nameInput = document.getElementById('nameInput');
+const pickerDisplay = document.getElementById('pickerDisplay');
+const btnPick = document.getElementById('btnPick');
+let pickHistory = [];
+let isPicking = false;
+let pickInterval = null;
+
+function loadNames() {
+  const saved = localStorage.getItem('classroom_names');
+  if (saved) {
+    allNames = JSON.parse(saved);
+    nameInput.value = allNames.join('\n');
+  }
+  updateNameCount();
+}
+
+function saveNames() {
+  allNames = nameInput.value.split('\n').map(s => s.trim()).filter(s => s);
+  saveNamesSilent();
+  updateNameCount();
+  if (!isPicking) showPlaceholder();
+}
+
+function saveNamesSilent() {
+  localStorage.setItem('classroom_names', JSON.stringify(allNames));
+}
+
+function clearNames() {
+  if (!confirm('Clear all students?')) return;
+  allNames = [];
+  nameInput.value = '';
+  localStorage.removeItem('classroom_names');
+  updateNameCount();
+  showPlaceholder();
+}
+
+function importNames() {
+  document.getElementById('fileInput').click();
+}
+
+function handleFileImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const text = ev.target.result;
+    // Split by newline, comma, Chinese comma, or tab
+    const names = text.split(/[\n\r,，\t]+/).map(s => s.trim()).filter(s => s && !/^\d+$/.test(s));
+    if (names.length === 0) { alert('No valid names found. Check file format.'); return; }
+    // Append to existing names (deduplicate)
+    const existing = new Set(allNames);
+    const newNames = names.filter(n => !existing.has(n));
+    if (newNames.length === 0) { alert('No new names found in file.'); return; }
+    allNames = [...allNames, ...newNames];
+    nameInput.value = allNames.join('\n');
+    saveNamesSilent();
+    updateNameCount();
+    alert('Imported ' + newNames.length + ' new names!');
+  };
+  reader.readAsText(file, 'UTF-8');
+  e.target.value = ''; // Reset so same file can be re-imported
+}
+
+function exportNames() {
+  if (allNames.length === 0) { alert('List is empty. Nothing to export.'); return; }
+  const blob = new Blob([allNames.join('\n')], { type: 'text/plain;charset=UTF-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Student List_' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+}
+
+function updateNameCount() {
+  const count = allNames.length;
+  document.getElementById('nameCount').textContent = count + ' students';
+  btnPick.disabled = count === 0;
+}
+
+function showPlaceholder() {
+  pickerDisplay.innerHTML = '<span class="picker-placeholder">👆 Enter student names first</span>';
+}
+
+function loadHistory() {
+  const saved = localStorage.getItem('classroom_pick_history');
+  pickHistory = saved ? JSON.parse(saved) : [];
+  renderHistory();
+}
+
+function saveHistory() {
+  localStorage.setItem('classroom_pick_history', JSON.stringify(pickHistory));
+}
+
+function renderHistory() {
+  const card = document.getElementById('historyCard');
+  const list = document.getElementById('historyList');
+  const cnt = document.getElementById('historyCount');
+  if (pickHistory.length === 0) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+  cnt.textContent = '(last ' + pickHistory.length + ')';
+  list.innerHTML = pickHistory.slice().reverse().map((n, i) =>
+    '<span class="history-item">' + (pickHistory.length - i) + '. ' + escapeHtml(n) + '</span>'
+  ).join('');
+}
+
+function clearHistory() {
+  pickHistory = [];
+  saveHistory();
+  renderHistory();
+}
+
+function startPick() {
+  // Auto-save current names from textarea
+  allNames = nameInput.value.split('\n').map(s => s.trim()).filter(s => s);
+  if (allNames.length === 0 || isPicking) return;
+  saveNamesSilent();
+  updateNameCount();
+  isPicking = true;
+  btnPick.textContent = '🌀 Picking...';
+  btnPick.disabled = true;
+  pickerDisplay.innerHTML = '<span class="picker-name rolling" id="rollingName">' + escapeHtml(allNames[0]) + '</span>';
+  let idx = 0;
+  const rollingEl = document.getElementById('rollingName');
+  pickInterval = setInterval(() => {
+    idx = Math.floor(Math.random() * allNames.length);
+    rollingEl.textContent = allNames[idx];
+  }, 60);
+
+  // Stop after random 1.5~2.8s
+  const duration = 1500 + Math.random() * 1300;
+  setTimeout(() => {
+    clearInterval(pickInterval);
+    isPicking = false;
+    // Avoid recent repeats: if 3+ students available, exclude last 3 picks from pool
+    const recentSet = new Set(pickHistory.slice(-3));
+    const availableNames = allNames.filter(n => !recentSet.has(n));
+    const pool = availableNames.length > 0 ? availableNames : allNames;
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+    rollingEl.classList.remove('rolling');
+    rollingEl.textContent = picked;
+    pickerDisplay.innerHTML = '<span class="picker-name" style="animation:bounceIn .5s;">' + escapeHtml(picked) + '</span>';
+    btnPick.textContent = '🎲 Pick Again';
+    btnPick.disabled = false;
+    pickHistory.push(picked);
+    if (pickHistory.length > 100) pickHistory.shift();
+    saveHistory();
+    renderHistory();
+    // Add bounce keyframe
+    if (!document.getElementById('bounceStyle')) {
+      const s = document.createElement('style');
+      s.id = 'bounceStyle';
+      s.textContent = '@keyframes bounceIn { 0%{transform:scale(.3);opacity:0;} 50%{transform:scale(1.08);} 100%{transform:scale(1);opacity:1;} }';
+      document.head.appendChild(s);
+    }
+  }, duration);
+}
+
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ==================== 2. SCOREBOARD ====================
+function loadScores() {
+  const saved = localStorage.getItem('classroom_scores');
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById('groupCount').value = data.count || 4;
+    scoreGroups = data.groups || [];
+  }
+  rebuildScoreboard();
+}
+
+function saveScores() {
+  const count = parseInt(document.getElementById('groupCount').value);
+  localStorage.setItem('classroom_scores', JSON.stringify({ count, groups: scoreGroups }));
+}
+
+function rebuildScoreboard() {
+  const count = parseInt(document.getElementById('groupCount').value);
+  const grid = document.getElementById('scoreGrid');
+  // Preserve existing group names/scores
+  while (scoreGroups.length < count) {
+    scoreGroups.push({ name: 'Group ' + (scoreGroups.length + 1), score: 0 });
+  }
+  scoreGroups = scoreGroups.slice(0, count);
+
+  const emojis = ['🦊','🐸','🐼','🐨','🦁','🐯','🐰','🐶'];
+  grid.innerHTML = scoreGroups.map((g, i) => `
+    <div class="score-card">
+      <input class="score-name" value="${escapeHtml(g.name)}" onchange="updateGroupName(${i}, this.value)" maxlength="8">
+      <div class="score-stars" id="stars${i}">${starsForScore(g.score)}</div>
+      <div class="score-value" id="scoreVal${i}">${g.score}</div>
+      <div class="score-btns">
+        <button class="score-btn plus" onclick="adjustScore(${i},1)">+1</button>
+        <button class="score-btn minus" onclick="adjustScore(${i},-1)">−1</button>
+        <button class="score-btn reset" onclick="adjustScore(${i},-${g.score})" title="Reset">↺</button>
+      </div>
+      <div class="mt-8">
+        <button class="btn btn-outline btn-xs" onclick="adjustScore(${i},5)">+5</button>
+        <button class="btn btn-outline btn-xs" onclick="adjustScore(${i},-5)">−5</button>
+        <button class="btn btn-outline btn-xs" onclick="customAdjust(${i})">Custom</button>
+      </div>
+    </div>
+  `).join('');
+  saveScores();
+}
+
+function starsForScore(n) {
+  if (n >= 50) return '⭐⭐⭐⭐⭐';
+  if (n >= 30) return '⭐⭐⭐⭐';
+  if (n >= 15) return '⭐⭐⭐';
+  if (n >= 5) return '⭐⭐';
+  if (n >= 1) return '⭐';
+  return '';
+}
+
+function updateGroupName(i, name) {
+  scoreGroups[i].name = name || 'Group ' + (i + 1);
+  saveScores();
+}
+
+function adjustScore(i, delta) {
+  scoreGroups[i].score = Math.max(0, scoreGroups[i].score + delta);
+  document.getElementById('scoreVal' + i).textContent = scoreGroups[i].score;
+  document.getElementById('stars' + i).textContent = starsForScore(scoreGroups[i].score);
+  saveScores();
+  // Sort by score (visual only, don't rearrange DOM to keep names stable)
+}
+
+function customAdjust(i) {
+  const v = prompt('Enter points to add/subtract (negative to deduct):', '0');
+  if (v !== null) {
+    const n = parseInt(v);
+    if (!isNaN(n)) adjustScore(i, n);
+  }
+}
+
+function resetAllScores() {
+  if (!confirm('Reset all group scores?')) return;
+  scoreGroups.forEach(g => g.score = 0);
+  rebuildScoreboard();
+}
+
+// ==================== 3. TIMER ====================
+let timerMode = 'countdown'; // 'countdown' | 'stopwatch'
+let timerTotal = 0;     // total seconds for countdown
+let timerRemaining = 0; // current remaining
+let timerRunning = false;
+let timerInterval = null;
+let timerStartReal = 0; // real time when started
+let lapTimes = [];
+
+function switchTimerMode(mode) {
+  timerMode = mode;
+  document.querySelectorAll('.timer-mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-tmode="' + mode + '"]').classList.add('active');
+  stopTimer();
+  resetTimerDisplay();
+  document.getElementById('btnLap').style.display = mode === 'stopwatch' ? '' : 'none';
+}
+
+function setCountdown(sec) {
+  stopTimer();
+  timerTotal = sec;
+  timerRemaining = sec;
+  updateTimerDisplay();
+  document.getElementById('timerLabel').textContent = formatDuration(sec) + ' Countdown';
+}
+
+function setCustomCountdown() {
+  const m = parseInt(document.getElementById('customMin').value) || 0;
+  const s = parseInt(document.getElementById('customSec').value) || 0;
+  const total = m * 60 + s;
+  if (total <= 0) return;
+  setCountdown(total);
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    // Pause
+    stopTimer();
+  } else {
+    startTimer();
+  }
+}
+
+function startTimer() {
+  if (timerMode === 'countdown' && timerRemaining <= 0) return;
+  timerRunning = true;
+  timerStartReal = Date.now();
+  document.getElementById('btnTimerStart').textContent = '⏸ Pause';
+
+  timerInterval = setInterval(() => {
+    if (timerMode === 'countdown') {
+      timerRemaining--;
+      updateTimerDisplay();
+      if (timerRemaining <= 0) {
+        stopTimer();
+        document.getElementById('timerDisplay').classList.remove('warning');
+        document.getElementById('timerLabel').textContent = '⏰ Time\'s Up!';
+        // Flash effect
+        const td = document.getElementById('timerDisplay');
+        td.style.color = '#FF6B6B';
+        setTimeout(() => td.style.color = '', 2000);
+        showTimerAlert();
+      }
+      if (timerRemaining <= 10 && timerRemaining > 0) {
+        document.getElementById('timerDisplay').classList.add('warning');
+      } else {
+        document.getElementById('timerDisplay').classList.remove('warning');
+      }
+    } else {
+      // Stopwatch
+      const elapsed = Math.floor((Date.now() - timerStartReal) / 1000);
+      timerRemaining = elapsed;
+      updateTimerDisplay();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  timerRunning = false;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  document.getElementById('btnTimerStart').textContent = '▶ Start';
+  document.getElementById('timerDisplay').classList.remove('warning');
+}
+
+function resetTimerDisplay() {
+  if (timerMode === 'countdown') {
+    if (timerTotal > 0) {
+      timerRemaining = timerTotal;
+    } else {
+      timerRemaining = 300;
+      timerTotal = 300;
+    }
+    document.getElementById('timerLabel').textContent = formatDuration(timerTotal) + ' Countdown';
+  } else {
+    timerRemaining = 0;
+    timerTotal = 0;
+    document.getElementById('timerLabel').textContent = 'Stopwatch Ready';
+  }
+  updateTimerDisplay();
+  document.getElementById('timerDisplay').classList.remove('warning');
+}
+
+function updateTimerDisplay() {
+  const disp = formatTime(timerRemaining);
+  document.getElementById('timerDisplay').textContent = disp;
+  document.getElementById('fsTime').textContent = disp;
+  // Sync warning to fullscreen
+  const fsTime = document.getElementById('fsTime');
+  fsTime.classList.toggle('warning', document.getElementById('timerDisplay').classList.contains('warning'));
+}
+
+function showTimerAlert() {
+  // ===== 1. Audio alert (multi-tone, louder, longer) =====
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const freqs = [523, 659, 784, 1047]; // C5, E5, G5, C6
+    const playTone = (freq, start, dur) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'triangle';
+      gain.gain.setValueAtTime(0.4, start);
+      gain.gain.exponentialRampToValueAtTime(0.01, start + dur);
+      osc.start(start); osc.stop(start + dur);
+    };
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < freqs.length; j++) {
+        playTone(freqs[j], i * 0.6 + j * 0.12, 0.15);
+      }
+    }
+  } catch (e) {}
+
+  // ===== 2. Show popup overlay =====
+  document.getElementById('alertOverlay').classList.add('show');
+
+  // ===== 3. Launch confetti =====
+  showConfetti();
+
+  // ===== 4. Flash page title =====
+  const orig = document.title;
+  let count = 0;
+  const titleTimer = setInterval(() => {
+    document.title = (count % 2 === 0) ? '⏰ Time\'s Up!' : orig;
+    count++;
+    if (count > 10) { clearInterval(titleTimer); document.title = orig; }
+  }, 500);
+
+  // ===== 5. Browser notification =====
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('⏰ Countdown Timer', { body: 'Countdown finished!', icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">⏰</text></svg>' });
+  } else if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+function dismissAlert() {
+  document.getElementById('alertOverlay').classList.remove('show');
+  document.getElementById('confettiContainer').innerHTML = '';
+}
+
+function showConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#FF6B6B','#4ECDC4','#FFE66D','#A78BFA','#FF8A5C','#45B7D1','#FF9FF3','#54A0FF','#5F27CD','#01A3A4'];
+  const shapes = ['square','circle'];
+  let html = '';
+  for (let i = 0; i < 80; i++) {
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const delay = Math.random() * 1.5;
+    const duration = 2 + Math.random() * 3;
+    const size = 6 + Math.random() * 10;
+    const borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    html += '<div class="confetti-piece" style="background:' + color + ';left:' + left + '%;width:' + size + 'px;height:' + size + 'px;border-radius:' + borderRadius + ';animation-delay:' + delay + 's;animation-duration:' + duration + 's;"></div>';
+  }
+  container.innerHTML = html;
+  // Clean up after animation
+  setTimeout(() => { container.innerHTML = ''; }, 5000);
+}
+
+function lapTimer() {
+  if (!timerRunning || timerMode !== 'stopwatch') return;
+  lapTimes.push(timerRemaining);
+  renderLaps();
+}
+
+function renderLaps() {
+  document.getElementById('lapCard').style.display = lapTimes.length ? '' : 'none';
+  const list = document.getElementById('lapList');
+  const prev = [0, ...lapTimes];
+  list.innerHTML = lapTimes.map((t, i) => {
+    const diff = t - prev[i];
+    return '<div class="lap-item"><span>Lap ' + (i + 1) + '</span><span>' + formatTime(t) + '</span><span style="color:var(--muted)">+' + formatTime(diff) + '</span></div>';
+  }).join('');
+  // Show clear button
+  document.querySelector('#lapCard .btn-outline').style.display = lapTimes.length ? '' : 'none';
+}
+
+function clearLaps() {
+  lapTimes = [];
+  renderLaps();
+}
+
+// Fullscreen
+function openFullscreen() {
+  document.getElementById('fsTime').textContent = formatTime(timerRemaining);
+  document.getElementById('fsOverlay').classList.add('show');
+}
+
+function closeFullscreen() {
+  document.getElementById('fsOverlay').classList.remove('show');
+}
+
+function formatTime(totalSec) {
+  const m = Math.floor(Math.abs(totalSec) / 60);
+  const s = Math.abs(totalSec) % 60;
+  const sign = totalSec < 0 ? '-' : '';
+  return sign + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function formatDuration(totalSec) {
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  if (m === 0) return s + 's';
+  if (s === 0) return m + ' min';
+  return m + 'm ' + s + 's';
+}
+
+// ==================== 4. ARITHMETIC QUIZ ====================
+let quizDifficulty = 1;
+let quizQuestions = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+let quizWrong = 0;
+let quizSkipped = 0;
+let quizWrongList = [];
+let quizInProgress = false;
+
+function selectDiff(level) {
+  if (quizInProgress) return;
+  quizDifficulty = level;
+  document.querySelectorAll('.diff-card').forEach(c => c.classList.remove('active'));
+  document.querySelector('[data-level="' + level + '"]').classList.add('active');
+  saveSettings();
+}
+
+function saveSettings() {
+  localStorage.setItem('classroom_math_settings', JSON.stringify({
+    difficulty: quizDifficulty,
+    count: document.getElementById('quizCount').value
+  }));
+}
+
+function loadSettings() {
+  const saved = localStorage.getItem('classroom_math_settings');
+  if (saved) {
+    const s = JSON.parse(saved);
+    quizDifficulty = s.difficulty || 1;
+    document.getElementById('quizCount').value = s.count || 20;
+    selectDiff(quizDifficulty);
+  }
+}
+
+function generateQuestions() {
+  const count = parseInt(document.getElementById('quizCount').value);
+  const qs = [];
+  const recentKeys = []; // track last 2 question signatures to avoid repeats
+  for (let i = 0; i < count; i++) {
+    const q = generateOneQuestion(quizDifficulty, recentKeys);
+    qs.push(q);
+    // Keep last 2 signatures to avoid consecutive repeats
+    const sig = q.a + '|' + q.op + '|' + q.b;
+    recentKeys.push(sig);
+    if (recentKeys.length > 2) recentKeys.shift();
+  }
+  return qs;
+}
+
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateOneQuestion(level, avoidKeys) {
+  let a, b, op, answer;
+  const ops_l1 = ['+'];
+  const ops_l2 = ['+','-'];
+  const ops_l3 = ['+','-'];
+  const ops_l4 = ['+','-','×'];
+  const ops_l5 = ['+','-','×','÷'];
+  let attempts = 0;
+  const maxAttempts = 20;
+  let sig;
+
+  do {
+    switch (level) {
+      case 1: // 5Addition ≤
+        a = randInt(1, 4);
+        b = randInt(1, 5 - a);
+        op = '+';
+        answer = a + b;
+        break;
+      case 2: // 10Add & Sub ≤
+        op = ops_l2[randInt(0, 1)];
+        if (op === '+') {
+          a = randInt(1, 8);
+          b = randInt(1, 10 - a);
+          answer = a + b;
+        } else {
+          a = randInt(2, 10);
+          b = randInt(1, a);
+          answer = a - b;
+        }
+        break;
+      case 3: // Add & Sub ≤20 (with carry/borrow)
+        op = ops_l3[randInt(0, 1)];
+        if (op === '+') {
+          a = randInt(5, 15);
+          b = randInt(1, 20 - a);
+          answer = a + b;
+        } else {
+          a = randInt(5, 20);
+          b = randInt(1, a);
+          answer = a - b;
+        }
+        break;
+      case 4: // Add, Sub ≤100 + multiplication table
+        op = ops_l4[randInt(0, 2)];
+        if (op === '+') {
+          a = randInt(10, 80);
+          b = randInt(1, 99 - a);
+          answer = a + b;
+        } else if (op === '-') {
+          a = randInt(10, 99);
+          b = randInt(1, a);
+          answer = a - b;
+        } else {
+          a = randInt(1, 9);
+          b = randInt(1, 9);
+          answer = a * b;
+        }
+        break;
+      case 5: // Mixed Operations
+        op = ops_l5[randInt(0, 3)];
+        if (op === '+') {
+          a = randInt(10, 80);
+          b = randInt(1, 99 - a);
+          answer = a + b;
+        } else if (op === '-') {
+          a = randInt(10, 99);
+          b = randInt(1, a);
+          answer = a - b;
+        } else if (op === '×') {
+          a = randInt(2, 9);
+          b = randInt(2, 9);
+          answer = a * b;
+        } else {
+          b = randInt(1, 9);
+          answer = randInt(2, 9);
+          a = b * answer;
+        }
+        break;
+    }
+    sig = a + '|' + op + '|' + b;
+    attempts++;
+  } while (avoidKeys && avoidKeys.includes(sig) && attempts < maxAttempts);
+
+  return { text: a + ' ' + op + ' ' + b + ' = ?', answer, a, b, op };
+}
+
+function startQuiz() {
+  quizQuestions = generateQuestions();
+  quizIndex = 0;
+  quizCorrect = 0;
+  quizWrong = 0;
+  quizSkipped = 0;
+  quizWrongList = [];
+  quizInProgress = true;
+
+  document.getElementById('quizCard').style.display = '';
+  document.getElementById('resultCard').style.display = 'none';
+  document.getElementById('quizFeedback').innerHTML = '';
+  showQuestion();
+  saveSettings();
+}
+
+function showQuestion() {
+  if (quizIndex >= quizQuestions.length) {
+    endQuiz();
+    return;
+  }
+  const q = quizQuestions[quizIndex];
+  document.getElementById('quizProgress').textContent = 'Q ' + (quizIndex + 1) + ' / ' + quizQuestions.length;
+  document.getElementById('quizQuestion').textContent = q.text;
+  document.getElementById('quizInput').value = '';
+  document.getElementById('quizInput').focus();
+  document.getElementById('quizFeedback').innerHTML = '';
+}
+
+function submitAnswer() {
+  if (!quizInProgress) return;
+  const input = document.getElementById('quizInput');
+  const userAnswer = parseInt(input.value);
+  const q = quizQuestions[quizIndex];
+
+  if (isNaN(userAnswer)) {
+    document.getElementById('quizFeedback').innerHTML = '<span style="color:var(--c5);">Enter answer</span>';
+    return;
+  }
+
+  if (userAnswer === q.answer) {
+    quizCorrect++;
+    document.getElementById('quizFeedback').innerHTML = '<span style="color:var(--c2);font-size:20px;font-weight:700;">✔ Correct!</span>';
+  } else {
+    quizWrong++;
+    quizWrongList.push({ ...q, userAnswer });
+    document.getElementById('quizFeedback').innerHTML = '<span style="color:var(--c1);font-size:20px;">✘ Wrong, answer is <b>' + q.answer + '</b></span>';
+  }
+
+  quizIndex++;
+  setTimeout(() => showQuestion(), 600);
+}
+
+function skipQuestion() {
+  if (!quizInProgress) return;
+  quizSkipped++;
+  quizIndex++;
+  showQuestion();
+}
+
+function endQuiz() {
+  quizInProgress = false;
+  document.getElementById('quizCard').style.display = 'none';
+  document.getElementById('resultCard').style.display = '';
+
+  const total = quizCorrect + quizWrong + quizSkipped;
+  const score = total > 0 ? Math.round(quizCorrect / total * 100) : 0;
+
+  document.getElementById('resultGrid').innerHTML = `
+    <div class="result-item" style="background:#e8faf8;"><div class="num" style="color:var(--c2);">${quizCorrect}</div><div class="lbl">Correct</div></div>
+    <div class="result-item" style="background:#fff5f5;"><div class="num" style="color:var(--c1);">${quizWrong}</div><div class="lbl">Wrong</div></div>
+    <div class="result-item" style="background:#fff8f0;"><div class="num" style="color:var(--c5);">${quizSkipped}</div><div class="lbl">Skipped</div></div>
+    <div class="result-item" style="background:#f5f0ff;"><div class="num" style="color:var(--c4);">${score}</div><div class="lbl">Score %</div></div>
+  `;
+
+  const wl = document.getElementById('wrongList');
+  if (quizWrongList.length > 0) {
+    wl.innerHTML = '<div style="font-weight:700;margin-bottom:8px;">📝 Review Mistakes</div>' +
+      quizWrongList.map(w => {
+        const opMap = { '+': '+', '-': '−', '×': '×', '÷': '÷' };
+        return '<div class="wrong-item"><span>' + w.a + ' ' + opMap[w.op] + ' ' + w.b + ' = ?  <span style="color:var(--c1);">Your answer: ' + w.userAnswer + '</span></span><span class="correct">' + w.answer + '</span></div>';
+      }).join('');
+  } else {
+    wl.innerHTML = '<div style="text-align:center;color:var(--c2);font-size:18px;padding:20px;">🎉 All correct! Great job!</div>';
+  }
+}
+
+// ==================== INIT ====================
+function init() {
+  loadNames();
+  loadHistory();
+  loadScores();
+  loadSettings();
+  // Default countdown
+  timerRemaining = 300;
+  timerTotal = 300;
+  updateTimerDisplay();
+  document.getElementById('timerLabel').textContent = '5 min Countdown';
+  // Click "pick display" to trigger pick
+  pickerDisplay.addEventListener('click', () => {
+    if (!isPicking && allNames.length > 0) startPick();
+  });
+
+  // Live-enable the pick button as the teacher types names
+  nameInput.addEventListener('input', () => {
+    allNames = nameInput.value.split('\n').map(s => s.trim()).filter(s => s);
+    updateNameCount();
+    if (!isPicking) showPlaceholder();
+  });
+}
+
+init();
+</script>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../grade-stats/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Grade Stats &amp; Analysis</a><a href="../team-shuffle/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🪑 Seating Chart</a><a href="../random-group-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F465; Random Group Generator</a><a href="../attendance-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">📋 Attendance Tracker</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:#555;font-size:13px;text-decoration:none;">🛠 More Free Tools →</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:#555;font-size:12px;font-weight:600;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#555'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:var(--text,#0f172a);text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid #ddd"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:#667eea;text-decoration:none;font-size:13px;font-weight:600;transition:color 0.2s" onmouseover="this.style.color='#764ba2'" onmouseout="this.style.color='#667eea'">☕ Buy me a coffee</a></div>
+
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

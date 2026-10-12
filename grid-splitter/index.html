@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Grid Image Tools — Free Grid Splitter | HuSir Tools</title>
+<meta name="description" content="Split an image into a clean grid for print, social media, or creative layouts. No upload, works in your browser.">
+<link rel="canonical" href="https://www.husir.org/tools/grid-splitter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Grid Image Tools — Free Grid Splitter">
+<meta property="og:description" content="Split an image into a clean grid for print, social media, or creative layouts. No upload, works in your browser.">
+<meta property="og:url" content="https://www.husir.org/tools/grid-splitter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Grid Image Tools — Free Grid Splitter">
+<meta name="twitter:description" content="Split an image into a clean grid for print, social media, or creative layouts. No upload, works in your browser.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+:root {
+  --primary: #667eea;
+  --primary-dark: #5a6fd6;
+  --accent: #f093fb;
+  --bg: #f0f2f5;
+  --card: #fff;
+  --text: #2d3436;
+  --text-light: #636e72;
+  --border: #e0e0e0;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 12px rgba(0,0,0,.08);
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Header */
+header{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;padding:16px 20px 14px;text-align:center;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 20px rgba(102,126,234,.3);
+}
+header h1{font-size:1.25rem;font-weight:700;letter-spacing:.02em}
+header p{font-size:.75rem;opacity:.85;margin-top:4px}
+
+/* Tabs */
+nav.tabs{
+  display:flex;position:sticky;top:78px;z-index:99;background:var(--card);
+  border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);
+}
+nav.tabs button{
+  flex:1;padding:12px 8px;border:none;background:none;font-size:.85rem;color:var(--text-light);
+  cursor:pointer;position:relative;font-weight:500;transition:color .2s;-webkit-tap-highlight-color:transparent;
+  outline:none;font-family:inherit;
+}
+nav.tabs button.active{color:var(--primary);font-weight:600}
+nav.tabs button.active::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:28px;height:3px;background:var(--primary);border-radius:2px;
+}
+
+/* Main */
+main{padding:12px 16px calc(12px + var(--safe-bottom))}
+section.tab{display:none}
+section.tab.active{display:block}
+
+/* Cards */
+.card{
+  background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;
+  box-shadow:var(--shadow);
+}
+.card-title{font-size:.95rem;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.card-title .icon{font-size:1.2rem}
+
+/* Upload */
+.upload-zone{
+  border:2px dashed var(--border);border-radius:var(--radius-sm);padding:32px 16px;
+  text-align:center;cursor:pointer;transition:all .2s;background:#fafbfc;
+  -webkit-tap-highlight-color:transparent;
+}
+.upload-zone:active,.upload-zone.drag-over{border-color:var(--primary);background:#f0f3ff}
+.upload-zone .icon{font-size:2.4rem;margin-bottom:8px;display:block}
+.upload-zone .text{font-size:.85rem;color:var(--text-light)}
+.upload-zone .hint{font-size:.7rem;color:#b2bec3;margin-top:4px}
+.upload-zone input[type=file]{display:none}
+
+/* Preview */
+.preview-container{position:relative;overflow:hidden;border-radius:var(--radius-sm)}
+.preview-container img{display:block;width:100%;border-radius:var(--radius-sm)}
+.grid-overlay{
+  position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;
+  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+}
+.grid-overlay div{
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+}
+
+/* Crop canvas */
+#grid-crop-canvas{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  touch-action:none;cursor:default;z-index:10
+}
+
+/* Filter chips */
+.filter-bar{display:flex;gap:8px;overflow-x:auto;padding:4px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.filter-chip{
+  flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--card);font-size:.78rem;cursor:pointer;white-space:nowrap;
+  transition:all .2s;font-family:inherit;color:var(--text);-webkit-tap-highlight-color:transparent;
+}
+.filter-chip.active{
+  background:var(--primary);color:#fff;border-color:var(--primary);
+  box-shadow:0 2px 8px rgba(102,126,234,.3);
+}
+
+/* Controls row */
+.controls-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.toggle-btn{
+  display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;
+  border:1.5px solid var(--border);background:var(--card);font-size:.78rem;
+  cursor:pointer;transition:all .2s;font-family:inherit;color:var(--text);user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.toggle-btn.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.toggle-btn .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.4}
+.toggle-btn.on .dot{opacity:1}
+
+/* Watermark panel */
+.wm-panel{display:none;margin-top:10px;animation:fadeIn .25s}
+.wm-panel.show{display:block}
+.wm-panel .row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.wm-panel label{font-size:.75rem;color:var(--text-light);min-width:50px}
+.wm-panel input[type=text]{
+  flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;
+  font-size:.82rem;outline:none;font-family:inherit;
+}
+.wm-panel input[type=text]:focus{border-color:var(--primary)}
+.wm-panel input[type=range]{flex:1;min-width:80px}
+.wm-panel input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px}
+.wm-pos-group{display:flex;gap:4px}
+.wm-pos-group button{
+  padding:5px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--card);
+  font-size:.7rem;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--text);
+}
+.wm-pos-group button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 24px;border:none;border-radius:24px;font-size:.88rem;font-weight:600;
+  cursor:pointer;transition:all .2s;font-family:inherit;-webkit-tap-highlight-color:transparent;
+  outline:none;user-select:none;
+}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 4px 14px rgba(102,126,234,.35)}
+.btn-primary:active{transform:scale(.96);opacity:.9}
+.btn-outline{border:2px solid var(--primary);color:var(--primary);background:transparent}
+.btn-outline:active{background:rgba(102,126,234,.08)}
+.btn-sm{padding:7px 16px;font-size:.78rem;border-radius:20px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.4;pointer-events:none}
+
+/* Stitch layout toggle */
+.layout-toggle{display:flex;gap:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--border)}
+.layout-toggle button{
+  flex:1;padding:8px;border:none;background:var(--card);font-size:.8rem;
+  cursor:pointer;font-family:inherit;transition:all .15s;color:var(--text);
+}
+.layout-toggle button.active{background:var(--primary);color:#fff}
+
+/* Slider */
+.slider-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.slider-row span{font-size:.75rem;color:var(--text-light);white-space:nowrap}
+.slider-row input[type=range]{flex:1;height:4px;-webkit-appearance:none;background:var(--border);border-radius:2px;outline:none}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--primary);cursor:pointer;box-shadow:0 2px 6px rgba(102,126,234,.3)}
+
+/* Image list */
+.img-list{display:flex;gap:8px;overflow-x:auto;padding:4px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.img-list::-webkit-scrollbar{display:none}
+.img-item{
+  flex-shrink:0;width:72px;height:72px;border-radius:10px;overflow:hidden;position:relative;
+  border:2px solid var(--border);cursor:pointer;transition:border-color .2s
+}
+.img-item img{width:100%;height:100%;object-fit:cover}
+.img-item .del{
+  position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;
+  background:rgba(0,0,0,.55);color:#fff;font-size:12px;line-height:22px;text-align:center;
+  cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;
+}
+
+/* Template grid */
+.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.template-item{
+  border:2px solid var(--border);border-radius:var(--radius-sm);padding:12px;
+  text-align:center;cursor:pointer;transition:all .15s;background:var(--card)
+}
+.template-item.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.12)}
+.template-preview{display:grid;gap:3px;margin-bottom:8px}
+.template-name{font-size:.75rem;font-weight:600}
+.template-slots{display:grid;gap:8px;margin-top:10px}
+.template-slot{
+  aspect-ratio:1;border:2px dashed var(--border);border-radius:8px;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;overflow:hidden;
+  background:#fafbfc;transition:border-color .15s;font-size:.7rem;color:var(--text-light)
+}
+.template-slot:active{border-color:var(--primary)}
+.template-slot.filled{border-style:solid}
+.template-slot img{width:100%;height:100%;object-fit:cover}
+.template-slot input{display:none}
+
+/* Results */
+.results-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px
+}
+.result-item{
+  border-radius:8px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:1;border:1px solid var(--border)
+}
+.result-item img{width:100%;height:100%;object-fit:cover;display:block}
+.result-item .dl-label{
+  position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,.6);color:#fff;
+  font-size:.6rem;padding:2px 6px;border-radius:4px;pointer-events:none
+}
+
+/* Result preview (stitch/template) */
+.result-preview{margin-top:12px;border-radius:var(--radius-sm);overflow:hidden}
+.result-preview img{display:block;width:100%}
+
+/* Toast */
+.toast{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999;
+  background:rgba(0,0,0,.78);color:#fff;padding:10px 20px;border-radius:20px;
+  font-size:.82rem;pointer-events:none;opacity:0;transition:opacity .2s
+}
+.toast.show{opacity:1}
+
+/* Save overlay – fullscreen image preview, long-press to save */
+.save-overlay{
+  position:fixed;inset:0;z-index:1001;display:none;
+  background:rgba(0,0,0,.92);flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom));
+}
+.save-overlay.show{display:flex}
+.save-overlay-img-wrap{
+  display:flex;align-items:center;justify-content:center;
+  max-width:100%;max-height:55vh;overflow:hidden;
+}
+.save-overlay-img-wrap img{
+  max-width:100%;max-height:55vh;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.3);
+}
+/* Multi-image grid in overlay */
+.save-overlay-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:4px;
+  max-width:94vw;max-height:55vh;overflow-y:auto;padding:2px;
+  -webkit-overflow-scrolling:touch;
+}
+.save-overlay-grid .save-grid-item{
+  position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1;
+}
+.save-overlay-grid .save-grid-item img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.save-overlay-grid .save-grid-item span{
+  position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,.65);color:#fff;
+  font-size:.6rem;padding:2px 6px;border-radius:3px;
+}
+.save-overlay .save-hint{
+  color:rgba(255,255,255,.75);font-size:.82rem;margin-top:16px;text-align:center;
+  line-height:1.5;
+}
+.save-overlay .save-hint span{color:#fff;font-weight:600}
+.save-overlay .save-actions{display:flex;gap:12px;margin-top:16px}
+.save-overlay .save-btn{
+  padding:10px 22px;border-radius:20px;border:none;font-size:.85rem;font-weight:600;
+  cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;
+}
+.save-overlay .save-btn-primary{background:#fff;color:#333}
+.save-overlay .save-btn-primary:active{opacity:.85}
+.save-overlay .save-btn-secondary{background:rgba(255,255,255,.15);color:#fff}
+.save-overlay .save-btn-secondary:active{background:rgba(255,255,255,.25)}
+.save-overlay .save-close{
+  position:absolute;top:max(16px, env(safe-area-inset-top, 16px));right:16px;
+  width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);
+  color:#fff;border:none;font-size:1.1rem;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;
+}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media(min-width:480px){
+  main{max-width:500px;margin:0 auto}
+  nav.tabs{max-width:500px;margin:0 auto}
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<style>
+.ft-file{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;font:600 13.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;cursor:pointer;border:2px dashed rgba(255,255,255,.5);box-shadow:0 3px 12px rgba(102,126,234,.35);user-select:none;-webkit-user-select:none;transition:filter .15s;text-decoration:none}
+.ft-file:hover{filter:brightness(1.08)}
+.ft-file input{display:none}
+.ft-file-sm{padding:7px 13px;font-size:12.5px}
+.ft-file-lg{padding:14px 26px;font-size:15.5px}
+.ft-file-block{width:100%}
+@media(max-width:600px){.ft-file,.ft-file-sm,.ft-file-lg{min-height:44px}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Grid Image Tools v6",
+  "description": "Split an image into a clean grid for print, social media, or creative layouts. No upload, works in your browser.",
+  "url": "https://www.husir.org/tools/grid-splitter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many pieces will I get?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The number of tiles equals your rows × columns (a 3×2 grid gives 6 tiles), and the preview shows every piece before download."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does splitting reduce quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — each tile is exported from the original image at full resolution."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I post a seamless social grid?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload the tiles in reading order (left to right, top to bottom) and keep the posts in the same grid positions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is stitch for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stitching joins strips of a panorama back into one image — upload them in the correct order."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my image uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — all processing runs locally."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Grid Image Tools v6", "item": "https://www.husir.org/tools/grid-splitter/"}]}</script>
+</head>
+<body>
+
+<header>
+  <h1>Grid Image Tools <span style="font-size:.55rem;opacity:.65;font-weight:400;margin-left:6px;padding:2px 6px;border:1px solid rgba(255,255,255,.35);border-radius:4px">v6</span></h1>
+  <p>Grid Split · Panorama Stitch · Template Collage</p>
+</header>
+
+
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;max-width:500px;margin:0 auto 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Grid Image Tools slices one photo into an even grid for multi-post social layouts, stitches horizontal or vertical strips back into a single panorama, and assembles template collages. Pick the mode, upload an image, set rows and columns or strips, then download the finished pieces as PNG.</p>
+<p>Processing happens on your device: full-resolution tiles, no upload, no watermark, no account. It is useful for Instagram grids, product galleries, printable cutouts, and photo walls.</p>
+<div class="faq">
+<p><strong>🖼️ How many pieces will I get?</strong><br>The number of tiles equals your rows × columns (a 3×2 grid gives 6 tiles), and the preview shows every piece before download.</p>
+<p><strong>📸 Does splitting reduce quality?</strong><br>No — each tile is exported from the original image at full resolution.</p>
+<p><strong>🔗 How do I post a seamless social grid?</strong><br>Upload the tiles in reading order (left to right, top to bottom) and keep the posts in the same grid positions.</p>
+<p><strong>🧩 What is stitch for?</strong><br>Stitching joins strips of a panorama back into one image — upload them in the correct order.</p>
+<p><strong>🔒 Is my image uploaded?</strong><br>No — all processing runs locally.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Tiles = rows × columns<br>Export: one PNG per tile, full resolution<br>Order always runs left → right, top → bottom
+</div>
+</div>
+</details>
+
+<nav class="tabs">
+  <button class="active" data-tab="grid">Grid Splitter</button>
+  <button data-tab="stitch">Panorama Stitch</button>
+  <button data-tab="template">Template Collage</button>
+</nav>
+
+<main>
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Grid Image Tools v6</span></span></nav>
+
+
+<!-- ============ TAB: Grid Splitter ============ -->
+<section class="tab active" id="tab-grid">
+  <div class="card">
+    <div class="card-title"><span class="icon">📐</span>Upload Image</div>
+    <div class="upload-zone" id="grid-upload-zone">
+      <span class="icon">📷</span>
+      <div class="text">Click to upload or take photo</div>
+      <div class="hint">Supports  JPG / PNG / HEIC</div>
+      <input type="file" id="grid-file-input" accept="image/*" style="display:none">
+    </div>
+  </div>
+  <div class="card" id="grid-preview-card" style="display:none">
+    <div class="card-title">
+      <span class="icon">✂️</span>Crop Area
+      <span style="font-size:.65rem;color:var(--text-light);margin-left:auto;font-weight:400">
+        Drag to move · Drag corners to scale
+      </span>
+    </div>
+    <div class="preview-container" id="grid-preview-container">
+      <img id="grid-preview-image" style="display:block;width:100%">
+      <canvas id="grid-crop-canvas"></canvas>
+    </div>
+    <div class="controls-row" style="margin-top:10px">
+      <span style="font-size:.75rem;color:var(--text-light);margin-right:4px">Ratio</span>
+      <button class="toggle-btn" data-ratio="free">Free</button>
+      <button class="toggle-btn on" data-ratio="1:1">1:1</button>
+      <button class="toggle-btn" data-ratio="4:3">4:3</button>
+      <button class="toggle-btn" data-ratio="3:4">3:4</button>
+      <button class="toggle-btn" data-ratio="16:9">16:9</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎨</span>Filters</div>
+    <div class="filter-bar" id="grid-filter-bar"></div>
+  </div>
+  <div class="card">
+    <div class="controls-row">
+      <button class="toggle-btn" id="grid-border-toggle">
+        <span class="dot"></span> Border Margin
+      </button>
+      <button class="toggle-btn" id="grid-wm-toggle">
+        <span class="dot"></span> Watermark
+      </button>
+    </div>
+    <div class="wm-panel" id="grid-wm-panel">
+      <div class="row">
+        <label>Text</label>
+        <input type="text" id="grid-wm-text" placeholder="Watermark text" maxlength="30">
+      </div>
+      <div class="row">
+        <label>Position</label>
+        <div class="wm-pos-group" id="grid-wm-pos">
+          <button data-pos="top-left">Top Left</button>
+          <button data-pos="center" class="active">Center</button>
+          <button data-pos="bottom-right">Bottom Right</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Size</label>
+        <input type="range" id="grid-wm-size" min="12" max="48" value="16">
+      </div>
+      <div class="row">
+        <label>Opacity</label>
+        <input type="range" id="grid-wm-opacity" min="10" max="100" value="50">
+      </div>
+      <div class="row">
+        <label>Color</label>
+        <input type="color" id="grid-wm-color" value="#ffffff">
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" id="grid-cut-btn" disabled style="margin-top:12px">
+      Split Grid
+    </button>
+  </div>
+  <div class="card" id="grid-results-card" style="display:none">
+    <div class="card-title"><span class="icon">📦</span>Split Results (click to save each）</div>
+    <div class="results-grid" id="grid-results"></div>
+    <button class="btn btn-primary btn-block" id="grid-download-all" style="margin-top:10px">
+      Download All 9
+    </button>
+  </div>
+</section>
+
+<!-- ============ TAB: Panorama Stitch ============ -->
+<section class="tab" id="tab-stitch">
+  <div class="card">
+    <div class="card-title"><span class="icon">🖼️</span>Add images (2-9 images）</div>
+    <div class="upload-zone" id="stitch-upload-zone">
+      <span class="icon">➕</span>
+      <div class="text">Click to select multiple images</div>
+      <div class="hint">Multi-select supported</div>
+      <input type="file" id="stitch-file-input" accept="image/*" multiple style="display:none">
+    </div>
+    <div class="img-list" id="stitch-img-list" style="margin-top:10px;display:none"></div>
+    <div class="controls-row" style="margin-top:8px">
+      <button class="toggle-btn" id="stitch-clear-btn">Clear & Re-select</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">⚙️</span>Layout Settings</div>
+    <div class="layout-toggle" id="stitch-layout">
+      <button class="active" data-layout="vertical">Vertical Stitch</button>
+      <button data-layout="horizontal">Horizontal Stitch</button>
+    </div>
+    <div class="slider-row" style="margin-top:14px">
+      <span>Spacing</span>
+      <input type="range" id="stitch-spacing" min="0" max="40" value="8">
+      <span id="stitch-spacing-val">8px</span>
+    </div>
+    <div class="controls-row" style="margin-top:8px">
+      <button class="toggle-btn on" id="stitch-uniform">Equal Width/Height</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎨</span>Filters</div>
+    <div class="filter-bar" id="stitch-filter-bar"></div>
+  </div>
+  <div class="card">
+    <div class="controls-row">
+      <button class="toggle-btn" id="stitch-wm-toggle">
+        <span class="dot"></span> Watermark
+      </button>
+    </div>
+    <div class="wm-panel" id="stitch-wm-panel">
+      <div class="row">
+        <label>Text</label>
+        <input type="text" id="stitch-wm-text" placeholder="Watermark text" maxlength="30">
+      </div>
+      <div class="row">
+        <label>Position</label>
+        <div class="wm-pos-group" id="stitch-wm-pos">
+          <button data-pos="top-left">Top Left</button>
+          <button data-pos="center" class="active">Center</button>
+          <button data-pos="bottom-right">Bottom Right</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Size</label>
+        <input type="range" id="stitch-wm-size" min="12" max="72" value="24">
+      </div>
+      <div class="row">
+        <label>Opacity</label>
+        <input type="range" id="stitch-wm-opacity" min="10" max="100" value="40">
+      </div>
+      <div class="row">
+        <label>Color</label>
+        <input type="color" id="stitch-wm-color" value="#ffffff">
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" id="stitch-btn" disabled style="margin-top:12px">
+      Stitch Images
+    </button>
+  </div>
+  <div class="card" id="stitch-result-card" style="display:none">
+    <div class="card-title"><span class="icon">📦</span>Stitch Result</div>
+    <div class="result-preview" id="stitch-result-preview"></div>
+    <button class="btn btn-primary btn-block" id="stitch-download" style="margin-top:10px">
+      Save Panorama
+    </button>
+  </div>
+</section>
+
+<!-- ============ TAB: Template Collage ============ -->
+<section class="tab" id="tab-template">
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span>Select Template</div>
+    <div class="template-grid" id="template-selector"></div>
+  </div>
+  <div class="card" id="template-slots-card" style="display:none">
+    <div class="card-title"><span class="icon">🖼️</span>Upload Images to Cells</div>
+    <div id="template-slots-container"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎨</span>Filters</div>
+    <div class="filter-bar" id="template-filter-bar"></div>
+  </div>
+  <div class="card">
+    <div class="controls-row">
+      <button class="toggle-btn" id="template-wm-toggle">
+        <span class="dot"></span> Watermark
+      </button>
+    </div>
+    <div class="wm-panel" id="template-wm-panel">
+      <div class="row">
+        <label>Text</label>
+        <input type="text" id="template-wm-text" placeholder="Watermark text" maxlength="30">
+      </div>
+      <div class="row">
+        <label>Position</label>
+        <div class="wm-pos-group" id="template-wm-pos">
+          <button data-pos="top-left">Top Left</button>
+          <button data-pos="center" class="active">Center</button>
+          <button data-pos="bottom-right">Bottom Right</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Size</label>
+        <input type="range" id="template-wm-size" min="12" max="72" value="24">
+      </div>
+      <div class="row">
+        <label>Opacity</label>
+        <input type="range" id="template-wm-opacity" min="10" max="100" value="40">
+      </div>
+      <div class="row">
+        <label>Color</label>
+        <input type="color" id="template-wm-color" value="#ffffff">
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" id="template-combine-btn" disabled style="margin-top:12px">
+      Merge template
+    </button>
+  </div>
+  <div class="card" id="template-result-card" style="display:none">
+    <div class="card-title"><span class="icon">📦</span>TemplateResult</div>
+    <div class="result-preview" id="template-result-preview"></div>
+    <button class="btn btn-primary btn-block" id="template-download" style="margin-top:10px">
+      Save Image
+    </button>
+  </div>
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<!-- Save overlay – single image or 9-image grid -->
+<div class="save-overlay" id="save-overlay">
+  <button class="save-close" id="save-close-btn">&times;</button>
+  <div id="save-overlay-single" class="save-overlay-img-wrap">
+    <img id="save-overlay-img" src="" alt="">
+  </div>
+  <div id="save-overlay-grid" class="save-overlay-grid" style="display:none"></div>
+  <div class="save-hint" id="save-hint-text">
+    Long press image <span>Save to Gallery</span>
+  </div>
+  <div class="save-actions">
+    <button class="save-btn save-btn-primary" id="save-share-btn">Share / Save</button>
+    <button class="save-btn save-btn-secondary" id="save-close-btn2">Close</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// FILTERS
+// ============================================================
+const FILTERS = [
+  { id:'none', label:'Original', css:'' },
+  { id:'vintage', label:'Vintage', css:'sepia(0.5) contrast(0.9) brightness(0.9)' },
+  { id:'bw', label:'B&W', css:'grayscale(1)' },
+  { id:'japanese', label:'Japanese', css:'brightness(1.15) contrast(0.9) saturate(0.85)' },
+  { id:'warm', label:'Warm', css:'sepia(0.3) saturate(1.3)' },
+  { id:'cool', label:'Cool', css:'saturate(0.7) hue-rotate(180deg)' },
+  { id:'vivid', label:'Vivid', css:'saturate(1.8) contrast(1.1)' },
+  { id:'faded', label:'Faded', css:'saturate(0.5) brightness(1.2)' },
+  { id:'film', label:'Film', css:'sepia(0.4) contrast(1.15) brightness(0.95)' },
+];
+
+// ============================================================
+// TEMPLATES
+// ============================================================
+const TEMPLATES = [
+  { id:'2h', name:'2-Grid·Horizontal', cols:2, rows:1, preview:'1fr 1fr' },
+  { id:'2v', name:'2-Grid·Vertical', cols:1, rows:2, preview:'1fr / 1fr 1fr' },
+  { id:'3h', name:'3-Grid · Row', cols:3, rows:1, preview:'1fr 1fr 1fr' },
+  { id:'4g', name:'4-Grid', cols:2, rows:2, preview:'1fr 1fr' },
+  { id:'6g', name:'6-Grid', cols:3, rows:2, preview:'1fr 1fr 1fr' },
+  { id:'9g', name:'9-Grid', cols:3, rows:3, preview:'1fr 1fr 1fr' },
+  { id:'1big2', name:'One Large Two Small', cols:2, rows:2, cells:3, preview:'1fr 1fr', bigCell:true },
+];
+
+// ============================================================
+// UTILITY: Toast
+// ============================================================
+function toast(msg, duration) {
+  duration = duration || 1800;
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('show'); }, duration);
+}
+
+// ============================================================
+// UTILITY: Pixel-level CSS filter engine
+// ============================================================
+function parseFilterCSS(css) {
+  var result = [];
+  if (!css) return result;
+  var parts = css.split(') ');
+  for (var i = 0; i < parts.length; i++) {
+    var fn = parts[i].trim();
+    if (!fn.endsWith(')')) fn += ')';
+    var m = fn.match(/^(\w+(?:-\w+)*)\(([^)]+)\)$/);
+    if (m) result.push({ name: m[1], value: parseFloat(m[2]) });
+  }
+  return result;
+}
+
+function clamp(v) { return Math.max(0, Math.min(255, Math.round(v))); }
+
+function applyPixelFilter(imageData, filterCSS) {
+  if (!filterCSS) return imageData;
+  var filters = parseFilterCSS(filterCSS);
+  if (filters.length === 0) return imageData;
+  var d = imageData.data;
+  var len = d.length;
+  for (var fi = 0; fi < filters.length; fi++) {
+    var f = filters[fi];
+    switch (f.name) {
+      case 'grayscale':
+        for (var i = 0; i < len; i += 4) {
+          var gray = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+          d[i]   = d[i]*(1-f.value) + gray*f.value;
+          d[i+1] = d[i+1]*(1-f.value) + gray*f.value;
+          d[i+2] = d[i+2]*(1-f.value) + gray*f.value;
+        }
+        break;
+      case 'sepia':
+        for (var i = 0; i < len; i += 4) {
+          var r = d[i], g = d[i+1], b = d[i+2];
+          var sr = r*0.393 + g*0.769 + b*0.189;
+          var sg = r*0.349 + g*0.686 + b*0.168;
+          var sb = r*0.272 + g*0.534 + b*0.131;
+          d[i]   = r*(1-f.value) + sr*f.value;
+          d[i+1] = g*(1-f.value) + sg*f.value;
+          d[i+2] = b*(1-f.value) + sb*f.value;
+        }
+        break;
+      case 'brightness':
+        for (var i = 0; i < len; i += 4) {
+          d[i]   = clamp(d[i]   * f.value);
+          d[i+1] = clamp(d[i+1] * f.value);
+          d[i+2] = clamp(d[i+2] * f.value);
+        }
+        break;
+      case 'contrast':
+        // CSS contrast: (value - 128) * C + 128
+        for (var i = 0; i < len; i += 4) {
+          d[i]   = clamp((d[i]   - 128) * f.value + 128);
+          d[i+1] = clamp((d[i+1] - 128) * f.value + 128);
+          d[i+2] = clamp((d[i+2] - 128) * f.value + 128);
+        }
+        break;
+      case 'saturate':
+        for (var i = 0; i < len; i += 4) {
+          var gray = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+          d[i]   = clamp(gray + f.value*(d[i]   - gray));
+          d[i+1] = clamp(gray + f.value*(d[i+1] - gray));
+          d[i+2] = clamp(gray + f.value*(d[i+2] - gray));
+        }
+        break;
+      case 'hue-rotate':
+        var rad = f.value * Math.PI / 180;
+        var cosH = Math.cos(rad), sinH = Math.sin(rad);
+        var mHR=0.213+cosH*0.787-sinH*0.213, mHG=0.715-cosH*0.715-sinH*0.715, mHB=0.072-cosH*0.072+sinH*0.928;
+        var mGR=0.213-cosH*0.213+sinH*0.143, mGG=0.715+cosH*0.285+sinH*0.140, mGB=0.072-cosH*0.072-sinH*0.283;
+        var mBR=0.213-cosH*0.213-sinH*0.787, mBG=0.715-cosH*0.715+sinH*0.715, mBB=0.072+cosH*0.928+sinH*0.072;
+        for (var i = 0; i < len; i += 4) {
+          var r = d[i], g = d[i+1], b = d[i+2];
+          d[i]   = clamp(mHR*r + mHG*g + mHB*b);
+          d[i+1] = clamp(mGR*r + mGG*g + mGB*b);
+          d[i+2] = clamp(mBR*r + mBG*g + mBB*b);
+        }
+        break;
+    }
+  }
+  return imageData;
+}
+
+// ============================================================
+// UTILITY: Render filter chips
+// ============================================================
+function renderFilterChips(containerId, activeId, onChange) {
+  var c = document.getElementById(containerId);
+  c.innerHTML = '';
+  var onClick = function(e) {
+    var chip = e.target.closest('.filter-chip');
+    if (!chip) return;
+    c.querySelectorAll('.filter-chip').forEach(function(x){ x.classList.remove('active'); });
+    chip.classList.add('active');
+    try { onChange(chip.dataset.filterId); } catch(err) { toast('Error: '+err.message, 5000); }
+  };
+  c.removeEventListener('click', onClick);
+  c.addEventListener('click', onClick);
+  FILTERS.forEach(function(f){
+    var chip = document.createElement('button');
+    chip.className = 'filter-chip' + (f.id === activeId ? ' active' : '');
+    chip.textContent = f.label;
+    chip.dataset.filterId = f.id;
+    c.appendChild(chip);
+  });
+}
+
+// ============================================================
+// UTILITY: Setup watermark panel
+// ============================================================
+function setupWatermark(prefix, onChange) {
+  var toggle = document.getElementById(prefix + '-wm-toggle');
+  var panel = document.getElementById(prefix + '-wm-panel');
+  var textEl = document.getElementById(prefix + '-wm-text');
+  var sizeEl = document.getElementById(prefix + '-wm-size');
+  var opacityEl = document.getElementById(prefix + '-wm-opacity');
+  var colorEl = document.getElementById(prefix + '-wm-color');
+  var posBtns = document.getElementById(prefix + '-wm-pos').querySelectorAll('button');
+
+  var state = {
+    enabled: false, text:'', position:'center',
+    size: parseInt(sizeEl.value), opacity: parseInt(opacityEl.value) / 100,
+    color: colorEl.value
+  };
+
+  function notify(){
+    state.enabled = toggle.classList.contains('on');
+    state.text = textEl.value;
+    state.size = parseInt(sizeEl.value);
+    state.opacity = parseInt(opacityEl.value) / 100;
+    state.color = colorEl.value;
+    onChange(state);
+  }
+
+  toggle.addEventListener('click', function(){
+    toggle.classList.toggle('on');
+    panel.classList.toggle('show', toggle.classList.contains('on'));
+    notify();
+  });
+
+  posBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      posBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      state.position = btn.dataset.pos;
+      notify();
+    });
+  });
+
+  textEl.addEventListener('input', notify);
+  sizeEl.addEventListener('input', notify);
+  opacityEl.addEventListener('input', notify);
+  colorEl.addEventListener('input', notify);
+
+  return {
+    getState: function(){ return state; }
+  };
+}
+
+// ============================================================
+// UTILITY: Draw watermark on canvas
+// ============================================================
+function drawWatermark(ctx, wm, w, h) {
+  if (!wm || !wm.enabled || !wm.text) return;
+  ctx.save();
+  ctx.font = wm.size + 'px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle = wm.color;
+  ctx.globalAlpha = wm.opacity;
+  var tw = ctx.measureText(wm.text).width;
+  var th = wm.size;
+  var pad = wm.size * 0.8;
+  var x, y;
+  switch (wm.position) {
+    case 'top-left': x = pad; y = pad + th; break;
+    case 'top-right': x = w - tw - pad; y = pad + th; break;
+    case 'bottom-left': x = pad; y = h - pad; break;
+    case 'bottom-right': x = w - tw - pad; y = h - pad; break;
+    default: /* center */
+      x = (w - tw) / 2;
+      y = h / 2;
+      break;
+  }
+  ctx.fillText(wm.text, x, y);
+  ctx.restore();
+}
+
+// ============================================================
+// UTILITY: Image loader
+// ============================================================
+function loadImage(file) {
+  return new Promise(function(resolve, reject){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){ resolve(img); };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ============================================================
+// UTILITY: Save image – overlay preview + <a download> + share fallback
+// ============================================================
+function downloadFile(dataUrl, filename) {
+  // Convert to Blob for share API / download
+  var parts = dataUrl.split(',');
+  var mime = parts[0].match(/:(.*?);/)[1];
+  var bstr = atob(parts[1]);
+  var n = bstr.length;
+  var u8arr = new Uint8Array(n);
+  for (var i = 0; i < n; i++) u8arr[i] = bstr.charCodeAt(i);
+  var blob = new Blob([u8arr], { type: mime });
+  var blobUrl = URL.createObjectURL(blob);
+
+  // Show save overlay (universal: long-press to save on mobile)
+  showSaveOverlay(dataUrl, filename, blob, blobUrl);
+
+  // Desktop only: trigger <a download> (on mobile this only opens unwanted new tabs)
+  if (navigator.maxTouchPoints === 0) {
+    var a = document.createElement('a');
+    a.download = filename;
+    a.href = blobUrl;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
+// Fullscreen overlay: works on ALL platforms (mobile long-press, desktop right-click)
+function showSaveOverlay(dataUrl, filename, blob, blobUrl) {
+  var ov = document.getElementById('save-overlay');
+  var single = document.getElementById('save-overlay-single');
+  var grid = document.getElementById('save-overlay-grid');
+  var img = document.getElementById('save-overlay-img');
+  var hint = document.getElementById('save-hint-text');
+  var shareBtn = document.getElementById('save-share-btn');
+
+  // Single image mode
+  single.style.display = '';
+  grid.style.display = 'none';
+  img.src = dataUrl;
+
+  // Adaptive hint text
+  var isTouch = navigator.maxTouchPoints > 0;
+  hint.innerHTML = isTouch
+    ? 'Long press image <span>Save to Gallery</span>'
+    : 'Right click image <span>Save as...</span> or save downloaded file directly';
+
+  // Share / Save button
+  shareBtn.onclick = function() {
+    if (navigator.share && navigator.canShare) {
+      var file = new File([blob], filename, { type: blob.type });
+      try {
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file] }).catch(function(){});
+          return;
+        }
+      } catch(e) {}
+    }
+    // Fallback: direct download
+    var a = document.createElement('a');
+    a.download = filename;
+    a.href = blobUrl;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  ov.classList.add('show');
+}
+
+// Multi-image grid overlay (for "download all 9")
+function showMultiSaveOverlay(dataUrls) {
+  var ov = document.getElementById('save-overlay');
+  var single = document.getElementById('save-overlay-single');
+  var grid = document.getElementById('save-overlay-grid');
+  var hint = document.getElementById('save-hint-text');
+
+  // Grid mode
+  single.style.display = 'none';
+  grid.style.display = 'grid';
+  grid.innerHTML = '';
+
+  dataUrls.forEach(function(url, i) {
+    var item = document.createElement('div');
+    item.className = 'save-grid-item';
+    var img = document.createElement('img');
+    img.src = url;
+    img.alt = 'Crop ' + (i + 1);
+    item.appendChild(img);
+    var label = document.createElement('span');
+    label.textContent = i + 1;
+    item.appendChild(label);
+    grid.appendChild(item);
+  });
+
+  hint.innerHTML = 'Long press each images <span>Save to Gallery</span>';
+  ov.classList.add('show');
+}
+
+// Close overlay
+function hideSaveOverlay() {
+  document.getElementById('save-overlay').classList.remove('show');
+}
+
+// --- Wire up overlay close buttons ---
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('save-close-btn').addEventListener('click', hideSaveOverlay);
+  document.getElementById('save-close-btn2').addEventListener('click', hideSaveOverlay);
+  document.getElementById('save-overlay').addEventListener('click', function(e) {
+    if (e.target === this) hideSaveOverlay();
+  });
+});
+// Run immediately if DOM already loaded
+if (document.readyState !== 'loading') {
+  setTimeout(function() {
+    var cb = document.getElementById('save-close-btn');
+    var cb2 = document.getElementById('save-close-btn2');
+    var ov = document.getElementById('save-overlay');
+    if (cb) cb.addEventListener('click', hideSaveOverlay);
+    if (cb2) cb2.addEventListener('click', hideSaveOverlay);
+    if (ov) ov.addEventListener('click', function(e) { if (e.target === ov) hideSaveOverlay(); });
+  }, 0);
+}
+
+// ============================================================
+// UTILITY: Apply CSS filter to canvas context
+// ============================================================
+function getFilterCSS(filterId) {
+  var f = FILTERS.find(function(x){ return x.id === filterId; });
+  return f ? f.css : '';
+}
+
+// ============================================================
+// TAB: Grid Splitter
+// ============================================================
+(function(){
+  var gridImage = null;
+  var currentFilter = 'none';
+  var showBorder = false;
+  var wmState = { enabled:false, text:'', position:'center', size:16, opacity:.5, color:'#ffffff' };
+  var pieces = [];
+
+  // Crop state (fractions of image: 0..1)
+  var crop = { x:0, y:0, w:1, h:1, ratio:'1:1' };
+  var dragState = null; // null | { type:'move'|'resize', handle, anchorX, anchorY, startX, startY, startCrop }
+
+  var uploadZone = document.getElementById('grid-upload-zone');
+  var fileInput = document.getElementById('grid-file-input');
+  var previewCard = document.getElementById('grid-preview-card');
+  var previewImage = document.getElementById('grid-preview-image');
+  var cropCanvas = document.getElementById('grid-crop-canvas');
+  var resultsCard = document.getElementById('grid-results-card');
+  var resultsGrid = document.getElementById('grid-results');
+  var cutBtn = document.getElementById('grid-cut-btn');
+  var downloadAllBtn = document.getElementById('grid-download-all');
+  var borderToggle = document.getElementById('grid-border-toggle');
+
+  // Ratio buttons
+  var ratioContainer = previewCard.querySelector('.controls-row');
+  function updateRatioUI(){
+    ratioContainer.querySelectorAll('button[data-ratio]').forEach(function(b){
+      b.classList.toggle('on', b.dataset.ratio === crop.ratio);
+    });
+  }
+  ratioContainer.querySelectorAll('button[data-ratio]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      crop.ratio = btn.dataset.ratio;
+      updateRatioUI();
+      enforceAspectRatio();
+      renderCrop();
+    });
+  });
+
+  function getRatioValue(ratioId) {
+    if (!ratioId || ratioId === 'free') return null;
+    var p = ratioId.split(':');
+    if (p.length === 2) return parseFloat(p[0]) / parseFloat(p[1]);
+    return null;
+  }
+
+  function enforceAspectRatio() {
+    var r = getRatioValue(crop.ratio);
+    if (!r) return;
+    var iw = gridImage.naturalWidth, ih = gridImage.naturalHeight;
+    var cx = crop.x + crop.w / 2;
+    var cy = crop.y + crop.h / 2;
+
+    // Find the largest rectangle at target ratio centered at (cx,cy) that fits within image bounds
+    var cxPx = cx * iw;
+    var cyPx = cy * ih;
+
+    // Max dimensions based on distance from center to each edge
+    var maxW = Math.min(cxPx, iw - cxPx) * 2;  // max width at this center
+    var maxH = Math.min(cyPx, ih - cyPx) * 2;  // max height at this center
+
+    // Fit the largest rectangle of ratio r within those bounds
+    var wPx = Math.min(maxW, maxH * r);
+    var hPx = wPx / r;
+
+    // Clamp to image size
+    wPx = Math.min(wPx, iw);
+    hPx = Math.min(hPx, ih);
+
+    crop.w = wPx / iw;
+    crop.h = hPx / ih;
+    crop.x = cx - crop.w / 2;
+    crop.y = cy - crop.h / 2;
+    clampCrop();
+  }
+
+  function clampCrop() {
+    if (crop.w > 1) crop.w = 1;
+    if (crop.h > 1) crop.h = 1;
+    if (crop.x < 0) crop.x = 0;
+    if (crop.y < 0) crop.y = 0;
+    if (crop.x + crop.w > 1) crop.x = Math.max(0, 1 - crop.w);
+    if (crop.y + crop.h > 1) crop.y = Math.max(0, 1 - crop.h);
+    if (crop.w < 0.05) crop.w = 0.05;
+    if (crop.h < 0.05) crop.h = 0.05;
+  }
+
+  uploadZone.addEventListener('click', function(){ fileInput.click(); });
+  fileInput.addEventListener('change', function(e){
+    if (e.target.files.length > 0) handleUpload(e.target.files[0]);
+  });
+
+  uploadZone.addEventListener('dragover', function(e){ e.preventDefault(); uploadZone.classList.add('drag-over'); });
+  uploadZone.addEventListener('dragleave', function(){ uploadZone.classList.remove('drag-over'); });
+  uploadZone.addEventListener('drop', function(e){
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    if (e.dataTransfer.files.length > 0) handleUpload(e.dataTransfer.files[0]);
+  });
+
+  function handleUpload(file) {
+    loadImage(file).then(function(img){
+      gridImage = img;
+      // Init crop: largest centered square
+      var iw = img.naturalWidth, ih = img.naturalHeight;
+      var sz = Math.min(iw, ih);
+      crop.x = (iw - sz) / 2 / iw;
+      crop.y = (ih - sz) / 2 / ih;
+      crop.w = sz / iw;
+      crop.h = sz / ih;
+      crop.ratio = '1:1';
+      updateRatioUI();
+
+      previewImage.onload = function(){ renderCrop(); };
+      previewImage.src = URL.createObjectURL(file);
+      previewImage.style.filter = getFilterCSS(currentFilter);
+      previewCard.style.display = '';
+      cutBtn.disabled = false;
+      resultsCard.style.display = 'none';
+      pieces = [];
+      if (previewImage.complete) renderCrop();
+    }).catch(function(){ toast('Image load failed，Please retry'); });
+  }
+
+  renderFilterChips('grid-filter-bar', 'none', function(id){
+    currentFilter = id;
+    previewImage.style.filter = getFilterCSS(id);
+  });
+
+  borderToggle.addEventListener('click', function(){
+    borderToggle.classList.toggle('on');
+    showBorder = borderToggle.classList.contains('on');
+  });
+
+  setupWatermark('grid', function(s){ wmState = s; if (resultsCard.style.display !== 'none') doCut(false); });
+
+  // --- Crop rendering ---
+  function renderCrop() {
+    if (!gridImage) return;
+    var container = previewImage.parentElement;
+    var cw = container.clientWidth;
+    if (cw < 10) { requestAnimationFrame(renderCrop); return; }
+    var ch = cw * gridImage.naturalHeight / gridImage.naturalWidth;
+    cropCanvas.width = cw;
+    cropCanvas.height = ch;
+    var ctx = cropCanvas.getContext('2d');
+
+    var cx = crop.x * cw, cy = crop.y * ch;
+    var cw2 = crop.w * cw, ch2 = crop.h * ch;
+
+    // Dark overlay
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(0, 0, cw, cy);                          // top
+    ctx.fillRect(0, cy + ch2, cw, ch - cy - ch2);        // bottom
+    ctx.fillRect(0, cy, cx, ch2);                         // left
+    ctx.fillRect(cx + cw2, cy, cw - cx - cw2, ch2);       // right
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+    ctx.lineWidth = 1;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(cx + cw2*i/3, cy); ctx.lineTo(cx + cw2*i/3, cy + ch2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy + ch2*i/3); ctx.lineTo(cx + cw2, cy + ch2*i/3); ctx.stroke();
+    }
+
+    // Border
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+    ctx.strokeRect(cx, cy, cw2, ch2);
+
+    // Corner handles
+    var hs = 18, handles = [[cx,cy],[cx+cw2,cy],[cx+cw2,cy+ch2],[cx,cy+ch2]];
+    ctx.fillStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(0,0,0,.25)';
+    handles.forEach(function(h){
+      ctx.beginPath(); ctx.arc(h[0], h[1], hs/2, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    });
+  }
+
+  // --- Pointer events ---
+  function posFromEvent(e){
+    var r = cropCanvas.getBoundingClientRect();
+    return { px: (e.clientX - r.left) / r.width, py: (e.clientY - r.top) / r.height };
+  }
+
+  cropCanvas.addEventListener('pointerdown', function(e){
+    if (!gridImage) return;
+    var p = posFromEvent(e);
+    var cx = crop.x, cy = crop.y, cw = crop.w, ch = crop.h;
+    var tol = 0.04;
+    var handles = { nw:[cx,cy], ne:[cx+cw,cy], se:[cx+cw,cy+ch], sw:[cx,cy+ch] };
+    var hit = null;
+    for (var k in handles) {
+      var dx = p.px - handles[k][0], dy = p.py - handles[k][1];
+      if (Math.sqrt(dx*dx + dy*dy) < tol) { hit = k; break; }
+    }
+    if (hit) {
+      var opp = { nw:'se', ne:'sw', se:'nw', sw:'ne' };
+      var a = handles[opp[hit]];
+      dragState = { type:'resize', handle:hit, anchorX:a[0], anchorY:a[1], startCrop:{x:cx,y:cy,w:cw,h:ch} };
+    } else if (p.px >= cx && p.px <= cx + cw && p.py >= cy && p.py <= cy + ch) {
+      dragState = { type:'move', startX:p.px, startY:p.py, startCrop:{x:cx,y:cy,w:cw,h:ch} };
+    }
+    if (dragState) { cropCanvas.setPointerCapture(e.pointerId); e.preventDefault(); }
+  });
+
+  cropCanvas.addEventListener('pointermove', function(e){
+    if (!dragState) return;
+    var p = posFromEvent(e);
+    var r = getRatioValue(crop.ratio);
+
+    if (dragState.type === 'move') {
+      crop.x = dragState.startCrop.x + p.px - dragState.startX;
+      crop.y = dragState.startCrop.y + p.py - dragState.startY;
+      clampCrop();
+    } else {
+      var ax = dragState.anchorX, ay = dragState.anchorY;
+      var hs = (dragState.handle.indexOf('e')>=0) ? 1 : -1;
+      var vs = (dragState.handle.indexOf('s')>=0) ? 1 : -1;
+
+      if (r) {
+        // Convert to pixel coordinates for correct aspect ratio comparison
+        var iw = gridImage.naturalWidth, ih = gridImage.naturalHeight;
+        var dw = Math.abs(p.px - ax) * iw, dh = Math.abs(p.py - ay) * ih;
+        var pixRatio = dw / Math.max(dh, 0.001);
+        if (pixRatio > r * 1.0001) { var nh = dh, nw = nh * r; }
+        else { nw = dw; nh = nw / r; }
+        // Convert back to fractions
+        crop.x = hs < 0 ? ax - nw / iw : ax;
+        crop.y = vs < 0 ? ay - nh / ih : ay;
+        crop.w = nw / iw; crop.h = nh / ih;
+      } else {
+        var x1 = Math.min(ax, p.px), y1 = Math.min(ay, p.py);
+        crop.x = x1; crop.y = y1;
+        crop.w = Math.max(ax, p.px) - x1;
+        crop.h = Math.max(ay, p.py) - y1;
+      }
+      clampCrop();
+    }
+    renderCrop();
+    e.preventDefault();
+  });
+
+  function clearDrag(){ dragState = null; }
+  cropCanvas.addEventListener('pointerup', clearDrag);
+  cropCanvas.addEventListener('pointercancel', clearDrag);
+
+  // --- Cut logic ---
+  cutBtn.addEventListener('click', doCut);
+
+  renderFilterChips('grid-filter-bar', 'none', function(id){
+    currentFilter = id;
+    previewImage.style.filter = getFilterCSS(id);
+    if (resultsCard.style.display !== 'none') doCut(false);
+  });
+  function doCut(showFeedback) {
+    if (!gridImage) return;
+    pieces = [];
+    var iw = gridImage.naturalWidth, ih = gridImage.naturalHeight;
+    var cx = Math.round(crop.x * iw), cy = Math.round(crop.y * ih);
+    var cw = Math.round(crop.w * iw), ch = Math.round(crop.h * ih);
+    var pw = Math.floor(cw / 3), ph = Math.floor(ch / 3);
+    var bw = showBorder ? Math.max(2, Math.floor(Math.min(cw, ch) / 150)) : 0;
+    resultsGrid.innerHTML = '';
+
+    var fc = getFilterCSS(currentFilter);
+    for (var row = 0; row < 3; row++) {
+      for (var col = 0; col < 3; col++) {
+        var sx = cx + col * pw, sy = cy + row * ph;
+        var ow = pw + bw*2, oh = ph + bw*2;
+        var cvs = document.createElement('canvas');
+        cvs.width = ow; cvs.height = oh;
+        var ctx = cvs.getContext('2d');
+        if (bw > 0) { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, ow, oh); }
+        ctx.drawImage(gridImage, sx, sy, pw, ph, bw, bw, pw, ph);
+        drawWatermark(ctx, wmState, ow, oh);
+        var du = cvs.toDataURL('image/jpeg', 0.92);
+        var pinfo = {sx:sx, sy:sy, pw:pw, ph:ph, bw:bw, ow:ow, oh:oh, fc:fc, idx:row*3+col+1};
+        pieces.push({ displayUrl: du, info: pinfo });
+
+        var div = document.createElement('div');
+        div.className = 'result-item';
+        var im = document.createElement('img'); im.src = du;
+        if (fc) im.style.filter = fc;
+        div.appendChild(im);
+        var lb = document.createElement('span');
+        lb.className = 'dl-label'; lb.textContent = row*3 + col + 1;
+        div.appendChild(lb);
+        div.addEventListener('click', (function(info){
+          return function(){
+            var dc = document.createElement('canvas'); dc.width = info.ow; dc.height = info.oh;
+            var dctx = dc.getContext('2d');
+            if (info.bw > 0) { dctx.fillStyle = '#fff'; dctx.fillRect(0, 0, info.ow, info.oh); }
+            dctx.drawImage(gridImage, info.sx, info.sy, info.pw, info.ph, info.bw, info.bw, info.pw, info.ph);
+            if (info.fc) { var idata = dctx.getImageData(0, 0, info.ow, info.oh); applyPixelFilter(idata, info.fc); dctx.putImageData(idata, 0, 0); }
+            drawWatermark(dctx, wmState, info.ow, info.oh);
+            downloadFile(dc.toDataURL('image/jpeg', 0.92), 'grid_' + info.idx + '.jpg');
+          };
+        })(pinfo));
+        resultsGrid.appendChild(div);
+      }
+    }
+    resultsCard.style.display = '';
+    if (showFeedback !== false) {
+      resultsCard.scrollIntoView({ behavior:'smooth' });
+      toast('CropDone！');
+    }
+  }
+
+  downloadAllBtn.addEventListener('click', function(){
+    if (pieces.length !== 9) return;
+    toast('Preparing 9 images...', 3000);
+
+    // Render all 9 pieces individually with filter + watermark
+    var pieceUrls = pieces.map(function(pd){
+      var info = pd.info;
+      var dc = document.createElement('canvas');
+      dc.width = info.ow;
+      dc.height = info.oh;
+      var dctx = dc.getContext('2d');
+      if (info.bw > 0) { dctx.fillStyle = '#fff'; dctx.fillRect(0, 0, info.ow, info.oh); }
+      dctx.drawImage(gridImage, info.sx, info.sy, info.pw, info.ph, info.bw, info.bw, info.pw, info.ph);
+      if (info.fc) {
+        var idata = dctx.getImageData(0, 0, info.ow, info.oh);
+        applyPixelFilter(idata, info.fc);
+        dctx.putImageData(idata, 0, 0);
+      }
+      drawWatermark(dctx, wmState, info.ow, info.oh);
+      return dc.toDataURL('image/jpeg', 0.92);
+    });
+
+    // Convert data URLs to File objects for share API
+    function dataUrlToFile(url, name) {
+      var parts = url.split(',');
+      var mime = parts[0].match(/:(.*?);/)[1];
+      var bstr = atob(parts[1]);
+      var n = bstr.length;
+      var u8arr = new Uint8Array(n);
+      for (var j = 0; j < n; j++) u8arr[j] = bstr.charCodeAt(j);
+      return new File([new Blob([u8arr], { type: mime })], name, { type: mime });
+    }
+
+    // --- Desktop: download 9 files sequentially ---
+    if (navigator.maxTouchPoints === 0) {
+      toast('Downloading 9 images...', 4000);
+      pieceUrls.forEach(function(url, i){
+        setTimeout(function(){
+          var a = document.createElement('a');
+          a.download = 'grid_' + (i + 1) + '.jpg';
+          a.href = url;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }, i * 450);
+      });
+      return;
+    }
+
+    // --- Mobile: share all 9 files at once via system share panel ---
+    if (navigator.share && navigator.canShare) {
+      var files = pieceUrls.map(function(url, i){
+        return dataUrlToFile(url, 'grid_' + (i + 1) + '.jpg');
+      });
+      try {
+        if (navigator.canShare({ files: files })) {
+          navigator.share({ files: files }).catch(function(){
+            // User cancelled share → fall back to grid overlay
+            showMultiSaveOverlay(pieceUrls);
+          });
+          return;
+        }
+      } catch(e) {}
+    }
+
+    // Fallback: grid overlay (long-press each)
+    showMultiSaveOverlay(pieceUrls);
+  });
+})();
+
+// ============================================================
+// TAB: Panorama Stitch
+// ============================================================
+(function(){
+  var images = [];           // array of {file, img}
+  var layout = 'vertical';   // 'vertical' | 'horizontal'
+  var spacing = 8;
+  var uniform = true;
+  var currentFilter = 'none';
+  var wmState = { enabled:false, text:'', position:'center', size:24, opacity:.4, color:'#ffffff' };
+  var resultDataUrl = null;
+  var rawStitchCanvas = null;  // unfiltered, no-watermark canvas for download
+
+  var uploadZone = document.getElementById('stitch-upload-zone');
+  var fileInput = document.getElementById('stitch-file-input');
+  var imgList = document.getElementById('stitch-img-list');
+  var clearBtn = document.getElementById('stitch-clear-btn');
+  var layoutEl = document.getElementById('stitch-layout');
+  var spacingEl = document.getElementById('stitch-spacing');
+  var spacingVal = document.getElementById('stitch-spacing-val');
+  var uniformBtn = document.getElementById('stitch-uniform');
+  var stitchBtn = document.getElementById('stitch-btn');
+  var resultCard = document.getElementById('stitch-result-card');
+  var resultPreview = document.getElementById('stitch-result-preview');
+  var downloadBtn = document.getElementById('stitch-download');
+
+  uploadZone.addEventListener('click', function(){ fileInput.click(); });
+  fileInput.addEventListener('change', function(e){
+    var files = Array.from(e.target.files);
+    if (files.length < 2) { toast('Select at least t 2  images'); return; }
+    if (files.length > 9) { toast('Max Select 9  images'); return; }
+    loadImages(files);
+  });
+
+  // Drag & drop
+  uploadZone.addEventListener('dragover', function(e){ e.preventDefault(); uploadZone.classList.add('drag-over'); });
+  uploadZone.addEventListener('dragleave', function(){ uploadZone.classList.remove('drag-over'); });
+  uploadZone.addEventListener('drop', function(e){
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    var files = Array.from(e.dataTransfer.files).filter(function(f){ return f.type.startsWith('image/'); });
+    if (files.length >= 2) loadImages(files); else toast('Please add at least 2  images');
+  });
+
+  function loadImages(files) {
+    images = [];
+    imgList.innerHTML = '';
+    var promises = files.map(function(f, i){
+      return loadImage(f).then(function(img){
+        images.push({ file:f, img:img });
+        var item = document.createElement('div');
+        item.className = 'img-item';
+        var thumb = document.createElement('img');
+        thumb.src = URL.createObjectURL(f);
+        item.appendChild(thumb);
+        var del = document.createElement('button');
+        del.className = 'del';
+        del.textContent = '×';
+        del.addEventListener('click', function(e){
+          e.stopPropagation();
+          var idx = images.findIndex(function(x){ return x.file === f; });
+          if (idx >= 0) { images.splice(idx, 1); item.remove(); updateStitchUI(); }
+          if (images.length < 2) stitchBtn.disabled = true;
+        });
+        item.appendChild(del);
+        item.addEventListener('click', function(){ /* could add reorder later */ });
+        imgList.appendChild(item);
+      });
+    });
+    Promise.all(promises).then(function(){
+      imgList.style.display = 'flex';
+      stitchBtn.disabled = false;
+      resultCard.style.display = 'none';
+    }).catch(function(){
+      toast('Some image load failed');
+    });
+  }
+
+  function updateStitchUI(){
+    if (images.length === 0) imgList.style.display = 'none';
+  }
+
+  clearBtn.addEventListener('click', function(){
+    images = [];
+    imgList.innerHTML = '';
+    imgList.style.display = 'none';
+    stitchBtn.disabled = true;
+    resultCard.style.display = 'none';
+    resultDataUrl = null;
+    fileInput.value = '';
+  });
+
+  // Layout
+  layoutEl.querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      layoutEl.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      layout = btn.dataset.layout;
+    });
+  });
+
+  // Spacing
+  spacingEl.addEventListener('input', function(){
+    spacing = parseInt(spacingEl.value);
+    spacingVal.textContent = spacing + 'px';
+  });
+
+  // Uniform
+  uniformBtn.addEventListener('click', function(){
+    uniformBtn.classList.toggle('on');
+    uniform = uniformBtn.classList.contains('on');
+  });
+
+  // Filter
+  renderFilterChips('stitch-filter-bar', 'none', function(id){
+    currentFilter = id;
+    if (resultCard.style.display !== 'none') doStitch(false);
+  });
+
+  // Watermark
+  var wm = setupWatermark('stitch', function(s){ wmState = s; if (resultCard.style.display !== 'none') doStitch(false); });
+
+  // Stitch
+  stitchBtn.addEventListener('click', doStitch);
+
+  function doStitch(showFeedback) {
+    if (images.length < 2) return;
+
+    var filterCSS = getFilterCSS(currentFilter);
+    var imgs = images.map(function(x){ return x.img; });
+
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+
+    if (layout === 'vertical') {
+      // Determine widths
+      var maxW = Math.max.apply(null, imgs.map(function(i){ return i.naturalWidth; }));
+      var targetW = uniform ? maxW : maxW;
+      var totalH = 0;
+      var rowData = imgs.map(function(img){
+        var h = uniform ? Math.round(targetW * img.naturalHeight / img.naturalWidth) : img.naturalHeight;
+        totalH += h;
+        return { img:img, w:targetW, h:h };
+      });
+      totalH += spacing * (imgs.length - 1);
+
+      canvas.width = targetW;
+      canvas.height = totalH;
+
+      var y = 0;
+      rowData.forEach(function(rd, i){
+        ctx.drawImage(rd.img, 0, y, rd.w, rd.h);
+        y += rd.h + spacing;
+      });
+    } else {
+      // Horizontal
+      var maxH = Math.max.apply(null, imgs.map(function(i){ return i.naturalHeight; }));
+      var targetH = uniform ? maxH : maxH;
+      var totalW = 0;
+      var colData = imgs.map(function(img){
+        var w = uniform ? Math.round(targetH * img.naturalWidth / img.naturalHeight) : img.naturalWidth;
+        totalW += w;
+        return { img:img, w:w, h:targetH };
+      });
+      totalW += spacing * (imgs.length - 1);
+
+      canvas.width = totalW;
+      canvas.height = targetH;
+
+      var x = 0;
+      colData.forEach(function(cd, i){
+        ctx.drawImage(cd.img, x, 0, cd.w, cd.h);
+        x += cd.w + spacing;
+      });
+    }
+
+    // Save raw (unfiltered, no-watermark) canvas for download
+    rawStitchCanvas = document.createElement('canvas');
+    rawStitchCanvas.width = canvas.width;
+    rawStitchCanvas.height = canvas.height;
+    rawStitchCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+    // Apply watermark to entire result
+    drawWatermark(ctx, wmState, canvas.width, canvas.height);
+
+    resultDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+    resultPreview.innerHTML = '<img src="' + resultDataUrl + '" alt="Stitch Result"' + (filterCSS ? ' style="filter:' + filterCSS + '"' : '') + '>';
+    resultCard.style.display = '';
+    if (showFeedback !== false) {
+      resultCard.scrollIntoView({ behavior:'smooth' });
+      toast('Merge Done!');
+    }
+  }
+
+  downloadBtn.addEventListener('click', function(){
+    if (!rawStitchCanvas) return;
+    var dc = document.createElement('canvas');
+    dc.width = rawStitchCanvas.width;
+    dc.height = rawStitchCanvas.height;
+    var dctx = dc.getContext('2d');
+    dctx.drawImage(rawStitchCanvas, 0, 0);
+    var fc = getFilterCSS(currentFilter);
+    if (fc) {
+      var idata = dctx.getImageData(0, 0, dc.width, dc.height);
+      applyPixelFilter(idata, fc);
+      dctx.putImageData(idata, 0, 0);
+    }
+    drawWatermark(dctx, wmState, dc.width, dc.height);
+    downloadFile(dc.toDataURL('image/jpeg', 0.92), 'stitch_' + Date.now() + '.jpg');
+  });
+})();
+
+// ============================================================
+// TAB: Template Collage
+// ============================================================
+(function(){
+  var currentTemplate = null;
+  var slotImages = {};       // slotIndex -> Image
+  var currentFilter = 'none';
+  var wmState = { enabled:false, text:'', position:'center', size:24, opacity:.4, color:'#ffffff' };
+  var resultDataUrl = null;
+  var rawCombineCanvas = null;
+
+  var selector = document.getElementById('template-selector');
+  var slotsCard = document.getElementById('template-slots-card');
+  var slotsContainer = document.getElementById('template-slots-container');
+  var combineBtn = document.getElementById('template-combine-btn');
+  var resultCard = document.getElementById('template-result-card');
+  var resultPreview = document.getElementById('template-result-preview');
+  var downloadBtn = document.getElementById('template-download');
+
+  function getCellCount(tpl) { return tpl.cells || tpl.cols * tpl.rows; }
+
+  // Render template selector
+  TEMPLATES.forEach(function(t, idx){
+    var div = document.createElement('div');
+    div.className = 'template-item';
+    div.dataset.idx = idx;
+
+    // Preview grid
+    var preview = document.createElement('div');
+    preview.className = 'template-preview';
+    var cells = getCellCount(t);
+    var cols = t.cols;
+    var rows = t.rows;
+    preview.style.gridTemplateColumns = t.preview.split(' ').slice(0, cols).join(' ') || 'repeat(' + cols + ',1fr)';
+    if (t.preview.includes('/')) {
+      var parts = t.preview.split(' / ');
+      preview.style.gridTemplateColumns = parts[0];
+      if (parts[1]) preview.style.gridTemplateRows = parts[1];
+    } else {
+      preview.style.gridTemplateRows = 'repeat(' + rows + ',1fr)';
+    }
+    for (var i = 0; i < cells; i++) {
+      var cell = document.createElement('div');
+      cell.style.background = '#e8ecf1';
+      cell.style.borderRadius = '3px';
+      if (t.bigCell && i === 0) {
+        cell.style.gridRow = 'span 2';
+      }
+      preview.appendChild(cell);
+    }
+    div.appendChild(preview);
+
+    var name = document.createElement('div');
+    name.className = 'template-name';
+    name.textContent = t.name;
+    div.appendChild(name);
+
+    div.addEventListener('click', function(){ selectTemplate(idx); });
+    selector.appendChild(div);
+  });
+
+  function selectTemplate(idx) {
+    currentTemplate = TEMPLATES[idx];
+    slotImages = {};
+    resultDataUrl = null;
+    resultCard.style.display = 'none';
+
+    var cells = getCellCount(currentTemplate);
+    var cols = currentTemplate.cols;
+    var rows = currentTemplate.rows;
+
+    // Update active state
+    selector.querySelectorAll('.template-item').forEach(function(el){ el.classList.remove('active'); });
+    selector.children[idx].classList.add('active');
+
+    // Build slots
+    slotsContainer.innerHTML = '';
+    var slotsGrid = document.createElement('div');
+    slotsGrid.className = 'template-slots';
+
+    if (currentTemplate.id === '1big2') {
+      // Special layout: big cell spans 2 rows on left
+      slotsGrid.style.gridTemplateColumns = '1fr 1fr';
+      slotsGrid.style.gridTemplateRows = '1fr 1fr';
+    } else {
+      slotsGrid.style.gridTemplateColumns = 'repeat(' + cols + ',1fr)';
+      slotsGrid.style.gridTemplateRows = 'repeat(' + rows + ',1fr)';
+    }
+
+    for (let i = 0; i < cells; i++) {
+      let slot = document.createElement('div');
+      slot.className = 'template-slot';
+      slot.dataset.slot = i;
+
+      if (currentTemplate.id === '1big2' && i === 0) {
+        slot.style.gridRow = 'span 2';
+      }
+
+      slot.textContent = 'Click to upload';
+      slot.addEventListener('click', function(){
+        var si = parseInt(this.dataset.slot);
+        var inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/*';
+        inp.onchange = function(e){
+          if (e.target.files.length > 0) {
+            loadImage(e.target.files[0]).then(function(img){
+              slotImages[si] = img;
+              slot.classList.add('filled');
+              slot.textContent = '';
+              var thumb = document.createElement('img');
+              thumb.src = URL.createObjectURL(e.target.files[0]);
+              slot.appendChild(thumb);
+              checkSlotsFilled();
+            });
+          }
+        };
+        inp.click();
+      });
+      slotsGrid.appendChild(slot);
+    }
+    slotsContainer.appendChild(slotsGrid);
+
+    slotsCard.style.display = '';
+    combineBtn.disabled = true;
+    slotsCard.scrollIntoView({ behavior:'smooth' });
+  }
+
+  function checkSlotsFilled() {
+    if (!currentTemplate) return;
+    var total = getCellCount(currentTemplate);
+    var filled = Object.keys(slotImages).length;
+    combineBtn.disabled = filled < total;
+    resultCard.style.display = 'none';
+  }
+
+  // Filter
+  renderFilterChips('template-filter-bar', 'none', function(id){
+    currentFilter = id;
+    if (resultCard.style.display !== 'none') doCombine(false);
+  });
+
+  // Watermark
+  var wm = setupWatermark('template', function(s){ wmState = s; if (resultCard.style.display !== 'none') doCombine(false); });
+
+  // Combine
+  combineBtn.addEventListener('click', doCombine);
+
+  function doCombine(showFeedback) {
+    if (!currentTemplate) return;
+    var cells = getCellCount(currentTemplate);
+    if (Object.keys(slotImages).length < cells) {
+      toast('Please upload all grid images');
+      return;
+    }
+
+    var filterCSS = getFilterCSS(currentFilter);
+    var cols = currentTemplate.cols;
+    var rows = currentTemplate.rows;
+
+    // Calculate cell dimensions (make all cells square of equal size)
+    var cellSize = 600; // base cell size
+    var totalW = cellSize * cols;
+    var totalH = cellSize * rows;
+
+    var canvas = document.createElement('canvas');
+    canvas.width = totalW;
+    canvas.height = totalH;
+    var ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#f0f0f0';
+    ctx.fillRect(0, 0, totalW, totalH);
+
+    for (var i = 0; i < cells; i++) {
+      var img = slotImages[i];
+      if (!img) continue;
+      var col, row, x, y, cw, ch;
+
+      if (currentTemplate.id === '1big2') {
+        // Slot 0: left big (span 2 rows), Slot 1: top-right, Slot 2: bottom-right
+        if (i === 0)      { col = 0; row = 0; cw = cellSize; ch = cellSize * 2; }
+        else if (i === 1) { col = 1; row = 0; cw = cellSize; ch = cellSize; }
+        else              { col = 1; row = 1; cw = cellSize; ch = cellSize; }
+      } else {
+        col = i % cols;
+        row = Math.floor(i / cols);
+        cw = cellSize;
+        ch = cellSize;
+      }
+      x = col * cellSize;
+      y = row * cellSize;
+
+      // Center-crop image to fit cell
+      var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      var sw = cw / scale;
+      var sh = ch / scale;
+      var sx = (img.naturalWidth - sw) / 2;
+      var sy = (img.naturalHeight - sh) / 2;
+
+      ctx.drawImage(img, sx, sy, sw, sh, x, y, cw, ch);
+    }
+
+    // Save raw (unfiltered, no-watermark) canvas for download
+    rawCombineCanvas = document.createElement('canvas');
+    rawCombineCanvas.width = canvas.width;
+    rawCombineCanvas.height = canvas.height;
+    rawCombineCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+    drawWatermark(ctx, wmState, totalW, totalH);
+    resultDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+
+    resultPreview.innerHTML = '<img src="' + resultDataUrl + '" alt="TemplateResult"' + (filterCSS ? ' style="filter:' + filterCSS + '"' : '') + '>';
+    resultCard.style.display = '';
+    if (showFeedback !== false) {
+      resultCard.scrollIntoView({ behavior:'smooth' });
+      toast('Template merge Done!');
+    }
+  }
+
+  downloadBtn.addEventListener('click', function(){
+    if (!rawCombineCanvas) return;
+    var dc = document.createElement('canvas');
+    dc.width = rawCombineCanvas.width;
+    dc.height = rawCombineCanvas.height;
+    var dctx = dc.getContext('2d');
+    dctx.drawImage(rawCombineCanvas, 0, 0);
+    var fc = getFilterCSS(currentFilter);
+    if (fc) {
+      var idata = dctx.getImageData(0, 0, dc.width, dc.height);
+      applyPixelFilter(idata, fc);
+      dctx.putImageData(idata, 0, 0);
+    }
+    drawWatermark(dctx, wmState, dc.width, dc.height);
+    downloadFile(dc.toDataURL('image/jpeg', 0.92), 'template_' + Date.now() + '.jpg');
+  });
+})();
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+(function(){
+  var tabs = document.querySelectorAll('nav.tabs button');
+  var sections = document.querySelectorAll('section.tab');
+
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.dataset.tab;
+      tabs.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      sections.forEach(function(s){
+        s.classList.toggle('active', s.id === 'tab-' + target);
+      });
+    });
+  });
+})();
+
+// Global error catcher
+window.addEventListener('error', function(e){
+  var msg = e.message || (e.error && e.error.message) || 'Unknown error';
+  toast('JS Error: ' + msg, 6000);
+});
+</script>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a><a href="../svg-optimizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧹 SVG Optimizer</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:var(--text,#2d3436);font-size:13px;font-weight:600;text-decoration:none;">🛠 More Free Tools →</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:var(--text-light,#636e72);font-size:12px;font-weight:600;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--text,#2d3436)'" onmouseout="this.style.color='var(--text-light,#636e72)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:var(--text,#0f172a);text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid var(--border)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:var(--text2);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">☕ Buy me a coffee</a></div>
+
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

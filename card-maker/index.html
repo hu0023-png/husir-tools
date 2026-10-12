@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F3A8; Quote Card &amp; Logo Maker — Export PNG | HuSir Tools</title>
+<meta name="description" content="Turn a quote or your brand initials into a clean social graphic or logo. Gradient backgrounds, fonts, and sizes for Instagram, X, and LinkedIn. 100% local, exports PNG, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/card-maker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🎨 Quote Card & Logo Maker — Export PNG">
+<meta property="og:description" content="Turn a quote or your brand initials into a clean social graphic or logo. Gradient backgrounds, fonts, and sizes for Instagram, X, and LinkedIn. 100% local, exports PNG, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/card-maker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🎨 Quote Card & Logo Maker — Export PNG">
+<meta name="twitter:description" content="Turn a quote or your brand initials into a clean social graphic or logo. Gradient backgrounds, fonts, and sizes for Instagram, X, and LinkedIn. 100% local, exports PNG, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:27px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.work{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
+.controls{display:flex;flex-direction:column;gap:4px}
+.field-label{font-size:12px;color:#888;margin:12px 0 3px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block}
+input[type=text],textarea,select{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:13.5px;font-family:inherit;line-height:1.5;outline:none;background:#fafbfc;color:#1a1a2e}
+textarea{resize:vertical;min-height:70px}
+input:focus,textarea:focus,select:focus{border-color:#667eea;background:#fff}
+.tabs{display:flex;gap:6px;background:#f1f0f7;border-radius:10px;padding:4px;margin-bottom:6px}
+.tab{flex:1;text-align:center;padding:8px 6px;border-radius:8px;border:none;background:transparent;font-size:12.5px;font-weight:700;color:#64748b;cursor:pointer;font-family:inherit}
+.tab.on{background:#fff;color:#4c1d95;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.sw{width:30px;height:30px;border-radius:8px;border:2px solid transparent;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.sw.on{border-color:#4c1d95;box-shadow:0 0 0 2px #fff,0 0 0 4px #4c1d95}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.preview-side{text-align:center}
+canvas#card{max-width:100%;height:auto;border-radius:8px;box-shadow:0 10px 34px rgba(0,0,0,.22);background:#fff}
+.size-note{font-size:11.5px;color:#98a1b3;margin-top:8px}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:8px;line-height:1.6}
+@media(max-width:760px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.work{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🎨 Quote Card & Logo Maker",
+  "description": "Turn a quote or your brand initials into a clean social graphic or logo. Gradient backgrounds, fonts, and sizes for Instagram, X, and LinkedIn. 100% local, exports PNG, works offline.",
+  "url": "https://www.husir.org/tools/card-maker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "📱 What size should I pick?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Instagram feed & LinkedIn = square or 1080×1350 portrait. X and Facebook link cards = 1200×630. Course/slide covers = 1600×900."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🖼️ Where is the PNG saved?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your browser downloads it to the usual Downloads folder. Nothing is uploaded anywhere."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🎨 Why does my text look small on the preview?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The preview is scaled down to fit the screen; the exported file is full resolution and crisp. Text auto-shrinks to fit the longest line."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔑 Can I make a logo with more than two letters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Logo mode takes the initials of the first two words. For a full wordmark, use quote mode and keep the text short."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Quote Card & Logo Maker", "item": "https://www.husir.org/tools/card-maker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Quote Card &amp; Logo Maker</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F3A8; Quote Card &amp; Logo Maker</h1>
+<p class="subtitle">Social-ready graphics from text &middot; export PNG &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Need a clean graphic for an Instagram post, an X announcement, or a course thumbnail — without opening a design app? Quote Card &amp; Logo Maker draws your words onto a canvas at full print-ready resolution and exports a PNG in one click.</p>
+<p><b>Quote cards:</b> pick a preset gradient background, type the quote and attribution, and the text is centered and sized automatically so it always fits. <b>Logo mode:</b> type a name and it generates a two-letter monogram on a colored rounded square or circle — the kind of minimal mark that works as a profile picture, favicon, or placeholder logo.</p>
+<p>Because the whole page runs locally, your quotes, brand names, and designs never leave your device, and the page works fully offline. Export sizes match common social formats (1080&times;1080, 1200&times;630, 1600&times;900, 1080&times;1350) plus 512 and 1024 logo sizes.</p>
+<div class="faq">
+<p><strong>&#x1F4F1; What size should I pick?</strong><br>Instagram feed &amp; LinkedIn = square or 1080&times;1350 portrait. X and Facebook link cards = 1200&times;630. Course/slide covers = 1600&times;900.</p>
+<p><strong>&#x1F5BC;&#xFE0F; Where is the PNG saved?</strong><br>Your browser downloads it to the usual Downloads folder. Nothing is uploaded anywhere.</p>
+<p><strong>&#x1F3A8; Why does my text look small on the preview?</strong><br>The preview is scaled down to fit the screen; the exported file is full resolution and crisp. Text auto-shrinks to fit the longest line.</p>
+<p><strong>&#x1F511; Can I make a logo with more than two letters?</strong><br>Logo mode takes the initials of the first two words. For a full wordmark, use quote mode and keep the text short.</p>
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="work">
+    <div class="controls">
+      <div class="tabs" id="tabs">
+        <button class="tab on" type="button" data-mode="quote">&#x1F4AC; Quote card</button>
+        <button class="tab" type="button" data-mode="logo">&#x1F3A8; Logo / monogram</button>
+      </div>
+      <div id="ctrlQuote">
+        <label class="field-label" for="quote">Quote</label>
+        <textarea id="quote" spellcheck="false" placeholder="The secret of getting ahead is getting started."></textarea>
+        <label class="field-label" for="author">Attribution (optional)</label>
+        <input type="text" id="author" value="Mark Twain">
+        <label class="field-label" for="qFont">Font style</label>
+        <select id="qFont">
+          <option value="Georgia, serif">Serif</option>
+          <option value="-apple-system, sans-serif" selected>Modern sans</option>
+          <option value="'Courier New', monospace">Typewriter</option>
+        </select>
+      </div>
+      <div id="ctrlLogo" style="display:none">
+        <label class="field-label" for="lname">Name / brand</label>
+        <input type="text" id="lname" value="HuSir Tools" maxlength="40">
+        <label class="field-label" for="lshape">Shape</label>
+        <select id="lshape">
+          <option value="round" selected>Rounded square</option>
+          <option value="circle">Circle</option>
+        </select>
+        <label class="field-label" for="lsize">Size</label>
+        <select id="lsize">
+          <option value="512" selected>512 &times; 512</option>
+          <option value="1024">1024 &times; 1024</option>
+        </select>
+        <label class="field-label">Background color</label>
+        <div class="swatches" id="logoColors"></div>
+      </div>
+      <label class="field-label" id="fmtLabel" for="fmt">Card format</label>
+      <select id="fmt">
+        <option value="1080,1080" selected>Square — Instagram / LinkedIn (1080&times;1080)</option>
+        <option value="1200,630">Landscape card — X / Facebook (1200&times;630)</option>
+        <option value="1600,900">Wide cover (1600&times;900)</option>
+        <option value="1080,1350">Portrait (1080&times;1350)</option>
+      </select>
+      <label class="field-label">Background gradient</label>
+      <div class="swatches" id="grads"></div>
+      <div class="btnrow">
+        <button class="btn btn-primary" id="dl" type="button">&#x2B07; Download PNG</button>
+      </div>
+      <p class="hint" id="hint"></p>
+    </div>
+    <div class="preview-side">
+      <canvas id="card" width="1080" height="1080"></canvas>
+      <p class="size-note" id="sizeNote"></p>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../flex-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C6; Social Achievement Card Maker</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../certificate-crafter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C5; Certificate Maker</a><a href="../handwriting-gen/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x270D;&#xFE0F; Handwriting Generator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var GRADS=[
+  ['#667eea','#764ba2'],['#f093fb','#f5576c'],['#4facfe','#00f2fe'],['#43e97b','#38f9d7'],
+  ['#fa709a','#fee140'],['#30cfd0','#330867'],['#ff9a9e','#fecfef'],['#141e30','#243b55']
+];
+var LOGO_COLS=['#667eea','#764ba2','#10b981','#f59e0b','#ef4444','#0f172a','#0ea5e9','#ec4899'];
+var mode='quote',gi=0,lc=0,logoTextCol='#ffffff';
+var cvs=$('card'),cx=cvs.getContext('2d');
+function gradIdx(){return gi%GRADS.length;}
+function buildSwatches(){
+  var g=$('grads');g.innerHTML='';
+  GRADS.forEach(function(c,i){
+    var b=document.createElement('button');b.type='button';b.className='sw'+(i===gi?' on':'');b.title='Gradient '+(i+1);
+    b.style.background='linear-gradient(135deg,'+c[0]+','+c[1]+')';
+    b.addEventListener('click',function(){gi=i;buildSwatches();redraw();});
+    g.appendChild(b);
+  });
+  var l=$('logoColors');l.innerHTML='';
+  LOGO_COLS.forEach(function(c,i){
+    var b=document.createElement('button');b.type='button';b.className='sw'+(i===lc?' on':'');b.title=c;
+    b.style.background=c;
+    b.addEventListener('click',function(){lc=i;logoTextCol=contrastText(c);buildSwatches();redraw();});
+    l.appendChild(b);
+  });
+}
+function contrastText(hex){var r=parseInt(hex.substr(1,2),16),g=parseInt(hex.substr(3,2),16),b=parseInt(hex.substr(5,2),16);var y=(r*299+g*587+b*114)/1000;return y>150?'#111827':'#ffffff';}
+function wrapLines(text,maxW){
+  var paragraphs=String(text).split('\n');
+  var out=[];
+  paragraphs.forEach(function(p){
+    p=p.trim();
+    if(!p){out.push('');return;}
+    var words=p.split(/\s+/);
+    var line='';
+    words.forEach(function(w){
+      var test=line?line+' '+w:w;
+      if(cx.measureText(test).width>maxW&&line){out.push(line);line=w;}
+      else{line=test;}
+    });
+    out.push(line);
+  });
+  return out;
+}
+function fitFont(text,maxW,start,minF){
+  var size=start;
+  while(size>minF){
+    cx.font=size+'px Georgia';
+    var lines=wrapLines(text,maxW);
+    var wide=false;
+    lines.forEach(function(l){if(cx.measureText(l).width>maxW)wide=true;});
+    if(!wide)return {size:size,lines:lines};
+    size-=2;
+  }
+  cx.font=minF+'px Georgia';
+  return {size:minF,lines:wrapLines(text,maxW)};
+}
+function drawQuote(){
+  var dim=$('fmt').value.split(',');
+  var W=parseInt(dim[0],10),H=parseInt(dim[1],10);
+  cvs.width=W;cvs.height=H;
+  var g=GRADS[gradIdx()];
+  var grd=cx.createLinearGradient(0,0,W,H);
+  grd.addColorStop(0,g[0]);grd.addColorStop(1,g[1]);
+  cx.fillStyle=grd;cx.fillRect(0,0,W,H);
+  cx.fillStyle='rgba(255,255,255,0.06)';
+  cx.font=(W*0.5)+'px Georgia';
+  cx.textBaseline='top';
+  cx.fillText('\u201C',W*0.05,H*0.04);
+  var quote=$('quote').value.trim()||'Type your quote here.';
+  var maxW=W*0.78;
+  var fit=fitFont(quote,maxW,W*0.085,14);
+  var f=fit.size;
+  var family=$('qFont').value;
+  cx.font='normal '+f+'px '+family;
+  var lines=[];
+  var words=quote.split('\n');
+  var temp=[];
+  words.forEach(function(p){var ws=p.trim().split(/\s+/);var line='';ws.forEach(function(w){var t=line?line+' '+w:w;if(cx.measureText(t).width>maxW&&line){temp.push(line);line=w;}else{line=t;}});temp.push(line);});
+  lines=temp;
+  var lh=f*1.45;
+  var totalH=lines.length*lh;
+  var author=$('author').value.trim();
+  var yStart=(H-totalH)/2;
+  if(author){yStart=(H-totalH-f*0.4)/2;}
+  cx.textAlign='center';cx.textBaseline='top';
+  cx.fillStyle='rgba(255,255,255,0.96)';
+  cx.shadowColor='rgba(0,0,0,0.18)';cx.shadowBlur=f*0.5;
+  lines.forEach(function(ln,i){if(ln)cx.fillText(ln,W/2,yStart+i*lh);});
+  cx.shadowBlur=0;
+  if(author){
+    cx.font='italic '+(f*0.42)+'px '+family;
+    cx.fillStyle='rgba(255,255,255,0.88)';
+    cx.fillText('\u2014 '+author,W/2,yStart+lines.length*lh+f*0.2);
+  }
+  cx.textAlign='left';
+  $('sizeNote').textContent=W+' \u00D7 '+H+' px \u00B7 exported at full resolution';
+}
+function initials(name){
+  var parts=name.trim().split(/\s+/).filter(Boolean);
+  var s='';
+  parts.slice(0,2).forEach(function(p){s+=p[0]||'';});
+  return (s||name.slice(0,2)).toUpperCase();
+}
+function drawLogo(){
+  var dim=$('lsize').value.split(',');
+  var S=parseInt(dim[0],10);
+  cvs.width=S;cvs.height=S;
+  var col=LOGO_COLS[lc%LOGO_COLS.length];
+  var shape=$('lshape').value;
+  cx.fillStyle=col;
+  var pad=S*0.03;
+  if(shape==='circle'){cx.beginPath();cx.arc(S/2,S/2,S/2-pad,0,Math.PI*2);cx.fill();}
+  else{roundRect(pad,pad,S-pad*2,S-pad*2,S*0.2);cx.fill();}
+  var name=$('lname').value.trim()||'AB';
+  var text=initials(name);
+  var f=S*0.42;
+  cx.font='800 '+f+'px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+  cx.textAlign='center';cx.textBaseline='middle';
+  cx.fillStyle=logoTextCol;
+  while(cx.measureText(text).width>S*0.62&&f>10){f-=2;cx.font='800 '+f+'px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';}
+  cx.fillText(text,S/2,S/2+f*0.04);
+  cx.textAlign='left';
+  $('sizeNote').textContent=S+' \u00D7 '+S+' px PNG \u00B7 background included';
+}
+function roundRect(x,y,w,h,r){
+  cx.beginPath();
+  cx.moveTo(x+r,y);
+  cx.arcTo(x+w,y,x+w,y+h,r);
+  cx.arcTo(x+w,y+h,x,y+h,r);
+  cx.arcTo(x,y+h,x,y,r);
+  cx.arcTo(x,y,x+w,y,r);
+  cx.closePath();
+}
+function redraw(){if(mode==='quote'){drawQuote();}else{drawLogo();}}
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('#tabs .tab').forEach(function(t){t.className='tab'+(t.getAttribute('data-mode')===m?' on':'');});
+  $('ctrlQuote').style.display=m==='quote'?'':'none';
+  $('ctrlLogo').style.display=m==='logo'?'':'none';
+  $('fmtLabel').style.display=m==='quote'?'':'none';
+  $('fmt').style.display=m==='quote'?'':'none';
+  $('hint').textContent=m==='quote'?'Long quotes auto-shrink to fit; press Download PNG for full resolution.':'Initials come from the first two words; text color adapts to the background.';
+  redraw();
+}
+$('tabs').addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('button'):null;
+  if(b&&b.getAttribute('data-mode'))setMode(b.getAttribute('data-mode'));
+});
+['quote','author','lname'].forEach(function(id){
+  $(id).addEventListener('input',redraw);
+});
+['qFont','lshape','lsize'].forEach(function(id){
+  $(id).addEventListener('change',redraw);
+});
+$('fmt').addEventListener('change',redraw);
+$('dl').addEventListener('click',function(){
+  var fn=mode==='quote'?'quote-card-'+cvs.width+'x'+cvs.height+'.png':'logo-'+cvs.width+'.png';
+  cvs.toBlob(function(blob){
+    if(!blob)return;
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=fn;
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},300);
+  },'image/png');
+});
+buildSwatches();
+setMode('quote');
+</script>
+</body>
+</html>

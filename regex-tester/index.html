@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F9EA; Regex Tester — Test &amp; Explain Regex | HuSir Tools</title>
+<meta name="description" content="Test JavaScript regular expressions live: paste a pattern and text, see every match highlighted with capture groups and error messages. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/regex-tester/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🧪 Regex Tester — Free &amp; Local">
+<meta property="og:description" content="Test JavaScript regular expressions live: paste a pattern and text, see every match highlighted with capture groups and error messages. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/regex-tester/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🧪 Regex Tester — Free &amp; Local">
+<meta name="twitter:description" content="Test JavaScript regular expressions live: paste a pattern and text, see every match highlighted with capture groups and error messages. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=text],textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;outline:none;background:#fafbfc;color:#1a1a2e}
+input[type=text]:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{line-height:1.55;resize:vertical;min-height:130px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.flag-row{display:flex;align-items:center;gap:4px 14px;flex-wrap:wrap;margin-top:8px}
+.flag-row label{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#334155;cursor:pointer}
+.flag-row label code{background:#eef2ff;border-radius:5px;padding:0 5px;font-size:12.5px;color:#4c1d95}
+.flag-row input{width:auto;accent-color:#667eea}
+.hlbox{background:#fff;border:2px solid #e6e9f5;border-radius:12px;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow:auto;min-height:110px;color:#1a1a2e}
+.hlbox mark{background:#fde047;color:#1a1a2e;border-radius:3px;padding:0 1px}
+.mlist{max-height:230px;overflow:auto;border:1px solid #eef0f7;border-radius:10px;background:#fafbfc}
+.mrow{padding:7px 12px;border-bottom:1px solid #eef0f7;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;color:#1a1a2e;word-break:break-word}
+.mrow:last-child{border-bottom:none}
+.mrow .mn{display:inline-block;min-width:34px;color:#7c86a0;font-weight:600}
+.mrow .mi{color:#94a3b8;font-size:11px;margin-left:8px}
+.mrow .grp{color:#4c1d95;font-size:12px;margin-top:3px;padding-left:34px}
+.mrow .grp .gl{color:#7c86a0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid #e0e0e0;background:#f8fafc;border-radius:999px;padding:6px 13px;font-size:12.5px;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover{border-color:#667eea;color:#4c1d95;background:#eef2ff}
+.status-ok{font-size:12.5px;color:#059669;font-weight:600;margin-right:12px}
+.status-err{font-size:12.5px;color:#dc2626;font-weight:600}
+.empty{color:#98a1b3;font-size:12.5px;padding:10px 12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🧪 Regex Tester",
+  "description": "Test JavaScript regular expressions live: paste a pattern and text, see every match highlighted with capture groups and error messages. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/regex-tester/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "🌍 Which regex flavor is used?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JavaScript (ECMAScript). Syntax is mostly shared with other languages, but details like lookbehind support and \\d meaning only ASCII digits differ elsewhere."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🧪 What do the flags do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "g finds all matches (without it, only the first); i ignores case; m makes ^/$ match line starts/ends; s lets . match newlines; u enables full Unicode mode."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⚠️ Why is my pattern “too slow”?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nested quantifiers like (a+)+ can cause catastrophic backtracking. Prefer concrete alternatives such as [a-z]+ and test with short inputs first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📋 How do I capture a group?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wrap part of the pattern in parentheses, e.g. (\\d{3})-(\\d{4}). Each match row then lists group 1, group 2, and so on. Use (?:...) for non-capturing brackets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Does this page run my regex on a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Matching happens entirely in your browser, with zero network calls, so nothing you test ever leaves your device."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Regex Tester", "item": "https://www.husir.org/tools/regex-tester/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Regex Tester</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F9EA; Regex Tester</h1>
+<p class="subtitle">JavaScript regular expressions &middot; live matches + capture groups &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Write a regular expression, paste a block of text, and watch every match highlight live in the JavaScript flavor your code will actually use. Each match is listed with its index and capture groups, so you can verify a pattern before you ship it &#8212; validating emails, phone numbers, or log lines, extracting values from HTML or CSV, or cleaning messy text.</p>
+<p>Enable the standard flags with one click: <code>g</code> global, <code>i</code> ignore case, <code>m</code> multiline, <code>s</code> dot-matches-newline, and <code>u</code> Unicode. Invalid patterns show the exact error instead of failing silently. Everything is evaluated locally on your device &#8212; paste sensitive logs or personal data without worry, because nothing is uploaded and the page works offline.</p>
+<div class="faq">
+<p><strong>&#x1F30D; Which regex flavor is used?</strong><br>JavaScript (ECMAScript). Syntax is mostly shared with other languages, but details like lookbehind support and <code>\d</code> meaning only ASCII digits differ elsewhere.</p>
+<p><strong>&#x1F9EA; What do the flags do?</strong><br><code>g</code> finds all matches (without it, only the first); <code>i</code> ignores case; <code>m</code> makes <code>^</code>/<code>$</code> match line starts/ends; <code>s</code> lets <code>.</code> match newlines; <code>u</code> enables full Unicode mode.</p>
+<p><strong>&#x26A0;&#xFE0F; Why is my pattern &#8220;too slow&#8221;?</strong><br>Nested quantifiers like <code>(a+)+</code> can cause catastrophic backtracking. Prefer concrete alternatives such as <code>[a-z]+</code> and test with short inputs first.</p>
+<p><strong>&#x1F4CB; How do I capture a group?</strong><br>Wrap part of the pattern in parentheses, e.g. <code>(\d{3})-(\d{4})</code>. Each match row then lists group 1, group 2, and so on. Use <code>(?:...)</code> for non-capturing brackets.</p>
+<p><strong>&#x1F512; Does this page run my regex on a server?</strong><br>No. Matching happens entirely in your browser, with zero network calls, so nothing you test ever leaves your device.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+<code>.</code> any char &nbsp; <code>\d</code> digit &nbsp; <code>\w</code> word &nbsp; <code>\s</code> space &nbsp; <code>\b</code> word boundary<br>
+<code>^</code> start &nbsp; <code>$</code> end &nbsp; <code>*</code> 0+ &nbsp; <code>+</code> 1+ &nbsp; <code>?</code> optional &nbsp; <code>{n,m}</code> repeat<br>
+<code>[abc]</code> set &nbsp; <code>[^abc]</code> negated &nbsp; <code>(x|y)</code> alternatives &nbsp; <code>(...)</code> group &nbsp; <code>\1</code> backref
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F4DD; Test text</h3><span class="status-err" id="errMsg"></span></div>
+  <textarea id="text" spellcheck="false" placeholder="Paste the text you want to search&#8230;">Contact john.doe@example.com or sales@husir.org today! Call (415) 555-2671.</textarea>
+  <div class="field-label">Regular expression</div>
+  <input type="text" id="pat" spellcheck="false" value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" placeholder="e.g. \b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b">
+  <div class="flag-row">
+    <label><input type="checkbox" id="f-g" checked><code>g</code> global</label>
+    <label><input type="checkbox" id="f-i"><code>i</code> ignore case</label>
+    <label><input type="checkbox" id="f-m"><code>m</code> multiline</label>
+    <label><input type="checkbox" id="f-s"><code>s</code> dotAll</label>
+    <label><input type="checkbox" id="f-u"><code>u</code> unicode</label>
+    <span style="font-size:12px;color:#98a1b3">Flags</span>
+  </div>
+  <div class="field-label">Quick presets</div>
+  <div class="chips">
+    <button class="chip" type="button" data-p="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" data-t="Contact john.doe@example.com or sales@husir.org today!">Email</button>
+    <button class="chip" type="button" data-p="https?://[^\s]+" data-t="Visit https://www.husir.org/tools/ and https://example.com?q=1&r=2 now.">URL</button>
+    <button class="chip" type="button" data-p="\d{4}-\d{2}-\d{2}" data-t="Deadlines: 2026-09-04 and 2027-01-15. Ship by 2026-12-01.">Date</button>
+    <button class="chip" type="button" data-p="\(?\d{3}\)?[-. ]\d{3}[-. ]\d{4}" data-t="Call (415) 555-2671 or 212-555-0147. Fax: 415.555.0199.">US phone</button>
+    <button class="chip" type="button" data-p="#(?:[0-9a-fA-F]{3}){1,2}\b" data-t="Palette: #f59e0b, #764ba2, #FFF, and #10b981.">Hex color</button>
+    <button class="chip" type="button" data-p="\b(?:\d{1,3}\.){3}\d{1,3}\b" data-t="Server at 192.168.1.10, backup at 10.0.0.5.">IPv4</button>
+  </div>
+  <div class="field-label">Matches in text</div>
+  <div class="hlbox" id="hl"></div>
+  <div class="field-label">Match details</div>
+  <div class="mlist" id="mlist"><div class="empty">Type to see matches with capture groups&#8230;</div></div>
+  <div class="btnrow"><span class="status-ok" id="okMsg"></span><span class="status-err" id="err2"></span></div>
+  <p style="font-size:11.5px;color:#98a1b3;margin-top:12px">Matching runs live on your device &#8212; your text never leaves this page.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../text-diff-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F50D; Text Diff Checker</a><a href="../json-yaml-formatter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E6; JSON &amp; YAML Formatter</a><a href="../base64-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F521; Base64 Encoder &amp; Decoder</a><a href="../url-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F517; URL Encoder &amp; Decoder</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var MAX=5000;
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function flagsNow(){return ['g','i','m','s','u'].filter(function(f){return $('f-'+f).checked;}).join('');}
+function run(){
+  var src=$('pat').value,text=$('text').value;
+  var hl=$('hl'),ml=$('mlist'),ok=$('okMsg'),err=$('errMsg'),err2=$('err2');
+  ok.textContent='';err.textContent='';err2.textContent='';
+  if(!src){hl.innerHTML=esc(text);ml.innerHTML='<div class="empty">Enter a pattern to start matching&#8230;</div>';return;}
+  var re;
+  try{re=new RegExp(src,flagsNow());}
+  catch(e){hl.innerHTML=esc(text);ml.innerHTML='';err2.textContent='❌ '+e.message;return;}
+  if(!text){hl.innerHTML='';ml.innerHTML='<div class="empty">Paste some text to match against&#8230;</div>';return;}
+  var scan=new RegExp(src,flagsNow().indexOf('g')===-1?flagsNow()+'g':flagsNow());
+  var matches=[],m,limit=false;
+  while((m=scan.exec(text))!==null){
+    matches.push({m:m});
+    if(m[0]===''){scan.lastIndex++;}
+    if(matches.length>=MAX){limit=true;break;}
+  }
+  var html='',cursor=0,i;
+  for(i=0;i<matches.length;i++){
+    var mm=matches[i].m;
+    if(mm[0].length===0)continue;
+    html+=esc(text.slice(cursor,mm.index));
+    html+='<mark>'+esc(mm[0])+'</mark>';
+    cursor=mm.index+mm[0].length;
+  }
+  html+=esc(text.slice(cursor));
+  hl.innerHTML=html||'&nbsp;';
+  var list='';
+  var shown=Math.min(matches.length,200);
+  for(i=0;i<shown;i++){
+    var mm=matches[i].m;
+    list+='<div class="mrow"><span class="mn">'+(i+1)+'.</span><span>'+esc(mm[0].length>120?mm[0].slice(0,120)+'…':mm[0])+'</span><span class="mi">@'+mm.index+'</span>';
+    for(var gi=1;gi<mm.length;gi++){
+      if(mm[gi]!==undefined){list+='<div class="grp"><span class="gl">g'+gi+'</span> '+esc(mm[gi].length>120?mm[gi].slice(0,120)+'…':mm[gi])+'</div>';}
+    }
+    list+='</div>';
+  }
+  if(matches.length===0){list='<div class="empty">No matches found.</div>';}
+  else if(shown<matches.length){list+='<div class="mrow" style="color:#98a1b3">… and '+(matches.length-shown)+' more</div>';}
+  ml.innerHTML=list;
+  var note=flagsNow().indexOf('g')===-1?' (add g to iterate all matches in code)':'';
+  ok.textContent='✅ Valid pattern · '+matches.length+(limit?'+':'')+' match'+(matches.length===1?'':'es')+note;
+}
+$('text').addEventListener('input',run);
+$('pat').addEventListener('input',run);
+['f-g','f-i','f-m','f-s','f-u'].forEach(function(id){$(id).addEventListener('change',run);});
+Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(ch){
+  ch.addEventListener('click',function(){
+    $('pat').value=ch.getAttribute('data-p');
+    $('text').value=ch.getAttribute('data-t');
+    run();
+  });
+});
+run();
+</script>
+</body>
+</html>

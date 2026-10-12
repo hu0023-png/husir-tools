@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timezone Converter — Compare Times Across Cities, Free | HuSir Tools</title>
+<meta name="description" content="Convert times across US and world time zones with automatic daylight-saving handling, and find meeting slots where everyone is in working hours. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/timezone-converter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Timezone Converter — Compare Cities">
+<meta property="og:description" content="Convert times across US and world time zones with automatic daylight-saving handling, and find meeting slots where everyone is in working hours. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/timezone-converter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Timezone Converter — Compare Cities">
+<meta name="twitter:description" content="Convert times across US and world time zones with automatic daylight-saving handling, and find meeting slots where everyone is in working hours. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.chip{display:inline-flex;align-items:center;gap:6px;border:2px solid #e0e0e0;border-radius:99px;padding:6px 12px;font-size:12.5px;color:#555;cursor:pointer;margin:0 6px 8px 0;font-weight:600}
+.chip.on{border-color:#667eea;background:#f5f3ff;color:#4f46e5}
+.wrow{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 2px;border-bottom:1px solid #f3f4fa;color:#475569}
+.wrow b{color:#1a1a2e}
+.slot{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:8px 12px;margin:6px 0;font-size:13.5px;color:#065f46}
+.slot b{color:#047857}
+.noslot{color:#98a1b3;font-size:13px}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Timezone Converter",
+  "description": "Convert times across US and world time zones with automatic daylight-saving handling, and find meeting slots where everyone is in working hours. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/timezone-converter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which US time zones are covered?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Eastern (ET), Central (CT), Mountain (MT), Pacific (PT), Alaska, and Hawaii — plus UTC and the world's most common business zones."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it handle daylight saving time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the converter uses your browser's time zone database, so spring-forward and fall-back dates are applied automatically for zones that observe DST."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the meeting planner work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It scans the next 7 days in 30-minute steps and highlights times when every selected participant is within a 9:00–17:00 working window in their own zone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my location shared?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — everything is computed on your device, and the page works offline once open."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Timezone Converter", "item": "https://www.husir.org/tools/timezone-converter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Timezone Converter</span></span></nav>
+
+<div class="title-wrap">
+<h1>🌐 Timezone Converter</h1>
+<p class="subtitle">US &amp; world zones · DST-aware · Meeting planner</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Schedule across US and world time zones without the mental math. Pick a source zone and time (or use now), then see the instant converted to Eastern, Central, Mountain, Pacific, Alaska, Hawaii, London, Berlin, Beijing, Tokyo, and other zones — with the meeting planner suggesting slots where every participant is inside working hours.</p>
+<p>Time zone math runs locally in your browser using the built-in time zone database, so it respects daylight-saving rules without downloading anything. No meetings, dates, or locations are ever sent to a server.</p>
+<div class="faq">
+<p><strong>🇺🇸 Which US time zones are covered?</strong><br>Eastern (ET), Central (CT), Mountain (MT), Pacific (PT), Alaska, and Hawaii — plus UTC and the world's most common business zones.</p>
+<p><strong>🌞 Does it handle daylight saving time?</strong><br>Yes — the converter uses your browser's time zone database, so spring-forward and fall-back dates are applied automatically for zones that observe DST.</p>
+<p><strong>🤝 How does the meeting planner work?</strong><br>It scans the next 7 days in 30-minute steps and highlights times when every selected participant is within a 9:00–17:00 working window in their own zone.</p>
+<p><strong>🔒 Is my location shared?</strong><br>No — everything is computed on your device, and the page works offline once open.</p>
+</div>
+<div class="formula"><b>📐 How it works</b><br>
+One instant in time is displayed in every zone — the tool converts UTC to each local wall clock<br>
+Difference between zones = (offset of zone A) − (offset of zone B) at that moment<br>
+DST changes the offsets on the second Sunday of March and the first Sunday of November (US)
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>🕒 Time Converter</h3><button class="btn btn-ghost btn-sm" id="nowBtn" type="button">Use current time</button></div>
+  <div class="grid2">
+    <div>
+      <div class="field-label">From zone</div>
+      <select id="fromZ"></select>
+      <div class="field-label">Date &amp; time (in that zone)</div>
+      <input type="datetime-local" id="dt">
+    </div>
+    <div>
+      <div class="field-label">To zone</div>
+      <select id="toZ"></select>
+    </div>
+  </div>
+  <div class="result-box">
+    <div class="result-big" id="conv">—</div>
+    <div class="result-sub" id="convNote">—</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>🌐 World Clock for this moment</h3></div>
+  <div id="world"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>🤝 Meeting Planner <span style="font-size:12px;color:#98a1b3;font-weight:400">(pick zones, find shared 9–5 slots)</span></h3></div>
+  <div id="zchips"></div>
+  <button class="btn btn-primary" id="findBtn" type="button" style="margin-top:10px">Find good slots (next 7 days)</button>
+  <div id="slots" style="margin-top:12px"></div>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../date-workday-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C5; Date &amp; Workday Counter</a><a href="../meeting-cost-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4BC; Meeting Cost Calculator</a><a href="../meeting-minutes/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4DD; Meeting Minutes Generator</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var ZONES=[['America/New_York','Eastern (US)'],['America/Chicago','Central (US)'],['America/Denver','Mountain (US)'],['America/Los_Angeles','Pacific (US)'],['America/Anchorage','Alaska (US)'],['Pacific/Honolulu','Hawaii (US)'],['UTC','UTC'],['Europe/London','London'],['Europe/Berlin','Berlin / Paris'],['Asia/Shanghai','Beijing'],['Asia/Tokyo','Tokyo'],['Asia/Singapore','Singapore'],['Asia/Kolkata','Mumbai'],['Australia/Sydney','Sydney'],['America/Toronto','Toronto'],['America/Vancouver','Vancouver'],['America/Sao_Paulo','Sao Paulo'],['Asia/Dubai','Dubai']];
+var $=function(id){return document.getElementById(id);};
+function fill(sel,selVal){
+  ZONES.forEach(function(z,i){
+    var o=document.createElement('option');o.value=z[0];o.textContent=z[1];sel.appendChild(o);
+  });
+  sel.value=selVal||ZONES[0][0];
+}
+fill($('fromZ'),'America/New_York');
+fill($('toZ'),'Europe/London');
+function pad(n){return String(n).padStart(2,'0');}
+function toLocalInput(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());}
+$('dt').value=toLocalInput(new Date());
+function fmtInZone(ms,tz,withDate){
+  try{
+    return new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true}).format(new Date(ms));
+  }catch(e){return '—';}
+}
+function fmtShort(ms,tz){
+  try{return new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true}).format(new Date(ms));}catch(e){return '—';}
+}
+function zoneOffset(ms,tz){
+  try{
+    var dtf=new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+    var p=dtf.formatToParts(new Date(ms));var o={};p.forEach(function(x){o[x.type]=x.value;});
+    var h=o.hour==='24'?0:parseInt(o.hour,10);
+    var local=Date.UTC(parseInt(o.year,10),parseInt(o.month,10)-1,parseInt(o.day,10),h,parseInt(o.minute,10),parseInt(o.second,10));
+    return Math.round((local-ms)/60000);
+  }catch(e){return 0;}
+}
+function parseInZone(str,tz){
+  var m=str.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/);
+  if(!m)return null;
+  var parts=m.map(Number);
+  var guess=Date.UTC(parts[1],parts[2]-1,parts[3],parts[4],parts[5]);
+  var ms=guess;
+  for(var i=0;i<3;i++){ms=guess-zoneOffset(ms,tz)*60000;}
+  return ms;
+}
+function convert(){
+  var dt=$('dt').value;
+  var ms=parseInZone(dt,$('fromZ').value);
+  if(ms===null){$('conv').textContent='—';$('convNote').textContent='Pick a valid date & time';return;}
+  $('conv').textContent=fmtInZone(ms,$('toZ').value,true);
+  $('convNote').textContent='From '+fmtShort(ms,$('fromZ').value);
+  renderWorld(ms);
+}
+function renderWorld(ms){
+  var h='';
+  ZONES.forEach(function(z){
+    h+='<div class="wrow"><span>'+z[1]+'</span><b>'+fmtShort(ms,z[0])+'</b></div>';
+  });
+  $('world').innerHTML=h;
+}
+$('nowBtn').addEventListener('click',function(){$('dt').value=toLocalInput(new Date());convert();});
+$('fromZ').addEventListener('change',convert);
+$('toZ').addEventListener('change',convert);
+$('dt').addEventListener('input',convert);
+// chips
+var selSet=['America/New_York','America/Chicago','America/Denver','America/Los_Angeles'];
+var chips='';
+ZONES.forEach(function(z){
+  chips+='<span class="chip'+(selSet.indexOf(z[0])>-1?' on':'')+'" data-z="'+z[0]+'">'+z[1]+'</span>';
+});
+$('zchips').innerHTML=chips;
+$('zchips').addEventListener('click',function(e){
+  var t=e.target.closest('.chip');if(!t)return;
+  t.classList.toggle('on');
+});
+function hourIn(ms,tz){
+  try{return parseInt(new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',hour12:false}).format(new Date(ms)),10);}catch(e){return 0;}
+}
+function findSlots(){
+  var zones=[];
+  document.querySelectorAll('#zchips .chip.on').forEach(function(c){zones.push(c.getAttribute('data-z'));});
+  if(zones.length<2){$('slots').innerHTML='<div class="noslot">Select at least two zones to compare.</div>';return;}
+  var found=[];var start=new Date();start.setHours(0,0,0,0);start.setDate(start.getDate()+1);
+  for(var d=0;d<7&&found.length<6;d++){
+    for(var h=8;h<18;h++){
+      for(var mm=0;mm<60;mm+=30){
+        var cand=start.getTime()+d*86400000+h*3600000+mm*60000;
+        var ok=zones.every(function(z){var hr=hourIn(cand,z);return hr>=9&&hr<17;});
+        if(ok){found.push(cand);if(found.length>=6)break;}
+      }
+      if(found.length>=6)break;
+    }
+  }
+  if(found.length===0){$('slots').innerHTML='<div class="noslot">No overlap found in the next 7 days within 9:00–17:00. Try removing a zone.</div>';return;}
+  var h='<div style="font-size:12px;color:#7c86a0;margin-bottom:6px">Recommended start times (next 7 days) — every zone inside 9–5:</div>';
+  found.forEach(function(ms){
+    h+='<div class="slot"><b>'+fmtInZone(ms,zones[0],false)+'</b><br>'+zones.map(function(z){return z.split('/').pop().replace(/_/g,' ')+': '+fmtShort(ms,z);}).join(' &nbsp;|&nbsp; ')+'</div>';
+  });
+  $('slots').innerHTML=h;
+}
+$('findBtn').addEventListener('click',findSlots);
+convert();
+
+</script>
+</body>
+</html>

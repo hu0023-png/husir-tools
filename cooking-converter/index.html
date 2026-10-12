@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F963; Cooking &amp; Baking Converter — Grams to Cups, °F to °C | HuSir Tools</title>
+<meta name="description" content="Convert baking ingredients between grams, cups, tablespoons, and ounces — flour, sugar, butter, oats and more — plus oven temperature °F to °C. 100% local, no sign-up, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/cooking-converter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🥣 Cooking & Baking Converter — Grams to Cups, °F to °C">
+<meta property="og:description" content="Convert baking ingredients between grams, cups, tablespoons, and ounces — flour, sugar, butter, oats and more — plus oven temperature °F to °C. 100% local, no sign-up, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/cooking-converter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🥣 Cooking & Baking Converter — Grams to Cups, °F to °C">
+<meta name="twitter:description" content="Convert baking ingredients between grams, cups, tablespoons, and ounces — flour, sugar, butter, oats and more — plus oven temperature °F to °C. 100% local, no sign-up, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:27px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=number],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:inherit;line-height:1.5;outline:none;background:#fafbfc;color:#1a1a2e}
+input[type=number]:focus,select:focus{border-color:#667eea;background:#fff}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid #e0e0e0;background:#f8fafc;border-radius:999px;padding:7px 13px;font-size:12.5px;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover{border-color:#667eea;color:#4c1d95;background:#eef2ff}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.tile{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:10px 12px;text-align:left}
+.tile b{font-size:16px;color:#1a1a2e;display:block;word-break:break-word;line-height:1.35}
+.tile span{font-size:10.5px;color:#7c86a0;text-transform:uppercase;letter-spacing:.5px;font-weight:800;display:block;margin-bottom:3px}
+.tile.sel{background:#eef2ff;border-color:#667eea}
+.tile.sel b{color:#4c1d95}
+.note{font-size:11.5px;color:#98a1b3;margin-top:12px;line-height:1.6}
+.status{font-size:12.5px;color:#dc2626;font-weight:600}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.oven-tip{font-size:12px;color:#98a1b3;margin-top:10px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:21px}.subtitle{font-size:12px}.panel{padding:16px 14px}.two-col{grid-template-columns:1fr}.result-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🥣 Cooking & Baking Converter",
+  "description": "Convert baking ingredients between grams, cups, tablespoons, and ounces — flour, sugar, butter, oats and more — plus oven temperature °F to °C. 100% local, no sign-up, works offline.",
+  "url": "https://www.husir.org/tools/cooking-converter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "🥣 Why is 1 cup of flour not 1 cup of sugar in grams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weight per cup depends on density. A US cup of all-purpose flour is about 120 g (spooned), while granulated sugar is about 200 g per cup."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🧀 How many grams are in a stick of butter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One US stick = 113 g = 8 tablespoons = ½ cup. Two sticks = 1 cup = 227 g."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🧮 Should I spoon or scoop flour into the cup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spoon it in and level it off. Scooping can add 20–30% more flour than the 120 g standard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔥 What is 350 °F in Celsius?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "350 °F = 177 °C. General rule: subtract 32, multiply by 5, divide by 9."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📏 Is a US cup the same as a metric cup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not quite. A US cup is 236.6 mL; many metric recipes use a 250 mL cup. This tool uses standard US cup measures."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Cooking & Baking Converter", "item": "https://www.husir.org/tools/cooking-converter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Cooking &amp; Baking Converter</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F963; Cooking &amp; Baking Converter</h1>
+<p class="subtitle">Grams &harr; cups for real ingredients &middot; oven &deg;F &harr; &deg;C &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>American recipes measure with cups and spoons, while most of the world bakes by weight &#8212; and one cup of flour is never the same as one cup of sugar. This converter turns any amount of a real ingredient into every unit you might need: grams, kilograms, ounces, pounds, US cups, tablespoons, teaspoons, and fluid ounces. Pick the ingredient, type an amount, and all conversions update instantly using a standard weight per cup for that ingredient.</p>
+<p>It also handles the two details that trip up international recipes: butter sticks (one US stick is 113 g, or &frac12; cup) and oven temperatures, with an instant &deg;F &harr; &deg;C converter. Everything is calculated locally on your device &#8212; no sign-up, no uploads, fully offline, and safe to open with your own recipe in hand.</p>
+<div class="faq">
+<p><strong>&#x1F963; Why is 1 cup of flour not 1 cup of sugar in grams?</strong><br>Weight per cup depends on density. A US cup of all-purpose flour is about 120 g (spooned), while granulated sugar is about 200 g per cup.</p>
+<p><strong>&#x1F9C0; How many grams are in a stick of butter?</strong><br>One US stick = 113 g = 8 tablespoons = &frac12; cup. Two sticks = 1 cup = 227 g.</p>
+<p><strong>&#x1F9EE; Should I spoon or scoop flour into the cup?</strong><br>Spoon it in and level it off. Scooping can add 20&ndash;30% more flour than the 120 g standard.</p>
+<p><strong>&#x1F525; What is 350 &deg;F in Celsius?</strong><br>350 &deg;F = 177 &deg;C. General rule: subtract 32, multiply by 5, divide by 9.</p>
+<p><strong>&#x1F4CF; Is a US cup the same as a metric cup?</strong><br>Not quite. A US cup is 236.6 mL; many metric recipes use a 250 mL cup. This tool uses standard US cup measures.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+Grams = cups &times; grams-per-cup(ingredient) &nbsp;&middot;&nbsp; 1 US cup = 16 tbsp = 48 tsp = 8 fl oz = 236.6 mL<br>
+&deg;C = (&deg;F &minus; 32) &times; 5 &divide; 9 &nbsp;&middot;&nbsp; Butter: 1 stick = 113 g = &frac12; cup
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F36D; Ingredient converter</h3><span style="font-size:11.5px;color:#98a1b3">US cup measures</span></div>
+  <div>
+    <label class="field-label" for="ingrSelect">Ingredient</label>
+    <select id="ingrSelect"></select>
+  </div>
+  <div class="two-col" style="margin-top:12px">
+    <div>
+      <label class="field-label" for="amount">Amount</label>
+      <input type="number" id="amount" value="1" min="0" step="any" inputmode="decimal">
+    </div>
+    <div>
+      <label class="field-label" for="unitSel">Unit</label>
+      <select id="unitSel"></select>
+    </div>
+  </div>
+  <div class="field-label">Popular conversions</div>
+  <div class="chips" id="ingChips"></div>
+  <div class="status" id="ingStatus"></div>
+  <div class="result-grid" id="resGrid"></div>
+  <p class="note" id="resNote"></p>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F525; Oven temperature</h3></div>
+  <div class="two-col">
+    <div>
+      <label class="field-label" for="fah">&deg;F &#8212; Fahrenheit</label>
+      <input type="number" id="fah" placeholder="e.g. 350" min="0" step="any" inputmode="decimal">
+    </div>
+    <div>
+      <label class="field-label" for="cel">&deg;C &#8212; Celsius</label>
+      <input type="number" id="cel" placeholder="e.g. 177" min="0" step="any" inputmode="decimal">
+    </div>
+  </div>
+  <div class="chips" id="ovenChips"></div>
+  <p class="oven-tip">Formula: &deg;C = (&deg;F &minus; 32) &times; 5 &divide; 9</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../unit-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9EE; Unit Converter</a><a href="../size-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F45F; Clothing &amp; Shoe Size Converter</a><a href="../bmi-calorie-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2696;&#xFE0F; BMI &amp; Calorie Calculator</a><a href="../tip-split-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B8; Tip Split Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var ING=[
+  ['flour-ap','All-purpose flour',120],
+  ['flour-bread','Bread flour',126],
+  ['flour-ww','Whole wheat flour',120],
+  ['flour-cake','Cake flour',114],
+  ['sugar-gran','Granulated sugar',200],
+  ['sugar-brown','Brown sugar (packed)',220],
+  ['sugar-powder','Powdered sugar',115],
+  ['butter','Butter',227],
+  ['oil','Vegetable or olive oil',216],
+  ['milk','Milk (whole)',244],
+  ['water','Water',237],
+  ['cream','Heavy cream',238],
+  ['honey','Honey',340],
+  ['syrup','Maple syrup',320],
+  ['oats','Rolled oats',90],
+  ['rice','Rice (uncooked, white)',185],
+  ['quinoa','Quinoa (uncooked)',170],
+  ['cocoa','Cocoa powder',100],
+  ['cornstarch','Cornstarch',120],
+  ['cornmeal','Cornmeal',150],
+  ['creamcheese','Cream cheese',227],
+  ['pb','Peanut butter',258],
+  ['yogurt','Plain yogurt',245],
+  ['chips','Semi-sweet chocolate chips',170],
+  ['walnuts','Walnuts (chopped)',120]
+];
+var UNITS=[
+  ['g','Grams','g'],
+  ['kg','Kilograms','kg'],
+  ['oz','Ounces','oz'],
+  ['lb','Pounds','lb'],
+  ['cup','US Cups','cup'],
+  ['tbsp','Tablespoons','tbsp'],
+  ['tsp','Teaspoons','tsp'],
+  ['floz','Fluid Ounces (US)','fl oz'],
+  ['stick','Butter Sticks','stick']
+];
+var POP=[
+  ['flour-ap',1,'cup','1 cup all-purpose flour'],
+  ['sugar-gran',200,'g','200 g granulated sugar'],
+  ['flour-ap',250,'g','250 g flour'],
+  ['butter',2,'stick','2 sticks butter'],
+  ['oats',1,'cup','1 cup rolled oats']
+];
+var OVEN=[
+  [300,150],[325,163],[350,177],[375,190],[400,204],[425,218],[450,232]
+];
+function $(id){return document.getElementById(id);}
+function isButter(){return $('ingrSelect').value==='butter';}
+function ingInfo(id){for(var i=0;i<ING.length;i++){if(ING[i][0]===id)return ING[i];}return ING[0];}
+function fillSelects(){
+  var s=$('ingrSelect');
+  s.innerHTML=ING.map(function(x){return '<option value="'+x[0]+'">'+x[1]+' ('+x[2]+' g / cup)</option>';}).join('');
+  var u=$('unitSel');
+  u.innerHTML=UNITS.map(function(x){return '<option value="'+x[0]+'">'+x[1]+'</option>';}).join('');
+}
+function fmt(n){
+  if(!isFinite(n)||isNaN(n))return '&mdash;';
+  if(n===0)return '0';
+  if(n<0)return '-'+fmt(-n);
+  var d = n<0.01?4:(n<1?3:(n<100?2:(n<1000?1:0)));
+  return n.toFixed(d).replace(/\.?0+$/,'');
+}
+function gramsOf(id,amount,unit){
+  var g=ingInfo(id)[2];
+  var m={g:1,kg:1000,oz:28.349523125,lb:453.59237,cup:g,tbsp:g/16,tsp:g/48,floz:g/8,stick:113.398093};
+  return amount*(m[unit]||1);
+}
+function renderRes(){
+  var id=$('ingrSelect').value;
+  var amount=parseFloat($('amount').value);
+  var unit=$('unitSel').value;
+  if(!isFinite(amount)||amount<0){$('ingStatus').textContent='Enter a positive number.';$('resGrid').innerHTML='';$('resNote').textContent='';return;}
+  $('ingStatus').textContent='';
+  var g=gramsOf(id,amount,unit);
+  var gpc=ingInfo(id)[2];
+  var butter=isButter();
+  var vals={g:g,kg:g/1000,oz:g/28.349523125,lb:g/453.59237,cup:g/gpc,tbsp:g/gpc*16,tsp:g/gpc*48,floz:g/gpc*8,stick:g/113.398093};
+  var html='';
+  UNITS.forEach(function(u){
+    if(u[0]==='stick'&&!butter)return;
+    var val=vals[u[0]];
+    var sel=u[0]===unit?' sel':'';
+    html+='<div class="tile'+sel+'"><span>'+u[1]+'</span><b>'+fmt(val)+'</b></div>';
+  });
+  $('resGrid').innerHTML=html;
+  var note='Approximate weights &mdash; ';
+  if(id==='sugar-brown')note+='brown sugar is packed into the cup. ';
+  else if(id==='flour-ap'||id==='flour-bread'||id==='flour-ww'||id==='flour-cake')note+='flour is spooned and leveled, not scooped. ';
+  else if(id==='butter')note+='1 stick = 113 g = &frac12; cup = 8 tbsp. ';
+  else note+='weight per cup varies slightly by brand and measuring method. ';
+  note+='Results round for readability.';
+  $('resNote').innerHTML=note;
+}
+function ovenFromF(){
+  var f=parseFloat($('fah').value);
+  if(!isFinite(f))return;
+  $('cel').value=String(Math.round((f-32)*5/9*10)/10);
+}
+function ovenFromC(){
+  var c=parseFloat($('cel').value);
+  if(!isFinite(c))return;
+  $('fah').value=String(Math.round((c*9/5+32)*10)/10);
+}
+fillSelects();
+$('ingrSelect').value='flour-ap';
+$('unitSel').value='cup';
+function buildChips(){
+  var h='';
+  POP.forEach(function(p){
+    h+='<button type="button" class="chip" data-a="'+p[1]+'" data-u="'+p[2]+'" data-i="'+p[0]+'">'+p[3]+'</button>';
+  });
+  $('ingChips').innerHTML=h;
+  var o='';
+  OVEN.forEach(function(p){
+    o+='<button type="button" class="chip" data-f="'+p[0]+'" data-c="'+p[1]+'">'+p[0]+' &deg;F = '+p[1]+' &deg;C</button>';
+  });
+  $('ovenChips').innerHTML=o;
+}
+buildChips();
+$('ingChips').addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('button'):null;
+  if(!b)return;
+  $('ingrSelect').value=b.getAttribute('data-i');
+  $('unitSel').value=b.getAttribute('data-u');
+  $('amount').value=b.getAttribute('data-a');
+  renderRes();
+});
+$('ovenChips').addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('button'):null;
+  if(!b)return;
+  $('fah').value=b.getAttribute('data-f');
+  $('cel').value=b.getAttribute('data-c');
+});
+$('ingrSelect').addEventListener('change',function(){
+  if($('unitSel').value==='stick'&&!isButter()){$('unitSel').value='g';}
+  renderRes();
+});
+$('amount').addEventListener('input',renderRes);
+$('unitSel').addEventListener('change',renderRes);
+$('fah').addEventListener('input',ovenFromF);
+$('cel').addEventListener('input',ovenFromC);
+renderRes();
+</script>
+</body>
+</html>

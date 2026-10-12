@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume &amp; Cover Letter Builder | HuSir Tools</title>
+<meta name="description" content="Build an ATS-friendly one-page resume and a matching cover letter — standard headings, no tables or photos, print or save as PDF. Private and offline, nothing uploaded.">
+<link rel="canonical" href="https://www.husir.org/tools/resume-cover-letter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Resume & Cover Letter Builder">
+<meta property="og:description" content="Build an ATS-friendly one-page resume and a matching cover letter — standard headings, no tables or photos, print or save as PDF. Private and offline, nothing uploaded.">
+<meta property="og:url" content="https://www.husir.org/tools/resume-cover-letter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Resume & Cover Letter Builder">
+<meta name="twitter:description" content="Build an ATS-friendly one-page resume and a matching cover letter — standard headings, no tables or photos, print or save as PDF. Private and offline, nothing uploaded.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.tabs{display:flex;gap:8px;justify-content:center;margin:2px 0 0}
+.tab-btn{border:none;background:rgba(255,255,255,.16);color:#fff;padding:10px 22px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25)}
+.tab-btn.active{background:#fff;color:#4c1d95}
+.pane{display:none}
+.pane.active{display:flex;flex-direction:column;gap:16px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=text],input[type=email],textarea{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc}
+input:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;min-height:70px;line-height:1.6}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.form-grid .full{grid-column:1/-1}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.sub-row{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.sub-row .head-row{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}
+.sub-row .head-row b{font-size:13px;color:#4c1d95}
+.sub-row textarea{min-height:60px}
+.row-del{border:none;background:#fee2e2;color:#b91c1c;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:13px;font-family:inherit;flex-shrink:0}
+.row-del:disabled{opacity:.35;cursor:default}
+.doc{background:#fff;border-radius:12px;padding:34px 40px;box-shadow:0 4px 20px rgba(0,0,0,.1);color:#1a1a2e;font-size:13px;line-height:1.55;overflow-wrap:break-word;word-wrap:break-word}
+.resume-head{text-align:center;margin-bottom:12px}
+.resume-head h2{font-size:24px;letter-spacing:.5px;color:#111}
+.resume-head .r-title{font-size:13.5px;font-weight:700;color:#4c1d95;margin-top:2px}
+.resume-head .r-contact{font-size:11.5px;color:#555;margin-top:6px}
+.r-sec{margin:12px 0 4px;font-size:11px;font-weight:800;letter-spacing:1.6px;color:#4c1d95;border-bottom:1.5px solid #4c1d95;padding-bottom:2px;text-transform:uppercase}
+.r-summary{font-size:12.5px;color:#222;white-space:pre-line;line-height:1.6;margin:6px 0 2px}
+.r-item{margin:9px 0}
+.r-item-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.r-item-top b{font-size:12.5px;color:#111}
+.r-item-top .r-dates{font-size:11px;color:#666;white-space:nowrap}
+.r-item .r-org{font-size:11.5px;color:#444;margin:1px 0 3px}
+.r-bullets{margin:2px 0 0 16px;font-size:12px;color:#222}
+.r-bullets li{margin-bottom:2px;overflow-wrap:break-word}
+.r-skills{font-size:12.5px;color:#222;line-height:1.7}
+.letter{max-width:720px;margin:0 auto;font-size:13.5px;line-height:1.7;color:#1a1a2e}
+.letter .l-block{margin-bottom:12px}
+.letter h2{font-size:17px;color:#111}
+.letter .l-subject{font-weight:700;margin-bottom:10px}
+.letter p{margin-bottom:10px}
+.letter .l-sign{margin-top:16px}
+.letter ul{margin:4px 0 10px 18px}
+.letter li{margin-bottom:3px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.form-grid{grid-template-columns:1fr}.btn{min-height:44px;padding-left:14px;padding-right:14px}.doc{padding:22px 16px}}
+@page{size:letter;margin:1in}
+@media print{
+body{background:#fff !important;padding:0 !important}
+.container{max-width:100% !important;gap:0 !important}
+.container > :not(.pane.active){display:none !important}
+.pane.active{display:block !important}
+.pane.active .no-print{display:none !important}
+.pane.active .panel{box-shadow:none !important;padding:0 !important;border-radius:0 !important;background:#fff !important;border:none !important;margin:0 !important}
+.doc{box-shadow:none !important;padding:0 !important;border-radius:0 !important;font-size:11.5px !important}
+a#tool-back-nav{display:none !important}
+}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button]{min-height:44px}}</style>
+<style>
+.ft-file{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;font:600 13.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;cursor:pointer;border:2px dashed rgba(255,255,255,.5);box-shadow:0 3px 12px rgba(102,126,234,.35);user-select:none;-webkit-user-select:none;transition:filter .15s;text-decoration:none}
+.ft-file:hover{filter:brightness(1.08)}
+.ft-file input{display:none}
+.ft-file-sm{padding:7px 13px;font-size:12.5px}
+.btn-sm{padding:6px 12px;font-size:12px}
+.photo-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+.photo-chip{display:inline-flex;align-items:center;gap:10px;background:#f8faff;border:2px solid #e6e9f5;border-radius:999px;padding:6px 8px 6px 6px}
+.photo-chip img{width:52px;height:52px;border-radius:6px;object-fit:cover;border:1px solid #e0e0e0}
+.resume-head{display:flex;align-items:center;gap:18px;justify-content:space-between;margin-bottom:12px}
+.resume-head.no-photo{justify-content:center}
+.rh-text{flex:1;text-align:center}
+.r-photo{width:100px;height:100px;border-radius:8px;object-fit:cover;border:2px solid #e6e9f5;box-shadow:0 2px 10px rgba(0,0,0,.1);flex-shrink:0}
+@media(max-width:600px){.r-photo{width:76px;height:76px}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Resume & Cover Letter Builder",
+  "description": "Build an ATS-friendly one-page resume and a matching cover letter — standard headings, no tables or photos, print or save as PDF. Private and offline, nothing uploaded.",
+  "url": "https://www.husir.org/tools/resume-cover-letter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does \"ATS-friendly\" mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applicant tracking systems scan resumes for text and standard headings. Avoid photos, tables, columns, and graphics — plain single-column text with clear section titles parses most reliably."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long should my resume be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One page for most early and mid-career applicants; two pages only when you have 10+ years of directly relevant experience. Aim for roughly 400–600 words."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I write strong bullets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with an action verb and quantify results when possible (\"Cut page load time by 40%\", \"Led a team of 5\"). Numbers stand out to both parsers and recruiters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long should a cover letter be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Three to four short paragraphs (under one page). Mention the specific role and company, give two or three concrete strengths, and end with a clear next step."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Everything is generated in your browser and never leaves your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I add a photo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For most US jobs, no — ATS software and recruiters prefer text-only resumes, and photos can raise bias concerns. Add one only when the job ad, industry (acting, modeling, media), or the country's convention expects it. This builder keeps it optional, top-right in the header if used."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Resume & Cover Letter Builder", "item": "https://www.husir.org/tools/resume-cover-letter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Resume &amp; Cover Letter Builder</span></span></nav>
+
+<div class="title-wrap">
+<h1>📝 Resume &amp; Cover Letter Builder</h1>
+<p class="subtitle">ATS-friendly one-page resume &middot; matching cover letter &middot; print or save as PDF &middot; private &amp; offline</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Applying for jobs in the US usually means two documents: a resume an applicant tracking system (ATS) can read, and a cover letter that shows why you fit. This builder keeps both on one page. Fill in contact details, a summary, reverse-chronological experience with measurable bullets, education, and skills — the resume preview stays single-column with standard headings (Experience, Education, Skills), exactly the plain structure ATS parsers expect. The cover letter tab turns the same details into a short, targeted letter you can tailor for each job.</p>
+<p>Everything is typed and printed locally: no account, no upload, no AI scanning your data. Use your browser's print dialog to export a clean PDF, then submit that file with your application.</p>
+<div class="faq">
+<p><strong>🤖 What does "ATS-friendly" mean?</strong><br>Applicant tracking systems scan resumes for text and standard headings. Avoid photos, tables, columns, and graphics — plain single-column text with clear section titles parses most reliably.</p>
+<p><strong>📄 How long should my resume be?</strong><br>One page for most early and mid-career applicants; two pages only when you have 10+ years of directly relevant experience. Aim for roughly 400–600 words.</p>
+<p><strong>📈 How do I write strong bullets?</strong><br>Start with an action verb and quantify results when possible ("Cut page load time by 40%", "Led a team of 5"). Numbers stand out to both parsers and recruiters.</p>
+<p><strong>✉️ How long should a cover letter be?</strong><br>Three to four short paragraphs (under one page). Mention the specific role and company, give two or three concrete strengths, and end with a clear next step.</p>
+<p><strong>🔒 Is my data uploaded?</strong><br>No. Everything is generated in your browser and never leaves your device.</p>
+<p><strong>📷 Should I add a photo?</strong><br>For most US jobs, no — ATS software and recruiters prefer text-only resumes, and photos can raise bias concerns. Add one only when the job ad, industry (acting, modeling, media), or the country's convention expects it. This builder keeps it optional, top-right in the header if used.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Standard section order: Contact → Summary → Experience → Education → Skills.<br>
+Bullet formula: action verb + task + result with a number.<br>
+One resume page ≈ 400–600 words; cover letter ≤ 1 page, 3–4 paragraphs.<br>
+File type for ATS: PDF (selectable text) or .docx — never a photo or scanned image.
+</div>
+</div>
+</details>
+
+<div class="tabs no-print">
+  <button class="tab-btn active" id="tabResume" type="button">📄 Resume</button>
+  <button class="tab-btn" id="tabLetter" type="button">✉️ Cover Letter</button>
+</div>
+
+<!-- ════════ RESUME PANE ════════ -->
+<section class="pane active" id="paneResume">
+  <div class="panel no-print">
+    <div class="panel-header"><h3>1 · Contact &amp; headline</h3><button class="btn btn-ghost" id="rsSample" type="button">✨ Load sample</button></div>
+    <div class="form-grid">
+      <div><label class="field-label" for="rName">Full name</label><input type="text" id="rName"></div>
+      <div><label class="field-label" for="rRole">Job title</label><input type="text" id="rRole" placeholder="e.g. Frontend Developer"></div>
+      <div><label class="field-label" for="rEmail">Email</label><input type="email" id="rEmail"></div>
+      <div><label class="field-label" for="rPhone">Phone</label><input type="text" id="rPhone"></div>
+      <div><label class="field-label" for="rLoc">Location</label><input type="text" id="rLoc" placeholder="City, State"></div>
+      <div><label class="field-label" for="rLinks">Links (portfolio / LinkedIn / website)</label><input type="text" id="rLinks" placeholder="linkedin.com/in/you · yoursite.com"></div>
+      <div class="full"><label class="field-label" for="rSummary">Professional summary (2–4 lines)</label><textarea id="rSummary"></textarea></div>
+      <div class="full">
+        <label class="field-label">Optional photo <span style="font-weight:400;color:#a9b0c0">— US recruiters usually prefer no photo; add one only when a job, industry, or country convention expects it</span></label>
+        <div class="photo-bar">
+          <label class="ft-file ft-file-sm">&#x1F4F7; Upload photo<input type="file" id="rPhotoInput" accept="image/jpeg,image/png,image/webp" hidden></label>
+          <div class="photo-chip" id="photoChip" style="display:none"><img id="photoImg" alt="Your photo"><button type="button" class="btn btn-ghost btn-sm" id="photoClear">Remove</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel no-print">
+    <div class="panel-header"><h3>2 · Experience (newest first)</h3><button class="btn btn-ghost" id="addExp" type="button">＋ Add job</button></div>
+    <div id="expRows"></div>
+  </div>
+  <div class="panel no-print">
+    <div class="panel-header"><h3>3 · Education</h3><button class="btn btn-ghost" id="addEdu" type="button">＋ Add school</button></div>
+    <div id="eduRows"></div>
+  </div>
+  <div class="panel no-print">
+    <div class="panel-header"><h3>4 · Skills</h3></div>
+    <input type="text" id="rSkills" placeholder="Comma separated, e.g. JavaScript, React, Accessibility, Figma">
+  </div>
+
+  <div class="panel" style="background:#f4f2ff;border:2px dashed #c9b8ff">
+    <div class="panel-header no-print"><h3>👁 Live resume preview</h3>
+      <div><button class="btn btn-ghost" id="rsClear" type="button">🗑 Clear</button> <button class="btn btn-primary" id="printRs" type="button">🖨 Print / Save as PDF</button></div>
+    </div>
+    <div class="doc" id="rsDoc"></div>
+  </div>
+</section>
+
+<!-- ════════ COVER LETTER PANE ════════ -->
+<section class="pane" id="paneLetter">
+  <div class="panel no-print">
+    <div class="panel-header"><h3>1 · Your details &amp; the job</h3><button class="btn btn-ghost" id="clSample" type="button">✨ Load sample</button></div>
+    <div class="form-grid">
+      <div><label class="field-label" for="lDate">Date</label><input type="text" id="lDate" placeholder="Month DD, YYYY"></div>
+      <div><label class="field-label" for="lName">Your name</label><input type="text" id="lName"></div>
+      <div><label class="field-label" for="lEmail">Your email</label><input type="text" id="lEmail"></div>
+      <div><label class="field-label" for="lPhone">Your phone</label><input type="text" id="lPhone"></div>
+      <div class="full"><label class="field-label" for="lRecipient">Hiring manager (or leave blank for "Hiring Manager")</label><input type="text" id="lRecipient"></div>
+      <div><label class="field-label" for="lCompany">Company</label><input type="text" id="lCompany"></div>
+      <div><label class="field-label" for="lRoleJob">Role you're applying for</label><input type="text" id="lRoleJob"></div>
+      <div class="full"><label class="field-label" for="lHighlights">Key strengths / achievements (short phrases, one per line)</label><textarea id="lHighlights" placeholder="Cut page load time by 40%&#10;Led a team of 5 developers&#10;Shipped 20+ features in 18 months"></textarea></div>
+      <div class="full"><label class="field-label" for="lExtra">Why you fit / closing note (optional)</label><textarea id="lExtra"></textarea></div>
+    </div>
+  </div>
+
+  <div class="panel" style="background:#f4f2ff;border:2px dashed #c9b8ff">
+    <div class="panel-header no-print"><h3>👁 Live letter preview</h3>
+      <div><button class="btn btn-ghost" id="clClear" type="button">🗑 Clear</button> <button class="btn btn-primary" id="printCl" type="button">🖨 Print / Save as PDF</button></div>
+    </div>
+    <div class="doc"><div class="letter" id="clDoc"></div></div>
+  </div>
+</section>
+
+
+<div style="text-align:center;padding:16px 0 8px" class="no-print"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px" class="no-print"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6" class="no-print"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)" class="no-print"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../case-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F524; Text Case &amp; Word Counter</a><a href="../md-to-rich-text/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; Markdown to Rich Text</a><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function setTab(activeId) {
+    ['paneResume', 'paneLetter'].forEach(function (p) { $(p).classList.toggle('active', p === activeId); });
+    $('tabResume').classList.toggle('active', activeId === 'paneResume');
+    $('tabLetter').classList.toggle('active', activeId === 'paneLetter');
+  }
+  $('tabResume').addEventListener('click', function () { setTab('paneResume'); });
+  $('tabLetter').addEventListener('click', function () { setTab('paneLetter'); });
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function todayUS() {
+    var d = new Date();
+    var M = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return M[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+  function lines(val) {
+    return String(val || '').split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+  function firstRowAdd(box, addRowFn) {
+    if (!box.children.length) addRowFn();
+  }
+
+  /* ---------- RESUME ---------- */
+  function expRow(title, company, loc, start, end, bullets) {
+    var r = document.createElement('div');
+    r.className = 'sub-row';
+    r.innerHTML =
+      '<div class="head-row"><b>💼 Job</b><button type="button" class="row-del" aria-label="Remove job">&#10005;</button></div>' +
+      '<div class="form-grid">' +
+      '<div class="full"><label class="field-label">Job title</label><input type="text" class="f-title" value="' + esc(title) + '"></div>' +
+      '<div><label class="field-label">Company</label><input type="text" class="f-company" value="' + esc(company) + '"></div>' +
+      '<div><label class="field-label">Location</label><input type="text" class="f-loc" value="' + esc(loc) + '"></div>' +
+      '<div><label class="field-label">Start</label><input type="text" class="f-start" placeholder="Mar 2022" value="' + esc(start) + '"></div>' +
+      '<div><label class="field-label">End</label><input type="text" class="f-end" placeholder="Present" value="' + esc(end) + '"></div>' +
+      '<div class="full"><label class="field-label">Achievements (one per line, start with an action verb)</label><textarea class="f-bullets">' + esc(bullets || '') + '</textarea></div>' +
+      '</div>';
+    bindRemove(r);
+    return r;
+  }
+  function eduRow(deg, school, loc, start, end) {
+    var r = document.createElement('div');
+    r.className = 'sub-row';
+    r.innerHTML =
+      '<div class="head-row"><b>🎓 School</b><button type="button" class="row-del" aria-label="Remove school">&#10005;</button></div>' +
+      '<div class="form-grid">' +
+      '<div class="full"><label class="field-label">Degree / program</label><input type="text" class="e-deg" value="' + esc(deg) + '"></div>' +
+      '<div><label class="field-label">School</label><input type="text" class="e-school" value="' + esc(school) + '"></div>' +
+      '<div><label class="field-label">Location</label><input type="text" class="e-loc" value="' + esc(loc) + '"></div>' +
+      '<div><label class="field-label">Start</label><input type="text" class="e-start" value="' + esc(start) + '"></div>' +
+      '<div><label class="field-label">End</label><input type="text" class="e-end" value="' + esc(end) + '"></div>' +
+      '</div>';
+    bindRemove(r);
+    return r;
+  }
+  function bindRemove(row) {
+    row.querySelector('.row-del').addEventListener('click', function () {
+      var box = row.parentNode;
+      if (box.children.length <= 1) return;
+      row.remove();
+      renderResume();
+    });
+    row.querySelectorAll('input,textarea').forEach(function (el) {
+      el.addEventListener('input', renderResume);
+    });
+  }
+  $('addExp').addEventListener('click', function () { $('expRows').appendChild(expRow('', '', '', '', 'Present', '')); renderResume(); });
+  $('addEdu').addEventListener('click', function () { $('eduRows').appendChild(eduRow('', '', '', '', '')); renderResume(); });
+
+  function renderResume() {
+    var name = $('rName').value.trim(), role = $('rRole').value.trim();
+    var email = $('rEmail').value.trim(), phone = $('rPhone').value.trim();
+    var loc = $('rLoc').value.trim(), links = $('rLinks').value.trim();
+    var contact = [loc, email, phone, links].filter(Boolean).map(esc).join(' &nbsp;·&nbsp; ');
+    var html = '<div class="resume-head' + (photoData ? '' : ' no-photo') + '"><div class="rh-text"><h2>' + esc(name || 'Your Name') + '</h2>';
+    if (role) html += '<div class="r-title">' + esc(role) + '</div>';
+    if (contact) html += '<div class="r-contact">' + contact + '</div>';
+    html += '</div>';
+    if (photoData) html += '<img class="r-photo" src="' + photoData + '" alt="Photo">';
+    html += '</div>';
+    var sum = $('rSummary').value.trim();
+    if (sum) html += '<div class="r-sec">Professional Summary</div><p class="r-summary">' + esc(sum) + '</p>';
+    html += '<div class="r-sec">Experience</div>';
+    var exps = Array.prototype.slice.call($('expRows').children);
+    if (!exps.length) html += '<p class="r-summary" style="color:#999">Add a job in step 2.</p>';
+    exps.forEach(function (r) {
+      var t = r.querySelector('.f-title').value.trim(), co = r.querySelector('.f-company').value.trim();
+      var lo = r.querySelector('.f-loc').value.trim(), st = r.querySelector('.f-start').value.trim(), en = r.querySelector('.f-end').value.trim();
+      var bl = lines(r.querySelector('.f-bullets').value);
+      if (!t && !co && !lo && !bl.length) return;
+      html += '<div class="r-item"><div class="r-item-top"><b>' + esc(t || '—') + '</b><span class="r-dates">' + esc(st) + ' – ' + esc(en) + '</span></div>';
+      var org = [co, lo].filter(Boolean).join(', ');
+      if (org) html += '<div class="r-org">' + esc(org) + '</div>';
+      if (bl.length) {
+        html += '<ul class="r-bullets">';
+        bl.forEach(function (b) { html += '<li>' + esc(b) + '</li>'; });
+        html += '</ul>';
+      }
+      html += '</div>';
+    });
+    html += '<div class="r-sec">Education</div>';
+    var edus = Array.prototype.slice.call($('eduRows').children);
+    if (!edus.length) html += '<p class="r-summary" style="color:#999">Add a school in step 3.</p>';
+    edus.forEach(function (r) {
+      var dg = r.querySelector('.e-deg').value.trim(), sc = r.querySelector('.e-school').value.trim();
+      var lo = r.querySelector('.e-loc').value.trim(), st = r.querySelector('.e-start').value.trim(), en = r.querySelector('.e-end').value.trim();
+      if (!dg && !sc) return;
+      html += '<div class="r-item"><div class="r-item-top"><b>' + esc(dg || '—') + '</b><span class="r-dates">' + esc(st) + ' – ' + esc(en) + '</span></div>';
+      var org = [sc, lo].filter(Boolean).join(', ');
+      if (org) html += '<div class="r-org">' + esc(org) + '</div></div>';
+      else html += '</div>';
+    });
+    var skills = $('rSkills').value.trim();
+    html += '<div class="r-sec">Skills</div><p class="r-skills">' + esc(skills || 'Add your skills in step 4.') + '</p>';
+    $('rsDoc').innerHTML = html;
+  }
+  ['input', 'change'].forEach(function (ev) {
+    ['rName', 'rRole', 'rEmail', 'rPhone', 'rLoc', 'rLinks', 'rSummary', 'rSkills'].forEach(function (id) { $(id).addEventListener(ev, renderResume); });
+  });
+
+  function addExpValues(a) {
+    var r = expRow(a[0], a[1], a[2], a[3], a[4], '');
+    if (a[5]) r.querySelector('.f-bullets').value = a[5];
+    $('expRows').appendChild(r);
+  }
+  $('rsSample').addEventListener('click', function () {
+    $('rName').value = 'Jordan Lee';
+    $('rRole').value = 'Frontend Developer';
+    $('rEmail').value = 'jordan.lee@email.com';
+    $('rPhone').value = '(415) 555-0188';
+    $('rLoc').value = 'Portland, OR';
+    $('rLinks').value = 'github.com/jordanlee · linkedin.com/in/jordanlee';
+    $('rSummary').value = 'Frontend developer with 6 years of experience building accessible, fast web apps for e-commerce and education. Known for turning messy legacy code into maintainable React systems and for mentoring junior developers.';
+    $('expRows').innerHTML = '';
+    addExpValues(['Senior Frontend Developer', 'BrightCart Commerce', 'Remote', 'Jan 2023', 'Present', 'Cut page load time by 40% through code-splitting and image optimization\nLed a team of 5 developers shipping 20+ features in 18 months\nBuilt a design-system component library used by 3 product teams']);
+    addExpValues(['Frontend Developer', 'CodeWorks Studio', 'Portland, OR', 'Jun 2019', 'Dec 2022', 'Rebuilt the checkout flow, lifting conversion by 12%\nImproved Lighthouse accessibility score from 68 to 98\nWrote unit tests that cut regression bugs by 35%']);
+    $('eduRows').innerHTML = '';
+    $('eduRows').appendChild(eduRow('B.S. Computer Science', 'Portland State University', 'Portland, OR', '2015', '2019'));
+    $('rSkills').value = 'JavaScript, TypeScript, React, Next.js, Accessibility (WCAG), Testing, Git, Figma';
+    renderResume();
+  });
+  $('rsClear').addEventListener('click', function () {
+    ['rName', 'rRole', 'rEmail', 'rPhone', 'rLoc', 'rLinks', 'rSummary', 'rSkills'].forEach(function (id) { $(id).value = ''; });
+    $('expRows').innerHTML = '';
+    $('eduRows').innerHTML = '';
+    resetPhoto();
+    renderResume();
+  });
+  $('printRs').addEventListener('click', function () { setTab('paneResume'); window.print(); });
+
+  /* ---------- PHOTO (optional) ---------- */
+  var photoData = '';
+  var photoInput = $('rPhotoInput'), photoChip = $('photoChip'), photoImg = $('photoImg');
+  photoInput.addEventListener('change', function () {
+    var f = photoInput.files[0];
+    if (!f || !/^image\//.test(f.type)) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      photoData = rd.result;
+      photoImg.src = photoData;
+      photoChip.style.display = 'inline-flex';
+      renderResume();
+    };
+    rd.readAsDataURL(f);
+  });
+  $('photoClear').addEventListener('click', function () {
+    photoData = '';
+    photoInput.value = '';
+    photoChip.style.display = 'none';
+    renderResume();
+  });
+  function resetPhoto() { photoData = ''; photoInput.value = ''; photoChip.style.display = 'none'; }
+
+  /* ---------- COVER LETTER ---------- */
+  function renderLetter() {
+    var date = $('lDate').value.trim() || todayUS();
+    var name = $('lName').value.trim();
+    var email = $('lEmail').value.trim(), phone = $('lPhone').value.trim();
+    var recipient = $('lRecipient').value.trim() || 'Hiring Manager';
+    var company = $('lCompany').value.trim() || 'your company';
+    var role = $('lRoleJob').value.trim() || 'the role';
+    var highlights = lines($('lHighlights').value);
+    var extra = $('lExtra').value.trim();
+    var contact = [email, phone].filter(Boolean).map(esc).join(' · ');
+    var html = '<div class="letter"><div class="l-block">' + esc(date) + '<br>' + esc(name || 'Your Name') + (contact ? '<br>' + contact : '') + '</div>';
+    html += '<div class="l-block">' + esc(recipient) + '<br>' + esc(company) + '</div>';
+    html += '<div class="l-block"><div class="l-subject">Re: Application for ' + esc(role) + '</div></div>';
+    html += '<p>Dear ' + esc(recipient) + ',</p>';
+    html += '<p>I am writing to apply for the ' + esc(role) + ' position at ' + esc(company) + '. I have followed the team\u2019s work for a while, and this role matches both my experience and what I enjoy doing most.</p>';
+    if (highlights.length) {
+      html += '<p>A few highlights from my background:</p><ul>';
+      highlights.forEach(function (h) { html += '<li>' + esc(h) + '</li>'; });
+      html += '</ul>';
+    }
+    html += '<p>' + esc(extra || 'I would welcome the chance to discuss how my background can help your team. Thank you for your time and consideration.') + '</p>';
+    html += '<div class="l-sign">Sincerely,<br>' + esc(name || 'Your Name') + '</div></div>';
+    $('clDoc').innerHTML = html;
+  }
+  ['input', 'change'].forEach(function (ev) {
+    ['lDate', 'lName', 'lEmail', 'lPhone', 'lRecipient', 'lCompany', 'lRoleJob', 'lHighlights', 'lExtra'].forEach(function (id) { $(id).addEventListener(ev, renderLetter); });
+  });
+  $('clSample').addEventListener('click', function () {
+    $('lDate').value = todayUS();
+    $('lName').value = $('rName').value.trim() || 'Jordan Lee';
+    $('lEmail').value = $('rEmail').value.trim() || 'jordan.lee@email.com';
+    $('lPhone').value = $('rPhone').value.trim() || '(415) 555-0188';
+    $('lRecipient').value = 'Alex Rivera';
+    $('lCompany').value = 'Acme Learning Inc.';
+    $('lRoleJob').value = 'Senior Frontend Developer';
+    $('lHighlights').value = 'Cut page load time by 40% for a 2M-user platform\nLed a team of 5 developers shipping 20+ features in 18 months\nDeep experience with accessibility and design systems';
+    $('lExtra').value = '';
+    renderLetter();
+  });
+  $('clClear').addEventListener('click', function () {
+    ['lRecipient', 'lCompany', 'lRoleJob', 'lHighlights', 'lExtra'].forEach(function (id) { $(id).value = ''; });
+    $('lDate').value = todayUS();
+    renderLetter();
+  });
+  $('printCl').addEventListener('click', function () { setTab('paneLetter'); window.print(); });
+
+  /* init */
+  $('lDate').value = todayUS();
+  $('expRows').appendChild(expRow('', '', '', '', 'Present', ''));
+  $('eduRows').appendChild(eduRow('', '', '', '', ''));
+  renderResume();
+  renderLetter();
+})();
+</script>
+</body>
+</html>

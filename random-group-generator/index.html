@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Group Generator | HuSir Tools</title>
+<meta name="description" content="Randomly split your class, team, or friends into fair groups. Paste names, pick team size or number of teams, shuffle, and copy. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/random-group-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Random Group Generator">
+<meta property="og:description" content="Randomly split your class, team, or friends into fair groups. Paste names, pick team size or number of teams, shuffle, and copy. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/random-group-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Random Group Generator">
+<meta name="twitter:description" content="Randomly split your class, team, or friends into fair groups. Paste names, pick team size or number of teams, shuffle, and copy. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;min-height:170px;line-height:1.7}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.mode-opt{border:2px solid #e0e0e0;border-radius:12px;padding:10px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#666;background:#fff;text-align:center}
+.mode-opt.active{border-color:#667eea;background:#f5f3ff;color:#4c1d95}
+.hint{font-size:12px;color:#9aa3b5;margin-top:6px;line-height:1.5}
+.note{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.result-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.result-head .stat{font-size:13px;color:#666}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.group-card{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 14px}
+.group-title{font-size:13px;font-weight:800;color:#4c1d95;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.group-title span{font-weight:600;color:#9aa3b5;font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:#ede9fe;color:#4c1d95;border-radius:999px;padding:4px 11px;font-size:13px;font-weight:600}
+.empty-msg{color:#9aa3b5;font-size:13px;padding:30px 10px;text-align:center}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.groups{grid-template-columns:1fr}.btn{min-height:44px;padding-left:14px;padding-right:14px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],input[type=number],textarea{min-height:44px}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Random Group Generator",
+  "description": "Randomly split your class, team, or friends into fair groups. Paste names, pick team size or number of teams, shuffle, and copy. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/random-group-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the shuffle really random?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — every run uses the Fisher–Yates algorithm, which gives every possible ordering an equal chance. Each new shuffle is independent of the last."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are my teams not exactly equal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When names do not divide evenly, the remainder is spread one per team from the start. For example, 22 names into 5 teams gives 5, 5, 4, 4, and 4 members."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Team size or number of teams — which should I pick?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use team size when you want small pods (for example \"groups of 4\"); use number of teams when you want a fixed count for stations or rotations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are student names uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The page runs fully in your browser and stores nothing — close the tab and the names are gone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I share the final teams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click \"Copy teams\" and paste the numbered list into a slide, worksheet, or message. Results are also shown on screen for projecting."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Random Group Generator", "item": "https://www.husir.org/tools/random-group-generator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Random Group Generator</span></span></nav>
+
+<div class="title-wrap">
+<h1>👥 Random Group Generator</h1>
+<p class="subtitle">Paste names &middot; choose team size or team count &middot; shuffle &middot; copy</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Turn a class list, team roster, or group of friends into fair random teams in one click. Paste names, choose either a team size (for example 4 people per team) or a fixed number of teams, and the tool shuffles everyone before splitting, so no draw favors any name. Groups stay as balanced as possible: with 23 students and 5 teams you get 5, 5, 5, 4, and 4 members.</p>
+<p>Use it for classroom group work, icebreakers, study pods, project teams, sports drills, or workshop breakouts. Everything runs in the browser — names never leave your device, which keeps student rosters private. Re-shuffle as often as you like, then copy the final teams as plain text for a document, slide, or chat message.</p>
+<div class="faq">
+<p><strong>🎲 Is the shuffle really random?</strong><br>Yes — every run uses the Fisher–Yates algorithm, which gives every possible ordering an equal chance. Each new shuffle is independent of the last.</p>
+<p><strong>⚖️ Why are my teams not exactly equal?</strong><br>When names do not divide evenly, the remainder is spread one per team from the start. For example, 22 names into 5 teams gives 5, 5, 4, 4, and 4 members.</p>
+<p><strong>👥 Team size or number of teams — which should I pick?</strong><br>Use team size when you want small pods (for example "groups of 4"); use number of teams when you want a fixed count for stations or rotations.</p>
+<p><strong>🔒 Are student names uploaded?</strong><br>No. The page runs fully in your browser and stores nothing — close the tab and the names are gone.</p>
+<p><strong>📋 How do I share the final teams?</strong><br>Click "Copy teams" and paste the numbered list into a slide, worksheet, or message. Results are also shown on screen for projecting.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Total names N = non-empty lines (duplicates removed once).<br>
+Team size S: teams = ceil(N &divide; S).<br>
+T teams: base = floor(N &divide; T); remainder R = N mod T &rarr; the first R teams get base + 1 members.<br>
+Always shuffle before splitting so every assignment stays random.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>📝 Names</h3></div>
+  <textarea id="namesInput" placeholder="One name per line, for example:&#10;Alice&#10;Bob&#10;Carol&#10;...&#10;&#10;Commas and extra blank lines are handled automatically."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-ghost" id="sampleBtn" type="button">✨ Load sample class</button>
+    <button class="btn btn-ghost" id="clearBtn" type="button">🗑 Clear</button>
+  </div>
+  <div class="field-label">Grouping mode</div>
+  <div class="mode-grid">
+    <div class="mode-opt active" data-mode="size">👥 Groups of N<br><span style="font-weight:400;font-size:12px;color:#888">e.g. groups of 4</span></div>
+    <div class="mode-opt" data-mode="count">🏷 N groups<br><span style="font-weight:400;font-size:12px;color:#888">e.g. 5 teams</span></div>
+  </div>
+  <input type="number" id="numInput" min="1" max="99" value="4" aria-label="Number of people per group or number of groups">
+  <div class="hint" id="numHint">Each team will have up to 4 people; the last team may be smaller.</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="makeBtn" type="button">🎲 Make Groups</button>
+    <button class="btn btn-ghost" id="againBtn" type="button" style="display:none">🔀 Re-shuffle</button>
+  </div>
+  <div class="note" id="noteBox"></div>
+</div>
+
+<div class="panel" id="resultPanel" style="display:none">
+  <div class="result-head">
+    <h3 style="font-size:16px;color:#333">📋 Teams</h3>
+    <span class="stat" id="resultStat"></span>
+  </div>
+  <div class="groups" id="groupsBox"></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="copyBtn" type="button">📋 Copy teams as text</button>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../team-shuffle/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🪑 Seating Chart</a><a href="../quiz-flashcard-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3B4; Quiz &amp; Flashcard Maker</a><a href="../rubric-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CB; Rubric Generator</a><a href="../classroom-tool/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9D1;&#x200D;&#x1F3EB; Classroom Toolkit</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+(function () {
+  var namesInput = document.getElementById('namesInput');
+  var modeOpts = Array.prototype.slice.call(document.querySelectorAll('.mode-opt'));
+  var numInput = document.getElementById('numInput');
+  var numHint = document.getElementById('numHint');
+  var makeBtn = document.getElementById('makeBtn');
+  var againBtn = document.getElementById('againBtn');
+  var noteBox = document.getElementById('noteBox');
+  var resultPanel = document.getElementById('resultPanel');
+  var groupsBox = document.getElementById('groupsBox');
+  var resultStat = document.getElementById('resultStat');
+  var copyBtn = document.getElementById('copyBtn');
+  var mode = 'size';
+  var lastGroups = [];
+
+  function sampleNames() {
+    namesInput.value = ['Alice','Bob','Carol','David','Emma','Frank','Grace','Henry','Ivy','Jack','Kira','Leo','Mia','Noah','Olivia','Peter','Quinn','Ruby','Sam','Tina'].join('\n');
+  }
+  sampleNames();
+
+  function setMode(m) {
+    mode = m;
+    modeOpts.forEach(function (el) { el.classList.toggle('active', el.getAttribute('data-mode') === m); });
+    if (m === 'size') { numInput.value = 4; numHint.textContent = 'Each team will have up to 4 people; the last team may be smaller.'; }
+    else { numInput.value = 5; numHint.textContent = 'Names are split into 5 teams as evenly as possible.'; }
+  }
+  modeOpts.forEach(function (el) {
+    el.addEventListener('click', function () { setMode(el.getAttribute('data-mode')); });
+  });
+
+  function showNote(msg) {
+    noteBox.style.display = msg ? 'block' : 'none';
+    noteBox.textContent = msg || '';
+  }
+
+  function parseNames() {
+    var raw = namesInput.value.replace(/,/g, '\n').split('\n');
+    var seen = {}, out = [];
+    raw.forEach(function (line) {
+      var name = line.trim();
+      if (!name) return;
+      if (seen[name]) return;
+      seen[name] = true;
+      out.push(name);
+    });
+    return out;
+  }
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function makeGroups() {
+    var names = parseNames();
+    if (names.length < 2) {
+      showNote('Add at least two names to make groups.');
+      resultPanel.style.display = 'none';
+      return;
+    }
+    var n = parseInt(numInput.value, 10);
+    if (!n || n < 1) { showNote('Enter a valid number of 1 or more.'); return; }
+    var msg = '';
+    var teams = [];
+    if (mode === 'size') {
+      teams = Math.ceil(names.length / n);
+      if (n >= names.length) { msg = 'One team of ' + names.length + ' — try a smaller team size to split further.'; }
+    } else {
+      if (n >= names.length) { showNote('You asked for ' + n + ' teams but only have ' + names.length + ' names. Add more names or lower the team count.'); return; }
+      teams = n;
+    }
+    var shuffled = shuffle(names);
+    var i, k;
+    if (mode === 'size') {
+      lastGroups = [];
+      for (i = 0; i < names.length; i += n) lastGroups.push(shuffled.slice(i, i + n));
+    } else {
+      var base = Math.floor(names.length / teams);
+      var rem = names.length % teams;
+      lastGroups = [];
+      k = 0;
+      for (i = 0; i < teams; i++) {
+        var size = base + (i < rem ? 1 : 0);
+        lastGroups.push(shuffled.slice(k, k + size));
+        k += size;
+      }
+    }
+    renderGroups(msg);
+  }
+
+  function renderGroups(msg) {
+    groupsBox.innerHTML = '';
+    var total = 0;
+    lastGroups.forEach(function (g, idx) {
+      total += g.length;
+      var card = document.createElement('div');
+      card.className = 'group-card';
+      var title = document.createElement('div');
+      title.className = 'group-title';
+      title.innerHTML = 'Team ' + (idx + 1) + '<span>' + g.length + (g.length > 1 ? ' people' : ' person') + '</span>';
+      card.appendChild(title);
+      var chips = document.createElement('div');
+      chips.className = 'chips';
+      g.forEach(function (name) {
+        var c = document.createElement('span');
+        c.className = 'chip';
+        c.textContent = name;
+        chips.appendChild(c);
+      });
+      card.appendChild(chips);
+      groupsBox.appendChild(card);
+    });
+    resultStat.textContent = total + ' names in ' + lastGroups.length + ' teams';
+    resultPanel.style.display = 'block';
+    againBtn.style.display = 'inline-flex';
+    showNote(msg);
+  }
+
+  function copyGroups() {
+    var lines = lastGroups.map(function (g, idx) {
+      return 'Team ' + (idx + 1) + ': ' + g.join(', ');
+    });
+    var text = lines.join('\n');
+    function done() {
+      copyBtn.textContent = '✅ Copied!';
+      setTimeout(function () { copyBtn.textContent = '📋 Copy teams as text'; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
+  }
+
+  makeBtn.addEventListener('click', makeGroups);
+  againBtn.addEventListener('click', makeGroups);
+  copyBtn.addEventListener('click', copyGroups);
+  document.getElementById('sampleBtn').addEventListener('click', function () { sampleNames(); namesInput.focus(); showNote(''); });
+  document.getElementById('clearBtn').addEventListener('click', function () { namesInput.value = ''; resultPanel.style.display = 'none'; showNote(''); namesInput.focus(); });
+})();
+</script>
+</body>
+</html>

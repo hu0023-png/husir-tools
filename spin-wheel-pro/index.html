@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Lucky Spin Wheel &amp; Random Picker | HuSir Tools</title>
+<meta name="description" content="Create a colorful spinning wheel for games, decisions, classrooms, or events. No signup, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/spin-wheel-pro/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Lucky Spin Wheel & Random Picker">
+<meta property="og:description" content="Create a colorful spinning wheel for games, decisions, classrooms, or events. No signup, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/spin-wheel-pro/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Lucky Spin Wheel & Random Picker">
+<meta name="twitter:description" content="Create a colorful spinning wheel for games, decisions, classrooms, or events. No signup, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<script>
+/* Libraries are fetched from several CDNs in turn: cdn.jsdelivr.net is unreachable
+   on some networks (many China ISPs block or throttle it), and a library that never
+   arrived used to mean the tool failed silently -- Export did nothing, the chart
+   never drew, the preview stayed blank. Now a failed host falls through to the next,
+   and a call made before the library arrives is queued instead of being lost. */
+window.husirLib=(function(){var L={"html2canvas": ["https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"]},ready={},waiting={};
+function mark(n){ready[n]=!0;var q=waiting[n]||[];waiting[n]=[];for(var i=0;i<q.length;i++){try{q[i]()}catch(e){}}}
+function attempt(n,i){var a=L[n];if(i>=a.length)return;var s=document.createElement('script'),done=!1;
+function drop(){if(s.parentNode)s.parentNode.removeChild(s)}
+var t=setTimeout(function(){if(done)return;done=!0;drop();attempt(n,i+1)},8000);
+s.onload=function(){if(done)return;done=!0;clearTimeout(t);mark(n)};
+s.onerror=function(){if(done)return;done=!0;clearTimeout(t);drop();attempt(n,i+1)};
+s.src=a[i];document.head.appendChild(s)}
+for(var n in L){if(window[n])ready[n]=!0;else attempt(n,0)}
+return{isReady:function(n){return!!ready[n]},when:function(n,f){if(ready[n]){f();return}var q=waiting[n]=waiting[n]||[];if(q.indexOf(f)<0)q.push(f)}}})();
+</script>
+<script>
+/* html2canvas is always called with await/.then, so a call that arrives before the
+   library does can wait for it instead of throwing "html2canvas is not defined". */
+(function(){var n='html2canvas';if(window[n])return;
+var proxy=function(){var a=arguments,self=this;
+if(window[n]&&window[n]!==proxy)return window[n].apply(self,a);
+return new Promise(function(res,rej){var done=!1;
+var t=setTimeout(function(){if(done)return;done=!0;rej(new Error('html2canvas could not be downloaded - check your internet connection'))},30000);
+window.husirLib.when(n,function(){if(done)return;done=!0;clearTimeout(t);
+if(window[n]&&window[n]!==proxy){try{res(window[n].apply(self,a))}catch(e){rej(e)}}else{rej(new Error('html2canvas failed to load'))}})})};
+window[n]=proxy})();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .container { max-width: 700px; margin: 0 auto; }
+  h1 {
+    text-align: center; color: #fff; font-size: 32px; margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer; padding: 6px 12px; border-radius: 8px;
+    border: 2px dashed transparent; transition: all 0.2s;
+    outline: none; display: inline-block;
+  }
+  h1:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.1); }
+  h1:focus { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); }
+  .title-wrap { text-align: center; }
+  .title-hint {
+    display: block; text-align: center; color: rgba(255,255,255,0.5);
+    font-size: 11px; margin-bottom: 4px; transition: opacity 0.2s;
+  }
+  .subtitle { text-align: center; color: rgba(255,255,255,0.75); margin-bottom: 28px; font-size: 14px; }
+
+  /* ── Wheel Area ── */
+  .wheel-section {
+    display: flex; justify-content: center; margin-bottom: 28px;
+    position: relative;
+  }
+  .wheel-container {
+    position: relative; width: 420px; height: 420px;
+    max-width: 90vw; max-height: 90vw; z-index: 0;
+  }
+  .pointer {
+    position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+    z-index: 10; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+  }
+  .pointer svg { display: block; }
+  .wheel-rotate {
+    width: 100%; height: 100%; border-radius: 50%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25), inset 0 2px 8px rgba(255,255,255,0.1);
+    transition: none;
+  }
+  .wheel-rotate canvas {
+    width: 100%; height: 100%; border-radius: 50%; display: block;
+  }
+  .spin-btn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 20; width: 72px; height: 72px; border-radius: 50%;
+    border: 4px solid #e0e0e0; background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+    font-size: 18px; font-weight: 800; color: #e74c3c; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.8);
+    transition: all 0.12s; letter-spacing: 2px;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+    pointer-events: auto;
+  }
+  .spin-btn:hover { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+  .spin-btn:active { transform: translate(-50%, -50%) scale(0.94); }
+  .spin-btn:disabled {
+    background: linear-gradient(180deg, #ddd 0%, #ccc 100%);
+    color: #999; cursor: not-allowed; border-color: #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  /* ── Result Popup ── */
+  .result-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55); z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .result-overlay.show { opacity: 1; pointer-events: auto; }
+  .result-card {
+    background: #fff; border-radius: 20px; padding: 36px 40px; text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 380px; width: 90%;
+    animation: resultPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes resultPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .result-emoji { font-size: 64px; margin-bottom: 8px; }
+  .result-label { font-size: 14px; color: #999; margin-bottom: 4px; }
+  .result-name { font-size: 28px; font-weight: 800; color: #1a1a2e; margin-bottom: 20px; }
+  .result-close {
+    padding: 10px 32px; border-radius: 25px; border: none;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(102,126,234,0.4);
+    transition: all 0.15s;
+  }
+  .result-close:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(102,126,234,0.5); }
+
+  /* ── Confetti ── */
+  .confetti-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999; overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute; width: 12px; height: 12px; border-radius: 3px;
+    animation: confettiFall 2s ease-out forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(0) rotateZ(0deg) scale(1); opacity: 1; }
+    25%  { transform: translateY(25vh) rotateZ(180deg) translateX(30px) scale(1.2); opacity: 1; }
+    50%  { transform: translateY(50vh) rotateZ(360deg) translateX(-20px) scale(0.9); opacity: 0.9; }
+    75%  { transform: translateY(75vh) rotateZ(540deg) translateX(15px) scale(1.1); opacity: 0.6; }
+    100% { transform: translateY(105vh) rotateZ(720deg) translateX(-10px) scale(0.5); opacity: 0; }
+  }
+
+  /* ── Prize Edit Panel ── */
+  .panel {
+    background: #fff; border-radius: 16px; padding: 20px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12); margin-bottom: 20px;
+  }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .panel-header h3 { font-size: 16px; color: #333; }
+  .btn {
+    padding: 8px 18px; border-radius: 10px; border: none;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
+  .btn-edit { background: #f0f0f0; color: #555; }
+  .btn-edit:hover { background: #e0e0e0; }
+  .btn-add { background: #10b981; color: #fff; }
+  .btn-add:hover { background: #059669; }
+  .btn-export { background: #ec4899; color: #fff; }
+  .btn-export:hover { background: #db2777; }
+  .btn-reset { background: #f0f0f0; color: #666; }
+  .btn-reset:hover { background: #e0e0e0; }
+  .btn-done { background: #667eea; color: #fff; }
+  .btn-done:hover { background: #5a6fd6; }
+
+  .prize-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .prize-card {
+    background: #f9fafb; border-radius: 12px; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px; flex: 1 1 calc(50% - 5px);
+    min-width: 180px; transition: all 0.15s;
+  }
+  .prize-card .color-dot {
+    width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .prize-card .info { flex: 1; min-width: 0; }
+  .prize-card .pname { font-size: 14px; font-weight: 600; color: #333; }
+  .prize-card .pweight { font-size: 11px; color: #999; }
+  .prize-card .actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .prize-card .actions button {
+    width: 26px; height: 26px; border-radius: 6px; border: 1px solid #ddd;
+    background: #fff; cursor: pointer; font-size: 12px; color: #666;
+    transition: all 0.1s;
+  }
+  .prize-card .actions button:hover { background: #fef2f2; border-color: #fca5a5; color: #ef4444; }
+
+  .edit-form {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;
+  }
+  .edit-form .field { display: flex; flex-direction: column; gap: 4px; }
+  .edit-form .field label { font-size: 11px; color: #999; font-weight: 600; }
+  .edit-form .field input {
+    height: 36px; border: 2px solid #e0e0e0; border-radius: 8px;
+    padding: 0 10px; font-size: 14px; outline: none; width: 120px;
+    transition: border-color 0.15s;
+  }
+  .edit-form .field input:focus { border-color: #667eea; }
+  .edit-form .field input.wide { width: 200px; }
+
+  /* ── Win History ── */
+  .history-list { max-height: 260px; overflow-y: auto; }
+  .history-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border-radius: 10px; transition: background 0.15s;
+  }
+  .history-item:nth-child(odd) { background: #fafafa; }
+  .history-item .h-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .history-item .h-prize { font-weight: 600; font-size: 14px; color: #333; }
+  .history-item .h-time { margin-left: auto; font-size: 12px; color: #aaa; flex-shrink: 0; }
+  .history-empty { text-align: center; color: #bbb; padding: 30px 0; font-size: 14px; }
+
+  .actions-row { display: flex; gap: 10px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: #10b981; color: #fff; padding: 12px 24px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; z-index: 999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+
+  .shortcut-hint {
+    text-align: center; color: rgba(255,255,255,0.5); font-size: 11px; margin-bottom: 20px;
+  }
+  .shortcut-hint kbd {
+    background: rgba(255,255,255,0.15); border-radius: 4px; padding: 1px 6px;
+    font-family: inherit; font-size: 10px; border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  @media (max-width: 500px) {
+    .prize-card { flex: 1 1 100%; }
+    .edit-form .field input { width: 100%; }
+    .edit-form .field input.wide { width: 100%; }
+  }
+
+  /* Page background watermark */
+  .wm-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999; overflow: hidden;
+  }
+  .wm-overlay span {
+    position: absolute;
+    font-size: 36px; font-weight: 800;
+    color: rgba(255,255,255,0.13);
+    transform: rotate(-20deg);
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    user-select: none;
+  }
+  .upgrade-bar {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    background: rgba(255,255,255,0.12); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;
+    padding: 14px 20px; margin-top: 20px; color: rgba(255,255,255,0.85);
+    font-size: 14px;
+  }
+  .btn-upgrade {
+    background: #f59e0b; color: #7c2d12; padding: 10px 20px;
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all 0.15s; display: inline-block;
+  }
+  .btn-upgrade:hover { background: #fbbf24; transform: translateY(-1px); }
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Lucky Spin Wheel",
+  "description": "Create a colorful spinning wheel for games, decisions, classrooms, or events. No signup, no upload.",
+  "url": "https://www.husir.org/tools/spin-wheel-pro/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the spin random?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — each spin picks from the current list using a random draw in your browser, so every item has an equal chance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I change the items?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — edit the prize list at any time; the wheel always spins from the items you see."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the same person wins twice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spin again — or remove that item between spins for draws where each entry should win only once."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it need internet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the wheel works offline once the page is open."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it for decisions too?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely — put options such as restaurants or movies on the wheel and let the spin break the tie."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Lucky Spin Wheel", "item": "https://www.husir.org/tools/spin-wheel-pro/"}]}</script>
+</head>
+<body>
+
+<div class="wm-overlay" id="wmOverlay"></div>
+<script>
+(function() {
+  var ov = document.getElementById('wmOverlay');
+  var cw = Math.ceil(window.innerWidth / 380) + 1;
+  var rh = Math.ceil(window.innerHeight / 180) + 1;
+  var html = '';
+  for (var r = 0; r < rh; r++) {
+    for (var c = 0; c < cw; c++) {
+      html += '<span style="left:' + (c * 380 - 120) + 'px;top:' + (r * 180) + 'px;">FREE VERSION</span>';
+    }
+  }
+  ov.innerHTML = html;
+})();
+</script>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Lucky Spin Wheel</span></span></nav>
+
+  <div class="title-wrap">
+    <h1 id="pageTitle" contenteditable="true">🎰 Lucky Spin Wheel</h1>
+    <span class="title-hint">✎ Click to edit title</span>
+  </div>
+  <p class="subtitle">Click center to spin</p>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>A fun prize wheel for draws, giveaways, and everyday decisions: add the items you want, click the center to spin, and the wheel picks one fairly at random. Win history and a prize list help you run events, classroom activities, streams, and party games with confidence.</p>
+<p>It works offline and runs entirely on your device — you control the items, and the results never leave your browser.</p>
+<div class="faq">
+<p><strong>🎡 Is the spin random?</strong><br>Yes — each spin picks from the current list using a random draw in your browser, so every item has an equal chance.</p>
+<p><strong>✏️ Can I change the items?</strong><br>Yes — edit the prize list at any time; the wheel always spins from the items you see.</p>
+<p><strong>🏆 What if the same person wins twice?</strong><br>Spin again — or remove that item between spins for draws where each entry should win only once.</p>
+<p><strong>🌐 Does it need internet?</strong><br>No — the wheel works offline once the page is open.</p>
+<p><strong>🎲 Can I use it for decisions too?</strong><br>Absolutely — put options such as restaurants or movies on the wheel and let the spin break the tie.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Each spin is an independent random pick<br>Equal odds for every item on the list<br>Win history records past results on this device
+</div>
+</div>
+</details>
+
+<!-- Wheel -->
+  <div class="wheel-section">
+    <div class="wheel-container" id="wheelContainer">
+      <div class="pointer">
+        <svg width="36" height="32" viewBox="0 0 36 32">
+          <polygon points="18,32 0,0 36,0" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="wheel-rotate" id="wheelRotate">
+        <canvas id="wheelCanvas"></canvas>
+      </div>
+    </div>
+    <button class="spin-btn" id="spinBtn" title="Press Space to spin">Spin</button>
+  </div>
+
+  <p class="shortcut-hint">
+    💡 Keyboard: <kbd>Space</kbd> spin &nbsp; <kbd>E</kbd> edit prizes
+  </p>
+
+  <!-- Win History -->
+  <div class="panel">
+    <div class="panel-header">
+      <h3>🏆 Win History <span style="font-weight:400;color:#aaa;font-size:13px" id="winnerCount"></span></h3>
+      <button class="btn btn-reset btn-sm" onclick="clearHistory()">Clear History</button>
+    </div>
+    <div class="history-list" id="historyList">
+      <div class="history-empty">🎯 No winners yet. Give it a spin!</div>
+    </div>
+  </div>
+
+  <!-- Prize Management -->
+  <div class="panel" id="prizePanel">
+    <div class="panel-header">
+      <h3>🎁 Prizes</h3>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-add btn-sm" onclick="addPrize()">+ Add Prize</button>
+        <button class="btn btn-edit btn-sm" id="toggleEditBtn" onclick="toggleEdit()">✎ Edit</button>
+      </div>
+    </div>
+    <div class="prize-list" id="prizeList"></div>
+    <div id="editArea" style="display:none;margin-top:16px"></div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="actions-row">
+    <button class="btn btn-export" onclick="exportAsImage()">📸 Export Image</button>
+    <button class="btn btn-reset" onclick="resetAll()">🔄 Reset All</button>
+  </div>
+
+  <div class="upgrade-bar">
+    <span>🔒 Free version — exported images include a watermark · Pro $2.99 one-time, no subscription</span>
+    <span class="btn-upgrade" onclick="window.open('https://3350178180297.gumroad.com/l/luck-spin-wheel?_gl=1*f7t8ao*_ga*MjEzODU3NTM5Ny4xNzg1NjMwMjE2*_ga_6LJN6D94N6*czE3ODU2MzAyMTYkbzEkZzAkdDE3ODU2MzAyMTYkajYwJGwwJGgw')" style="cursor:pointer;">Unlock Pro →</span>
+  </div>
+  <div style="text-align:center;margin:10px auto 0;max-width:660px;padding:9px 16px;background:rgba(245,158,11,0.16);border:1px solid rgba(245,158,11,0.5);border-radius:12px;color:rgba(255,255,255,0.92);font-size:13.5px;font-weight:600;line-height:1.5">🎁 Free until Dec 31, 2026 &mdash; <a href="https://www.husir.org/pro-pack/" style="color:#fcd34d;font-weight:700;text-decoration:underline">get the no-watermark pack &rarr;</a></div>
+</div>
+
+<!-- Result Popup -->
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-card">
+    <div class="result-emoji" id="resultEmoji">🎉</div>
+    <div class="result-label">Congratulations!</div>
+    <div class="result-name" id="resultName"></div>
+    <button class="result-close" onclick="closeResult()">OK</button>
+  </div>
+</div>
+
+<div id="confettiContainer" class="confetti-container"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+const DEFAULT_PRIZES = [
+  { name: '🎉 1st Prize', weight: 2,  color: '#ef4444', stock: 2 },
+  { name: '🎁 2nd Prize', weight: 5,  color: '#f59e0b', stock: 3 },
+  { name: '🎈 3rd Prize', weight: 10, color: '#10b981', stock: 5 },
+  { name: '☕ Coffee Voucher', weight: 15, color: '#3b82f6', stock: 10 },
+  { name: '🍬 Snack Pack', weight: 18, color: '#f97316', stock: 15 },
+  { name: '📱 Phone Case', weight: 20, color: '#8b5cf6', stock: 20 },
+  { name: '🎫 Coupon', weight: 22, color: '#06b6d4', stock: 30 },
+  { name: '😊 Try Again', weight: 28, color: '#ec4899', stock: 999 },
+];
+
+const EMOJIS = ['🎉','🏆','✨','🎊','🥳','👏','💫','🌟','🎯','🎪'];
+
+let prizes = [];
+let winners = [];
+let currentRotation = 0;
+let isSpinning = false;
+let editMode = false;
+
+const SAVE_KEY_PRIZES  = 'lucky_wheel_prizes';
+const SAVE_KEY_WINNERS = 'lucky_wheel_winners';
+const SAVE_KEY_TITLE   = 'lucky_wheel_title';
+
+// ═══════════════════════════════════════
+//  PERSISTENCE
+// ═══════════════════════════════════════
+function saveAll() {
+  localStorage.setItem(SAVE_KEY_PRIZES,  JSON.stringify(prizes));
+  localStorage.setItem(SAVE_KEY_WINNERS, JSON.stringify(winners));
+}
+function loadAll() {
+  try {
+    const p = localStorage.getItem(SAVE_KEY_PRIZES);
+    if (p) prizes = JSON.parse(p);
+    const w = localStorage.getItem(SAVE_KEY_WINNERS);
+    if (w) winners = JSON.parse(w);
+  } catch(e) { /* ignore */ }
+  if (!prizes || prizes.length === 0) {
+    prizes = DEFAULT_PRIZES.map(p => ({...p}));
+  }
+  // migrate old data without stock field
+  prizes.forEach(p => {
+    if (p.stock === undefined) p.stock = 99;
+  });
+}
+function saveTitle() {
+  const t = document.getElementById('pageTitle').textContent.trim();
+  if (t) { localStorage.setItem(SAVE_KEY_TITLE, t); document.title = t; }
+}
+
+// ═══════════════════════════════════════
+//  CANVAS WHEEL DRAWING
+// ═══════════════════════════════════════
+function drawWheel(rotationDeg = 0) {
+  const canvas = document.getElementById('wheelCanvas');
+  const container = document.getElementById('wheelContainer');
+  const size = container.clientWidth;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  canvas.style.width = size + 'px';
+  canvas.style.height = size + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const cx = size / 2, cy = size / 2;
+  const radius = size / 2 - 6;
+
+  const totalWeight = prizes.reduce((s, p) => s + p.weight, 0);
+  // Normalize large values to avoid float precision issues
+  let rot = rotationDeg % 360;
+  if (rot < 0) rot += 360;
+  const rotationRad = rot * Math.PI / 180;
+  let startAngle = -Math.PI / 2 + rotationRad;
+
+  prizes.forEach(prize => {
+    const sliceAngle = (prize.weight / totalWeight) * 2 * Math.PI;
+    const endAngle = startAngle + sliceAngle;
+
+    // segment fill
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, radius, startAngle, endAngle);
+    ctx.closePath();
+    ctx.fillStyle = prize.color;
+    ctx.fill();
+
+    // segment border
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // text — placed near outer edge where segment is widest
+    const midAngle = startAngle + sliceAngle / 2;
+    const textRadius = radius * 0.62;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(midAngle);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0,0,0,0.45)';
+    ctx.shadowBlur = 3;
+
+    // truncate based on actual chord width at text radius
+    const chordWidth = 2 * textRadius * Math.sin(sliceAngle / 2);
+    const charW = 13;
+    const maxChars = Math.max(2, Math.floor(chordWidth / charW));
+    let label = prize.name;
+    if (label.length > maxChars) label = label.slice(0, maxChars - 1) + '…';
+    ctx.fillText(label, textRadius, 0);
+    ctx.restore();
+
+    startAngle = endAngle;
+  });
+
+  // outer ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // decorative dots on outer ring
+  const dotCount = 32;
+  for (let i = 0; i < dotCount; i++) {
+    const angle = (i / dotCount) * 2 * Math.PI - Math.PI / 2;
+    const dx = cx + Math.cos(angle) * (radius + 2);
+    const dy = cy + Math.sin(angle) * (radius + 2);
+    ctx.beginPath();
+    ctx.arc(dx, dy, 3.5, 0, 2 * Math.PI);
+    ctx.fillStyle = i % 2 === 0 ? '#ffd700' : '#fff';
+    ctx.fill();
+  }
+
+  // center hub
+  const grad = ctx.createRadialGradient(cx, cy, 6, cx, cy, 28);
+  grad.addColorStop(0, '#fff');
+  grad.addColorStop(0.7, '#f0f0f0');
+  grad.addColorStop(1, '#ddd');
+  ctx.beginPath();
+  ctx.arc(cx, cy, 28, 0, 2 * Math.PI);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.strokeStyle = '#ccc';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+}
+
+// ═══════════════════════════════════════
+//  SPIN LOGIC
+// ═══════════════════════════════════════
+function pickWinner() {
+  // only consider prizes that still have stock
+  const available = prizes.filter(p => p.stock > 0);
+  if (available.length === 0) return -1;
+  const totalWeight = available.reduce((s, p) => s + p.weight, 0);
+  let r = Math.random() * totalWeight;
+  for (let i = 0; i < available.length; i++) {
+    r -= available[i].weight;
+    if (r <= 0) return prizes.indexOf(available[i]);
+  }
+  return prizes.indexOf(available[available.length - 1]);
+}
+
+function getSegmentCenterAngle(index) {
+  const totalWeight = prizes.reduce((s, p) => s + p.weight, 0);
+  let cumAngle = -Math.PI / 2;
+  for (let i = 0; i < index; i++) {
+    cumAngle += (prizes[i].weight / totalWeight) * 2 * Math.PI;
+  }
+  const segAngle = (prizes[index].weight / totalWeight) * 2 * Math.PI;
+  return cumAngle + segAngle / 2;
+}
+
+function spin() {
+  if (isSpinning || prizes.length === 0) return;
+
+  // check if any prize still has stock
+  const available = prizes.filter(p => p.stock > 0);
+  if (available.length === 0) {
+    showToast('🎯 All prizes sold out! Increase stock to continue.');
+    return;
+  }
+
+  isSpinning = true;
+
+  const btn = document.getElementById('spinBtn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  const winnerIdx = pickWinner();
+  const centerAngle = getSegmentCenterAngle(winnerIdx); // canvas radians (0=3 o'clock)
+
+  // Convert to degrees from top clockwise
+  let degreesFromTop = ((centerAngle + Math.PI / 2) * 180) / Math.PI;
+
+  // Calculate target rotation to bring winning segment to pointer
+  let targetDeg = (360 - degreesFromTop) % 360;
+  if (targetDeg < 0) targetDeg += 360;
+
+  // jitter within segment
+  const totalWeight = prizes.reduce((s, p) => s + p.weight, 0);
+  const segWidth = (prizes[winnerIdx].weight / totalWeight) * 360;
+  const jitter = (Math.random() - 0.5) * segWidth * 0.4;
+  targetDeg += jitter;
+
+  // Add extra full spins then animate via canvas redraw
+  const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
+  const delta = ((targetDeg - (currentRotation % 360)) % 360 + 360) % 360;
+  const finalTarget = currentRotation + fullSpins + delta;
+
+  animateSpin(finalTarget, winnerIdx);
+}
+
+function animateSpin(targetDeg, winnerIdx) {
+  const startDeg = currentRotation;
+  const duration = 5000;
+  const startTime = performance.now();
+
+  function easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4);
+  }
+
+  function tick(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    const eased = easeOutQuart(t);
+    currentRotation = startDeg + (targetDeg - startDeg) * eased;
+
+    // Redraw wheel with rotation baked into canvas (no CSS transform)
+    drawWheel(currentRotation);
+
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      currentRotation = targetDeg;
+      drawWheel(currentRotation);
+      onSpinComplete(winnerIdx);
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function onSpinComplete(winnerIdx) {
+  const prize = prizes[winnerIdx];
+
+  // record winner
+  winners.unshift({
+    prize: prize.name,
+    color: prize.color,
+    time: new Date().toLocaleTimeString('en-US', { hour12: false }),
+  });
+
+  // decrement stock
+  prize.stock = Math.max(0, prize.stock - 1);
+
+  // show result
+  document.getElementById('resultName').textContent = prize.name;
+  document.getElementById('resultEmoji').textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+  document.getElementById('resultOverlay').classList.add('show');
+
+  // auto-focus close button so Enter key dismisses the overlay
+  setTimeout(() => {
+    const closeBtn = document.querySelector('.result-close');
+    if (closeBtn) closeBtn.focus();
+  }, 50);
+
+  // confetti
+  launchConfetti();
+
+  // reset state
+  isSpinning = false;
+  const btn = document.getElementById('spinBtn');
+  btn.disabled = false;
+  btn.textContent = 'Spin';
+
+  // update UI without redrawing wheel (preserve rotation position)
+  renderPrizeList();
+  renderEditArea();
+  updateHistory();
+
+  // toast if prize just ran out
+  if (prize.stock <= 0) {
+    setTimeout(() => showToast(`⚠️ 「${prize.name}」is sold out and will be skipped.`), 600);
+  }
+  saveAll();
+}
+
+function closeResult() {
+  document.getElementById('resultOverlay').classList.remove('show');
+}
+
+// ═══════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#f59e0b','#fbbf24','#ef4444','#3b82f6','#10b981','#ec4899','#8b5cf6','#f97316','#06b6d4','#84cc16','#e11d48','#facc15'];
+  const frag = document.createDocumentFragment();
+
+  for (let i = 0; i < 150; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.top = -(Math.random() * 300 + 30) + 'px';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    const sz = Math.random() * 14 + 6;
+    piece.style.width = sz + 'px';
+    piece.style.height = (Math.random() * 0.5 + 0.5) * sz + 'px';
+    piece.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+    piece.style.animationDelay = Math.random() * 0.6 + 's';
+    frag.appendChild(piece);
+  }
+
+  // gold pieces
+  for (let i = 0; i < 20; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.top = -(Math.random() * 150 + 30) + 'px';
+    piece.style.background = ['#f59e0b','#fbbf24','#facc15'][Math.floor(Math.random() * 3)];
+    piece.style.width = (Math.random() * 18 + 12) + 'px';
+    piece.style.height = (Math.random() * 18 + 12) + 'px';
+    piece.style.borderRadius = '4px';
+    piece.style.boxShadow = '0 0 8px rgba(245,158,11,0.5)';
+    piece.style.animationDuration = (Math.random() * 1.2 + 2.2) + 's';
+    piece.style.animationDelay = Math.random() * 0.3 + 's';
+    frag.appendChild(piece);
+  }
+
+  container.appendChild(frag);
+  setTimeout(() => { container.innerHTML = ''; }, 4000);
+}
+
+// ═══════════════════════════════════════
+//  UI RENDERING
+// ═══════════════════════════════════════
+function renderPrizeList() {
+  const el = document.getElementById('prizeList');
+  if (editMode) {
+    el.innerHTML = prizes.map((p, i) => `
+      <div class="prize-card" style="${p.stock <= 0 ? 'opacity:0.5' : ''}">
+        <div class="color-dot" style="background:${p.color}"></div>
+        <div class="info">
+          <div class="pname">${esc(p.name)} ${p.stock <= 0 ? '<span style="color:#ef4444;font-size:11px">Sold Out</span>' : ''}</div>
+          <div class="pweight">Weight: ${p.weight} &nbsp;|&nbsp; Stock: <b style="color:${p.stock > 0 ? '#10b981' : '#ef4444'}">${p.stock}</b></div>
+        </div>
+        <div class="actions">
+          <button onclick="removePrize(${i})" title="Delete">×</button>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    el.innerHTML = prizes.map(p => `
+      <div class="prize-card" style="${p.stock <= 0 ? 'opacity:0.5' : ''}">
+        <div class="color-dot" style="background:${p.color}"></div>
+        <div class="info">
+          <div class="pname">${esc(p.name)} ${p.stock <= 0 ? '<span style="color:#ef4444;font-size:11px">Sold Out</span>' : ''}</div>
+          <div class="pweight">Weight: ${p.weight} &nbsp;|&nbsp; Stock: <b style="color:${p.stock > 0 ? '#10b981' : '#ef4444'}">${p.stock}</b></div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function renderEditArea() {
+  const area = document.getElementById('editArea');
+  if (!editMode) { area.style.display = 'none'; return; }
+  area.style.display = 'block';
+  area.innerHTML = prizes.map((p, i) => `
+    <div class="edit-form" style="margin-bottom:10px;padding:12px;background:#f9fafb;border-radius:10px">
+      <div class="field"><label>Color</label><input type="color" value="${p.color}" onchange="updatePrizeField(${i},'color',this.value)" style="width:48px;height:36px;padding:2px"></div>
+      <div class="field"><label>Prize Name</label><input type="text" class="wide" value="${esc(p.name)}" onchange="updatePrizeField(${i},'name',this.value)"></div>
+      <div class="field"><label>Weight</label><input type="number" min="1" max="100" value="${p.weight}" onchange="updatePrizeField(${i},'weight',parseInt(this.value)||1)" style="width:70px"></div>
+      <div class="field"><label>Qty (Stock)</label><input type="number" min="1" max="9999" value="${p.stock || 0}" onchange="updatePrizeField(${i},'stock',parseInt(this.value)||0)" style="width:80px"></div>
+      <button class="btn btn-reset btn-sm" onclick="removePrize(${i})" style="align-self:flex-end;margin-bottom:2px">Delete</button>
+    </div>
+  `).join('') + `
+    <button class="btn btn-add btn-sm" onclick="addPrize()" style="margin-top:6px">+ Add Prize</button>
+    <button class="btn btn-done btn-sm" onclick="toggleEdit()" style="margin-top:6px;margin-left:6px">✓ Done Editing</button>
+  `;
+}
+
+function updateHistory() {
+  const list = document.getElementById('historyList');
+  const count = document.getElementById('winnerCount');
+  count.textContent = winners.length > 0 ? `(${winners.length} wins)` : '';
+
+  if (winners.length === 0) {
+    list.innerHTML = '<div class="history-empty">🎯 No winners yet. Give it a spin!</div>';
+    return;
+  }
+
+  list.innerHTML = winners.map(w => `
+    <div class="history-item">
+      <div class="h-dot" style="background:${w.color}"></div>
+      <span class="h-prize">${esc(w.prize)}</span>
+      <span class="h-time">${w.time}</span>
+    </div>
+  `).join('');
+}
+
+function updateAll() {
+  drawWheel(currentRotation);
+  renderPrizeList();
+  renderEditArea();
+  updateHistory();
+}
+
+// ═══════════════════════════════════════
+//  PRIZE CRUD
+// ═══════════════════════════════════════
+function toggleEdit() {
+  editMode = !editMode;
+  const btn = document.getElementById('toggleEditBtn');
+  btn.textContent = editMode ? '✓ Done' : '✎ Edit';
+  btn.className = 'btn ' + (editMode ? 'btn-done' : 'btn-edit') + ' btn-sm';
+  updateAll();
+}
+
+const WHEEL_COLORS = ['#ef4444','#f59e0b','#10b981','#3b82f6','#f97316','#8b5cf6','#ec4899','#06b6d4','#84cc16','#6366f1','#e11d48','#14b8a6'];
+
+function addPrize() {
+  const color = WHEEL_COLORS[prizes.length % WHEEL_COLORS.length];
+  prizes.push({ name: 'New Prize', weight: 10, color, stock: 10 });
+  if (!editMode) toggleEdit();
+  updateAll();
+  saveAll();
+}
+
+function removePrize(index) {
+  if (prizes.length <= 2) { showToast('⚠️ Keep at least 2 prizes'); return; }
+  prizes.splice(index, 1);
+  updateAll();
+  saveAll();
+}
+
+function updatePrizeField(index, field, value) {
+  prizes[index][field] = value;
+  updateAll();
+  saveAll();
+}
+
+// ═══════════════════════════════════════
+//  MISC
+// ═══════════════════════════════════════
+function clearHistory() {
+  if (!winners.length) return;
+  if (!confirm('Clear all win history?')) return;
+  winners = [];
+  updateHistory();
+  saveAll();
+}
+
+function resetAll() {
+  if (!confirm('Reset all prizes and win history?')) return;
+  prizes = DEFAULT_PRIZES.map(p => ({...p}));
+  winners = [];
+  currentRotation = 0;
+  editMode = false;
+  document.getElementById('toggleEditBtn').textContent = '✎ Edit';
+  document.getElementById('toggleEditBtn').className = 'btn btn-edit btn-sm';
+  document.getElementById('spinBtn').textContent = 'Spin';
+  updateAll();
+  saveAll();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+async function exportAsImage() {
+  const container = document.querySelector('.container');
+  const origBg = container.style.background;
+  const origMaxW = container.style.maxWidth;
+  const origPad = container.style.padding;
+  const origOverflow = document.body.style.overflow;
+
+  container.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+  container.style.maxWidth = '700px';
+  container.style.padding = '20px';
+  container.style.margin = '0 auto';
+  document.body.style.overflow = 'visible';
+
+  try {
+    const rawCanvas = await html2canvas(container, {
+      backgroundColor: null,
+      scale: 2,
+      useCORS: true,
+      logging: false,
+    });
+
+    // Composite onto solid background so watermark is visible
+    const canvas = document.createElement('canvas');
+    canvas.width = rawCanvas.width;
+    canvas.height = rawCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#667eea';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(rawCanvas, 0, 0);
+
+    // Draw watermark
+    ctx.save();
+    ctx.globalAlpha = 1.0;
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(-0.35);
+    for (let i = -2; i <= 2; i++) {
+      for (let j = -3; j <= 3; j++) {
+        ctx.fillText('FREE VERSION', i * 400, j * 280);
+      }
+    }
+    ctx.restore();
+    const title = document.getElementById('pageTitle').textContent.trim() || 'Lucky Spin Wheel';
+    const a = document.createElement('a');
+    a.download = `${title}_${new Date().toISOString().slice(0,10)}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+    showToast('✅ Image generated, downloading...');
+  } catch(e) {
+    showToast('⚠️ Export failed. Please retry.');
+  } finally {
+    container.style.background = origBg;
+    container.style.maxWidth = origMaxW;
+    container.style.padding = origPad;
+    container.style.margin = '';
+    document.body.style.overflow = origOverflow;
+  }
+}
+
+// ═══════════════════════════════════════
+//  TITLE EDITING
+// ═══════════════════════════════════════
+(function initTitle() {
+  const el = document.getElementById('pageTitle');
+  const saved = localStorage.getItem(SAVE_KEY_TITLE);
+  if (saved && saved.trim()) { el.textContent = saved.trim(); document.title = saved.trim(); }
+  el.addEventListener('blur', saveTitle);
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+})();
+
+// ═══════════════════════════════════════
+//  KEYBOARD
+// ═══════════════════════════════════════
+document.addEventListener('keydown', e => {
+  const tag = document.activeElement.tagName;
+  const isEditable = document.activeElement.isContentEditable || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+  if (isEditable) return;
+
+  switch (e.key) {
+    case ' ':
+      e.preventDefault();
+      spin();
+      break;
+    case 'e':
+    case 'E':
+      e.preventDefault();
+      toggleEdit();
+      break;
+    case 'Escape':
+    case 'Enter':
+      if (document.getElementById('resultOverlay').classList.contains('show')) {
+        e.preventDefault();
+        closeResult();
+      }
+      break;
+  }
+});
+
+// click overlay background to close
+document.getElementById('resultOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeResult();
+});
+
+// ═══════════════════════════════════════
+//  RESIZE HANDLER
+// ═══════════════════════════════════════
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => drawWheel(currentRotation), 200);
+});
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+loadAll();
+requestAnimationFrame(() => {
+  drawWheel(currentRotation);
+  renderPrizeList();
+  renderEditArea();
+  updateHistory();
+});
+
+// Spin button click handler
+document.getElementById('spinBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  spin();
+});
+</script>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../candidate-counter-pro/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5F3;&#xFE0F; Candidate Vote Counter</a><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a><a href="../random-group-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F465; Random Group Generator</a><a href="../secret-santa-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🎅 Secret Santa Generator</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.55);font-size:13px;text-decoration:none;">🛠 More free tools →</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fantasy Football Draft Kit | HuSir Tools</title>
+<meta name="description" content="Fantasy football team name generator and snake draft order randomizer. Spin up fun team names or draw a fair draft order for your league — private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/fantasy-football-draft/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Fantasy Football Draft Kit">
+<meta property="og:description" content="Fantasy football team name generator and snake draft order randomizer. Spin up fun team names or draw a fair draft order for your league — private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/fantasy-football-draft/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fantasy Football Draft Kit">
+<meta name="twitter:description" content="Fantasy football team name generator and snake draft order randomizer. Spin up fun team names or draw a fair draft order for your league — private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+textarea,input[type=text]{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc}
+textarea:focus,input:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;min-height:120px;line-height:1.7}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.note{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.name-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.name-item{background:#f8faff;border:2px solid #e6e9f5;border-radius:10px;padding:10px 12px;font-size:14px;font-weight:700;color:#4c1d95;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.name-item .keep{cursor:pointer;border:none;background:#ede9fe;color:#4c1d95;border-radius:8px;padding:5px 9px;font-size:11px;font-weight:700;font-family:inherit;white-space:nowrap}
+.name-item .keep.saved{background:#10b981;color:#fff}
+.fav-box{margin-top:12px;display:none}
+.fav-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fav-chip{background:#ede9fe;color:#4c1d95;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
+.order-list{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.order-item{display:flex;align-items:center;gap:10px;background:#f8faff;border:2px solid #e6e9f5;border-radius:10px;padding:9px 12px;font-size:14px;color:#333}
+.order-item .rank{min-width:30px;height:30px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:800;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+.order-item .nm{font-weight:600;flex:1}
+.pick-num{font-size:12px;color:#9aa3b5}
+.snake-note{font-size:13px;color:#666;background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;line-height:1.6}
+.hint{font-size:12px;color:#9aa3b5;margin-top:6px;line-height:1.5}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.name-list{grid-template-columns:1fr}.btn{min-height:44px;padding-left:14px;padding-right:14px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],input[type=text],textarea{min-height:44px}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fantasy Football Draft Kit",
+  "description": "Fantasy football team name generator and snake draft order randomizer. Spin up fun team names or draw a fair draft order for your league — private, offline, no upload.",
+  "url": "https://www.husir.org/tools/fantasy-football-draft/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does a snake draft order work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With 10 teams, round 1 runs 1 → 10 and round 2 runs 10 → 1. The tool lists both directions so everyone can see their first-round and second-round picks at a glance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the draft order really random?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the Fisher–Yates shuffle gives every ordering an equal chance, so a draw can't be rigged or accidentally biased."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do the team names come from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The generator mixes a library of football puns with owner names you enter. Save the ones you like and copy them to your league site or group chat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is anything uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Names and draft results are processed entirely in your browser and never sent anywhere."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I share the results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — copy the numbered draft order or the saved team names as plain text for your league group."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Fantasy Football Draft Kit", "item": "https://www.husir.org/tools/fantasy-football-draft/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Fantasy Football Draft Kit</span></span></nav>
+
+<div class="title-wrap">
+<h1>🏈 Fantasy Football Draft Kit</h1>
+<p class="subtitle">Team name generator &middot; snake draft order randomizer</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Draft day has two chores that can eat a whole evening: picking a funny team name and arguing about who picks first. This kit does both in one page. The team-name generator blends evergreen football puns with your league-mates' names (add your own for custom roast material), then the draft-order randomizer runs a true Fisher–Yates shuffle so the No. 1 pick is decided by luck, not by who shouted loudest.</p>
+<p>Every standard league drafts in a snake: the manager with pick 1 also gets pick 2N in round two, while the last pick in round 1 picks first in round 2 — the tool shows that reverse order automatically. Everything runs locally: no account, no app, no upload, works offline at the draft table.</p>
+<div class="faq">
+<p><strong>🏆 How does a snake draft order work?</strong><br>With 10 teams, round 1 runs 1 → 10 and round 2 runs 10 → 1. The tool lists both directions so everyone can see their first-round and second-round picks at a glance.</p>
+<p><strong>🎲 Is the draft order really random?</strong><br>Yes — the Fisher–Yates shuffle gives every ordering an equal chance, so a draw can't be rigged or accidentally biased.</p>
+<p><strong>😄 Where do the team names come from?</strong><br>The generator mixes a library of football puns with owner names you enter. Save the ones you like and copy them to your league site or group chat.</p>
+<p><strong>🔒 Is anything uploaded?</strong><br>No. Names and draft results are processed entirely in your browser and never sent anywhere.</p>
+<p><strong>📋 Can I share the results?</strong><br>Yes — copy the numbered draft order or the saved team names as plain text for your league group.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Snake: pick P in round R (1-based) = (R odd) ? P : (N + 1 − P).<br>
+Draft spot 1 gets the "1.01" label, spot 5 in a 10-team league gets "1.05" then "2.06".<br>
+Fisher–Yates: swap each position i with a random j ≥ i, from the end backwards.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>🎲 Draft order</h3></div>
+  <textarea id="managers" placeholder="One league manager per line, for example:&#10;Alex&#10;Brian&#10;Chris&#10;Dana&#10;..." aria-label="League managers"></textarea>
+  <div class="btn-row">
+    <button class="btn btn-ghost" id="loadNames" type="button">Use the team names below as managers</button>
+    <button class="btn btn-primary" id="drawBtn" type="button">🎲 Draw the order</button>
+    <button class="btn btn-ghost" id="copyOrder" type="button" style="display:none">📋 Copy order</button>
+  </div>
+  <div class="note" id="orderNote"></div>
+  <ol class="order-list" id="orderList"></ol>
+  <div class="snake-note" id="snakeNote" style="display:none"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>😄 Team names</h3></div>
+  <div class="field-label">Add league-mates for personalized name ideas (optional)</div>
+  <input type="text" id="ownerInput" placeholder="e.g. Alex" aria-label="Owner name for personalized team names">
+  <div class="btn-row">
+    <button class="btn btn-primary" id="genNames" type="button">✨ Generate 8 names</button>
+    <button class="btn btn-ghost" id="clearFavs" type="button">Clear saved</button>
+  </div>
+  <div class="name-list" id="nameList"></div>
+  <div class="fav-box" id="favBox">
+    <div class="field-label" style="margin-top:6px">⭐ Saved names</div>
+    <div class="fav-list" id="favList"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-ghost" id="copyFavs" type="button" style="display:none">📋 Copy saved names</button>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../march-madness-bracket/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C0; March Madness Bracket</a><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a><a href="../spin-wheel-pro/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A1; Lucky Spin Wheel</a><a href="../poll-vote-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E3; Poll &amp; Vote Counter</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+(function () {
+  var PUN_NAMES = [
+    'The Gridiron Gremlins', 'Fourth & Longshots', 'Red Zone Renegades', 'The Pigskin Prophets',
+    'Turf War Veterans', 'Hail Mary Society', 'The End Zone Tyrants', 'Blitz & Pieces',
+    'The Touchdown Tycoons', 'The Two-Minute Warnings', 'Bench Press Legends', 'The Offside Outlaws',
+    'The Monday Morning Quarterbacks', 'The Red Zone Redemptors', 'Sacked & Stacked', 'The Air Raid Army',
+    'The Goal Line Gourmets', 'Pump Fake University', 'The Read-Option Renegades', 'The Fumble Fellowship',
+    'Gridiron Gourmet', 'The Coverage Cobras', 'The Field Goal Fanatics', 'The Late-Round Heroes',
+    'The Waiver Wire Wonders', 'The Keeper League Kings', 'The Trade Deadline Titans', 'The Zero RB Society',
+    'The All-Hype All-Stars', 'The Dynasty Dads', 'The Roster Busters', 'The Sleeper Agents',
+    'The Injury Report All-Stars', 'The Flex Friday Crew', 'The Bye Week Bandits', 'The Stream Team',
+    'The Cuff Kings', 'The Handcuff Heroes', 'The QBs & Chill', 'The Extra Point Excess',
+    'The Onside Kick Rebels', 'The Snow Game Survivors', 'The Primetime Punchers', 'The No-Huddle Nuisances',
+    'The Goalpost Grabbers', 'The Victory Formation Club', 'The Garbage Time Gods', 'The Auction House Aces',
+    'The Round-of-Your-Dreams Society', 'The 1.01 Club'
+  ];
+  var OWNER_TEMPLATES = [
+    '{o}\'s Touchdown Machine', '{o}\'s Hail Marys', 'The {o} Offense', '{o}\'s End Zone Empire',
+    '{o} & the Gridiron Gang', 'Fear & Loathing in {o}\'s League', '{o}\'s Two-Minute Drill',
+    '{o}\'s Red Zone Raiders', 'The {o} Air Raid', '{o}\'s Primetime Players', '{o}\'s Blitz Brigade',
+    'Show Me the {o}s', '{o}\'s Keeper Crew', '{o}\'s Waiver Wonders', 'The {o} Special Teams',
+    '{o}\'s Victory Lap', 'Dynasty {o} Dynasty', '{o}\'s Fourth Quarter Cometh', 'The {o} Stat Line',
+    '{o}\'s Championship Chase'
+  ];
+  var managers = document.getElementById('managers');
+  var loadNamesBtn = document.getElementById('loadNames');
+  var drawBtn = document.getElementById('drawBtn');
+  var copyOrderBtn = document.getElementById('copyOrder');
+  var orderNote = document.getElementById('orderNote');
+  var orderList = document.getElementById('orderList');
+  var snakeNote = document.getElementById('snakeNote');
+  var ownerInput = document.getElementById('ownerInput');
+  var genNames = document.getElementById('genNames');
+  var clearFavs = document.getElementById('clearFavs');
+  var copyFavs = document.getElementById('copyFavs');
+  var nameList = document.getElementById('nameList');
+  var favBox = document.getElementById('favBox');
+  var favList = document.getElementById('favList');
+  var favs = [];
+  var lastOrder = [];
+  var lastNames = [];
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+  function parseLines(el) {
+    var seen = {}, out = [];
+    el.value.split('\n').forEach(function (l) {
+      var s = l.trim();
+      if (s && !seen[s]) { seen[s] = true; out.push(s); }
+    });
+    return out;
+  }
+  function show(note, msg) { note.style.display = msg ? 'block' : 'none'; note.textContent = msg || ''; }
+
+  function drawOrder() {
+    var names = parseLines(managers);
+    if (names.length < 2) { show(orderNote, 'Add at least two managers to draw an order.'); orderList.innerHTML = ''; snakeNote.style.display = 'none'; return; }
+    show(orderNote, '');
+    lastOrder = shuffle(names.slice());
+    orderList.innerHTML = '';
+    lastOrder.forEach(function (n, i) {
+      var li = document.createElement('li');
+      li.className = 'order-item';
+      var rank = document.createElement('span');
+      rank.className = 'rank';
+      rank.textContent = i + 1;
+      var nm = document.createElement('span');
+      nm.className = 'nm';
+      nm.textContent = n;
+      var pick = document.createElement('span');
+      pick.className = 'pick-num';
+      pick.textContent = '1.' + ('0' + (i + 1)).slice(-2) + ' → 2.' + ('0' + (lastOrder.length - i)).slice(-2);
+      li.appendChild(rank); li.appendChild(nm); li.appendChild(pick);
+      orderList.appendChild(li);
+    });
+    snakeNote.style.display = 'block';
+    snakeNote.innerHTML = '<b>Snake draft:</b> round 1 picks ' + lastOrder.map(function (n, i) { return (i + 1) + '. ' + n; }).join(' · ') + '.<br>Round 2 reverses the order: pick 2.01 goes to the manager who drew last in round 1.';
+    copyOrderBtn.style.display = 'inline-flex';
+  }
+  drawBtn.addEventListener('click', drawOrder);
+
+  copyOrderBtn.addEventListener('click', function () {
+    var txt = 'Draft order\n' + lastOrder.map(function (n, i) { return (i + 1) + '. ' + n; }).join('\n') + '\n\nSnake round 2:\n' + lastOrder.slice().reverse().map(function (n, i) { return (i + 1) + '. ' + n; }).join('\n');
+    copyText(txt, copyOrderBtn, '✅ Copied!', '📋 Copy order');
+  });
+
+  function pickOwner() {
+    var o = ownerInput.value.trim();
+    if (o) return o;
+    var m = parseLines(managers);
+    return m.length ? m[Math.floor(Math.random() * m.length)] : '';
+  }
+
+  function genTeamNames() {
+    var out = [];
+    var owner = pickOwner();
+    var pool = PUN_NAMES.slice();
+    while (out.length < 8) {
+      if (pool.length === 0) pool = PUN_NAMES.slice();
+      var idx = Math.floor(Math.random() * pool.length);
+      out.push(pool.splice(idx, 1)[0]);
+    }
+    if (owner) {
+      var t = OWNER_TEMPLATES[Math.floor(Math.random() * OWNER_TEMPLATES.length)];
+      out.splice(Math.floor(Math.random() * out.length), 0, t.replace(/\{o\}/g, owner));
+    }
+    lastNames = out;
+    renderNames();
+  }
+  function renderNames() {
+    nameList.innerHTML = '';
+    lastNames.forEach(function (n) {
+      var item = document.createElement('div');
+      item.className = 'name-item';
+      var span = document.createElement('span');
+      span.textContent = n;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'keep' + (favs.indexOf(n) > -1 ? ' saved' : '');
+      btn.textContent = favs.indexOf(n) > -1 ? '✓ Saved' : '★ Save';
+      btn.addEventListener('click', function () {
+        var i = favs.indexOf(n);
+        if (i > -1) { favs.splice(i, 1); btn.className = 'keep'; btn.textContent = '★ Save'; }
+        else { favs.push(n); btn.className = 'keep saved'; btn.textContent = '✓ Saved'; }
+        renderFavs();
+      });
+      item.appendChild(span); item.appendChild(btn);
+      nameList.appendChild(item);
+    });
+  }
+  function renderFavs() {
+    favList.innerHTML = '';
+    favs.forEach(function (n) {
+      var c = document.createElement('span');
+      c.className = 'fav-chip';
+      c.textContent = n;
+      favList.appendChild(c);
+    });
+    favBox.style.display = favs.length ? 'block' : 'none';
+    copyFavs.style.display = favs.length ? 'inline-flex' : 'none';
+  }
+  genNames.addEventListener('click', function () { genTeamNames(); });
+  clearFavs.addEventListener('click', function () { favs = []; renderFavs(); renderNames(); });
+
+  loadNamesBtn.addEventListener('click', function () {
+    if (!lastNames.length) genTeamNames();
+    managers.value = lastNames.join('\n');
+    show(orderNote, 'Managers loaded — click "Draw the order" when ready.');
+  });
+
+  copyFavs.addEventListener('click', function () {
+    copyText(favs.join('\n'), copyFavs, '✅ Copied!', '📋 Copy saved names');
+  });
+
+  function copyText(text, btn, ok, normal) {
+    function done() { btn.textContent = ok; setTimeout(function () { btn.textContent = normal; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+    } else fb(text, done);
+  }
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
+  }
+
+  genTeamNames();
+  renderFavs();
+})();
+</script>
+</body>
+</html>

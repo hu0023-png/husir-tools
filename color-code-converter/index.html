@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F308; Color Code Converter | HuSir Tools</title>
+<meta name="description" content="Convert colors between HEX, RGB, and HSL instantly: paste any color code or pick one, see the swatch, and copy CSS-ready values. Supports alpha. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/color-code-converter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🌈 Color Code Converter">
+<meta property="og:description" content="Convert colors between HEX, RGB, and HSL instantly: paste any color code or pick one, see the swatch, and copy CSS-ready values. Supports alpha. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/color-code-converter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🌈 Color Code Converter">
+<meta name="twitter:description" content="Convert colors between HEX, RGB, and HSL instantly: paste any color code or pick one, see the swatch, and copy CSS-ready values. Supports alpha. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=text]{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;outline:none;background:#fafbfc;color:#1a1a2e}
+input[type=text]:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.swatch{position:relative;height:96px;border-radius:14px;border:2px solid #e6e9f5;overflow:hidden;background-image:conic-gradient(#d8dce8 0 25%,#fff 0 50%,#d8dce8 0 75%,#fff 0);background-size:16px 16px}
+.swatch .fill{position:absolute;inset:0}
+.pick-row{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+.pick-row input[type=color]{width:58px;height:44px;border:2px solid #e0e0e0;border-radius:10px;background:#fff;padding:3px;cursor:pointer}
+.out-card{display:flex;align-items:center;gap:10px;margin-top:10px}
+.out-card .lbl{width:46px;font-size:12px;font-weight:800;color:#7c86a0;letter-spacing:.5px}
+.out-card input{flex:1;min-width:0}
+.out-card .btn{padding:9px 14px;font-size:12.5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid #e0e0e0;background:#f8fafc;border-radius:999px;padding:6px 13px;font-size:12.5px;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover{border-color:#667eea;color:#4c1d95;background:#eef2ff}
+.status-ok{font-size:12.5px;color:#059669;font-weight:600;margin-right:12px}
+.status-err{font-size:12.5px;color:#dc2626;font-weight:600}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🌈 Color Code Converter",
+  "description": "Convert colors between HEX, RGB, and HSL instantly: paste any color code or pick one, see the swatch, and copy CSS-ready values. Supports alpha. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/color-code-converter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "💡 Why convert to HSL?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HSL splits a color into hue, saturation, and lightness, so you can lighten or darken a palette, raise saturation, or generate tints of a brand color without guessing at RGB numbers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🎨 Which formats are accepted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "#RGB, #RRGGBB, 4/8-digit hex with alpha, rgb()/rgba(), hsl()/hsla(), percentages, and modern space syntax like rgb(118 75 162 / 0.5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔄 Will my color change when converted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only within 8-bit rounding: HEX stores each channel as 0–255, so conversions may differ by 1 unit in a channel from the original decimal. Visually indistinguishable in practice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📖 What about CSS names like “red”?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Named colors are not parsed here. Use the color picker or paste the HEX/RGB/HSL value from your editor to convert a specific named color."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Does this tool upload my colors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Parsing and conversion run entirely in your browser with zero network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Color Code Converter", "item": "https://www.husir.org/tools/color-code-converter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Color Code Converter</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F308; Color Code Converter</h1>
+<p class="subtitle">HEX &#8596; RGB &#8596; HSL &middot; alpha supported &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>One color, many spellings. A purple picked in Figma comes out as <code>#764BA2</code>; the same color in CSS might need <code>rgb(118, 75, 162)</code>, and tweaking it &#8212; making it a bit lighter without changing the hue &#8212; is far easier in <code>hsl(270, 37%, 46%)</code>. This converter accepts any of those formats, shows the color on a live swatch, and writes all three representations with one click to copy.</p>
+<p>Paste a code from any tool, type one directly, or use the color picker to explore. HEX and RGB are the same 0&#8211;255 red/green/blue model in different notation; HSL describes the same color by hue (0&#8211;360&#176;), saturation, and lightness, which matches how humans think about color. Alpha is supported in every direction (<code>#RRGGBBAA</code>, <code>rgba()</code>, <code>hsla()</code>, and modern space syntax such as <code>rgb(0 0 0 / 50%)</code>). All conversion happens locally on your device &#8212; nothing is uploaded, and the page works offline.</p>
+<div class="faq">
+<p><strong>&#x1F4A1; Why convert to HSL?</strong><br>HSL splits a color into hue, saturation, and lightness, so you can lighten or darken a palette, raise saturation, or generate tints of a brand color without guessing at RGB numbers.</p>
+<p><strong>&#x1F3A8; Which formats are accepted?</strong><br><code>#RGB</code>, <code>#RRGGBB</code>, 4/8-digit hex with alpha, <code>rgb()</code>/<code>rgba()</code>, <code>hsl()</code>/<code>hsla()</code>, percentages, and modern space syntax like <code>rgb(118 75 162 / 0.5)</code>.</p>
+<p><strong>&#x1F504; Will my color change when converted?</strong><br>Only within 8-bit rounding: HEX stores each channel as 0&#8211;255, so conversions may differ by 1 unit in a channel from the original decimal. Visually indistinguishable in practice.</p>
+<p><strong>&#x1F4D6; What about CSS names like &#8220;red&#8221;?</strong><br>Named colors are not parsed here. Use the color picker or paste the HEX/RGB/HSL value from your editor to convert a specific named color.</p>
+<p><strong>&#x1F512; Does this tool upload my colors?</strong><br>Never. Parsing and conversion run entirely in your browser with zero network calls.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+HEX pair &#8594; decimal: <code>FF</code> = 255 &nbsp;&middot;&nbsp; <code>#764BA2</code> = rgb(118, 75, 162)<br>
+HSL uses hue 0&#8211;360&#176;, saturation/lightness 0&#8211;100%<br>
+L = (max + min) / 2 &nbsp;&middot;&nbsp; S = &Delta; / (1 &#8722; |2L &#8722; 1|) &nbsp;&middot;&nbsp; hue steps by channel: 0&#176; red, 120&#176; green, 240&#176; blue
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F3A8; Color</h3><span id="headNote" style="font-size:12px;color:#98a1b3">Paste HEX, RGB, or HSL</span></div>
+  <div class="swatch"><div class="fill" id="fill"></div></div>
+  <div class="pick-row">
+    <input type="color" id="pick" value="#764ba2" aria-label="Color picker">
+    <input type="text" id="inputText" spellcheck="false" value="#764ba2" placeholder="e.g. #764ba2 · rgb(118, 75, 162) · hsl(270, 37%, 46%)">
+  </div>
+  <div class="field-label">Quick samples</div>
+  <div class="chips">
+    <button class="chip" type="button" data-v="#764ba2">&#x1F7E3; HuSir purple</button>
+    <button class="chip" type="button" data-v="#10b981">Emerald</button>
+    <button class="chip" type="button" data-v="#f59e0b">Amber</button>
+    <button class="chip" type="button" data-v="rgb(118, 75, 162)">rgb() form</button>
+    <button class="chip" type="button" data-v="hsla(270, 37%, 46%, 0.5)">hsla() 50%</button>
+    <button class="chip" type="button" data-v="#0f172aCC">8-digit hex</button>
+  </div>
+  <div class="field-label">Converted values (click to copy)</div>
+  <div class="out-card"><span class="lbl">HEX</span><input type="text" id="outHex" readonly><button class="btn btn-ghost" id="copyHex" type="button">&#x1F4CB; Copy</button></div>
+  <div class="out-card"><span class="lbl">RGB</span><input type="text" id="outRgb" readonly><button class="btn btn-ghost" id="copyRgb" type="button">&#x1F4CB; Copy</button></div>
+  <div class="out-card"><span class="lbl">HSL</span><input type="text" id="outHsl" readonly><button class="btn btn-ghost" id="copyHsl" type="button">&#x1F4CB; Copy</button></div>
+  <div class="btnrow"><span class="status-ok" id="okMsg"></span><span class="status-err" id="errMsg"></span></div>
+  <p class="hint">Conversion runs live on your device &#8212; your colors never leave this page. Alpha shows as a checkerboard behind the swatch.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../color-contrast-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Color Contrast Checker</a><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function clamp(x,lo,hi){return Math.min(hi,Math.max(lo,x));}
+function p2(n){n=clamp(Math.round(n),0,255);var h=n.toString(16);return h.length<2?'0'+h:h;}
+function num(x,d){d=d===undefined?2:d;var p=Math.pow(10,d);return String(Math.round(x*p)/p);}
+function alphaTxt(a){return String(Math.round(a*1000)/1000);}
+
+function parseColor(str){
+  var s=String(str||'').trim();
+  if(!s)return null;
+  if(s.charAt(0)==='#'){
+    var m=s.match(/^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i);
+    if(!m)throw new Error('Invalid hex: use #RGB, #RRGGBB, or 4/8-digit with alpha.');
+    var h=m[1];
+    if(h.length===3||h.length===4)h=h.replace(/./g,function(c){return c+c;});
+    return {
+      r:parseInt(h.slice(0,2),16),
+      g:parseInt(h.slice(2,4),16),
+      b:parseInt(h.slice(4,6),16),
+      a:h.length===8?Math.round(parseInt(h.slice(6,8),16)/255*1000)/1000:1
+    };
+  }
+  var isHsl=/hsl/i.test(s);
+  var numRe=/(\d*\.?\d+)(%|deg)?/g;
+  var toks=[],t;
+  while((t=numRe.exec(s))!==null){toks.push({v:parseFloat(t[1]),p:t[2]==='%'});}
+  if(toks.length<3)throw new Error('Could not read a color — expected hex, rgb(), rgba(), hsl(), or hsla().');
+  var alpha=toks.length>=4?(toks[3].p?toks[3].v/100:clamp(toks[3].v,0,1)):1;
+  alpha=Math.round(alpha*1000)/1000;
+  if(isHsl){
+    var hh=((toks[0].v%360)+360)%360;
+    return hslToRgb(hh,clamp(toks[1].v,0,100),clamp(toks[2].v,0,100),alpha);
+  }
+  function chan(c){return Math.round(c.p?clamp(c.v*255/100,0,255):clamp(c.v,0,255));}
+  return {r:chan(toks[0]),g:chan(toks[1]),b:chan(toks[2]),a:alpha};
+}
+function hslToRgb(h,s,l,a){
+  h/=360;s/=100;l/=100;
+  var r,g,b;
+  if(s===0){r=g=b=l;}
+  else{
+    var q=l<0.5?l*(1+s):l+s-l*s;
+    var p=2*l-q;
+    function hue2rgb(pp,qq,t){
+      if(t<0)t+=1;if(t>1)t-=1;
+      if(t<1/6)return pp+(qq-pp)*6*t;
+      if(t<1/2)return qq;
+      if(t<2/3)return pp+(qq-pp)*(2/3-t)*6;
+      return pp;
+    }
+    r=hue2rgb(p,q,h+1/3);g=hue2rgb(p,q,h);b=hue2rgb(p,q,h-1/3);
+  }
+  return {r:Math.round(r*255),g:Math.round(g*255),b:Math.round(b*255),a:a};
+}
+function rgbToHsl(r,g,b){
+  r/=255;g/=255;b/=255;
+  var max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;
+  var l=(max+min)/2,h,s;
+  if(d===0){h=0;s=0;}
+  else{
+    s=l>0.5?d/(2-max-min):d/(max+min);
+    if(max===r){h=((g-b)/d)%6;}
+    else if(max===g){h=(b-r)/d+2;}
+    else{h=(r-g)/d+4;}
+    h=Math.round(h*60);if(h<0)h+=360;
+  }
+  return {h:h,s:s*100,l:l*100};
+}
+function toHex(c){return '#'+p2(c.r)+p2(c.g)+p2(c.b)+(c.a<1?p2(c.a*255):'');}
+function toRgbTxt(c){
+  var p=c.a<1?'rgba(':'rgb(';
+  return p+Math.round(c.r)+', '+Math.round(c.g)+', '+Math.round(c.b)+(c.a<1?', '+alphaTxt(c.a):'')+')';
+}
+function toHslTxt(c){
+  var h=rgbToHsl(c.r,c.g,c.b);
+  var p=c.a<1?'hsla(':'hsl(';
+  return p+num(h.h,1)+', '+num(h.s,0)+'%, '+num(h.l,0)+'%'+(c.a<1?', '+alphaTxt(c.a):'')+')';
+}
+function kindOf(s){
+  var t=String(s||'').trim();
+  if(t.charAt(0)==='#')return 'HEX';
+  if(/hsl/i.test(t))return 'HSL';
+  return 'RGB';
+}
+function apply(){
+  var raw=$('inputText').value;
+  var ok=$('okMsg'),err=$('errMsg');
+  ok.textContent='';err.textContent='';
+  if(!raw.trim()){return;}
+  try{
+    var c=parseColor(raw);
+    $('fill').style.background='rgba('+c.r+', '+c.g+', '+c.b+', '+c.a+')';
+    $('outHex').value=toHex(c);
+    $('outRgb').value=toRgbTxt(c);
+    $('outHsl').value=toHslTxt(c);
+    $('pick').value='#'+p2(c.r)+p2(c.g)+p2(c.b);
+    ok.textContent='✅ Converted from '+kindOf(raw)+' · '+c.r+', '+c.g+', '+c.b+(c.a<1?', alpha '+alphaTxt(c.a):'');
+  }catch(e){
+    err.textContent='❌ '+e.message;
+  }
+}
+function wireCopy(id,valId){
+  $(id).addEventListener('click',function(){
+    var v=$(valId).value;
+    if(!v)return;
+    function done(){var b=$(id),old=b.textContent;b.textContent='✅ Copied!';setTimeout(function(){b.textContent=old;},1200);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(v).then(done).catch(function(){fallback(v,done);});
+    }else{fallback(v,done);}
+  });
+}
+function fallback(txt,done){
+  var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('inputText').addEventListener('input',apply);
+$('pick').addEventListener('input',function(){$('inputText').value=$('pick').value;apply();});
+Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(ch){
+  ch.addEventListener('click',function(){$('inputText').value=ch.getAttribute('data-v');apply();});
+});
+wireCopy('copyHex','outHex');
+wireCopy('copyRgb','outRgb');
+wireCopy('copyHsl','outHsl');
+apply();
+</script>
+</body>
+</html>

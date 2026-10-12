@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F50D; Text Diff Checker — Compare Two Texts | HuSir Tools</title>
+<meta name="description" content="Compare two texts or code versions side by side and see exactly what changed — added, removed, and unchanged lines. Options for case and whitespace. 100% local, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/text-diff-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🔍 Text Diff Checker — Compare Two Texts">
+<meta property="og:description" content="Compare two texts or code versions side by side and see exactly what changed — added, removed, and unchanged lines. Options for case and whitespace. 100% local, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/text-diff-checker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🔍 Text Diff Checker — Compare Two Texts">
+<meta name="twitter:description" content="Compare two texts or code versions side by side and see exactly what changed — added, removed, and unchanged lines. Options for case and whitespace. 100% local, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:13px;font-family:"SF Mono",Menlo,Consolas,monospace;line-height:1.55;outline:none;background:#fafbfc;color:#1a1a2e;resize:vertical;min-height:150px}
+textarea:focus{border-color:#667eea;background:#fff}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.col-head b{font-size:13px;color:#475569}
+.col-head span{font-size:11px;color:#98a1b3}
+.opts{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0 6px}
+.opt{display:flex;align-items:center;gap:6px;font-size:13px;color:#475569;cursor:pointer;user-select:none}
+.opt input{width:16px;height:16px;accent-color:#667eea}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.summary{font-size:13px;font-weight:600;color:#475569;margin-top:10px}
+.summary .add{color:#059669}.summary .del{color:#dc2626}.summary .eq{color:#7c86a0}
+.diffbox{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;margin-top:8px;max-height:440px;overflow:auto;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;line-height:1.6}
+.drow{display:flex;align-items:flex-start;padding:2px 8px;white-space:pre-wrap;word-break:break-word}
+.drow .no{flex:0 0 44px;text-align:right;color:#b6c0d4;font-size:11px;padding-right:10px;user-select:none}
+.drow .mark{flex:0 0 20px;font-weight:800;user-select:none}
+.drow .txt{flex:1}
+.drow.eq{color:#334155}
+.drow.add{background:#ecfdf5;color:#065f46}
+.drow.add .mark{color:#059669}
+.drow.del{background:#fef2f2;color:#991b1b}
+.drow.del .mark{color:#dc2626}
+.drow.lone .no{visibility:hidden}
+.empty-hint{color:#98a1b3;font-size:12.5px;padding:14px;text-align:center}
+@media(max-width:640px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.cols{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🔍 Text Diff Checker",
+  "description": "Compare two texts or code versions side by side and see exactly what changed — added, removed, and unchanged lines. Options for case and whitespace. 100% local, works offline.",
+  "url": "https://www.husir.org/tools/text-diff-checker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "📝 What counts as a change?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Comparison is line-based: identical lines are unchanged, and anything added or removed shows as red or green. Character-level detail inside a line is not highlighted."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔁 How do the options work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "“Ignore case” treats “Hello” and “hello” as the same for matching. “Ignore whitespace” ignores leading/trailing spaces and indentation when matching lines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Is my text sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Both sides are compared entirely in your browser with zero network requests."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🧩 Can it diff code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — it works on any plain text, including JSON, CSS, or logs. For very large files, keep each side under about 1,500 lines for instant results."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Text Diff Checker", "item": "https://www.husir.org/tools/text-diff-checker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Text Diff Checker</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F50D; Text Diff Checker</h1>
+<p class="subtitle">Compare two versions &middot; see added &amp; removed lines &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Need to find what changed between two drafts, two config files, or two versions of an essay? Paste the original on the left and the edited version on the right. The checker compares them line by line and highlights exactly which lines were removed (red), added (green), and kept the same.</p>
+<p>Diffing is useful for editors reviewing a rewrite, students checking a revised paragraph, developers sanity-checking a config change, or anyone who received a &ldquo;new version&rdquo; of a document and wants to know what actually moved. You can ignore case or whitespace differences when comparing, while the result still shows your original lines. A summary counts unchanged, added, and removed lines, and one click copies a plain-text change list to paste into email or a changelog.</p>
+<p>Everything runs locally on your device — your text is never uploaded, no account is needed, and the page works fully offline.</p>
+<div class="faq">
+<p><strong>&#x1F4DD; What counts as a change?</strong><br>Comparison is line-based: identical lines are unchanged, and anything added or removed shows as red or green. Character-level detail inside a line is not highlighted.</p>
+<p><strong>&#x1F501; How do the options work?</strong><br>&ldquo;Ignore case&rdquo; treats &ldquo;Hello&rdquo; and &ldquo;hello&rdquo; as the same for matching. &ldquo;Ignore whitespace&rdquo; ignores leading/trailing spaces and indentation when matching lines.</p>
+<p><strong>&#x1F512; Is my text sent anywhere?</strong><br>Never. Both sides are compared entirely in your browser with zero network requests.</p>
+<p><strong>&#x1F9E9; Can it diff code?</strong><br>Yes — it works on any plain text, including JSON, CSS, or logs. For very large files, keep each side under about 1,500 lines for instant results.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; How it works</b><br>
+The tool finds the longest common sequence of lines between the two versions, then walks the result: lines only in the right text are added (+), lines only in the left are removed (&minus;), and lines in both are unchanged.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x2694;&#xFE0F; Compare</h3><span style="font-size:11.5px;color:#98a1b3">Line-based diff</span></div>
+  <div class="cols">
+    <div>
+      <div class="col-head"><b>Original</b><span id="cntA">0 lines</span></div>
+      <textarea id="a" spellcheck="false" placeholder="Paste the original text or code here..."></textarea>
+    </div>
+    <div>
+      <div class="col-head"><b>Changed</b><span id="cntB">0 lines</span></div>
+      <textarea id="b" spellcheck="false" placeholder="Paste the edited version here..."></textarea>
+    </div>
+  </div>
+  <div class="opts">
+    <label class="opt"><input type="checkbox" id="ignoreCase"> Ignore case</label>
+    <label class="opt"><input type="checkbox" id="ignoreWs"> Ignore whitespace</label>
+  </div>
+  <div class="btnrow">
+    <button class="btn btn-ghost" id="exampleBtn" type="button">&#x1F4D6; Load example</button>
+    <button class="btn btn-ghost" id="swapBtn" type="button">&#x2194;&#xFE0F; Swap sides</button>
+    <button class="btn btn-ghost" id="clearBtn" type="button">&#x2715; Clear</button>
+    <button class="btn btn-ghost" id="copyBtn" type="button">&#x1F4CB; Copy diff</button>
+  </div>
+  <div class="summary" id="summary"></div>
+  <div class="diffbox" id="outbox"><div class="empty-hint">Paste text on both sides — the diff appears here instantly.</div></div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../case-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F524; Text Case &amp; Word Counter</a><a href="../json-yaml-formatter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E6; JSON &amp; YAML Formatter</a><a href="../regex-tester/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9EA; Regex Tester</a><a href="../md-to-rich-text/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; Markdown to Rich Text</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function norm(s,ci,ws){
+  if(ci)s=s.toLowerCase();
+  if(ws)s=s.trim();
+  return s;
+}
+function linesOf(v){return v.replace(/\r\n/g,'\n').split('\n');}
+function diff(a,b,ci,ws){
+  var A=linesOf(a).map(function(x){return norm(x,ci,ws);});
+  var B=linesOf(b).map(function(x){return norm(x,ci,ws);});
+  var n=A.length,m=B.length;
+  var ops=[];
+  if(n>1500||m>1500||n*m>2250000){
+    for(var i=0;i<n;i++)ops.push(['del',i,null]);
+    for(var j=0;j<m;j++)ops.push(['add',null,j]);
+    return {ops:ops,a:A.length,b:B.length,crude:true};
+  }
+  var dp=[];var r;
+  for(r=0;r<=n;r++){dp.push(new Array(m+1).fill(0));}
+  for(var i2=n-1;i2>=0;i2--){
+    for(var j2=m-1;j2>=0;j2--){
+      dp[i2][j2]=A[i2]===B[j2]?dp[i2+1][j2+1]+1:Math.max(dp[i2+1][j2],dp[i2][j2+1]);
+    }
+  }
+  var i=0,j=0;
+  while(i<n&&j<m){
+    if(A[i]===B[j]){ops.push(['eq',i,j]);i++;j++;}
+    else if(dp[i+1][j]>=dp[i][j+1]){ops.push(['del',i,null]);i++;}
+    else{ops.push(['add',null,j]);j++;}
+  }
+  while(i<n){ops.push(['del',i,null]);i++;}
+  while(j<m){ops.push(['add',null,j]);j++;}
+  return {ops:ops,a:A.length,b:B.length,crude:false};
+}
+function render(){
+  var ci=$('ignoreCase').checked,ws=$('ignoreWs').checked;
+  var av=$('a').value,bv=$('b').value;
+  $('cntA').textContent=(av.length?av.replace(/\r\n/g,'\n').split('\n').length:0)+' lines';
+  $('cntB').textContent=(bv.length?bv.replace(/\r\n/g,'\n').split('\n').length:0)+' lines';
+  var box=$('outbox');
+  if(!av.trim()&&!bv.trim()){box.innerHTML='<div class="empty-hint">Paste text on both sides — the diff appears here instantly.</div>';$('summary').textContent='';return;}
+  var d=diff(av,bv,ci,ws);
+  var la=linesOf(av),lb=linesOf(bv);
+  var na=0,nb=0,del=0,add=0;
+  var html='';
+  d.ops.forEach(function(o){
+    if(o[0]==='eq'){na++;nb++;html+='<div class="drow eq"><span class="no">'+na+'</span><span class="mark"></span><span class="txt">'+esc(la[o[1]]||'')+'</span></div>';}
+    else if(o[0]==='del'){del++;na++;html+='<div class="drow del"><span class="no">'+na+'</span><span class="mark">&minus;</span><span class="txt">'+esc(la[o[1]]||'')+'</span></div>';}
+    else{add++;nb++;html+='<div class="drow add"><span class="no">'+nb+'</span><span class="mark">+</span><span class="txt">'+esc(lb[o[2]]||'')+'</span></div>';}
+  });
+  box.innerHTML=html;
+  var s='<span class="eq">'+na+' unchanged</span> &middot; <span class="add">+'+add+' added</span> &middot; <span class="del">&minus;'+del+' removed</span>';
+  if(d.crude)s+=' &middot; <span style="color:#b45309">large input — shown as full replace</span>';
+  $('summary').innerHTML=s;
+  box.scrollTop=0;
+}
+function copyDiff(){
+  var av=$('a').value,bv=$('b').value;
+  if(!av&&!bv)return;
+  var d=diff(av,bv,$('ignoreCase').checked,$('ignoreWs').checked);
+  var la=linesOf(av),lb=linesOf(bv);
+  var out=[];
+  d.ops.forEach(function(o){
+    if(o[0]==='del')out.push('- '+(la[o[1]]||''));
+    else if(o[0]==='add')out.push('+ '+(lb[o[2]]||''));
+  });
+  if(!out.length)out.push('(no differences)');
+  var txt=out.join('\n');
+  var btn=$('copyBtn'),old=btn.textContent;
+  function done(){btn.textContent='✅ Copied!';setTimeout(function(){btn.textContent=old;},1400);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(function(){fb(txt,done);});}
+  else{fb(txt,done);}
+}
+function fb(txt,done){
+  var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('a').addEventListener('input',render);
+$('b').addEventListener('input',render);
+$('ignoreCase').addEventListener('change',render);
+$('ignoreWs').addEventListener('change',render);
+$('exampleBtn').addEventListener('click',function(){
+  $('a').value='Dear Hiring Team,\n\nI am writing to apply for the Marketing\nCoordinator position at Brightside.\n\nI have three years of experience in\nsocial media and email campaigns.\n\nThank you for your time.\nBest regards,\nAlex';
+  $('b').value='Dear Hiring Team,\n\nI am writing to apply for the Senior\nMarketing Coordinator position at Brightside.\n\nI have five years of experience in\nsocial media, email campaigns, and SEO.\n\nThank you for your consideration.\nBest regards,\nAlex Morgan';
+  render();
+});
+$('swapBtn').addEventListener('click',function(){
+  var t=$('a').value;$('a').value=$('b').value;$('b').value=t;render();
+});
+$('clearBtn').addEventListener('click',function(){$('a').value='';$('b').value='';render();});
+$('copyBtn').addEventListener('click',copyDiff);
+</script>
+</body>
+</html>

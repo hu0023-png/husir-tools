@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savings Goal Calculator — Monthly Plan & Timeline | HuSir Tools</title>
+<meta name="description" content="Find the monthly deposit needed to reach any savings goal on time — down payment, emergency fund, wedding, or vacation. Free & private.">
+<link rel="canonical" href="https://www.husir.org/tools/savings-goal-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Savings Goal Calculator — Monthly Plan & Timeline">
+<meta property="og:description" content="Find the monthly deposit needed to reach any savings goal on time — down payment, emergency fund, wedding, or vacation. Free & private.">
+<meta property="og:url" content="https://www.husir.org/tools/savings-goal-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Savings Goal Calculator — Monthly Plan & Timeline">
+<meta name="twitter:description" content="Find the monthly deposit needed to reach any savings goal on time — down payment, emergency fund, wedding, or vacation. Free & private.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=date],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin-top:8px}
+.radio-row{display:flex;gap:14px;margin-top:6px;font-size:13px;color:#555}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kpi{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:#7c86a0;font-weight:600;margin-bottom:3px}
+.kpi .v{font-size:17px;font-weight:800;color:#1a1a2e}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong{color:#1a1a2e}
+.hidden{display:none!important}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Savings Goal Calculator",
+  "description": "Find the monthly deposit needed to reach any savings goal on time — down payment, emergency fund, wedding, or vacation. Free & private.",
+  "url": "https://www.husir.org/tools/savings-goal-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What rate should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "High-yield savings accounts (HYSA) have paid roughly 3.5–4.5% APY in recent years, while CDs and Treasury bills are similar for fixed terms. For goals more than 5 years away, 6–7% is a common assumption for a diversified stock portfolio. Try a range — a lower rate is the safer plan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does everyone say start an emergency fund first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 3–6 month expense cushion stops surprises (car repair, medical bill, job loss) from forcing you to sell investments or carry credit-card debt. Most advisors suggest building it in a savings account before aggressive goal-saving."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my goal is more than 10 years away?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Long horizons can usually tolerate more growth-focused investing. Still, this calculator assumes one steady return — real returns vary year to year, so check the result at both a conservative and an average rate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I round my monthly deposit up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Rounding up a few dollars a month builds a small buffer against rate changes and late starts, and many banks let you automate the transfer so the saving happens before you can spend it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I can only save less than the target?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The compare box shows the honest answer: how many extra months or years the slower pace costs you. Sometimes the best fix is a longer timeline or a slightly smaller goal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is a planning estimate. Taxes, fees, and inflation matter for real-world results — check with a fee-only advisor before making large decisions."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Savings Goal Calculator", "item": "https://www.husir.org/tools/savings-goal-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Savings Goal Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🎯 Savings Goal Calculator</h1>
+<p class="subtitle">How much to save each month · plus a realistic timeline at any amount</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Whether it is a house down payment, an emergency fund, a wedding, a vacation, or a new car, every savings goal comes down to the same question: how much do I put aside each month to get there on time? This calculator works backwards from the goal: enter what you want, how much you already have, and when you need it, and it tells you the exact monthly deposit — including the interest your money can earn along the way.</p>
+<p>It assumes monthly deposits that earn interest every month. For short horizons (under 3–5 years) a high-yield savings account or CD is the normal home for goal money because the balance is safe and liquid; for longer horizons many savers use a brokerage account, which can grow faster but moves up and down. If you already save a fixed amount each month, the tool can also flip the question and show how long your goal will take at that pace.</p>
+<p>Everything runs locally in your browser — no account, no login, nothing uploaded. Results are estimates, not promises: rates change, life changes, and markets never grow in a straight line. Re-run it whenever your timeline or income changes.</p>
+<div class="faq">
+<p><strong>🏦 What rate should I use?</strong><br>High-yield savings accounts (HYSA) have paid roughly 3.5–4.5% APY in recent years, while CDs and Treasury bills are similar for fixed terms. For goals more than 5 years away, 6–7% is a common assumption for a diversified stock portfolio. Try a range — a lower rate is the safer plan.</p>
+<p><strong>🚨 Why does everyone say start an emergency fund first?</strong><br>A 3–6 month expense cushion stops surprises (car repair, medical bill, job loss) from forcing you to sell investments or carry credit-card debt. Most advisors suggest building it in a savings account before aggressive goal-saving.</p>
+<p><strong>🎢 What if my goal is more than 10 years away?</strong><br>Long horizons can usually tolerate more growth-focused investing. Still, this calculator assumes one steady return — real returns vary year to year, so check the result at both a conservative and an average rate.</p>
+<p><strong>💵 Should I round my monthly deposit up?</strong><br>Yes. Rounding up a few dollars a month builds a small buffer against rate changes and late starts, and many banks let you automate the transfer so the saving happens before you can spend it.</p>
+<p><strong>📈 What if I can only save less than the target?</strong><br>The compare box shows the honest answer: how many extra months or years the slower pace costs you. Sometimes the best fix is a longer timeline or a slightly smaller goal.</p>
+<p><strong>⚠️ Is this financial advice?</strong><br>No. It is a planning estimate. Taxes, fees, and inflation matter for real-world results — check with a fee-only advisor before making large decisions.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Monthly rate = annual rate ÷ 12<br>Future value: balance = current savings × (1 + monthly rate)<sup>months</sup> + deposit × ((1 + monthly rate)<sup>months</sup> − 1) ÷ monthly rate<br>Required monthly deposit = (goal − current savings × (1 + monthly rate)<sup>months</sup>) × monthly rate ÷ ((1 + monthly rate)<sup>months</sup> − 1)<br>Interest earned = goal − current savings − total deposits
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Your goal</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Goal amount ($)</label>
+<input type="number" id="goal" min="0" step="500" value="50000">
+</div>
+<div>
+<label class="field-label">Already saved toward it ($)</label>
+<input type="number" id="current" min="0" step="500" value="5000">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Years until you need it</label>
+<input type="number" id="years" min="0" max="60" step="1" value="3">
+</div>
+<div>
+<label class="field-label">Extra months (0–11)</label>
+<input type="number" id="months" min="0" max="11" step="1" value="0">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Expected annual return (%)</label>
+<input type="number" id="rate" min="0" max="20" step="0.1" value="4">
+</div>
+<div></div>
+</div>
+<div style="text-align:center;margin-top:16px"><button class="btn btn-ghost" id="btnExample">Use example: $25,000 wedding fund in 3 years</button></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · Your monthly plan</h3></div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Save this much each month</div>
+<div class="result-big" id="big">$0</div>
+<div class="result-sub" id="bigNote">—</div>
+</div>
+<div class="grid3">
+<div class="kpi"><div class="k">Total you will deposit</div><div class="v" id="kDeposit">$0</div></div>
+<div class="kpi"><div class="k">Interest your money earns</div><div class="v" id="kInterest">$0</div></div>
+<div class="kpi"><div class="k">Goal reached by</div><div class="v" id="kDate">—</div></div>
+</div>
+<div style="margin-top:16px">
+<label class="field-label">Compare: what if I can only save $___ per month? (optional)</label>
+<input type="number" id="actual" min="0" step="25" placeholder="e.g. 500 — leave blank to skip">
+</div>
+<div class="result-box hidden" id="compareBox" style="margin-top:10px;background:#f0fdf4;border-color:#bbf7d0">
+<div style="font-size:12.5px;color:#166534;margin-bottom:2px">At your slower pace</div>
+<div class="result-big" id="compareBig" style="color:#15803d">—</div>
+<div class="result-sub" id="compareNote">—</div>
+</div>
+<p class="note">Assumes deposits are made monthly and earn the same return every month, with no withdrawals. Rates and markets change — treat this as a planning estimate, not financial advice.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a><a href="../401k-retirement-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C8; 401(k) Retirement Calculator</a><a href="../rule-of-72-simple-interest/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧮 Rule of 72 &amp; Simple Interest</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function money(x){return '$'+Math.max(0,x).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function money2(x){return '$'+Math.max(0,x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function num(id){return Math.max(0,parseFloat($(id).value)||0);}
+function addMonths(d,m){var r=new Date(d);r.setMonth(r.getMonth()+m);return r;}
+function calc(){
+  var goal=num('goal'), current=num('current');
+  var years=num('years'), months=Math.min(11,Math.round(num('months')));
+  var rate=num('rate')/100;
+  var n=Math.max(1,Math.round(years*12+months));
+  var m=rate/12;
+  var pmt=0, deposit=0, interest=0;
+  var today=new Date();
+  if(current>=goal&&goal>0){
+    $('big').textContent=money(0);
+    $('bigNote').textContent='Already saved enough — nothing more needed 🎉';
+  }else if(m>0){
+    var g=(goal-current*Math.pow(1+m,n));
+    pmt=g*m/(Math.pow(1+m,n)-1);
+    deposit=pmt*n;
+    interest=Math.max(0,goal-current-deposit);
+    $('big').textContent=money(pmt);
+    $('bigNote').textContent='for '+n+' month(s) · '+(current>0?'starting from $'+Math.round(current).toLocaleString('en-US'):'starting from $0');
+  }else{
+    pmt=(goal-current)/n;
+    deposit=pmt*n;
+    interest=0;
+    $('big').textContent=money(pmt);
+    $('bigNote').textContent='for '+n+' month(s) · no interest assumed (rate 0%)';
+  }
+  $('kDeposit').textContent=money(deposit);
+  $('kInterest').textContent=money(interest);
+  var d=addMonths(new Date(),n);
+  $('kDate').textContent=(d.getMonth()+1)+'/'+d.getFullYear();
+  var actual=num('actual');
+  var box=$('compareBox');
+  if(actual>0){
+    var monthsNeeded=0;
+    if(m>0){
+      var numT=(goal*m+actual);
+      var den=(current*m+actual);
+      if(numT>den&&den>0){monthsNeeded=Math.ceil(Math.log(numT/den)/Math.log(1+m));}
+      else{monthsNeeded=(current<goal)?0:0;}
+      if(den<=0){monthsNeeded=99999;}
+      if(numT<=den){monthsNeeded=0;}
+    }else{
+      monthsNeeded=(goal>current)?Math.ceil((goal-current)/actual):0;
+    }
+    box.classList.remove('hidden');
+    if(goal<=current){
+      $('compareBig').textContent='Already reached';
+      $('compareNote').textContent='Your current savings cover the goal.';
+    }else if(monthsNeeded>=99999||monthsNeeded<=0){
+      $('compareBig').textContent='Never at this pace';
+      $('compareNote').textContent='Monthly interest is less than your goal gap grows — raise the amount or lower the goal.';
+    }else{
+      var yrs=Math.floor(monthsNeeded/12), extra=monthsNeeded%12;
+      $('compareBig').textContent=money(actual)+'/mo → '+(yrs>0?yrs+' yr'+(yrs>1?'s':'')+(extra>0?' '+extra+' mo':''):extra+' mo');
+      var reached=addMonths(new Date(),monthsNeeded);
+      $('compareNote').textContent='Goal reached around '+((reached.getMonth()+1)+'/'+reached.getFullYear())+' — '+(monthsNeeded>n?money2((monthsNeeded-n)*actual)+' more than the plan above':'faster than the plan above');
+    }
+  }else{
+    box.classList.add('hidden');
+  }
+}
+['goal','current','years','months','rate','actual'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('btnExample').addEventListener('click',function(){
+  $('goal').value=25000;$('current').value=2000;$('years').value=3;$('months').value=0;
+  $('rate').value=4;$('actual').value='';
+  calc();
+});
+calc();
+</script>
+</body>
+</html>

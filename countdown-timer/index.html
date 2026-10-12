@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x23F3; Countdown &amp; Event Timer | HuSir Tools</title>
+<meta name="description" content="Live countdown to any date and time — birthdays, trips, launches. Add US federal holidays in one click. Stays saved on your device. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/countdown-timer/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="⏳ Countdown & Event Timer">
+<meta property="og:description" content="Live countdown to any date and time — birthdays, trips, launches. Add US federal holidays in one click. Stays saved on your device. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/countdown-timer/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="⏳ Countdown & Event Timer">
+<meta name="twitter:description" content="Live countdown to any date and time — birthdays, trips, launches. Add US federal holidays in one click. Stays saved on your device. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=text],input[type=date],input[type=time]{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc;color:#1a1a2e;min-height:44px}
+input:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.grid3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid #e0e0e0;background:#f8fafc;border-radius:999px;padding:6px 13px;font-size:12.5px;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover{border-color:#667eea;color:#4c1d95;background:#eef2ff}
+.ev{border:2px solid #eef0f7;border-radius:14px;padding:14px 16px;margin-top:12px;background:#fafbfc}
+.ev-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ev-name{font-size:16px;font-weight:800;color:#1a1a2e;word-break:break-word}
+.del{background:none;border:none;color:#cbd2e0;font-size:18px;cursor:pointer;padding:2px 8px;line-height:1;border-radius:8px}
+.del:hover{color:#dc2626;background:#fee2e2}
+.ev-when{font-size:12px;color:#7c86a0;margin-top:3px}
+.ev-cd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:26px;font-weight:800;color:#4c1d95;margin-top:8px;letter-spacing:.5px}
+.ev.past{opacity:.72}
+.ev.past .ev-cd{color:#64748b;font-size:17px;font-weight:600}
+.empty{color:#98a1b3;font-size:13px;text-align:center;padding:26px 10px;line-height:1.7}
+.note{font-size:11.5px;color:#98a1b3;margin-top:12px;line-height:1.6}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid3{grid-template-columns:1fr}.ev-cd{font-size:21px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "⏳ Countdown & Event Timer",
+  "description": "Live countdown to any date and time — birthdays, trips, launches. Add US federal holidays in one click. Stays saved on your device. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/countdown-timer/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "📅 How are the federal holiday dates calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each holiday follows its legal rule — for example MLK Day is the third Monday of January, Memorial Day the last Monday of May, and Thanksgiving the fourth Thursday of November. Fixed-date holidays like July 4 stay on their date."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🕒 Why does a countdown show an extra day near midnight?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Countdowns run to the exact time you set (default midnight at the start of the date). If you add an event the evening before, it can show less than one day remaining — set the time to 11:59 PM to count to the end of that day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔁 Do events stay after I close the page?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — events are stored locally in your browser (localStorage). Clearing your browser data will remove them; nothing is ever uploaded."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "💪 What happens when an event passes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The card flips to a muted “passed” state showing the date it happened. Delete it with the button or keep it as a record."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Does this timer send my data anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Countdown math runs locally every second with zero network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Countdown & Event Timer", "item": "https://www.husir.org/tools/countdown-timer/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Countdown &amp; Event Timer</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x23F3; Countdown &amp; Event Timer</h1>
+<p class="subtitle">Count down to anything &middot; US federal holiday presets &middot; saved on your device</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Track how long until the moments that matter: a birthday, vacation, product launch, wedding, deadline, or the next holiday. Add as many events as you like &#8212; each gets a name, a date, and an optional time &#8212; then watch the days, hours, minutes, and seconds tick down in real time. Your list is saved automatically in this browser, so it is still there when you come back.</p>
+<p>For people in the United States, one-click presets add all ten federal holidays for 2026 or 2027 &#8212; New Year&rsquo;s Day, MLK Day, Presidents&rsquo; Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving, and Christmas &#8212; calculated from the real calendar rules (for example, Thanksgiving is the fourth Thursday of November). Everything runs locally on your device; no account, no upload, fully offline.</p>
+<div class="faq">
+<p><strong>&#x1F4C5; How are the federal holiday dates calculated?</strong><br>Each holiday follows its legal rule &#8212; for example MLK Day is the third Monday of January, Memorial Day the last Monday of May, and Thanksgiving the fourth Thursday of November. Fixed-date holidays like July 4 stay on their date.</p>
+<p><strong>&#x1F552; Why does a countdown show an extra day near midnight?</strong><br>Countdowns run to the exact time you set (default midnight at the start of the date). If you add an event the evening before, it can show less than one day remaining — set the time to 11:59 PM to count to the end of that day.</p>
+<p><strong>&#x1F501; Do events stay after I close the page?</strong><br>Yes — events are stored locally in your browser (localStorage). Clearing your browser data will remove them; nothing is ever uploaded.</p>
+<p><strong>&#x1F4AA; What happens when an event passes?</strong><br>The card flips to a muted &#8220;passed&#8221; state showing the date it happened. Delete it with the ✕ button or keep it as a record.</p>
+<p><strong>&#x1F512; Does this timer send my data anywhere?</strong><br>Never. Countdown math runs locally every second with zero network calls.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+Remaining = target time &#8722; now &nbsp;&#8594;&nbsp; days / hours / minutes / seconds<br>
+Holiday rules: 3rd Monday in Jan (MLK) &middot; 3rd Monday in Feb (Presidents&rsquo;) &middot; last Monday in May (Memorial) &middot; 1st Monday in Sep (Labor) &middot; 2nd Monday in Oct (Columbus) &middot; 4th Thursday in Nov (Thanksgiving)
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x2795; Add an event</h3></div>
+  <div class="grid3">
+    <div>
+      <label class="field-label" for="name">Event name</label>
+      <input type="text" id="name" maxlength="60" placeholder="e.g. Summer trip to New York">
+    </div>
+    <div>
+      <label class="field-label" for="date">Date</label>
+      <input type="date" id="date">
+    </div>
+    <div>
+      <label class="field-label" for="time">Time (optional)</label>
+      <input type="time" id="time">
+    </div>
+  </div>
+  <div class="btnrow">
+    <button class="btn btn-primary" id="addBtn" type="button">&#x2795; Add countdown</button>
+    <button class="btn btn-ghost" id="clearBtn" type="button">&#x1F5D1;&#xFE0F; Clear all</button>
+  </div>
+  <div class="field-label">US federal holiday presets (one click)</div>
+  <div class="chips">
+    <button class="chip" type="button" data-y="2026">&#x1F1FA;&#x1F1F8; Add all 2026 holidays</button>
+    <button class="chip" type="button" data-y="2027">&#x1F1FA;&#x1F1F8; Add all 2027 holidays</button>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x23F1;&#xFE0F; Active countdowns</h3><span id="countLabel" style="font-size:12px;color:#98a1b3"></span></div>
+  <div id="list"><div class="empty">No events yet &#8212; add one above, or load a year of US federal holidays with one click.</div></div>
+  <p class="note">Events are saved in this browser only. Countdowns update every second while the page is open.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../date-workday-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C5; Date &amp; Workday Counter</a><a href="../age-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F382; Age &amp; Date Calculator</a><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a><a href="../timezone-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F30D; Timezone Converter &amp; Meeting Planner</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var KEY='husir-countdown-events-v1';
+var events=[];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function load(){
+  try{var raw=localStorage.getItem(KEY);if(raw){events=JSON.parse(raw);}}
+  catch(e){events=[];}
+  if(!Array.isArray(events))events=[];
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(events));}catch(e){}}
+function todayVal(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function add(name,date,time){
+  name=(name||'').trim();
+  if(!name){alert('Give the event a name first.');return;}
+  if(!date){alert('Pick a date for the countdown.');return;}
+  var iso=date+(time?'T'+time:'T00:00');
+  events.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:name,iso:iso});
+  sortAndSync();
+}
+function sortAndSync(){events.sort(function(a,b){return a.iso<b.iso?-1:1;});save();rebuild();}
+function remove(id){events=events.filter(function(e){return e.id!==id;});sortAndSync();}
+function fmtUS(d){
+  return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear()+(d.getHours()||d.getMinutes()?' '+((d.getHours()%12)||12)+':'+('0'+d.getMinutes()).slice(-2)+(d.getHours()<12?' AM':' PM'):'');
+}
+function cardHtml(ev){
+  var t=new Date(ev.iso);
+  var wd=t.toLocaleDateString('en-US',{weekday:'long'});
+  return '<div class="ev" data-id="'+esc(ev.id)+'"><div class="ev-top"><span class="ev-name">'+esc(ev.name)+'</span><button type="button" class="del" title="Remove" data-del="'+esc(ev.id)+'">&#x2715;</button></div><div class="ev-when">'+wd+', '+fmtUS(t)+'</div><div class="ev-cd">…</div></div>';
+}
+function rebuild(){
+  var list=$('list');
+  if(!events.length){list.innerHTML='<div class="empty">No events yet &#8212; add one above, or load a year of US federal holidays with one click.</div>';$('countLabel').textContent='';return;}
+  list.innerHTML=events.map(cardHtml).join('');
+  $('countLabel').textContent=events.length+(events.length===1?' event':' events');
+  Array.prototype.forEach.call(list.querySelectorAll('[data-del]'),function(b){
+    b.addEventListener('click',function(){remove(b.getAttribute('data-del'));});
+  });
+  tick();
+}
+function tick(){
+  var now=Date.now();
+  Array.prototype.forEach.call(document.querySelectorAll('#list .ev'),function(card){
+    var id=card.getAttribute('data-id');
+    var ev=null,i;
+    for(i=0;i<events.length;i++){if(events[i].id===id){ev=events[i];break;}}
+    if(!ev)return;
+    var diff=new Date(ev.iso).getTime()-now;
+    var cd=card.querySelector('.ev-cd');
+    if(diff<=0){
+      card.classList.add('past');
+      cd.textContent='Passed — '+fmtUS(new Date(ev.iso));
+      return;
+    }
+    card.classList.remove('past');
+    var d=Math.floor(diff/86400000);
+    var h=Math.floor(diff%86400000/3600000);
+    var m=Math.floor(diff%3600000/60000);
+    var s=Math.floor(diff%60000/1000);
+    cd.textContent=d+'d '+('0'+h).slice(-2)+'h '+('0'+m).slice(-2)+'m '+('0'+s).slice(-2)+'s';
+  });
+}
+function nthDow(year,month0,wd,nth){
+  var first=new Date(year,month0,1).getDay();
+  var day=1+((wd-first+7)%7)+(nth-1)*7;
+  return new Date(year,month0,day);
+}
+function lastDow(year,month0,wd){
+  var days=new Date(year,month0+1,0).getDate();
+  var last=new Date(year,month0,days);
+  var off=(last.getDay()-wd+7)%7;
+  return new Date(year,month0,days-off);
+}
+function holidaysOf(year){
+  function iso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  return [
+    ['New Year\'s Day '+year,iso(new Date(year,0,1))],
+    ['MLK Day '+year,iso(nthDow(year,0,1,3))],
+    ['Presidents\' Day '+year,iso(nthDow(year,1,1,3))],
+    ['Memorial Day '+year,iso(lastDow(year,4,1))],
+    ['Juneteenth '+year,iso(new Date(year,5,19))],
+    ['Independence Day '+year,iso(new Date(year,6,4))],
+    ['Labor Day '+year,iso(nthDow(year,8,1,1))],
+    ['Columbus Day '+year,iso(nthDow(year,9,1,2))],
+    ['Veterans Day '+year,iso(new Date(year,10,11))],
+    ['Thanksgiving '+year,iso(nthDow(year,10,4,4))],
+    ['Christmas Day '+year,iso(new Date(year,11,25))]
+  ];
+}
+$('addBtn').addEventListener('click',function(){add($('name').value,$('date').value,$('time').value);});
+$('name').addEventListener('keydown',function(e){if(e.key==='Enter'){add($('name').value,$('date').value,$('time').value);}});
+$('clearBtn').addEventListener('click',function(){
+  if(!events.length)return;
+  if(confirm('Remove all '+events.length+' countdown events?')){events=[];sortAndSync();}
+});
+Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(ch){
+  ch.addEventListener('click',function(){
+    var y=parseInt(ch.getAttribute('data-y'),10);
+    var before=events.length;
+    holidaysOf(y).forEach(function(h){
+      var exists=events.some(function(e){return e.name===h[0];});
+      if(!exists){events.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:h[0],iso:h[1]+'T00:00'});}
+    });
+    var added=events.length-before;
+    sortAndSync();
+    alert(added?(added===1?'Added 1 holiday.':'Added '+added+' holidays.'):'Holidays for '+y+' are already on your list.');
+  });
+});
+$('date').value=todayVal();
+load();
+sortAndSync();
+setInterval(tick,1000);
+</script>
+</body>
+</html>

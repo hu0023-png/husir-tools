@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Split Calculator — US 15/18/20/22% & Bill Splitting | HuSir Tools</title>
+<meta name="description" content="Split bills and tips among friends with US presets (15/18/20/22%), pre-tax or after-tax tipping, and rounding. Free, private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/tip-split-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Tip Split Calculator — US 15/18/20/22% & Bill Splitting">
+<meta property="og:description" content="Split bills and tips among friends with US presets (15/18/20/22%), pre-tax or after-tax tipping, and rounding. Free, private, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/tip-split-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tip Split Calculator — US 15/18/20/22% & Bill Splitting">
+<meta name="twitter:description" content="Split bills and tips among friends with US presets (15/18/20/22%), pre-tax or after-tax tipping, and rounding. Free, private, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:#0f0f1a;color:#fff;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:24px 16px 60px;
+}
+.app{width:100%;max-width:420px;display:flex;flex-direction:column;gap:20px}
+
+.header{text-align:center}
+.header h1{
+  font-size:26px;font-weight:900;
+  background:linear-gradient(135deg,#22c55e,#06b6d4);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+}
+.header .sub{font-size:13px;color:#666;margin-top:4px}
+
+.card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:20px 22px;
+}
+.card-label{
+  font-size:11px;font-weight:700;color:#666;text-transform:uppercase;
+  letter-spacing:0.05em;margin-bottom:12px;
+}
+
+.bill-input-wrap{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:14px;padding:2px 2px 2px 18px;transition:border-color 0.2s;
+}
+.bill-input-wrap:focus-within{border-color:#22c55e}
+.bill-input-wrap .dollar{font-size:28px;font-weight:300;color:#666;flex-shrink:0}
+.bill-input-wrap input{
+  flex:1;border:none;background:transparent;color:#fff;
+  font-size:28px;font-weight:300;outline:none;font-family:inherit;
+  min-width:0;padding:12px 0;
+}
+.bill-input-wrap input::placeholder{color:#444}
+
+.tip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.tip-btn{
+  padding:12px 8px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.04);color:#ccc;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:center;
+}
+.tip-btn:hover{border-color:rgba(255,255,255,0.2);color:#fff}
+.tip-btn.active{
+  background:rgba(34,197,94,0.15);border-color:#22c55e;color:#22c55e;
+}
+
+.custom-tip-row{display:flex;align-items:center;gap:10px}
+.custom-tip-row input{
+  width:72px;padding:10px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);color:#fff;font-size:16px;font-weight:600;
+  text-align:center;outline:none;font-family:inherit;
+}
+.custom-tip-row input:focus{border-color:#22c55e}
+.custom-tip-row .pct{color:#666;font-size:16px;font-weight:600}
+
+.people-row{display:flex;align-items:center;justify-content:center;gap:16px}
+.people-btn{
+  width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);color:#fff;font-size:22px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;font-family:inherit;line-height:1;
+}
+.people-btn:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2)}
+.people-btn:active{transform:scale(0.94)}
+.people-count{font-size:36px;font-weight:300;min-width:48px;text-align:center}
+.people-label{text-align:center;font-size:12px;color:#666;margin-top:6px}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between}
+.toggle-row .toggle-label{font-size:14px;color:#aaa}
+.toggle-row .toggle-sub{font-size:11px;color:#666}
+.toggle-switch{position:relative;width:48px;height:28px;flex-shrink:0}
+.toggle-switch input{display:none}
+.toggle-switch .slider{
+  position:absolute;inset:0;background:rgba(255,255,255,0.08);border-radius:14px;
+  cursor:pointer;transition:background 0.2s;
+}
+.toggle-switch .slider::after{
+  content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;
+  background:#fff;border-radius:50%;transition:transform 0.2s;
+}
+.toggle-switch input:checked+.slider{background:#22c55e}
+.toggle-switch input:checked+.slider::after{transform:translateX(20px)}
+
+.result-card{background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.15)}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.result-item{text-align:center}
+.result-item .result-val{font-size:32px;font-weight:300;color:#fff;line-height:1.1}
+.result-item .result-val.small{font-size:26px}
+.result-item .result-label{
+  font-size:11px;color:#666;margin-top:4px;text-transform:uppercase;letter-spacing:0.03em;
+}
+
+.breakdown{margin-top:14px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px}
+.breakdown-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:#999}
+.breakdown-row span:last-child{color:#ddd;font-weight:500}
+
+.export-btn{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#22c55e,#06b6d4);color:#fff;
+  font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:all 0.2s;margin-top:8px;
+}
+.export-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(34,197,94,0.3)}
+.export-btn:active{transform:translateY(0)}
+
+.footer{text-align:center;font-size:10px;color:#444;line-height:1.6}
+.footer span{color:#555}
+
+.muted{opacity:0.3}
+
+.export-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;background:#000;
+  z-index:99999;display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.export-overlay img{max-width:90%;max-height:90%;object-fit:contain}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+
+@media(max-width:400px){
+  .result-grid{grid-template-columns:1fr;gap:8px}
+  .result-item{display:flex;justify-content:space-between;align-items:center}
+  .result-item .result-val{font-size:24px}
+  .result-item .result-label{font-size:11px;margin-top:0}
+  .tip-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Tip & Split",
+  "description": "Split bills and tips among friends with US presets (15/18/20/22%), pre-tax or after-tax tipping, and rounding. Free, private, no signup.",
+  "url": "https://www.husir.org/tools/tip-split-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What tip percentage should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the United States, 15% is a common baseline, 18–20% for good service; presets cover these, and you can type any custom amount."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I tip on the pre-tax or after-tax amount?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the US the usual practice is tipping on the pre-tax bill. Enter a sales-tax rate (optional) and switch on \"Tip on total (incl. tax)\" to tip on the after-tax amount instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does rounding work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the rounding option to get clean per-person amounts, which is convenient when paying cash."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I split unevenly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool splits the total equally among the people you set; for uneven shares, run the calculation for each share separately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it need internet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the calculation happens instantly on your device, even offline."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Tip & Split", "item": "https://www.husir.org/tools/tip-split-calculator/"}]}</script>
+</head>
+<body>
+<div class="app">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Tip &amp; Split</span></span></nav>
+
+  <div class="header">
+    <h1>Tip &amp; Split</h1>
+    <div class="sub">Quick calc · No ads · Works offline</div>
+  </div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Split restaurant and service bills without the awkward math. Enter the bill amount, choose a tip percentage from the common presets or set your own, and say how many people are paying. See the tip total, the full bill, and exactly what each person owes — with rounding options when you want clean numbers for cash.</p>
+<p>It runs instantly in the browser, needs no account, and works offline — handy at dinner tables, group trips, and anywhere a group splits a check.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>💰 What tip percentage should I use?</strong><br>In the United States, 15% is a common baseline, 18–20% for good service; presets cover these, and you can type any custom amount.</p>
+<p><strong>🧮 Should I tip on the pre-tax or after-tax amount?</strong><br>In the US the usual practice is tipping on the pre-tax bill. Enter a sales-tax rate (optional) and switch on "Tip on total (incl. tax)" to tip on the after-tax amount instead.</p>
+<p><strong>💵 How does rounding work?</strong><br>Use the rounding option to get clean per-person amounts, which is convenient when paying cash.</p>
+<p><strong>👥 Can I split unevenly?</strong><br>This tool splits the total equally among the people you set; for uneven shares, run the calculation for each share separately.</p>
+<p><strong>🔒 Does it need internet?</strong><br>No — the calculation happens instantly on your device, even offline.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Tip = tip base × tip% (pre-tax: bill only · incl. tax: bill + tax)<br>Total = bill + tax + tip<br>Per person = total ÷ number of people<br>Example: 18% on a $54.20 bill with 8% tax and pre-tax tip → $9.76 tip, $68.30 total, $22.77 each for 3
+</div>
+</div>
+</details>
+
+  <div class="card">
+    <div class="card-label">Bill Amount</div>
+    <div class="bill-input-wrap">
+      <span class="dollar">$</span>
+      <input type="text" id="billInput" placeholder="0.00" inputmode="decimal" autofocus>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Sales Tax <span style="font-weight:400;font-size:12px;color:#666">(optional)</span></div>
+    <div class="custom-tip-row">
+      <span style="font-size:13px;color:#666;font-weight:600">Rate</span>
+      <input type="number" id="taxInput" placeholder="0" min="0" max="40" step="0.1" value="">
+      <span class="pct">%</span>
+    </div>
+    <div class="toggle-row" style="margin-top:14px">
+      <div>
+        <div class="toggle-label">Tip on total (incl. tax)</div>
+        <div class="toggle-sub">Off = tip on the pre-tax bill</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="tipTaxToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Tip</div>
+    <div class="tip-grid" id="tipGrid">
+      <button class="tip-btn active" data-tip="15">15%</button>
+      <button class="tip-btn" data-tip="18">18%</button>
+      <button class="tip-btn" data-tip="20">20%</button>
+      <button class="tip-btn" data-tip="22">22%</button>
+    </div>
+    <div class="custom-tip-row">
+      <span style="font-size:13px;color:#666;font-weight:600">Custom</span>
+      <input type="number" id="customTip" placeholder="20" min="0" max="100" value="">
+      <span class="pct">%</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Split Between</div>
+    <div class="people-row">
+      <button class="people-btn" id="minusBtn">-</button>
+      <div class="people-count" id="peopleCount">2</div>
+      <button class="people-btn" id="plusBtn">+</button>
+    </div>
+    <div class="people-label">people</div>
+  </div>
+
+  <div class="card">
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Round up total</div>
+        <div class="toggle-sub">Round to nearest dollar</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="roundToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="card result-card" id="resultCard">
+    <div class="card-label" style="color:rgba(34,197,94,0.7)">Your Split</div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="result-val" id="resultTip">$0.00</div>
+        <div class="result-label">Tip Total</div>
+      </div>
+      <div class="result-item">
+        <div class="result-val" id="resultTotal">$0.00</div>
+        <div class="result-label">Total Bill</div>
+      </div>
+      <div class="result-item">
+        <div class="result-val" id="resultPerPerson" style="color:#22c55e">$0.00</div>
+        <div class="result-label">Per Person</div>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+  </div>
+
+  <button class="export-btn" id="exportBtn">Save as Image</button>
+
+  <div class="footer">
+    For entertainment only · <span>tip-split-calc.surge.sh</span>
+  </div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+  <div style="text-align:center;margin-top:8px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08)">
+    <a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.78);text-decoration:none;font-size:12px;transition:color 0.2s" onmouseover="this.style.color='#ccc'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">☕ Buy me a coffee</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  var billInput = document.getElementById('billInput');
+  var tipBtns = document.querySelectorAll('.tip-btn');
+  var customTip = document.getElementById('customTip');
+  var peopleCount = document.getElementById('peopleCount');
+  var minusBtn = document.getElementById('minusBtn');
+  var plusBtn = document.getElementById('plusBtn');
+  var roundToggle = document.getElementById('roundToggle');
+  var taxInput = document.getElementById('taxInput');
+  var tipTaxToggle = document.getElementById('tipTaxToggle');
+  var resultTip = document.getElementById('resultTip');
+  var resultTotal = document.getElementById('resultTotal');
+  var resultPerPerson = document.getElementById('resultPerPerson');
+  var breakdown = document.getElementById('breakdown');
+  var exportBtn = document.getElementById('exportBtn');
+
+  var currentTip = 15;
+  var people = 2;
+
+  function parseBill(){
+    var raw = billInput.value.replace(/[^0-9.]/g,'');
+    var val = parseFloat(raw);
+    return isNaN(val) || val < 0 ? 0 : val;
+  }
+
+  function getTipPercent(){
+    if(customTip.value !== '' && customTip.value !== null){
+      var ct = parseFloat(customTip.value);
+      if(!isNaN(ct) && ct >= 0 && ct <= 100) return ct;
+    }
+    return currentTip;
+  }
+
+  function parseTax(){
+    var val = parseFloat(taxInput.value);
+    return isNaN(val) || val < 0 || val > 40 ? 0 : val;
+  }
+
+  function calc(){
+    var bill = parseBill();
+    var tipPct = getTipPercent();
+    var round = roundToggle.checked;
+    var taxAmount = bill * (parseTax() / 100);
+    var tipBase = tipTaxToggle.checked ? bill + taxAmount : bill;
+    var tip = tipBase * (tipPct / 100);
+    var taxed = bill + taxAmount;
+    var total = taxed + tip;
+    if(round){ total = Math.ceil(total); tip = total - taxed; }
+    var perPerson = people > 0 ? total / people : total;
+    var tipPerPerson = people > 0 ? tip / people : tip;
+    var billPerPerson = people > 0 ? bill / people : bill;
+    var taxPerPerson = people > 0 ? taxAmount / people : taxAmount;
+
+    resultTip.textContent = '$' + tip.toFixed(2);
+    resultTotal.textContent = '$' + total.toFixed(2);
+    resultPerPerson.textContent = '$' + perPerson.toFixed(2);
+
+    var tipLabel = 'Tip (' + tipPct.toFixed(0) + '%)' + (tipTaxToggle.checked ? ' (incl. tax)' : ' (pre-tax)');
+
+    if(people > 1){
+      breakdown.innerHTML =
+        '<div class="breakdown-row"><span>Bill per person</span><span>$'+billPerPerson.toFixed(2)+'</span></div>'+
+        (taxAmount > 0 ? '<div class="breakdown-row"><span>Tax per person</span><span>$'+taxPerPerson.toFixed(2)+'</span></div>' : '')+
+        '<div class="breakdown-row"><span>Tip per person</span><span>$'+tipPerPerson.toFixed(2)+'</span></div>'+
+        '<div class="breakdown-row" style="margin-top:4px;font-weight:600;color:#fff"><span>Each pays</span><span style="color:#22c55e">$'+perPerson.toFixed(2)+'</span></div>';
+    } else {
+      breakdown.innerHTML =
+        '<div class="breakdown-row"><span>Bill</span><span>$'+bill.toFixed(2)+'</span></div>'+
+        (taxAmount > 0 ? '<div class="breakdown-row"><span>Tax ('+parseTax().toFixed(1)+'%)</span><span>$'+taxAmount.toFixed(2)+'</span></div>' : '')+
+        '<div class="breakdown-row"><span>'+tipLabel+'</span><span>$'+tip.toFixed(2)+'</span></div>'+
+        (round ? '<div class="breakdown-row"><span>Rounded up</span><span style="color:#22c55e">&#10003;</span></div>' : '');
+    }
+
+    var card = document.getElementById('resultCard');
+    if(bill === 0) card.classList.add('muted'); else card.classList.remove('muted');
+  }
+
+  billInput.addEventListener('input', function(){
+    var raw = this.value.replace(/[^0-9.]/g,'');
+    var parts = raw.split('.');
+    if(parts.length > 2) raw = parts[0] + '.' + parts.slice(1).join('');
+    if(parts.length === 2 && parts[1].length > 2) raw = parts[0] + '.' + parts[1].slice(0,2);
+    this.value = raw;
+    calc();
+  });
+
+  tipBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tipBtns.forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      currentTip = parseInt(this.dataset.tip);
+      customTip.value = '';
+      calc();
+    });
+  });
+
+  customTip.addEventListener('input', function(){
+    if(this.value !== '') tipBtns.forEach(function(b){ b.classList.remove('active'); });
+    calc();
+  });
+
+  function updatePeople(delta){
+    people = Math.max(1, Math.min(99, people + delta));
+    peopleCount.textContent = people;
+    calc();
+  }
+  minusBtn.addEventListener('click', function(){ updatePeople(-1); });
+  plusBtn.addEventListener('click', function(){ updatePeople(1); });
+  roundToggle.addEventListener('change', calc);
+  taxInput.addEventListener('input', calc);
+  tipTaxToggle.addEventListener('change', calc);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowLeft' && document.activeElement !== billInput && document.activeElement !== customTip){
+      e.preventDefault(); updatePeople(-1);
+    }
+    if(e.key === 'ArrowRight' && document.activeElement !== billInput && document.activeElement !== customTip){
+      e.preventDefault(); updatePeople(1);
+    }
+  });
+
+  exportBtn.addEventListener('click', function(){
+    var exportDiv = document.createElement('div');
+    exportDiv.style.cssText = 'width:375px;padding:24px 20px;background:#0f0f1a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;position:fixed;left:-9999px;top:0';
+
+    var tipPct = getTipPercent();
+    var bill = parseBill();
+    var taxAmount = bill * (parseTax() / 100);
+    var tipBase = tipTaxToggle.checked ? bill + taxAmount : bill;
+    var tip = tipBase * (tipPct / 100);
+    var total = bill + taxAmount + tip;
+    if(roundToggle.checked){ total = Math.ceil(total); tip = total - bill - taxAmount; }
+    var perPerson = people > 0 ? total / people : total;
+    var tipLabel = 'Tip (' + tipPct.toFixed(0) + '%)' + (tipTaxToggle.checked ? ' (incl. tax)' : ' (pre-tax)');
+
+    exportDiv.innerHTML =
+      '<div style="text-align:center;margin-bottom:20px">'+
+      '<div style="font-size:24px;font-weight:900;color:#22c55e">Tip &amp; Split</div>'+
+      '<div style="font-size:11px;color:#666;margin-top:2px">tip-split-calc.surge.sh</div></div>'+
+      '<div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;margin-bottom:14px">'+
+      '<div style="display:flex;justify-content:space-between;font-size:14px;color:#999;margin-bottom:8px"><span>Bill</span><span style="color:#fff">$'+bill.toFixed(2)+'</span></div>'+
+      (taxAmount > 0 ? '<div style="display:flex;justify-content:space-between;font-size:14px;color:#999;margin-bottom:8px"><span>Tax ('+parseTax().toFixed(1)+'%)</span><span style="color:#fff">$'+taxAmount.toFixed(2)+'</span></div>' : '')+
+      '<div style="display:flex;justify-content:space-between;font-size:14px;color:#999;margin-bottom:8px"><span>'+tipLabel+'</span><span style="color:#fff">$'+tip.toFixed(2)+'</span></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:14px;color:#999;margin-bottom:8px"><span>People</span><span style="color:#fff">'+people+'</span></div>'+
+      (roundToggle.checked ? '<div style="display:flex;justify-content:space-between;font-size:14px;color:#999;margin-bottom:8px"><span>Round Up</span><span style="color:#22c55e">Yes</span></div>' : '')+
+      '<div style="height:1px;background:rgba(255,255,255,0.06);margin:10px 0"></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700"><span>Each Pays</span><span style="color:#22c55e;font-size:16px">$'+perPerson.toFixed(2)+'</span></div>'+
+      '</div>';
+
+    document.body.appendChild(exportDiv);
+
+    html2canvas(exportDiv, {scale:2,backgroundColor:'#0f0f1a',logging:false}).then(function(canvas){
+      exportDiv.remove();
+      var dataUrl = canvas.toDataURL('image/png');
+      if(window.innerWidth < 768){
+        var ov = document.createElement('div');
+        ov.className = 'export-overlay';
+        ov.onclick = function(){ ov.remove(); };
+        var img = document.createElement('img');
+        img.src = dataUrl;
+        ov.appendChild(img);
+        document.body.appendChild(ov);
+      } else {
+        var a = document.createElement('a');
+        a.download = 'tip-split.png';
+        a.href = dataUrl;
+        a.click();
+      }
+    }).catch(function(){ exportDiv.remove(); });
+  });
+
+  calc();
+})();
+</script>
+<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../sales-tax-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧾 Sales Tax Calculator</a><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a><a href="../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

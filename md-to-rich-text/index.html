@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown to Rich Text Formatter | HuSir Tools</title>
+<meta name="description" content="Write in Markdown, preview rich text instantly, and copy formatted content to email, blogs, or Google Docs.">
+<link rel="canonical" href="https://www.husir.org/tools/md-to-rich-text/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Markdown to Rich Text Formatter">
+<meta property="og:description" content="Write in Markdown, preview rich text instantly, and copy formatted content to email, blogs, or Google Docs.">
+<meta property="og:url" content="https://www.husir.org/tools/md-to-rich-text/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Markdown to Rich Text Formatter">
+<meta name="twitter:description" content="Write in Markdown, preview rich text instantly, and copy formatted content to email, blogs, or Google Docs.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<script>
+/* Libraries are fetched from several CDNs in turn: cdn.jsdelivr.net is unreachable
+   on some networks (many China ISPs block or throttle it), and a library that never
+   arrived used to mean the tool failed silently -- Export did nothing, the chart
+   never drew, the preview stayed blank. Now a failed host falls through to the next,
+   and a call made before the library arrives is queued instead of being lost. */
+window.husirLib=(function(){var L={"marked": ["https://cdn.jsdelivr.net/npm/marked/marked.min.js", "https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js", "https://unpkg.com/marked/marked.min.js"]},ready={},waiting={};
+function mark(n){ready[n]=!0;var q=waiting[n]||[];waiting[n]=[];for(var i=0;i<q.length;i++){try{q[i]()}catch(e){}}}
+function attempt(n,i){var a=L[n];if(i>=a.length)return;var s=document.createElement('script'),done=!1;
+function drop(){if(s.parentNode)s.parentNode.removeChild(s)}
+var t=setTimeout(function(){if(done)return;done=!0;drop();attempt(n,i+1)},8000);
+s.onload=function(){if(done)return;done=!0;clearTimeout(t);mark(n)};
+s.onerror=function(){if(done)return;done=!0;clearTimeout(t);drop();attempt(n,i+1)};
+s.src=a[i];document.head.appendChild(s)}
+for(var n in L){if(window[n])ready[n]=!0;else attempt(n,0)}
+return{isReady:function(n){return!!ready[n]},when:function(n,f){if(ready[n]){f();return}var q=waiting[n]=waiting[n]||[];if(q.indexOf(f)<0)q.push(f)}}})();
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+.container { max-width: 1300px; margin: 0 auto; }
+
+.header {
+  text-align: center; color: #fff; margin-bottom: 20px;
+}
+.header h1 {
+  font-size: 28px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  letter-spacing: 1px; margin-bottom: 4px;
+}
+.header .sub {
+  font-size: 13px; color: rgba(255,255,255,0.7);
+}
+
+.toolbar {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.theme-label {
+  color: #fff; font-size: 13px; font-weight: 600;
+}
+.theme-btn {
+  padding: 6px 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 20px;
+  background: transparent; color: #fff; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.theme-btn:hover { border-color: #fff; }
+.theme-btn.active {
+  background: #fff; color: #667eea; border-color: #fff;
+}
+.copy-btn {
+  padding: 8px 20px; border: none; border-radius: 8px;
+  background: linear-gradient(135deg, #10b981, #059669); color: #fff;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+  transition: all 0.15s;
+}
+.copy-btn:hover { box-shadow: 0 4px 16px rgba(16,185,129,0.5); transform: translateY(-1px); }
+.copy-btn.copied { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+
+.main-panels {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  min-height: 70vh;
+}
+.panel {
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.panel-label {
+  padding: 12px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: #999; border-bottom: 1px solid #eee;
+  background: #fafafa; display: flex; align-items: center; justify-content: space-between;
+}
+.panel-label .hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: #bbb; }
+
+#md-editor {
+  flex: 1; border: none; padding: 20px; font-size: 14px; line-height: 1.7;
+  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+  resize: none; outline: none; color: #1a1a2e;
+}
+#md-editor::placeholder { color: #ccc; }
+
+#preview {
+  flex: 1; padding: 20px; overflow-y: auto; line-height: 1.7;
+  font-size: 15px; color: #1a1a2e;
+}
+
+/* Theme styles for preview */
+#preview.theme-professional {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1e293b; line-height: 1.8;
+}
+#preview.theme-professional h1, #preview.theme-professional h2, #preview.theme-professional h3 {
+  color: #1e40af; font-weight: 700;
+}
+#preview.theme-professional h1 { font-size: 24px; border-bottom: 2px solid #1e40af; padding-bottom: 6px; }
+#preview.theme-professional h2 { font-size: 20px; }
+#preview.theme-professional h3 { font-size: 16px; }
+#preview.theme-professional a { color: #2563eb; }
+#preview.theme-professional blockquote {
+  border-left: 3px solid #94a3b8; padding-left: 16px; color: #475569; font-style: italic;
+}
+#preview.theme-professional code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+#preview.theme-professional pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto; }
+#preview.theme-professional table { border-collapse: collapse; width: 100%; }
+#preview.theme-professional th, #preview.theme-professional td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+#preview.theme-professional th { background: #e2e8f0; font-weight: 700; }
+
+#preview.theme-academic {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2d2d2d; line-height: 1.9;
+}
+#preview.theme-academic h1, #preview.theme-academic h2, #preview.theme-academic h3 {
+  font-family: "Georgia", serif; color: #3e2723; font-weight: 700;
+}
+#preview.theme-academic h1 { font-size: 26px; text-align: center; }
+#preview.theme-academic h2 { font-size: 20px; border-bottom: 1px solid #bcaaa4; }
+#preview.theme-academic h3 { font-size: 17px; font-style: italic; }
+#preview.theme-academic a { color: #5d4037; }
+#preview.theme-academic blockquote {
+  border-left: 3px solid #8d6e63; padding-left: 16px; color: #5d4037;
+  background: #efebe9; padding: 10px 16px; border-radius: 0 8px 8px 0;
+}
+#preview.theme-academic code { background: #efebe9; padding: 2px 5px; border-radius: 3px; }
+#preview.theme-academic pre { background: #3e2723; color: #efebe9; padding: 16px; border-radius: 8px; }
+#preview.theme-academic table { border-collapse: collapse; width: 100%; }
+#preview.theme-academic th, #preview.theme-academic td { border: 1px solid #bcaaa4; padding: 8px 12px; }
+#preview.theme-academic th { background: #d7ccc8; }
+
+#preview.theme-minimalist {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #333; line-height: 1.7;
+}
+#preview.theme-minimalist h1 { font-size: 28px; font-weight: 300; letter-spacing: -1px; }
+#preview.theme-minimalist h2 { font-size: 20px; font-weight: 400; }
+#preview.theme-minimalist h3 { font-size: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+#preview.theme-minimalist a { color: #333; border-bottom: 1px solid #333; text-decoration: none; }
+#preview.theme-minimalist blockquote { border-left: 2px solid #ddd; padding-left: 16px; color: #888; }
+#preview.theme-minimalist code { background: #f5f5f5; padding: 2px 5px; border-radius: 2px; }
+#preview.theme-minimalist pre { background: #fafafa; border: 1px solid #eee; padding: 16px; }
+#preview.theme-minimalist table { border-collapse: collapse; width: 100%; }
+#preview.theme-minimalist th, #preview.theme-minimalist td { border: 1px solid #eee; padding: 8px 12px; }
+#preview.theme-minimalist th { background: #fafafa; font-weight: 500; }
+
+#preview.theme-newsletter {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #2c2c2c; line-height: 1.8;
+}
+#preview.theme-newsletter h1 { font-size: 30px; font-weight: 900; color: #1a1a1a; }
+#preview.theme-newsletter h2 { font-size: 22px; font-weight: 700; color: #e63946; }
+#preview.theme-newsletter h3 { font-size: 17px; font-weight: 700; }
+#preview.theme-newsletter a { color: #e63946; font-weight: 600; }
+#preview.theme-newsletter blockquote {
+  border-left: 4px solid #e63946; padding: 12px 16px; background: #fdf2f2; border-radius: 0 6px 6px 0;
+}
+#preview.theme-newsletter code { background: #fff3cd; padding: 2px 6px; border-radius: 3px; }
+#preview.theme-newsletter pre { background: #2c2c2c; color: #f1f1f1; padding: 16px; border-radius: 8px; }
+#preview.theme-newsletter table { border-collapse: collapse; width: 100%; }
+#preview.theme-newsletter th, #preview.theme-newsletter td { border: 1px solid #ddd; padding: 10px 14px; }
+#preview.theme-newsletter th { background: #e63946; color: #fff; }
+
+#preview.theme-modern {
+  font-family: "Inter", -apple-system, sans-serif;
+  color: #0f172a; line-height: 1.8;
+}
+#preview.theme-modern h1 { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#preview.theme-modern h2 { font-size: 22px; font-weight: 700; color: #4f46e5; }
+#preview.theme-modern h3 { font-size: 17px; font-weight: 600; }
+#preview.theme-modern a { color: #6366f1; font-weight: 500; }
+#preview.theme-modern blockquote {
+  border-left: 4px solid #818cf8; padding: 12px 18px; background: #eef2ff; border-radius: 0 10px 10px 0;
+}
+#preview.theme-modern code { background: #e0e7ff; padding: 3px 8px; border-radius: 6px; color: #4338ca; }
+#preview.theme-modern pre { background: #0f172a; color: #e2e8f0; padding: 20px; border-radius: 12px; }
+#preview.theme-modern table { border-collapse: collapse; width: 100%; border-radius: 8px; overflow: hidden; }
+#preview.theme-modern th, #preview.theme-modern td { border: 1px solid #e2e8f0; padding: 10px 14px; }
+#preview.theme-modern th { background: #6366f1; color: #fff; }
+
+#preview hr { border: none; border-top: 1px solid #ddd; margin: 16px 0; }
+#preview img { max-width: 100%; border-radius: 8px; }
+#preview ul, #preview ol { padding-left: 24px; margin: 8px 0; }
+#preview p { margin: 8px 0; }
+
+.footer {
+  text-align: center; margin-top: 24px; color: rgba(255,255,255,0.5); font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .main-panels { grid-template-columns: 1fr; min-height: auto; }
+  #md-editor { min-height: 300px; }
+  #preview { min-height: 300px; }
+  .header h1 { font-size: 22px; }
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Markdown → Rich Text",
+  "description": "Write in Markdown, preview rich text instantly, and copy formatted content to email, blogs, or Google Docs.",
+  "url": "https://www.husir.org/tools/md-to-rich-text/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where does rich-text paste work best?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gmail and Outlook compose, Google Docs, Word, Notion, and most blog editors accept the formatted clipboard content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I change the look of the editor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — pick a theme from the toolbar; your Markdown content itself is unaffected."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my content sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — conversion happens locally on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the paste sometimes come out as plain text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some apps and text fields only accept plain text; in that case, paste from the Markdown source instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do links stay clickable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — Markdown links are converted into real, clickable links in the rich-text output, alongside bold, italic, and list formatting."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Markdown → Rich Text", "item": "https://www.husir.org/tools/md-to-rich-text/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Markdown → Rich Text</span></span></nav>
+
+  <div class="header">
+    <h1>Markdown → Rich Text</h1>
+    <div class="sub">Write in Markdown, preview styled output &mdash; paste straight into email, blog editors, or Google Docs</div>
+  </div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Write in Markdown and copy beautifully formatted text that pastes straight into email, blog editors, and Google Docs — bold, headings, lists, quotes, code, links, and tables keep their formatting without fiddling with toolbars.</p>
+<p>A live preview shows exactly how the output will look, with a choice of editor themes. The converter runs entirely in your browser, so drafts of sensitive emails and reports are never uploaded.</p>
+<div class="faq">
+<p><strong>📋 Where does rich-text paste work best?</strong><br>Gmail and Outlook compose, Google Docs, Word, Notion, and most blog editors accept the formatted clipboard content.</p>
+<p><strong>🎨 Can I change the look of the editor?</strong><br>Yes — pick a theme from the toolbar; your Markdown content itself is unaffected.</p>
+<p><strong>🔒 Is my content sent anywhere?</strong><br>No — conversion happens locally on your device.</p>
+<p><strong>📄 Why does the paste sometimes come out as plain text?</strong><br>Some apps and text fields only accept plain text; in that case, paste from the Markdown source instead.</p>
+<p><strong>🔗 Do links stay clickable?</strong><br>Yes — Markdown links are converted into real, clickable links in the rich-text output, alongside bold, italic, and list formatting.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+## Heading 2 makes a section title<br>**bold** and *italic* style words inline<br>- item makes a bullet list · 1. item makes a numbered list<br>> quote, `code`, and [link](url) render in the preview
+</div>
+</div>
+</details>
+
+<div class="toolbar">
+    <span class="theme-label">Theme:</span>
+    <button class="theme-btn active" data-theme="professional">Professional</button>
+    <button class="theme-btn" data-theme="academic">Academic</button>
+    <button class="theme-btn" data-theme="minimalist">Minimalist</button>
+    <button class="theme-btn" data-theme="newsletter">Newsletter</button>
+    <button class="theme-btn" data-theme="modern">Modern</button>
+    <button class="copy-btn" id="copyBtn" title="Copy formatted text to clipboard">Copy Rich Text</button>
+  </div>
+
+  <div class="main-panels">
+    <div class="panel">
+      <div class="panel-label">Markdown <span class="hint">Type or paste here</span></div>
+      <textarea id="md-editor" placeholder="# Welcome&#10;&#10;Type your **Markdown** here and see the rich text preview on the right.&#10;&#10;## Features&#10;&#10;- Live preview as you type&#10;- 5 built-in style themes&#10;- One-click copy to clipboard&#10;- Works in email, Google Docs, WordPress &amp; more&#10;&#10;> Pro tip: use headings, lists, and tables to structure your content.&#10;&#10;| Feature | Status |&#10;|---------|--------|&#10;| Markdown | ✅ |&#10;| Rich Copy | ✅ |&#10;| Themes | ✅ |"></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-label">Rich Text Preview</div>
+      <div id="preview" class="theme-professional"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    All formatting runs locally. No data leaves your browser.
+  </div>
+</div>
+
+<script>
+var mdEditor = document.getElementById('md-editor');
+var preview = document.getElementById('preview');
+var copyBtn = document.getElementById('copyBtn');
+var themeBtns = document.querySelectorAll('.theme-btn');
+var currentTheme = 'professional';
+
+function renderPreview() {
+  if (typeof marked === 'undefined') { window.husirLib.when('marked', renderPreview); return; }
+  var md = mdEditor.value;
+  var html = marked.parse(md);
+  preview.innerHTML = html;
+}
+
+mdEditor.addEventListener('input', renderPreview);
+
+themeBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    themeBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var theme = btn.getAttribute('data-theme');
+    preview.className = 'theme-' + theme;
+    currentTheme = theme;
+  });
+});
+
+copyBtn.addEventListener('click', function() {
+  var clone = preview.cloneNode(true);
+  clone.className = '';
+  // Build full HTML with inline styles matching the current theme
+  var styles = getComputedStyle(preview);
+  var htmlContent = clone.innerHTML;
+
+  // Create a proper rich text clipboard item
+  var container = document.createElement('div');
+  container.style.cssText = 'font-family:' + styles.fontFamily + ';color:' + styles.color + ';line-height:' + styles.lineHeight + ';font-size:' + styles.fontSize + ';';
+  container.innerHTML = htmlContent;
+
+  // Use a hidden div to copy
+  var hidden = document.createElement('div');
+  hidden.style.position = 'fixed';
+  hidden.style.left = '-9999px';
+  hidden.appendChild(container);
+  document.body.appendChild(hidden);
+
+  var range = document.createRange();
+  range.selectNodeContents(container);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  try {
+    document.execCommand('copy');
+    copyBtn.textContent = 'Copied!';
+    copyBtn.classList.add('copied');
+    setTimeout(function() {
+      copyBtn.textContent = 'Copy Rich Text';
+      copyBtn.classList.remove('copied');
+    }, 2000);
+  } catch(e) {
+    // Fallback: try Clipboard API
+    var html = new Blob([container.innerHTML], {type: 'text/html'});
+    var text = new Blob([container.innerText], {type: 'text/plain'});
+    var data = new ClipboardItem({
+      'text/html': html,
+      'text/plain': text
+    });
+    navigator.clipboard.write([data]).then(function() {
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+      setTimeout(function() {
+        copyBtn.textContent = 'Copy Rich Text';
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    }).catch(function() {
+      alert('Copy failed. Please select the preview text and copy manually (Ctrl+C / Cmd+C).');
+    });
+  }
+
+  sel.removeAllRanges();
+  document.body.removeChild(hidden);
+});
+
+// Initial render
+renderPreview();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a259c5506e699338',t:'MTc4NTgwNjc1Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../case-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F524; Text Case &amp; Word Counter</a><a href="../text-diff-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F50D; Text Diff Checker</a><a href="../resume-cover-letter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">📜 Resume &amp; Cover Letter Builder</a><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

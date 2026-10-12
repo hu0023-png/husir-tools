@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F9E6; Clothing &amp; Shoe Size Converter — US, EU, UK | HuSir Tools</title>
+<meta name="description" content="Convert US shoe and clothing sizes to EU, UK, and centimeters — women's, men's, kids' shoes, dresses, suit jackets, and shirt collars. 100% local, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/size-converter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🧦 Clothing & Shoe Size Converter — US, EU, UK">
+<meta property="og:description" content="Convert US shoe and clothing sizes to EU, UK, and centimeters — women">
+<meta property="og:url" content="https://www.husir.org/tools/size-converter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🧦 Clothing & Shoe Size Converter — US, EU, UK">
+<meta name="twitter:description" content="Convert US shoe and clothing sizes to EU, UK, and centimeters — women">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:27px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=number],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:inherit;line-height:1.5;outline:none;background:#fafbfc;color:#1a1a2e}
+input[type=number]:focus,select:focus{border-color:#667eea;background:#fff}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid #e0e0e0;background:#f8fafc;border-radius:999px;padding:7px 13px;font-size:12.5px;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover{border-color:#667eea;color:#4c1d95;background:#eef2ff}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.tile{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 14px;text-align:left}
+.tile b{font-size:20px;color:#1a1a2e;display:block;word-break:break-word;line-height:1.3}
+.tile span{font-size:10.5px;color:#7c86a0;text-transform:uppercase;letter-spacing:.5px;font-weight:800;display:block;margin-bottom:3px}
+.status{font-size:12.5px;color:#dc2626;font-weight:600}
+.note{font-size:12px;color:#7c86a0;margin-top:12px;line-height:1.7}
+.tip{background:#eef2ff;border:1px dashed #a78bfa;border-radius:10px;padding:9px 13px;margin-top:12px;font-size:12.5px;color:#3730a3;line-height:1.7}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:21px}.subtitle{font-size:12px}.panel{padding:16px 14px}.two-col{grid-template-columns:1fr}.result-grid{grid-template-columns:repeat(3,1fr)}.tile b{font-size:17px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🧦 Clothing & Shoe Size Converter",
+  "description": "Convert US shoe and clothing sizes to EU, UK, and centimeters — women's, men's, kids' shoes, dresses, suit jackets, and shirt collars. 100% local, works offline.",
+  "url": "https://www.husir.org/tools/size-converter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "🧦 What is my US size if I only know my foot in cm?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As a rough guide, women's foot length in cm minus 17 gives a US size (25 cm ≈ US 8), and men's cm minus 18 gives a US size (28 cm ≈ US 10). Half sizes sit between."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🏷️ Are women's US and EU sizes really just +30?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Roughly. Most charts put EU ≈ US + 30 for women's shoes (US 7 ≈ EU 37). Brands can differ by a full size, especially with heels and running shoes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "👦 Why are kids' shoe sizes so confusing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kid sizes restart after US 13: toddler and little-kid sizes run about EU +16–17, then “big kid” US 1–7 maps to EU 32 and up. Age is a terrible guide — use the foot."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "👕 What does EU 38 mean on a men's shirt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the collar in centimeters (15-inch collar ≈ EU 38 cm). Suit jackets are different: US 40 ≈ EU 50, roughly US + 10."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔍 Is this exact?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No converter can be. Use it to shortlist sizes, then confirm with the brand's chart or a tape measure before checkout."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Clothing & Shoe Size Converter", "item": "https://www.husir.org/tools/size-converter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Clothing &amp; Shoe Size Converter</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F9E6; Clothing &amp; Shoe Size Converter</h1>
+<p class="subtitle">US &harr; EU &harr; UK &middot; women &middot; men &middot; kids &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Shopping across countries means decoding three different size systems on one label. This converter translates US sizes into EU, UK, and centimeter equivalents for the cases that matter most: women's and men's shoes, kids' shoes, women's dress sizes, men's suit jackets, and men's shirt collars.</p>
+<p>Pick a category, type a US size, and the matching sizes update instantly. Every conversion uses the standard industry chart relationships, so you can compare a US 8 women's shoe to EU, UK, and foot length without opening five browser tabs. Sizes are marked approximate on purpose &#8212; brands cut differently, and the only truly reliable method is measuring your foot in centimeters or checking the brand's own chart.</p>
+<p>Everything runs locally on your device: no account, no upload, no tracking, fully offline. Keep it open next to your shopping cart.</p>
+<div class="faq">
+<p><strong>&#x1F9E6; What is my US size if I only know my foot in cm?</strong><br>As a rough guide, women's foot length in cm minus 17 gives a US size (25 cm &asymp; US 8), and men's cm minus 18 gives a US size (28 cm &asymp; US 10). Half sizes sit between.</p>
+<p><strong>&#x1F3F7;&#xFE0F; Are women's US and EU sizes really just +30?</strong><br>Roughly. Most charts put EU &asymp; US + 30 for women's shoes (US 7 &asymp; EU 37). Brands can differ by a full size, especially with heels and running shoes.</p>
+<p><strong>&#x1F466; Why are kids' shoe sizes so confusing?</strong><br>Kid sizes restart after US 13: toddler and little-kid sizes run about EU +16&ndash;17, then &ldquo;big kid&rdquo; US 1&ndash;7 maps to EU 32 and up. Age is a terrible guide &#8212; use the foot.</p>
+<p><strong>&#x1F455; What does EU 38 mean on a men's shirt?</strong><br>It is the collar in centimeters (15-inch collar &asymp; EU 38 cm). Suit jackets are different: US 40 &asymp; EU 50, roughly US + 10.</p>
+<p><strong>&#x1F50D; Is this exact?</strong><br>No converter can be. Use it to shortlist sizes, then confirm with the brand's chart or a tape measure before checkout.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference (approx.)</b><br>
+Shoes &mdash; women: EU = US + 30, UK = US &minus; 2.5, cm &asymp; US + 17 &nbsp;&middot;&nbsp; men: EU = US + 33, UK = US &minus; 1, cm &asymp; US + 18<br>
+Clothing &mdash; women: UK = US + 4, EU = US + 32 &nbsp;&middot;&nbsp; men's suit: EU = US + 10 &nbsp;&middot;&nbsp; shirt collar EU(cm) = inches &times; 2.54
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F4E6; Size converter</h3><span style="font-size:11.5px;color:#98a1b3">Approximate chart equivalents</span></div>
+  <div class="two-col">
+    <div>
+      <label class="field-label" for="catSel">Category</label>
+      <select id="catSel">
+        <option value="wshoe">Women's shoes</option>
+        <option value="mshoe">Men's shoes</option>
+        <option value="ktodd">Kids' shoes — toddler (US 4–10)</option>
+        <option value="klittle">Kids' shoes — little kid (US 10.5–13)</option>
+        <option value="kbig">Kids' shoes — big kid (US 1–7)</option>
+        <option value="wclothes">Women's clothing (dresses &amp; tops)</option>
+        <option value="msuit">Men's suit jacket</option>
+        <option value="collar">Men's shirt collar</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label" id="usLabel" for="usSize">US size</label>
+      <input type="number" id="usSize" value="8" min="0" step="0.5" inputmode="decimal">
+    </div>
+  </div>
+  <div class="chips" id="sizeChips"></div>
+  <div class="status" id="st"></div>
+  <div class="result-grid" id="resGrid"></div>
+  <div class="tip" id="tipBox"></div>
+  <p class="note" id="noteLine"></p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../unit-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9EE; Unit Converter</a><a href="../cooking-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F963; Cooking &amp; Baking Converter</a><a href="../bmi-calorie-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2696;&#xFE0F; BMI &amp; Calorie Calculator</a><a href="../date-workday-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C5; Date &amp; Workday Counter</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+function $(id){return document.getElementById(id);}
+function fmt(n){return String(Math.round(n*10)/10);}
+function clean(n){return Math.round(n*2)/2;}
+var CHIPS={
+  wshoe:[['5','5'],['7','7'],['8','8'],['10','10']],
+  mshoe:[['8','8'],['9','9'],['10','10'],['11','11']],
+  ktodd:[['5','US 5'],['7','US 7'],['9','US 9']],
+  klittle:[['11','US 11'],['12','US 12'],['13','US 13']],
+  kbig:[['1','US 1'],['3','US 3'],['5','US 5'],['7','US 7']],
+  wclothes:[['4','4'],['6','6'],['8','8'],['12','12']],
+  msuit:[['38','38'],['40','40'],['42','42'],['44','44']],
+  collar:[['15','15'],['15.5','15.5'],['16','16'],['17','17']]
+};
+function convert(){
+  var cat=$('catSel').value;
+  var raw=parseFloat($('usSize').value);
+  if(!isFinite(raw)||raw<=0){$('st').textContent='Enter a size greater than zero.';$('resGrid').innerHTML='';$('tipBox').textContent='';$('noteLine').textContent='';return;}
+  $('st').textContent='';
+  var tiles=[];
+  var tip='';
+  var note='Approximate equivalents from standard conversion charts. Sizes vary by brand and style.';
+  if(cat==='wshoe'){
+    var us=clean(raw);
+    tiles.push(['EU (women)','EU '+(us+30)]);
+    tiles.push(['UK (women)','UK '+(us-2.5)]);
+    tiles.push(['Foot length',''+(us+17)+' cm']);
+    tip='How to check: measure your bare foot heel-to-toe in cm. If it lands between sizes, size up for comfort shoes and down for heels.';
+  }else if(cat==='mshoe'){
+    var us=clean(raw);
+    tiles.push(['EU (men)','EU '+(us+33)]);
+    tiles.push(['UK (men)','UK '+(us-1)]);
+    tiles.push(['Foot length',''+(us+18)+' cm']);
+    tip='Men&rsquo;s US sizes run about 33 behind EU (US 9 &asymp; EU 42) and 1 ahead of UK. Measure in cm for the safest match.';
+  }else if(cat==='ktodd'||cat==='klittle'||cat==='kbig'){
+    var us=raw;
+    var eu,cm,band;
+    if(cat==='ktodd'){eu=us+16;cm=us*0.75+9;band='Toddler US 4–10';}
+    else if(cat==='klittle'){eu=us+17;cm=us*0.7+9.9;band='Little kid US 10.5–13';}
+    else{eu=us+31;cm=us*0.7+19.6;band='Big kid US 1–7';}
+    tiles.push(['EU (kids)','EU '+fmt(eu)]);
+    tiles.push(['Approx. foot',''+fmt(cm)+' cm']);
+    tiles.push(['Band',band]);
+    tip='Kid sizes are the least standardized: every brand chart differs by a size or more. Measure the foot in cm and match it to the EU size, or use the brand&rsquo;s own chart. Age is not a reliable guide.';
+    }else if(cat==='wclothes'){
+    var us=clean(raw);
+    tiles.push(['UK (women)','UK '+(us+4)]);
+    tiles.push(['EU (women)','EU '+(us+32)]);
+    tiles.push(['Letter',''+(us<=2?'XS':us<=6?'S':us<=10?'M':us<=14?'L':'XL')]);
+    tip='US 2 &asymp; UK 6 &asymp; EU 34 &asymp; XS; US 8 &asymp; UK 12 &asymp; EU 40 &asymp; M. Dresses and tops fit differently, so check the brand chart.';
+  }else if(cat==='msuit'){
+    var us=clean(raw);
+    tiles.push(['EU (jacket)','EU '+(us+10)]);
+    tiles.push(['UK (jacket)','UK '+us]);
+    tiles.push(['Letter',''+(us<38?'S':us<42?'R':us<46?'L':'XL')]);
+    tip='A US/UK 40 regular is about EU 50. &ldquo;R&rdquo; means regular length; tall and short versions shift the number too.';
+  }else{
+    var us=raw;
+    var eu=Math.round(us*2.54);
+    tiles.push(['EU collar','EU '+eu+' cm']);
+    tiles.push(['UK collar','UK '+fmt(us)]);
+    tiles.push(['Neck',''+fmt(us)+' inches']);
+    tip='Shirt collars are measured in inches in the US/UK and centimeters in Europe: a 15-inch neck &asymp; EU 38 cm. Round up if you are between sizes.';
+  }
+  $('tipBox').innerHTML=tip;
+  $('noteLine').textContent=note;
+  $('resGrid').innerHTML=tiles.map(function(t){return '<div class="tile"><span>'+t[0]+'</span><b>'+t[1]+'</b></div>';}).join('');
+}
+function buildChips(){
+  var h='';
+  Object.keys(CHIPS).forEach(function(cat){
+    var cur=cat===$('catSel').value;
+    if(!cur)return;
+    CHIPS[cat].forEach(function(p){
+      h+='<button type="button" class="chip" data-v="'+p[0]+'">'+p[1]+'</button>';
+    });
+  });
+  $('sizeChips').innerHTML=h;
+}
+$('sizeChips').addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('button'):null;
+  if(!b)return;
+  $('usSize').value=b.getAttribute('data-v');
+  convert();
+});
+$('catSel').addEventListener('change',function(){
+  var cat=$('catSel').value;
+  var def={wshoe:8,mshoe:9,ktodd:7,klittle:12,kbig:3,wclothes:6,msuit:40,collar:15};
+  $('usSize').value=def[cat];
+  $('usLabel').textContent=cat==='collar'?'US collar (inches)':(cat==='msuit'?'US jacket size':'US size');
+  buildChips();
+  convert();
+});
+$('usSize').addEventListener('input',convert);
+buildChips();
+convert();
+</script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Parent Note Generator for Teachers | HuSir Tools</title>
+<meta name="description" content="Write a warm, professional message to parents in seconds. Pick a situation, add a detail, copy the ready-to-send note. Private, offline, and free.">
+<link rel="canonical" href="https://www.husir.org/tools/parent-note-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Parent Note Generator for Teachers">
+<meta property="og:description" content="Write a warm, professional message to parents in seconds. Pick a situation, add a detail, copy the ready-to-send note. Private, offline, and free.">
+<meta property="og:url" content="https://www.husir.org/tools/parent-note-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Parent Note Generator for Teachers">
+<meta name="twitter:description" content="Write a warm, professional message to parents in seconds. Pick a situation, add a detail, copy the ready-to-send note. Private, offline, and free.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=text],textarea{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc}
+input:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;line-height:1.6}
+select{width:100%;padding:8px 10px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;background:#fafbfc;font-family:inherit;outline:none}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-green{background:#10b981;color:#fff}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.hint{font-size:12px;color:#9aa3b5;margin-top:6px;line-height:1.5}
+.note{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.topic-btn{text-align:left;padding:10px 12px;border:2px solid #e0e0e0;border-radius:11px;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#334155;transition:all .15s;line-height:1.35}
+.topic-btn:hover{border-color:#a5b4fc;background:#f5f7ff}
+.topic-btn.active{border-color:#667eea;background:#eef2ff;color:#3730a3;box-shadow:0 2px 10px rgba(102,126,234,.25)}
+.topic-btn small{display:block;font-weight:400;color:#94a3b8;font-size:11.5px;margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.msg-out{min-height:220px;font-size:14px;line-height:1.75;background:#fcfcff}
+.count-line{font-size:12px;color:#94a3b8;margin-top:6px}
+.hist-item{display:flex;gap:8px;align-items:flex-start;border:1px solid #eef2f7;border-radius:10px;padding:8px 10px;margin-top:6px;background:#fafbfe}
+.hist-item .hi-text{flex:1;font-size:12.5px;color:#475569;line-height:1.45;word-break:break-word}
+.hist-item button{flex-shrink:0}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.btn{min-height:44px;padding-left:14px;padding-right:14px}.topic-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button]{min-height:44px}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Parent Note Generator",
+  "description": "Write a warm, professional message to parents in seconds. Pick a situation, add a detail, copy the ready-to-send note. Private, offline, and free.",
+  "url": "https://www.husir.org/tools/parent-note-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How specific should the \"detail\" be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One short concrete sentence works best, e.g. \"three missing math assignments since Feb 3\" or \"helped a classmate during the fire drill\". If you leave it blank, the note uses a general version."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which tone should I pick?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Warm & friendly suits good news and relationship-building. Professional is the safe default for concerns. Concise is for quick texts or busy parents. All three stay respectful and solution-focused."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I edit the message?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the preview is a normal text box. Your edits stay until you change a setting and regenerate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are old notes kept?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The last few generated notes are saved locally and listed under the preview so you can copy them again. Nothing is sent anywhere."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is student information uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Names and notes never leave your browser — important when handling student privacy (FERPA-conscious by design)."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Parent Note Generator", "item": "https://www.husir.org/tools/parent-note-generator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Parent Note Generator</span></span></nav>
+
+<div class="title-wrap">
+<h1>💬 Parent Note Generator</h1>
+<p class="subtitle">Situation &middot; tone &middot; details &middot; a ready-to-send message in seconds</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) ===== -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Communicating with families is one of the most time-consuming parts of teaching. This generator turns a situation into a complete, ready-to-send note: pick a topic (positive shout-out, missing work, a behavior conversation, a meeting request, and more), choose a tone, fill in the student and teacher names, and add one specific detail. The message is written for you — warm enough to build trust, clear enough to stay professional.</p>
+<p>Teachers use it to send the quick "great day today" email that builds goodwill, to document concerns consistently for the office, or to reply to a parent request without staring at a blank page. The note appears in the preview box where you can still edit anything, then copy it into your school email, an SMS, or a parent-portal message — or open it straight in your email app with the subject filled in. Recent notes are auto-saved on the device so you can resend or reuse them. Everything runs locally: no account, no upload, and it works offline.</p>
+<div class="faq">
+<p><strong>🎯 How specific should the "detail" be?</strong><br>One short concrete sentence works best, e.g. "three missing math assignments since Feb 3" or "helped a classmate during the fire drill". If you leave it blank, the note uses a general version.</p>
+<p><strong>😊 Which tone should I pick?</strong><br>Warm & friendly suits good news and relationship-building. Professional is the safe default for concerns. Concise is for quick texts or busy parents. All three stay respectful and solution-focused.</p>
+<p><strong>✏️ Can I edit the message?</strong><br>Yes — the preview is a normal text box. Your edits stay until you change a setting and regenerate.</p>
+<p><strong>💾 Are old notes kept?</strong><br>The last few generated notes are saved locally and listed under the preview so you can copy them again. Nothing is sent anywhere.</p>
+<p><strong>🔒 Is student information uploaded?</strong><br>No. Names and notes never leave your browser — important when handling student privacy (FERPA-conscious by design).</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Message = greeting + opening + specific detail + action/next step + closing + signature.<br>
+Good practice: start positive, state the fact, end with an invitation to talk ("feel free to reach out").<br>
+Keep it under ~150 words for email; under ~60 words for SMS.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>1 · Situation &amp; tone</h3></div>
+  <div class="topic-grid" id="topicGrid"></div>
+  <div class="field-label">Tone</div>
+  <select id="toneSel">
+    <option value="warm">😊 Warm &amp; friendly</option>
+    <option value="pro">🤝 Professional</option>
+    <option value="concise">⚡ Concise / SMS-friendly</option>
+  </select>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>2 · Details</h3></div>
+  <div class="two-col">
+    <div><label class="field-label" style="margin-top:0">Parent name (optional)</label><input type="text" id="fParent" placeholder="e.g. Mr. and Mrs. Carter"></div>
+    <div><label class="field-label" style="margin-top:0">Student name</label><input type="text" id="fStudent" placeholder="e.g. Maya Carter"></div>
+    <div><label class="field-label">Teacher name</label><input type="text" id="fTeacher" placeholder="e.g. Ms. Rivera"></div>
+    <div><label class="field-label">Class / subject (optional)</label><input type="text" id="fClass" placeholder="e.g. Math 7 — Period 2"></div>
+  </div>
+  <div class="field-label">Specific detail (optional)</div>
+  <textarea id="fDetail" rows="2" placeholder="One concrete sentence, e.g. Maya turned in her science project two days early and led the group presentation."></textarea>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>3 · Message &amp; send</h3></div>
+  <div class="field-label" style="margin-top:0">Subject</div>
+  <input type="text" id="subjectOut" readonly style="background:#f1f5f9">
+  <div class="field-label">Message (editable)</div>
+  <textarea id="msgOut" class="msg-out"></textarea>
+  <div class="count-line" id="countLine"></div>
+  <div class="btn-row">
+    <button type="button" class="btn btn-primary" id="copyBtn">📋 Copy message</button>
+    <button type="button" class="btn btn-ghost" id="emailBtn">📧 Open in email</button>
+    <button type="button" class="btn btn-ghost" id="regenerateBtn">🔄 Regenerate</button>
+  </div>
+  <div class="note" id="noteBox"></div>
+  <div class="field-label">Recently generated (auto-saved on this device)</div>
+  <div id="histWrap"></div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../rubric-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CB; Rubric Generator</a><a href="../attendance-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">📋 Attendance Tracker</a><a href="../quiz-flashcard-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3B4; Quiz &amp; Flashcard Maker</a><a href="../grade-stats/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Grade Stats &amp; Analysis</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var LS_KEY = 'husir-parent-notes-v1';
+  var HIST_KEY = 'husir-parent-notes-hist-v1';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+
+  var TOPICS = [
+    { id: 'praise', emoji: '😊', name: 'Positive shout-out', hint: 'Great day, kind act, good question' },
+    { id: 'improve', emoji: '📈', name: 'Great improvement', hint: 'Grades, effort, confidence up' },
+    { id: 'missing', emoji: '📚', name: 'Missing or late work', hint: 'Late or incomplete assignments' },
+    { id: 'behavior', emoji: '🧭', name: 'Behavior concern', hint: 'Disruption, choices, reset plan' },
+    { id: 'attendance', emoji: '⏰', name: 'Attendance / tardies', hint: 'Absences, patterns, support' },
+    { id: 'help', emoji: '🆘', name: 'Needs extra help', hint: 'Struggling, tutoring, office hours' },
+    { id: 'sick', emoji: '🤒', name: 'Felt unwell at school', hint: 'Nurse visit, sent home, update' },
+    { id: 'meeting', emoji: '🗓', name: 'Meeting request', hint: 'Conference or phone call' },
+    { id: 'fieldtrip', emoji: '🎟', name: 'Field trip / event', hint: 'Permission, date, chaperones' },
+    { id: 'thanks', emoji: '🙏', name: 'Thank you', hint: 'Volunteer, donation, support' }
+  ];
+
+  var state = { topic: 'praise', tone: 'warm', parent: '', student: '', teacher: '', cls: '', detail: '' };
+
+  function showNote(msg) { var n = $('noteBox'); n.style.display = msg ? 'block' : 'none'; n.textContent = msg || ''; }
+  function saveDraft() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+  function clean(s) { return String(s == null ? '' : s).trim(); }
+  function student() { return clean(state.student) || 'your child'; }
+  function detail() { return clean(state.detail); }
+
+  /* ---------- Topic buttons ---------- */
+  function renderTopics() {
+    var g = $('topicGrid');
+    g.innerHTML = TOPICS.map(function (t) {
+      return '<button type="button" class="topic-btn' + (t.id === state.topic ? ' active' : '') + '" data-id="' + t.id + '">' + t.emoji + ' ' + t.name + '<small>' + t.hint + '</small></button>';
+    }).join('');
+  }
+
+  /* ---------- Template engine ---------- */
+  var OPENER = {
+    warm: { pos: 'I wanted to share some great news', concern: 'I wanted to reach out about', ask: 'I\u2019d love to connect with you about' },
+    pro: { pos: 'I am writing to let you know', concern: 'I am writing to discuss', ask: 'I would like to request a conversation about' },
+    concise: { pos: 'Quick update:', concern: 'Quick note about', ask: 'Can we connect about' }
+  };
+  var CLOSING = {
+    warm: { t1: 'Please don\u2019t hesitate to reach out — I\u2019m happy to talk more. Thank you for your partnership!', t2: 'Thank you for your continued support at home!' },
+    pro: { t1: 'Please feel free to contact me with any questions. Thank you for your attention to this matter.', t2: 'Thank you for your cooperation.' },
+    concise: { t1: 'Let me know if you have questions.', t2: 'Thanks!' }
+  };
+
+  function bodies(topic, tone, d) {
+    var warm = tone === 'warm';
+    var det = d ? d + ' ' : '';
+    var sName = student();
+    switch (topic) {
+      case 'praise':
+        return [
+          det + sName + ' had a wonderful day in ' + (clean(state.cls) || 'class') + ' today. ' + (d ? 'I wanted you to know because it made a real difference in our classroom. ' : 'I wanted you to know how much I appreciated it. '),
+          warm ? 'Students thrive when they hear that their good moments are noticed — thank you for raising such a kind young person.' : 'I find that acknowledging these moments helps build a positive classroom culture, and I wanted to share it with you.'
+        ];
+      case 'improve':
+        return [
+          'I\u2019m happy to report that ' + sName + ' has shown real improvement lately. ' + (d ? d + ' This progress has not gone unnoticed. ' : 'The recent growth in effort and consistency is clear. '),
+          warm ? 'It\u2019s been wonderful to watch the confidence grow — please celebrate this at home too!' : 'I will continue to encourage this momentum in class and wanted to keep you informed of the progress.'
+        ];
+      case 'missing':
+        return [
+          'I wanted to let you know that ' + sName + ' ' + (d ? d + '. ' : 'has a few missing or late assignments right now. ') + 'This is a change from earlier in the term, so I wanted to flag it early.',
+          warm ? 'Could you help us check in about it at home? I\u2019d love to see ' + sName + ' get back on track before it piles up.' : 'Please help us review the assignments together. ' + sName + ' can use time before or after school to catch up if needed.'
+        ];
+      case 'behavior':
+        return [
+          'I wanted to talk with you about ' + sName + '\u2019s day today. ' + (d ? d + ' ' : 'There were a few choices in class that interrupted our learning. ') + 'I have already spoken with ' + sName + ' about it and we reset for tomorrow.',
+          warm ? 'My goal is always to help ' + sName + ' succeed, and I think a short conversation between us would really help. What time works for a quick call?' : 'I believe a brief conversation would help us stay consistent. Please let me know a convenient time to talk.'
+        ];
+      case 'attendance':
+        return [
+          'I\u2019m reaching out about ' + sName + '\u2019s attendance. ' + (d ? d + '. ' : 'The number of missed days has been adding up, and I know how much that can affect learning. '),
+          warm ? 'I\u2019d like to help find a solution together — whether that\u2019s a schedule change, extra support, or a plan we can both follow. What would work best for your family?' : 'Please let me know if there is anything the school can do to support regular attendance. I would welcome a call to discuss options.'
+        ];
+      case 'help':
+        return [
+          'I\u2019ve noticed that ' + sName + ' is working hard but has been struggling with some of the recent material. ' + (d ? d + ' ' : ''),
+          warm ? 'I\u2019d love for ' + sName + ' to feel confident again. Could we set up extra support — office hours, a study buddy, or tutoring? I\u2019m happy to help make it happen.' : 'I would like to put some extra support in place, such as office hours or a tutoring plan. Please let me know if you are available for a quick conversation.'
+        ];
+      case 'sick':
+        return [
+          sName + ' felt unwell today and visited the school nurse. ' + (d ? d + ' ' : '') + (warm ? 'We made sure ' + sName + ' was comfortable and rested in the health office before returning to class.' : 'Standard procedure was followed, and ' + sName + ' rested in the health office before returning to class.'),
+          warm ? 'If symptoms continue tonight, please let me know how tomorrow looks — we\u2019ll be glad to help ' + sName + ' catch up on anything missed.' : 'Please update me if symptoms continue so we can plan accordingly. Work can be collected upon return.'
+        ];
+      case 'meeting':
+        return [
+          'I\u2019d like to schedule a meeting to talk about ' + sName + '. ' + (d ? d + ' ' : 'It would be great to share updates and make a plan together. '),
+          warm ? 'Would a short call or an in-person visit work better for you? I can be flexible with mornings and afternoons.' : 'Please reply with a few times that work for you, and I will confirm a slot. The meeting should take about 15\u201320 minutes.'
+        ];
+      case 'fieldtrip':
+        return [
+          'Just a reminder about our upcoming ' + (d ? clean(state.detail) + '. ' : 'field trip. ') + 'Permission forms and details went home with ' + sName + ' earlier this week.',
+          warm ? 'We\u2019d love to have ' + sName + ' join us! Please return the signed form by the due date, and let me know if you\u2019d like to chaperone.' : 'Please return the signed permission form by the due date. Contact me with any questions.'
+        ];
+      case 'thanks':
+        return [
+          'Thank you so much for your support — ' + (d ? d + ' It made a real difference for our class. ' : 'your time and generosity have made a real difference for our class. '),
+          warm ? 'Families like yours are what make this school community so special. We truly appreciate you!' : 'On behalf of the class, thank you for your contribution. It is greatly appreciated.'
+        ];
+    }
+    return ['Thank you for your continued partnership in ' + sName + '\u2019s education.'];
+  }
+
+  function subjectFor(topic, sName) {
+    var subjects = {
+      praise: 'Great news about ' + sName,
+      improve: 'Progress update: ' + sName,
+      missing: 'A note about missing work — ' + sName,
+      behavior: 'A conversation about ' + sName + '\u2019s day',
+      attendance: 'Attendance update: ' + sName,
+      help: 'Extra support for ' + sName,
+      sick: sName + ' was not feeling well today',
+      meeting: 'Meeting request regarding ' + sName,
+      fieldtrip: 'Field trip reminder — ' + sName,
+      thanks: 'Thank you from our class'
+    };
+    return subjects[topic] || 'A note about ' + sName;
+  }
+
+  function build() {
+    var tone = state.tone;
+    var t = TOPICS.filter(function (x) { return x.id === state.topic; })[0] || TOPICS[0];
+    var sName = student();
+    var greet = clean(state.parent) ? (tone === 'concise' ? 'Hi ' + clean(state.parent) + ',' : 'Dear ' + clean(state.parent) + ',') : (tone === 'concise' ? 'Hi,' : 'Hello,');
+    var posTopics = ['praise', 'improve', 'thanks'];
+    var phrase = posTopics.indexOf(state.topic) > -1 ? OPENER[tone].pos : OPENER[tone].concern;
+    var opener = tone === 'concise' ? phrase + ' ' + sName + ' — ' + t.name.toLowerCase() + '.' : phrase + ' — ' + t.name.toLowerCase() + ' for ' + sName + '.';
+    var paras = bodies(state.topic, tone, detail());
+    var lines = [greet, opener];
+    paras.forEach(function (p) { lines.push(p); });
+    var close = CLOSING[tone];
+    lines.push(close.t1);
+    var sig = clean(state.teacher) || 'Your child\u2019s teacher';
+    if (clean(state.cls)) sig = clean(state.teacher) ? clean(state.teacher) + ' · ' + clean(state.cls) : clean(state.cls) + ' teacher';
+    lines.push(sig);
+    $('subjectOut').value = subjectFor(state.topic, sName);
+    $('msgOut').value = lines.join('\n\n');
+    var words = $('msgOut').value.trim().split(/\s+/).filter(Boolean).length;
+    $('countLine').textContent = words + ' words · ' + $('msgOut').value.length + ' characters';
+  }
+
+  /* ---------- Copy / email / history ---------- */
+  function copyMsg() {
+    var v = $('msgOut').value;
+    if (!v) return;
+    function done() { showNote('Message copied to clipboard.'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(v).then(done, function () { fallback(v); });
+    } else fallback(v);
+  }
+  function fallback(v) {
+    var ta = document.createElement('textarea');
+    ta.value = v; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showNote('Message copied to clipboard.'); } catch (e) { showNote('Select the text and copy manually.'); }
+    document.body.removeChild(ta);
+  }
+  function openEmail() {
+    var subject = $('subjectOut').value;
+    var body = $('msgOut').value;
+    var a = document.createElement('a');
+    a.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    a.click();
+  }
+  function pushHistory() {
+    var v = $('msgOut').value;
+    if (!v.trim()) return;
+    var h = [];
+    try { h = JSON.parse(localStorage.getItem(HIST_KEY)) || []; } catch (e) {}
+    h.unshift({ t: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), text: v });
+    h = h.slice(0, 8);
+    try { localStorage.setItem(HIST_KEY, JSON.stringify(h)); } catch (e) {}
+  }
+  function renderHist() {
+    var w = $('histWrap');
+    var h = [];
+    try { h = JSON.parse(localStorage.getItem(HIST_KEY)) || []; } catch (e) {}
+    if (!h.length) { w.innerHTML = '<div style="color:#c3c9d4;font-size:12.5px">Generated notes will appear here.</div>'; return; }
+    w.innerHTML = h.map(function (item, i) {
+      return '<div class="hist-item"><div class="hi-text"><b style="color:#94a3b8;font-weight:600">' + esc(item.t) + '</b><br>' + esc(item.text.slice(0, 140)) + (item.text.length > 140 ? '…' : '') + '</div><button type="button" class="btn btn-ghost" data-i="' + i + '" style="padding:6px 10px;font-size:12px">📋 Copy</button></div>';
+    }).join('');
+  }
+  function histCopy(i) {
+    var h = [];
+    try { h = JSON.parse(localStorage.getItem(HIST_KEY)) || []; } catch (e) {}
+    if (!h[i]) return;
+    var v = h[i].text;
+    function done() { showNote('Old note copied to clipboard.'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(done, function () { fallback(v); });
+    else fallback(v);
+  }
+
+  /* ---------- Events ---------- */
+  $('topicGrid').addEventListener('click', function (e) {
+    var b = e.target.closest('.topic-btn');
+    if (!b) return;
+    state.topic = b.getAttribute('data-id');
+    renderTopics(); build(); pushHistory(); renderHist(); saveDraft();
+  });
+  $('toneSel').addEventListener('change', function () { state.tone = $('toneSel').value; build(); saveDraft(); });
+  var FIELD_MAP = { fParent: 'parent', fStudent: 'student', fTeacher: 'teacher', fClass: 'cls', fDetail: 'detail' };
+  ['fParent', 'fStudent', 'fTeacher', 'fClass', 'fDetail'].forEach(function (id) {
+    $(id).addEventListener('input', function () {
+      state[FIELD_MAP[id]] = $(id).value;
+      build(); saveDraft();
+    });
+  });
+  $('copyBtn').addEventListener('click', copyMsg);
+  $('emailBtn').addEventListener('click', openEmail);
+  $('regenerateBtn').addEventListener('click', function () { build(); pushHistory(); renderHist(); });
+  $('msgOut').addEventListener('input', function () {
+    var words = $('msgOut').value.trim().split(/\s+/).filter(Boolean).length;
+    $('countLine').textContent = words + ' words · ' + $('msgOut').value.length + ' characters';
+  });
+  $('histWrap').addEventListener('click', function (e) {
+    if (e.target.getAttribute('data-i') != null) histCopy(+e.target.getAttribute('data-i'));
+  });
+
+  /* ---------- Init ---------- */
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+  if (saved && saved.topic) state = saved;
+  renderTopics();
+  $('toneSel').value = state.tone;
+  $('fParent').value = state.parent;
+  $('fStudent').value = state.student;
+  $('fTeacher').value = state.teacher;
+  $('fClass').value = state.cls;
+  $('fDetail').value = state.detail;
+  build();
+  renderHist();
+})();
+</script>
+</body>
+</html>

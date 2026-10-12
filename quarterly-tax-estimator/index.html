@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Employment Tax Calculator (1099, Quarterly) | HuSir Tools</title>
+<meta name="description" content="Estimate self-employment tax and federal income tax on 1099 income, then get four Form 1040-ES payments with due dates. Free & private.">
+<link rel="canonical" href="https://www.husir.org/tools/quarterly-tax-estimator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Self-Employment Tax Calculator (1099, Quarterly)">
+<meta property="og:description" content="Estimate self-employment tax and federal income tax on 1099 income, then get four Form 1040-ES payments with due dates. Free & private.">
+<meta property="og:url" content="https://www.husir.org/tools/quarterly-tax-estimator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Self-Employment Tax Calculator (1099, Quarterly)">
+<meta name="twitter:description" content="Estimate self-employment tax and federal income tax on 1099 income, then get four Form 1040-ES payments with due dates. Free & private.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.due{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;background:#f6f7fb;font-size:13px;color:#475569;margin-top:6px}
+.due b{color:#1a1a2e}
+.due .due-amt{color:#059669;font-weight:700}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong{color:#1a1a2e}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Quarterly Estimated Tax Calculator",
+  "description": "Estimate self-employment tax and federal income tax on 1099 income, then get four Form 1040-ES payments with due dates. Free & private.",
+  "url": "https://www.husir.org/tools/quarterly-tax-estimator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who should pay quarterly estimated tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Anyone who expects to owe at least $1,000 in federal tax for the year and has no employer withholding, or has withholding that covers less than 90% of the year's tax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is self-employment tax calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SE tax applies to 92.35% of your net profit at 15.3%: 12.4% Social Security (up to the wage base) plus 2.9% Medicare. Half of that SE tax is deductible on your income tax return."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the quarterly due dates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "April 15, June 15, September 15, and January 15 of the following year. If a date falls on a weekend or holiday, the deadline moves to the next business day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my income changes mid-year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Re-run this calculator with an updated estimate. Paying more in later quarters is allowed, and the annualized income method may waive penalties if income was genuinely back-loaded."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about state taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most states with an income tax also require quarterly payments — usually a separate percentage of the same income. Check your state's revenue department; this tool covers federal only."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this tax advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is a simplified estimate using 2026 rates. Verify with the Form 1040-ES worksheet, IRS Publication 505, or a tax professional."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Quarterly Estimated Tax Calculator", "item": "https://www.husir.org/tools/quarterly-tax-estimator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Quarterly Estimated Tax Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🧾 Quarterly Estimated Tax Calculator</h1>
+<p class="subtitle">1099 &amp; self-employed · SE tax + federal income tax · 1040-ES quarterly payments</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>If you earn 1099 income — freelancing, consulting, a side business, or gig work — nobody withholds taxes for you. The IRS expects you to pay <strong>estimated tax</strong> four times a year on Form 1040-ES. This calculator estimates what those payments should be: it applies the self-employment tax (Social Security + Medicare) to your net business income, subtracts the standard deduction and the deductible half of SE tax, applies the 2026 federal income tax brackets for your filing status, and splits the result into four equal quarterly payments with their due dates.</p>
+<p>Everything runs locally in your browser — no account, no upload, no Social Security number. Treat the result as a planning estimate, not a filing instruction: your real liability depends on business expenses, itemized deductions, credits, and state taxes, which are separate. If your income arrives unevenly through the year, the IRS annualized income installment method can lower earlier payments.</p>
+<div class="faq">
+<p><strong>🧑‍💻 Who should pay quarterly estimated tax?</strong><br>Anyone who expects to owe at least $1,000 in federal tax for the year and has no employer withholding, or has withholding that covers less than 90% of the year's tax.</p>
+<p><strong>🧮 How is self-employment tax calculated?</strong><br>SE tax applies to 92.35% of your net profit at 15.3%: 12.4% Social Security (up to the wage base) plus 2.9% Medicare. Half of that SE tax is deductible on your income tax return.</p>
+<p><strong>📅 What are the quarterly due dates?</strong><br>April 15, June 15, September 15, and January 15 of the following year. If a date falls on a weekend or holiday, the deadline moves to the next business day.</p>
+<p><strong>💸 What if my income changes mid-year?</strong><br>Re-run this calculator with an updated estimate. Paying more in later quarters is allowed, and the annualized income method may waive penalties if income was genuinely back-loaded.</p>
+<p><strong>🏛️ What about state taxes?</strong><br>Most states with an income tax also require quarterly payments — usually a separate percentage of the same income. Check your state's revenue department; this tool covers federal only.</p>
+<p><strong>⚠️ Is this tax advice?</strong><br>No. It is a simplified estimate using 2026 rates. Verify with the Form 1040-ES worksheet, IRS Publication 505, or a tax professional.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+SE tax = net business income × 92.35% × 15.3%<br>Taxable income = net + other income − ½ SE tax − standard deduction<br>Quarterly payment = (federal income tax + SE tax − already paid) ÷ 4<br>2026 standard deduction: $15,000 single · $30,000 married · $22,500 head of household
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Your 2026 estimate</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Filing status</label>
+<select id="status"><option value="single">Single</option><option value="mfj">Married filing jointly</option><option value="hoh">Head of household</option></select>
+</div>
+<div>
+<label class="field-label">Net self-employment income (annual estimate, $)</label>
+<input type="number" id="net" min="0" step="100" placeholder="e.g. 60000">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Other taxable income — W-2, interest, etc. ($)</label>
+<input type="number" id="other" min="0" step="100" placeholder="0">
+</div>
+<div>
+<label class="field-label">Deduction ($)</label>
+<input type="number" id="ded" min="0" step="100">
+<div class="checkline"><input type="checkbox" id="autoStd" checked><span>Auto-use 2026 standard deduction</span></div>
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Social Security wage base — 2026 ($)</label>
+<input type="number" id="sscap" min="0" step="100" value="181500">
+</div>
+<div>
+<label class="field-label">Federal taxes already paid this year — withholding + prior payments ($)</label>
+<input type="number" id="paid" min="0" step="100" placeholder="0">
+</div>
+</div>
+<div style="text-align:center;margin-top:16px"><button class="btn btn-primary" id="btnExample">Use example: $60,000 freelancer</button></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · Your estimate</h3></div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Suggested quarterly payment (per due date)</div>
+<div class="result-big" id="bigQ">$0.00</div>
+<div class="result-sub" id="bigNote">—</div>
+</div>
+<div style="margin-top:14px" id="rows"></div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">🗓️ Due dates (2026 tax year)</div>
+<div id="dues"></div>
+</div>
+<p class="note">Estimates only — not tax advice. Tax rates and the wage base can change; verify with Form 1040-ES. State estimated taxes are separate.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a><a href="../sales-tax-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧾 Sales Tax Calculator</a><a href="../mileage-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🚗 Mileage Tracker (IRS)</a><a href="../invoice-w9-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4DC; Invoice &amp; W-9 Generator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+var STD={single:15000,mfj:30000,hoh:22500};
+var BRACKETS={
+  single:[[12000,.10],[50000,.12],[110000,.22],[210000,.24],[250000,.32],[640000,.35],[Infinity,.37]],
+  mfj:[[24000,.10],[100000,.12],[220000,.22],[420000,.24],[500000,.32],[1280000,.35],[Infinity,.37]],
+  hoh:[[16000,.10],[65000,.12],[110000,.22],[210000,.24],[250000,.32],[640000,.35],[Infinity,.37]]
+};
+function fedTax(taxable,status){
+  if(taxable<=0) return 0;
+  var tax=0,prev=0,bands=BRACKETS[status];
+  for(var i=0;i<bands.length;i++){
+    var limit=bands[i][0],rate=bands[i][1];
+    if(taxable>prev){tax+=(Math.min(taxable,limit)-prev)*rate;}
+    if(taxable<=limit) break;
+    prev=limit;
+  }
+  return tax;
+}
+function calc(){
+  var status=$('status').value;
+  var net=Math.max(0,parseFloat($('net').value)||0);
+  var other=Math.max(0,parseFloat($('other').value)||0);
+  var cap=Math.max(0,parseFloat($('sscap').value)||181500);
+  var paid=Math.max(0,parseFloat($('paid').value)||0);
+  var ded;
+  if($('autoStd').checked){
+    ded=STD[status];
+    $('ded').value=ded;
+    $('ded').disabled=true;
+  }else{
+    ded=Math.max(0,parseFloat($('ded').value)||0);
+    $('ded').disabled=false;
+  }
+  var seEarn=net*0.9235;
+  var ssPortion=Math.min(seEarn,cap)*0.124;
+  var medPortion=seEarn*0.029;
+  var seTax=ssPortion+medPortion;
+  var halfSe=seTax/2;
+  var taxable=Math.max(0,net+other-halfSe-ded);
+  var incTax=fedTax(taxable,status);
+  var total=seTax+incTax;
+  var remaining=Math.max(0,total-paid);
+  var quarter=remaining/4;
+  var pct=net>0?Math.round(total/net*1000)/10:0;
+  $('bigQ').textContent=money(quarter);
+  $('bigNote').textContent='of estimated total '+money(total)+' · set aside ~'+pct+'% of net income';
+  var rows='';
+  rows+='<div class="rowline"><span>Net self-employment income</span><strong>'+money(net)+'</strong></div>';
+  rows+='<div class="rowline"><span>SE tax — SS + Medicare ('+money(seEarn)+' × 15.3%)</span><strong>'+money(seTax)+'</strong></div>';
+  rows+='<div class="rowline"><span>Deductible half of SE tax</span><strong>−'+money(halfSe)+'</strong></div>';
+  rows+='<div class="rowline"><span>Other taxable income</span><strong>'+money(other)+'</strong></div>';
+  rows+='<div class="rowline"><span>Deduction</span><strong>−'+money(ded)+'</strong></div>';
+  rows+='<div class="rowline"><span>Taxable income</span><strong>'+money(taxable)+'</strong></div>';
+  rows+='<div class="rowline"><span>Federal income tax (2026 brackets)</span><strong>'+money(incTax)+'</strong></div>';
+  rows+='<div class="rowline"><span>Total estimated federal tax</span><strong>'+money(total)+'</strong></div>';
+  rows+='<div class="rowline"><span>Already paid</span><strong>−'+money(paid)+'</strong></div>';
+  rows+='<div class="rowline" style="border-bottom:0"><span>Remaining for the year</span><strong style="color:#059669">'+money(remaining)+'</strong></div>';
+  $('rows').innerHTML=rows;
+  var dates=[['Apr 15, 2026','Due date #1'],['Jun 15, 2026','Due date #2'],['Sep 15, 2026','Due date #3'],['Jan 15, 2027','Due date #4']];
+  var d='';
+  for(var i=0;i<dates.length;i++){
+    d+='<div class="due"><span>'+dates[i][0]+' <span style="color:#94a3b8">· '+dates[i][1]+'</span></span><span class="due-amt">'+money(quarter)+'</span></div>';
+  }
+  d+='<p class="note" style="margin:8px 0 0">Missed a deadline? Pay the next installment as soon as you can — late-payment interest is small compared with leaving the whole year unpaid. If you started mid-year, divide by the number of quarters still remaining.</p>';
+  $('dues').innerHTML=d;
+}
+['status','net','other','sscap','paid'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('ded').addEventListener('input',function(){ $('autoStd').checked=false; calc(); });
+$('autoStd').addEventListener('change',calc);
+$('btnExample').addEventListener('click',function(){
+  $('status').value='single';
+  $('net').value=60000;
+  $('other').value=0;
+  $('paid').value=0;
+  $('autoStd').checked=true;
+  calc();
+});
+calc();
+</script>
+</body>
+</html>

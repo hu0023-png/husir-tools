@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x2696;&#xFE0F; BMI &amp; Calorie Calculator | HuSir Tools</title>
+<meta name="description" content="Calculate BMI, healthy weight range, BMR, and daily maintenance calories in US or metric units. Uses Mifflin-St Jeor. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/bmi-calorie-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="⚖️ BMI & Calorie Calculator">
+<meta property="og:description" content="Calculate BMI, healthy weight range, BMR, and daily maintenance calories in US or metric units. Uses Mifflin-St Jeor. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/bmi-calorie-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="⚖️ BMI & Calorie Calculator">
+<meta name="twitter:description" content="Calculate BMI, healthy weight range, BMR, and daily maintenance calories in US or metric units. Uses Mifflin-St Jeor. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=number],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;color:#1a1a2e}
+input[type=number]:focus,select:focus{border-color:#667eea;background:#fff}
+.mode-seg{display:inline-flex;background:#eef0f7;border-radius:10px;padding:4px;gap:4px;flex-wrap:wrap}
+.mode-seg button{border:none;background:transparent;padding:9px 18px;border-radius:8px;font-size:13.5px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit}
+.mode-seg button.active{background:#fff;color:#4c1d95;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.radio-inline{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#334155;cursor:pointer;padding:5px 12px 5px 0}
+.radio-inline input{width:auto;accent-color:#667eea;margin:0}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.big-card{background:#f8faff;border:2px solid #e6e9f5;border-radius:14px;padding:16px;text-align:center}
+.big-card .num{font-size:34px;font-weight:800;color:#4c1d95}
+.big-card .cap{font-size:12px;color:#7c86a0;margin-top:2px}
+.badge{display:inline-block;padding:4px 14px;border-radius:999px;font-size:13px;font-weight:700;color:#fff;margin-top:8px}
+.mini-card{background:#f8faff;border:2px solid #e6e9f5;border-radius:14px;padding:14px 16px}
+.mini-card .mv{font-size:20px;font-weight:800;color:#1a1a2e}
+.mini-card .mc{font-size:12px;color:#7c86a0;margin-top:2px;line-height:1.4}
+.scale{position:relative;height:12px;border-radius:99px;margin:30px 6px 6px;background:linear-gradient(90deg,#38bdf8 0%,#38bdf8 18.5%,#10b981 18.5%,#10b981 24.9%,#f59e0b 24.9%,#f59e0b 29.9%,#dc2626 29.9%,#dc2626 100%)}
+.scale .marker{position:absolute;top:-7px;width:4px;height:26px;border-radius:3px;background:#0f172a;transform:translateX(-2px);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.scale-labels{display:flex;justify-content:space-between;font-size:10.5px;color:#98a1b3;padding:0 4px}
+.note{font-size:11.5px;color:#98a1b3;margin-top:14px;line-height:1.6}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3,.result-grid{grid-template-columns:1fr}.mode-seg button{padding:8px 12px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "⚖️ BMI & Calorie Calculator",
+  "description": "Calculate BMI, healthy weight range, BMR, and daily maintenance calories in US or metric units. Uses Mifflin-St Jeor. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/bmi-calorie-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "⚖️ What is a healthy BMI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For most adults, 18.5–24.9 is considered normal. Below 18.5 is underweight, 25–29.9 is overweight, and 30+ is obesity. Children and teens use age-and-sex percentile charts, not these cutoffs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "💪 Why does BMI say I am “overweight” even though I lift weights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BMI cannot tell muscle from fat, so it overestimates body fat in very muscular people. Treat it as a screening number, not a diagnosis — waist circumference and body-fat percentage add useful context."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🧬 How accurate is the calorie number?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mifflin-St Jeor predicts BMR within roughly 5–10% for most healthy adults. The activity multiplier is an estimate, so treat the result as a starting point and adjust by real-world weight trends."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🍝 How much weight change is “X” calories?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 3,500 kcal equals one pound (≈ 7,700 kcal per kg). A daily deficit or surplus of ~500 kcal moves weight by about 1 lb (0.45 kg) per week."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🤷‍♂️ Does this work for athletes or pregnancy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BMI cutoffs and BMR formulas are less meaningful for athletes and during pregnancy. For medical advice, ask a doctor or dietitian — this tool is for general information only."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Is my data sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. All calculations run in your browser with zero network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "BMI & Calorie Calculator", "item": "https://www.husir.org/tools/bmi-calorie-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">BMI &amp; Calorie Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x2696;&#xFE0F; BMI &amp; Calorie Calculator</h1>
+<p class="subtitle">BMI + healthy range + BMR + maintenance calories &middot; US or metric &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Enter your height, weight, age, and sex to see three numbers at once: your body-mass index (BMI) with its category, your healthy weight range for that height, and the calories your body needs every day just to exist (BMR) plus the daily maintenance calories for your activity level. Switch between US (feet/inches + pounds) and metric (cm + kg) at any time.</p>
+<p>BMI is a quick population-level screening tool used by doctors, insurers, and fitness apps; the calorie estimates use the Mifflin-St Jeor equation, the formula recommended by the Academy of Nutrition and Dietetics for healthy adults. Use maintenance calories as your starting point whether your goal is weight loss, gain, or simply eating enough to fuel training. Everything is computed locally on your device &#8212; no account, no upload, fully offline.</p>
+<div class="faq">
+<p><strong>&#x2696;&#xFE0F; What is a healthy BMI?</strong><br>For most adults, 18.5&#8211;24.9 is considered normal. Below 18.5 is underweight, 25&#8211;29.9 is overweight, and 30+ is obesity. Children and teens use age-and-sex percentile charts, not these cutoffs.</p>
+<p><strong>&#x1F4AA; Why does BMI say I am &#8220;overweight&#8221; even though I lift weights?</strong><br>BMI cannot tell muscle from fat, so it overestimates body fat in very muscular people. Treat it as a screening number, not a diagnosis &#8212; waist circumference and body-fat percentage add useful context.</p>
+<p><strong>&#x1F9EC; How accurate is the calorie number?</strong><br>Mifflin-St Jeor predicts BMR within roughly 5&#8211;10% for most healthy adults. The activity multiplier is an estimate, so treat the result as a starting point and adjust by real-world weight trends.</p>
+<p><strong>&#x1F35D; How much weight change is &#8220;X&#8221; calories?</strong><br>About 3,500 kcal equals one pound (&#8776; 7,700 kcal per kg). A daily deficit or surplus of ~500 kcal moves weight by about 1 lb (0.45 kg) per week.</p>
+<p><strong>&#x1F937;&#x200D;&#x2642;&#xFE0F; Does this work for athletes or pregnancy?</strong><br>BMI cutoffs and BMR formulas are less meaningful for athletes and during pregnancy. For medical advice, ask a doctor or dietitian &#8212; this tool is for general information only.</p>
+<p><strong>&#x1F512; Is my data sent anywhere?</strong><br>Never. All calculations run in your browser with zero network calls.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick formulas</b><br>
+BMI = weight (kg) &#247; height (m)&#178; &nbsp;&nbsp;or&nbsp;&nbsp; 703 &#215; weight (lb) &#247; height (in)&#178;<br>
+BMR (men) = 10&#215;kg + 6.25&#215;cm &#8722; 5&#215;age + 5 &nbsp;&middot;&nbsp; BMR (women) = same &#8722; 161<br>
+Maintenance = BMR &#215; activity: 1.2 sedentary &middot; 1.375 light &middot; 1.55 moderate &middot; 1.725 active &middot; 1.9 very active<br>
+~3,500 kcal &#8776; 1 lb &nbsp;&middot;&nbsp; &#177;500 kcal/day &#8776; 1 lb/week
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F4C5; Your details</h3><span class="mode-seg" id="unitSeg">
+    <button type="button" data-val="us" class="active">US (ft / lb)</button>
+    <button type="button" data-val="metric">Metric (cm / kg)</button>
+  </span></div>
+  <div class="grid3">
+    <div>
+      <div class="field-label">Sex</div>
+      <div style="display:flex;gap:4px;align-items:center;margin-top:2px">
+        <label class="radio-inline"><input type="radio" name="sex" value="m" checked> Male</label>
+        <label class="radio-inline"><input type="radio" name="sex" value="f"> Female</label>
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="age">Age (years)</label>
+      <input type="number" id="age" min="2" max="120" value="30">
+    </div>
+    <div></div>
+  </div>
+  <div class="grid3">
+    <div class="us-f">
+      <label class="field-label" for="ft">Height (feet)</label>
+      <input type="number" id="ft" min="2" max="8" step="1" value="5">
+    </div>
+    <div class="us-f">
+      <label class="field-label" for="inch">+ inches</label>
+      <input type="number" id="inch" min="0" max="11" step="1" value="9">
+    </div>
+    <div class="metric-f" style="display:none">
+      <label class="field-label" for="cm">Height (cm)</label>
+      <input type="number" id="cm" min="60" max="260" step="0.5" value="175">
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="us-f">
+      <label class="field-label" for="wl">Weight (lb)</label>
+      <input type="number" id="wl" min="50" max="900" step="0.1" value="165">
+    </div>
+    <div class="metric-f" style="display:none">
+      <label class="field-label" for="wk">Weight (kg)</label>
+      <input type="number" id="wk" min="20" max="400" step="0.1" value="75">
+    </div>
+  </div>
+  <div style="max-width:420px">
+    <label class="field-label" for="act">Activity level</label>
+    <select id="act">
+      <option value="1.2">Sedentary — desk job, little exercise</option>
+      <option value="1.375" selected>Light — exercise 1–3 days/week</option>
+      <option value="1.55">Moderate — exercise 3–5 days/week</option>
+      <option value="1.725">Active — exercise 6–7 days/week</option>
+      <option value="1.9">Very active — hard training / physical job</option>
+    </select>
+  </div>
+
+  <div class="panel-header" style="margin-top:22px"><h3>&#x1F4CA; Results</h3></div>
+  <div class="result-grid">
+    <div class="big-card">
+      <div class="num" id="bmiNum">—</div>
+      <div class="cap">Body Mass Index</div>
+      <div><span class="badge" id="bmiBadge" style="background:#cbd2e0">—</span></div>
+    </div>
+    <div class="big-card">
+      <div class="num" id="rangeNum">—</div>
+      <div class="cap" id="rangeCap">Healthy weight range</div>
+      <div><span class="badge" id="posBadge" style="background:#10b981">Normal</span></div>
+    </div>
+    <div class="mini-card">
+      <div class="mv" id="bmrNum">—</div>
+      <div class="mc">kcal/day — BMR (resting)</div>
+    </div>
+    <div class="mini-card">
+      <div class="mv" id="mainNum">—</div>
+      <div class="mc">kcal/day — maintenance for your activity</div>
+    </div>
+  </div>
+  <div style="margin-top:18px">
+    <div class="scale-labels"><span>15</span><span>18.5</span><span>25</span><span>30</span><span>40</span></div>
+    <div class="scale"><div class="marker" id="marker" style="left:0"></div></div>
+    <div class="scale-labels" style="margin-top:8px"><span>Underweight</span><span>Normal</span><span>Overweight</span><span>Obesity</span></div>
+  </div>
+  <p class="note" id="changeHint"></p>
+  <p class="hint">BMI is a screening tool, not a diagnosis — athletes and pregnant women should not rely on its cutoffs. All math happens on your device; nothing is uploaded.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../age-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F382; Age &amp; Date Calculator</a><a href="../due-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F930; Pregnancy Due Date Calculator</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a><a href="../pet-age-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🐾 Pet Age Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var unit='us';
+function setUnit(u){
+  unit=u;
+  Array.prototype.forEach.call(document.querySelectorAll('#unitSeg button'),function(b){b.classList.toggle('active',b.getAttribute('data-val')===u);});
+  var us=u==='us';
+  Array.prototype.forEach.call(document.querySelectorAll('.us-f'),function(el){el.style.display=us?'':'none';});
+  Array.prototype.forEach.call(document.querySelectorAll('.metric-f'),function(el){el.style.display=us?'none':'';});
+  calc();
+}
+function sex(){return document.querySelector('input[name=sex]:checked').value;}
+function readMetric(){
+  var cm,kg;
+  if(unit==='us'){
+    cm=(parseFloat($('ft').value)||0)*30.48+(parseFloat($('inch').value)||0)*2.54;
+    kg=(parseFloat($('wl').value)||0)*0.45359237;
+  }else{
+    cm=parseFloat($('cm').value)||0;
+    kg=parseFloat($('wk').value)||0;
+  }
+  return {cm:cm,kg:kg};
+}
+function calc(){
+  var m=readMetric();
+  if(!m.cm||!m.kg){return;}
+  var h=m.cm/100;
+  var bmi=m.kg/(h*h);
+  var age=parseFloat($('age').value)||0;
+  var bmr=10*m.kg+6.25*m.cm-5*age+(sex()==='m'?5:-161);
+  var mult=parseFloat($('act').value)||1.2;
+  var maint=bmr*mult;
+  $('bmiNum').textContent=bmi.toFixed(1);
+  var low=18.5*h*h,high=24.9*h*h;
+  var lowS=unit==='us'?(low*2.20462).toFixed(0)+' lb':low.toFixed(1)+' kg';
+  var highS=unit==='us'?(high*2.20462).toFixed(0)+' lb':high.toFixed(1)+' kg';
+  $('rangeNum').textContent=lowS+' – '+highS;
+  $('rangeCap').textContent='Healthy weight range ('+unit+')';
+  var cat,color;
+  if(bmi<18.5){cat='Underweight';color='#38bdf8';}
+  else if(bmi<25){cat='Normal';color='#10b981';}
+  else if(bmi<30){cat='Overweight';color='#f59e0b';}
+  else{cat='Obesity';color='#dc2626';}
+  $('bmiBadge').textContent=cat;
+  $('bmiBadge').style.background=color;
+  var pos=Math.min(100,Math.max(0,(bmi-15)/25*100));
+  $('marker').style.left=pos+'%';
+  $('bmrNum').textContent=Math.round(bmr).toLocaleString('en-US');
+  $('mainNum').textContent=Math.round(maint).toLocaleString('en-US');
+  var lose=Math.round(maint-500),gain=Math.round(maint+500);
+  var lbw='1 lb/week';
+  $('changeHint').textContent='Weight change: eat about '+lose.toLocaleString('en-US')+' kcal/day to lose ~'+lbw+', or '+gain.toLocaleString('en-US')+' kcal/day to gain ~'+lbw+' (adjust by real-world results).';
+}
+Array.prototype.forEach.call(document.querySelectorAll('#unitSeg button'),function(b){
+  b.addEventListener('click',function(){setUnit(b.getAttribute('data-val'));});
+});
+['age','ft','inch','cm','wl','wk','act'].forEach(function(id){$(id).addEventListener('input',calc);});
+Array.prototype.forEach.call(document.querySelectorAll('input[name=sex]'),function(r){r.addEventListener('change',calc);});
+setUnit('us');
+</script>
+</body>
+</html>

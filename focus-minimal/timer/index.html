@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Pomodoro Timer for ADHD &amp; Focus — No Signup | HuSir Tools</title>
+<meta name="description" content="A private Pomodoro timer that keeps accurate time even when the tab is hidden. No signup, no upload, works in your browser.">
+<link rel="canonical" href="https://www.husir.org/tools/focus-minimal/timer/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Pomodoro Timer for ADHD & Focus — No Signup">
+<meta property="og:description" content="A private Pomodoro timer that keeps accurate time even when the tab is hidden. No signup, no upload, works in your browser.">
+<meta property="og:url" content="https://www.husir.org/tools/focus-minimal/timer/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Pomodoro Timer for ADHD & Focus — No Signup">
+<meta name="twitter:description" content="A private Pomodoro timer that keeps accurate time even when the tab is hidden. No signup, no upload, works in your browser.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    user-select: none; -webkit-user-select: none;
+  }
+  .container {
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 32px;
+  }
+
+  .mode-indicator {
+    font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: #666;
+    transition: color 0.4s;
+  }
+  .mode-indicator.work { color: #6ee7b7; }
+  .mode-indicator.break { color: #93c5fd; }
+
+  .timer-ring {
+    position: relative; width: 260px; height: 260px;
+  }
+  .timer-ring svg { transform: rotate(-90deg); width: 260px; height: 260px; }
+  .ring-bg { fill: none; stroke: #1e1e32; stroke-width: 8; }
+  .ring-progress { fill: none; stroke-width: 8; stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s linear, stroke 0.4s; }
+  .ring-progress.work { stroke: #6ee7b7; }
+  .ring-progress.break { stroke: #93c5fd; }
+
+  .time-display {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 64px; font-weight: 200; font-variant-numeric: tabular-nums;
+    letter-spacing: -2px; color: #f0f0f0;
+  }
+
+  .btn {
+    width: 56px; height: 56px; border-radius: 50%; border: 2px solid #333;
+    background: transparent; color: #e0e0e0; cursor: pointer;
+    font-size: 20px; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .btn:hover { border-color: #6ee7b7; color: #6ee7b7; }
+  .btn:active { transform: scale(0.95); }
+
+  .session-count {
+    font-size: 13px; color: #555;
+  }
+  .session-count span { color: #888; font-weight: 600; }
+
+  .footer-msg {
+    font-size: 12px; color: #333; margin-top: 8px; min-height: 18px;
+    transition: color 0.3s;
+  }
+  .footer-msg.visible { color: #555; }
+  .duration-row {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 12px; color: #555;
+  }
+  .duration-item {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .duration-item .label { color: #666; }
+  .duration-item .val {
+    color: #888; font-weight: 600; font-variant-numeric: tabular-nums;
+    min-width: 18px; text-align: center;
+  }
+  .duration-btn {
+    width: 20px; height: 20px; border-radius: 4px;
+    border: 1px solid #333; background: transparent; color: #555;
+    cursor: pointer; font-size: 12px; display: flex;
+    align-items: center; justify-content: center;
+    transition: all 0.15s; font-family: inherit; line-height: 1;
+  }
+  .duration-btn:hover { border-color: #6ee7b7; color: #888; }
+  .duration-btn:active { transform: scale(0.9); }
+
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Pomodoro Timer for ADHD & Focus — No Signup",
+  "description": "A private Pomodoro timer that keeps accurate time even when the tab is hidden. No signup, no upload, works in your browser.",
+  "url": "https://www.husir.org/tools/focus-minimal/timer/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "⏱ What is a good starting setup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Classic Pomodoro is 25 minutes of Focus followed by a 5-minute Break; use the +/− buttons to adjust either round."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it stay accurate in the background?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the timer measures wall-clock time instead of simple ticking, so hidden tabs stay on schedule."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know a round ended?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The timer signals the end of the round with a chime and a browser notification when your browser allows it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it need internet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — everything runs offline on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many rounds should I do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Four 25-minute rounds (about two hours of focus) is a common target, but any rhythm you can repeat is a win."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}</style>
+<h1 class="sr-only">Free Pomodoro Timer for Focus — Work and Break Cycles in Your Browser</h1>
+<div class="container">
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>A Pomodoro timer built for deep focus: adjustable Focus and Break minutes, a progress ring, and a session counter. It tracks real elapsed time, so it stays accurate even when the tab is in the background — ideal for study blocks, deep work, and ADHD-friendly pacing.</p>
+<p>No signup, no cloud sync, and no distractions — just start a Focus round, work until the ring completes, then take the Break. The session counter shows how much focused time you have accumulated.</p>
+<div class="faq">
+<p><strong>⏱️ What is a good starting setup?</strong><br>Classic Pomodoro is 25 minutes of Focus followed by a 5-minute Break; use the +/− buttons to adjust either round.</p>
+<p><strong>🕐 Does it stay accurate in the background?</strong><br>Yes — the timer measures wall-clock time instead of simple ticking, so hidden tabs stay on schedule.</p>
+<p><strong>🔔 How do I know a round ended?</strong><br>The timer signals the end of the round with a chime and a browser notification when your browser allows it.</p>
+<p><strong>🌐 Does it need internet?</strong><br>No — everything runs offline on your device.</p>
+<p><strong>🎯 How many rounds should I do?</strong><br>Four 25-minute rounds (about two hours of focus) is a common target, but any rhythm you can repeat is a win.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Classic cycle: 25 min Focus + 5 min Break<br>Sessions counter tracks completed focus rounds<br>Wall-clock timing keeps background tabs accurate
+</div>
+</div>
+</details>
+
+<div class="mode-indicator" id="modeLabel">Focus</div>
+
+  <div class="duration-row">
+    <div class="duration-item">
+      <button class="duration-btn" id="workDown" title="-1 min">−</button>
+      <span class="label">Focus</span>
+      <span class="val" id="workVal">25</span>
+      <span class="label">min</span>
+      <button class="duration-btn" id="workUp" title="+1 min">+</button>
+    </div>
+    <span style="color:#333">|</span>
+    <div class="duration-item">
+      <button class="duration-btn" id="breakDown" title="-1 min">−</button>
+      <span class="label">Break</span>
+      <span class="val" id="breakVal">5</span>
+      <span class="label">min</span>
+      <button class="duration-btn" id="breakUp" title="+1 min">+</button>
+    </div>
+  </div>
+
+  <div class="timer-ring">
+    <svg viewBox="0 0 260 260">
+      <circle class="ring-bg" cx="130" cy="130" r="120"/>
+      <circle class="ring-progress work" id="ring" cx="130" cy="130" r="120"
+        stroke-dasharray="753.98" stroke-dashoffset="0"/>
+    </svg>
+    <div class="time-display" id="timeDisplay">25:00</div>
+  </div>
+
+  <button class="btn" id="toggleBtn" aria-label="Start">
+    <svg width="20" height="20" viewBox="0 0 20 20" id="btnIcon">
+      <polygon points="5,2 18,10 5,18" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <div class="session-count">Sessions: <span id="sessionCount">0</span></div>
+  <div class="footer-msg" id="footerMsg"></div>
+  
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+  <div style="margin-top:8px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);width:100%">
+    <a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:12px;text-decoration:none;">🛠 More Free Tools →</a>
+    <span style="color:rgba(255,255,255,0.15);margin:0 8px;">|</span>
+    <a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.78);text-decoration:none;font-size:12px;transition:color 0.2s" onmouseover="this.style.color='#ccc'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">☕ Buy me a coffee</a>
+  </div>
+</div>
+
+<script>
+let workMin = parseInt(localStorage.getItem('pomodoro_work')) || 25;
+let breakMin = parseInt(localStorage.getItem('pomodoro_break')) || 5;
+const CIRCUMFERENCE = 2 * Math.PI * 120; // ~753.98
+
+let mode = 'work'; // 'work' | 'break'
+let remaining = workMin * 60;
+let totalSeconds = workMin * 60;
+let running = false;
+let interval = null;
+let sessions = 0;
+
+const modeLabel = document.getElementById('modeLabel');
+const timeDisplay = document.getElementById('timeDisplay');
+const ring = document.getElementById('ring');
+const toggleBtn = document.getElementById('toggleBtn');
+const btnIcon = document.getElementById('btnIcon');
+const sessionCount = document.getElementById('sessionCount');
+const footerMsg = document.getElementById('footerMsg');
+
+function fmt(sec) {
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function setRing(frac) {
+  ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - frac);
+}
+
+function updateDisplay() {
+  timeDisplay.textContent = fmt(remaining);
+  setRing(remaining / totalSeconds);
+}
+
+function switchMode() {
+  if (mode === 'work') {
+    mode = 'break';
+    remaining = breakMin * 60;
+    totalSeconds = breakMin * 60;
+    modeLabel.textContent = 'Break';
+    modeLabel.className = 'mode-indicator break';
+    ring.className = 'ring-progress break';
+    document.title = 'Break — Focus Minimal';
+    showMsg('Take a break');
+  } else {
+    mode = 'work';
+    remaining = workMin * 60;
+    totalSeconds = workMin * 60;
+    modeLabel.textContent = 'Focus';
+    modeLabel.className = 'mode-indicator work';
+    ring.className = 'ring-progress work';
+    document.title = 'Focus — Focus Minimal';
+  }
+  updateDisplay();
+}
+
+function showMsg(msg) {
+  footerMsg.textContent = msg;
+  footerMsg.className = 'footer-msg visible';
+  clearTimeout(footerMsg._t);
+  footerMsg._t = setTimeout(() => { footerMsg.className = 'footer-msg'; }, 3000);
+}
+
+let tickStart = 0, tickRemaining = 0;
+
+function notify(msg) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('Pomodoro Timer', { body: msg, icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%236ee7b7"/></svg>' });
+  }
+}
+
+function tick() {
+  var elapsed = Math.floor((Date.now() - tickStart) / 1000);
+  remaining = Math.max(0, tickRemaining - elapsed);
+  updateDisplay();
+  if (remaining <= 0) {
+    if (mode === 'work') {
+      sessions++;
+      sessionCount.textContent = sessions;
+      playWorkDone();
+      showMsg('Focus done! Starting break...');
+      notify('25 min focus complete. Take a 5 min break!');
+      switchMode();
+      // auto-start break
+      clearInterval(interval);
+      tickStart = Date.now();
+      tickRemaining = remaining;
+      interval = setInterval(tick, 200);
+      setPauseIcon();
+    } else {
+      playBreakDone();
+      showMsg('Break over. Starting focus...');
+      notify('Break over. Time to focus!');
+      switchMode();
+      // auto-start work
+      clearInterval(interval);
+      tickStart = Date.now();
+      tickRemaining = remaining;
+      interval = setInterval(tick, 200);
+      setPauseIcon();
+    }
+  }
+}
+
+// ---- Background-safe audio using <audio> elements ----
+var audioWork = null, audioBreak = null, soundsReady = false;
+
+function initSounds() {
+  if (soundsReady) return;
+  try {
+    var sampleRate = 44100;
+    // Work done melody: ~2.2s total
+    var workDur = 2.2;
+    var workLen = Math.ceil(sampleRate * workDur);
+    var workCtx = new OfflineAudioContext(1, workLen, sampleRate);
+    renderWorkChime(workCtx);
+    workCtx.startRendering().then(function(buf) {
+      audioWork = bufferToAudio(buf);
+    });
+    // Break done melody: ~1.1s total  
+    var breakDur = 1.1;
+    var breakLen = Math.ceil(sampleRate * breakDur);
+    var breakCtx = new OfflineAudioContext(1, breakLen, sampleRate);
+    renderBreakChime(breakCtx);
+    breakCtx.startRendering().then(function(buf) {
+      audioBreak = bufferToAudio(buf);
+    });
+    soundsReady = true;
+  } catch(e) { soundsReady = false; }
+}
+
+function bufferToAudio(buf) {
+  var a = new Audio();
+  var blob = audioBufferToWav(buf);
+  a.src = URL.createObjectURL(blob);
+  a.preload = 'auto';
+  return a;
+}
+
+function audioBufferToWav(buffer) {
+  var numChannels = buffer.numberOfChannels;
+  var sampleRate = buffer.sampleRate;
+  var format = 1; // PCM
+  var bitsPerSample = 16;
+  var data = buffer.getChannelData(0);
+  var byteRate = sampleRate * numChannels * bitsPerSample / 8;
+  var blockAlign = numChannels * bitsPerSample / 8;
+  var dataSize = data.length * numChannels * bitsPerSample / 8;
+  var headerSize = 44;
+  var buf = new ArrayBuffer(headerSize + dataSize);
+  var view = new DataView(buf);
+  writeString(view, 0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  writeString(view, 8, 'WAVE');
+  writeString(view, 12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, format, true);
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bitsPerSample, true);
+  writeString(view, 36, 'data');
+  view.setUint32(40, dataSize, true);
+  var offset = 44;
+  for (var i = 0; i < data.length; i++) {
+    var s = Math.max(-1, Math.min(1, data[i]));
+    s = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    view.setInt16(offset, s, true);
+    offset += 2;
+  }
+  return new Blob([buf], {type: 'audio/wav'});
+}
+
+function writeString(view, offset, str) {
+  for (var i = 0; i < str.length; i++) {
+    view.setUint8(offset + i, str.charCodeAt(i));
+  }
+}
+
+function addNote(ctx, freq, startTime, duration, type, volume) {
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(volume || 0.2, startTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(startTime);
+  osc.stop(startTime + duration);
+}
+
+// Work done: rich ascending melody with bass (C-major arpeggio + chord)
+function renderWorkChime(ctx) {
+  var t = 0;
+  var bass = [130.81, 164.81, 196.0, 261.63];
+  bass.forEach(function(freq, i) {
+    addNote(ctx, freq, t + i * 0.15, 0.4, 'triangle', 0.25);
+  });
+  var notes = [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98, 2093.0];
+  notes.forEach(function(freq, i) {
+    addNote(ctx, freq, t + 0.6 + i * 0.08, 0.35, i < 4 ? 'triangle' : 'sine', 0.28);
+  });
+  [523.25, 659.25, 783.99, 1046.5].forEach(function(freq) {
+    addNote(ctx, freq, t + 1.25, 0.7, 'sine', 0.18);
+  });
+}
+
+// Break done: three ascending chimes (C-E-G) with harmonics
+function renderBreakChime(ctx) {
+  var t = 0;
+  var notes = [523.25, 659.25, 783.99];
+  notes.forEach(function(freq, i) {
+    addNote(ctx, freq, t + i * 0.22, 0.3, 'sine', 0.25);
+    addNote(ctx, freq * 2, t + i * 0.22 + 0.05, 0.25, 'sine', 0.12);
+  });
+  addNote(ctx, 1046.5, t + 0.66, 0.4, 'triangle', 0.22);
+}
+
+function playWorkDone() {
+  if (audioWork) {
+    audioWork.currentTime = 0;
+    audioWork.play().catch(function(){});
+  }
+}
+function playBreakDone() {
+  if (audioBreak) {
+    audioBreak.currentTime = 0;
+    audioBreak.play().catch(function(){});
+  }
+}
+
+function setPlayIcon() {
+  btnIcon.innerHTML = '<polygon points="5,2 18,10 5,18" fill="currentColor"/>';
+}
+function setPauseIcon() {
+  btnIcon.innerHTML = '<rect x="4" y="3" width="4" height="14" fill="currentColor"/><rect x="12" y="3" width="4" height="14" fill="currentColor"/>';
+}
+
+toggleBtn.addEventListener('click', () => {
+  // Prime audio + notification on first interaction
+  initSounds();
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+  if (running) {
+    clearInterval(interval);
+    running = false;
+    setPlayIcon();
+    showMsg('Paused');
+  } else {
+    running = true;
+    tickStart = Date.now();
+    tickRemaining = remaining;
+    interval = setInterval(tick, 200);
+    setPauseIcon();
+    showMsg(mode === 'work' ? 'Focusing...' : 'Breaking...');
+  }
+});
+
+// Duration controls
+function updateDurationDisplay() {
+  document.getElementById('workVal').textContent = workMin;
+  document.getElementById('breakVal').textContent = breakMin;
+  if (!running) {
+    remaining = (mode === 'work' ? workMin : breakMin) * 60;
+    totalSeconds = remaining;
+    updateDisplay();
+  }
+}
+function saveDurations() {
+  localStorage.setItem('pomodoro_work', workMin);
+  localStorage.setItem('pomodoro_break', breakMin);
+}
+document.getElementById('workUp').addEventListener('click', function(){
+  if (workMin < 60) { workMin++; saveDurations(); updateDurationDisplay(); }
+});
+document.getElementById('workDown').addEventListener('click', function(){
+  if (workMin > 1) { workMin--; saveDurations(); updateDurationDisplay(); }
+});
+document.getElementById('breakUp').addEventListener('click', function(){
+  if (breakMin < 30) { breakMin++; saveDurations(); updateDurationDisplay(); }
+});
+document.getElementById('breakDown').addEventListener('click', function(){
+  if (breakMin > 1) { breakMin--; saveDurations(); updateDurationDisplay(); }
+});
+updateDurationDisplay();
+
+// Keyboard shortcut: space to toggle
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); toggleBtn.click(); }
+});
+
+updateDisplay();
+</script>
+
+<div style="text-align:center;padding:8px 0 4px;width:100%;margin-top:auto"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../../focus-minimal/habits/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2705; Habit Tracker</a><a href="../../focus-minimal/board/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CB; Task Board</a><a href="../../eisenhower-matrix/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CC; Eisenhower Matrix</a><a href="../../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

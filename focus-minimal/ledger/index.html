@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Income & Expense Tracker — Free & Private | HuSir Tools</title>
+<meta name="description" content="Track income, fixed bills, and variable spending in a simple local ledger. No signup, no cloud, no upload — your data stays in your browser.">
+<link rel="canonical" href="https://www.husir.org/tools/focus-minimal/ledger/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Simple Income & Expense Tracker — Free & Private">
+<meta property="og:description" content="Track income, fixed bills, and variable spending in a simple local ledger. No signup, no cloud, no upload — your data stays in your browser.">
+<meta property="og:url" content="https://www.husir.org/tools/focus-minimal/ledger/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simple Income & Expense Tracker — Free & Private">
+<meta name="twitter:description" content="Track income, fixed bills, and variable spending in a simple local ledger. No signup, no cloud, no upload — your data stays in your browser.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    min-height: 100vh; padding: 40px 20px;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; color: #93c5fd; margin-bottom: 20px; letter-spacing: 1px; }
+
+  .balance { font-size: 36px; font-weight: 200; margin-bottom: 4px; color: #f0f0f0; }
+  .balance-sub { font-size: 12px; color: #555; margin-bottom: 24px; }
+
+  .add-row { display: flex; gap: 10px; margin-bottom: 28px; }
+  .add-row input {
+    background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 8px;
+    padding: 10px 14px; color: #e0e0e0; font-size: 15px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .add-row input:focus { border-color: #93c5fd; }
+  .add-row input::placeholder { color: #444; }
+  .add-row input.amount-input { width: 130px; flex-shrink: 0; }
+  .add-row input.note-input { flex: 1; }
+  .add-row button {
+    background: #93c5fd; color: #0f0f1a; border: none; border-radius: 8px;
+    padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: opacity 0.2s; flex-shrink: 0;
+  }
+  .add-row button:hover { opacity: 0.85; }
+
+  .entries { display: flex; flex-direction: column; gap: 2px; }
+  .entry {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+    border-radius: 8px; transition: background 0.15s;
+  }
+  .entry:hover { background: #1a1a2e; }
+
+  .entry-date { font-size: 11px; color: #444; width: 42px; flex-shrink: 0; }
+  .entry-note { flex: 1; font-size: 14px; color: #c0c0c0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .entry-amount { font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .entry-amount.in { color: #6ee7b7; }
+  .entry-amount.out { color: #f87171; }
+
+  .entry-delete {
+    width: 24px; height: 24px; background: none; border: none; color: #333;
+    cursor: pointer; font-size: 14px; display: flex; align-items: center;
+    justify-content: center; border-radius: 4px; flex-shrink: 0; opacity: 0;
+    transition: all 0.15s;
+  }
+  .entry:hover .entry-delete { opacity: 1; color: #555; }
+  .entry-delete:hover { color: #ef4444; background: rgba(239,68,68,0.1); }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: #333; font-size: 14px;
+  }
+
+  .month-summary {
+    font-size: 12px; color: #444; margin-bottom: 16px; display: flex; gap: 20px;
+  }
+  .month-summary span { color: #666; }
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Simple Income & Expense Tracker",
+  "description": "Track income, fixed bills, and variable spending in a simple local ledger. No signup, no cloud, no upload — your data stays in your browser.",
+  "url": "https://www.husir.org/tools/focus-minimal/ledger/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which month does it track?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The balance and summary cover the current calendar month; the view naturally starts fresh each month."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I enter amounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Type numbers with a decimal (for example 12.50) together with a note so you can remember what each entry was for."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — entries are stored only in your browser on this device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it need internet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the ledger works offline once the page is open."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do entries stay after I close the tab?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — entries are kept in local storage, so your month's record is still there when you reopen the page."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="container">
+  <h1>Simple Income &amp; Expense Tracker</h1>
+    <div style="text-align:center;color:rgba(255,255,255,0.55);font-size:12px;margin:-10px 0 12px;letter-spacing:.3px">Track money in and out — a simple, private monthly ledger. No signup, no cloud.</div>
+    <div style="text-align:center;margin:12px 0 18px"><span style="display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:rgba(17,24,39,.62);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 14px">&#x1F512; Local Processing &mdash; files never leave your device</span></div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>A tiny monthly ledger for tracking money in and out without a full budgeting app. Add an amount with a short note, and the page keeps a running balance for the current month plus a summary — enough for freelancers, students, and anyone who just wants the bottom line.</p>
+<p>Entries are stored locally in your browser, so your finances never leave the device. No accounts, no bank connections, and no ads.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>📅 Which month does it track?</strong><br>The balance and summary cover the current calendar month; the view naturally starts fresh each month.</p>
+<p><strong>🔢 How do I enter amounts?</strong><br>Type numbers with a decimal (for example 12.50) together with a note so you can remember what each entry was for.</p>
+<p><strong>🔒 Is my data private?</strong><br>Yes — entries are stored only in your browser on this device.</p>
+<p><strong>🌐 Does it need internet?</strong><br>No — the ledger works offline once the page is open.</p>
+<p><strong>💾 Do entries stay after I close the tab?</strong><br>Yes — entries are kept in local storage, so your month's record is still there when you reopen the page.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Balance = money in − money out this month<br>Each entry = an amount plus a note<br>Current-month view only — minimal by design
+</div>
+</div>
+</details>
+
+<div class="balance" id="balanceDisplay">0.00</div>
+  <div class="balance-sub">balance this month</div>
+
+  <div class="add-row">
+    <input type="number" class="amount-input" id="amountInput" placeholder="Amount" step="0.01" autofocus>
+    <input type="text" class="note-input" id="noteInput" placeholder="Note" maxlength="40">
+    <button id="addBtn">Add</button>
+  </div>
+
+  <div class="month-summary" id="monthSummary"></div>
+
+  <div class="entries" id="entryList">
+    <div class="empty-state">No entries yet.</div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'focus-minimal-ledger';
+let entries = [];
+
+function load() {
+  try { entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { entries = []; }
+  if (!Array.isArray(entries)) entries = [];
+}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+
+function fmtDate(ts) {
+  const d = new Date(ts);
+  return String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()).padStart(2,'0');
+}
+
+function getMonthRange() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999).getTime();
+  return { start, end };
+}
+
+function render() {
+  const { start, end } = getMonthRange();
+  const monthEntries = entries.filter(e => e.ts >= start && e.ts <= end);
+
+  let balance = 0, income = 0, expense = 0;
+  monthEntries.forEach(e => {
+    balance += e.amount;
+    if (e.amount >= 0) income += e.amount;
+    else expense += Math.abs(e.amount);
+  });
+
+  document.getElementById('balanceDisplay').textContent = (balance >= 0 ? '' : '-') + Math.abs(balance).toFixed(2);
+  document.getElementById('monthSummary').innerHTML =
+    '<span>In: +' + income.toFixed(2) + '</span><span>Out: -' + expense.toFixed(2) + '</span>';
+
+  const list = document.getElementById('entryList');
+  if (monthEntries.length === 0) {
+    list.innerHTML = '<div class="empty-state">No entries this month.</div>';
+    return;
+  }
+  // Show newest first
+  const reversed = [...monthEntries].reverse();
+  list.innerHTML = reversed.map((e, i) => {
+    const idx = entries.indexOf(e);
+    const cls = e.amount >= 0 ? 'in' : 'out';
+    const sign = e.amount >= 0 ? '+' : '';
+    return `
+      <div class="entry">
+        <span class="entry-date">${fmtDate(e.ts)}</span>
+        <span class="entry-note">${esc(e.note || '—')}</span>
+        <span class="entry-amount ${cls}">${sign}${e.amount.toFixed(2)}</span>
+        <button class="entry-delete" onclick="remove(${idx})" title="Delete">&times;</button>
+      </div>`;
+  }).join('');
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function add() {
+  const amtInput = document.getElementById('amountInput');
+  const noteInput = document.getElementById('noteInput');
+  const amt = parseFloat(amtInput.value);
+  if (isNaN(amt) || amt === 0) return;
+
+  entries.push({ amount: amt, note: noteInput.value.trim(), ts: Date.now() });
+  save();
+  amtInput.value = '';
+  noteInput.value = '';
+  amtInput.focus();
+  render();
+}
+
+function remove(i) {
+  entries.splice(i, 1);
+  save();
+  render();
+}
+
+document.getElementById('addBtn').addEventListener('click', add);
+document.getElementById('amountInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') add();
+});
+
+load();
+render();
+</script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a><a href="../../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a><a href="../../tip-split-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B8; Tip Split Calculator</a><a href="../../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

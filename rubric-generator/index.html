@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rubric Generator — Build Grading Rubrics for Teachers | HuSir Tools</title>
+<meta name="description" content="Create a printable scoring rubric in minutes: criteria, performance levels, descriptors, weighted totals. Private, offline, and ready to print or copy.">
+<link rel="canonical" href="https://www.husir.org/tools/rubric-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Rubric Generator for Teachers">
+<meta property="og:description" content="Create a printable scoring rubric in minutes: criteria, performance levels, descriptors, weighted totals. Private, offline, and ready to print or copy.">
+<meta property="og:url" content="https://www.husir.org/tools/rubric-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rubric Generator for Teachers">
+<meta name="twitter:description" content="Create a printable scoring rubric in minutes: criteria, performance levels, descriptors, weighted totals. Private, offline, and ready to print or copy.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=text],textarea{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc}
+input:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;line-height:1.6}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-green{background:#10b981;color:#fff}
+.btn-red{background:#ef4444;color:#fff}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.hint{font-size:12px;color:#9aa3b5;margin-top:6px;line-height:1.5}
+.note{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.inline-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.inline-row>div{flex:1 1 160px}
+.inline-row label{font-size:12px;color:#888;font-weight:600;display:block;margin-bottom:3px}
+select{width:100%;padding:8px 10px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;background:#fafbfc;font-family:inherit;outline:none}
+select:focus{border-color:#667eea}
+.crit-row{display:grid;grid-template-columns:1fr 64px 40px;gap:8px;margin-bottom:8px;align-items:center}
+.crit-row .crit-name{font-weight:600;font-size:14px;color:#333}
+.crit-row input[type=number]{padding:7px 8px;border:2px solid #e0e0e0;border-radius:8px;font-size:13px;width:100%;font-family:inherit}
+.row-del{border:none;background:#fee2e2;color:#b91c1c;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:13px;font-family:inherit}
+table.rubric{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12.5px;background:#fff}
+table.rubric th,table.rubric td{border:1px solid #d8dee9;padding:6px 7px;vertical-align:top;text-align:left;word-break:break-word}
+table.rubric thead th{background:#f1f5ff;color:#3730a3;font-size:12px;text-align:center}
+table.rubric th.crit-cell{width:170px;text-align:left;color:#1e293b;background:#f8fafc}
+table.rubric td.crit-head{background:#f8fafc;font-weight:700;color:#1e293b}
+table.rubric .score-line{font-size:11px;color:#64748b;font-weight:600}
+table.rubric tfoot td{background:#f8fafc;font-weight:700;color:#1e293b;font-size:12px}
+.cell-edit{width:100%;min-height:52px;border:1px solid transparent;border-radius:6px;padding:4px 6px;font:inherit;line-height:1.45;resize:vertical;background:transparent}
+.cell-edit:focus{border-color:#a5b4fc;background:#fff;outline:none}
+.level-head{min-width:118px}
+.total-pill{display:inline-block;background:#f5f3ff;border:1px dashed #a78bfa;border-radius:999px;padding:2px 10px;font-size:12px;color:#4c1d95;font-weight:700}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.btn{min-height:44px;padding-left:14px;padding-right:14px}table.rubric{font-size:11px}table.rubric th.crit-cell{width:90px}table.rubric th,table.rubric td{padding:4px 5px}.crit-row{grid-template-columns:1fr 52px 36px}}
+@page{size:letter;margin:1in}
+@media print{table.rubric{font-size:10px}table.rubric th.crit-cell{width:110px}table.rubric .level-head{min-width:0}table.rubric th,table.rubric td{padding:3px 4px}.cell-edit{min-height:26px;border:1px solid #d8dee9}}
+@media print{body{background:#fff;padding:0}body *{box-shadow:none!important}.no-print,.panel-header .btn-row,.btn-row,.tool-actions,.info-block,#tool-back-nav{display:none!important}.container{max-width:100%;gap:0}.panel{border-radius:0;padding:0;box-shadow:none}.title-wrap{margin:6px 0 10px}h1{color:#111;text-shadow:none;font-size:22px;text-align:left}.subtitle{color:#555;text-align:left}.rubric-title{font-weight:700;margin-bottom:2px}.rubric-meta{color:#666;font-size:12px;margin-bottom:8px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button]{min-height:44px}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rubric Generator",
+  "description": "Create a printable scoring rubric in minutes: criteria, performance levels, descriptors, weighted totals. Private, offline, and ready to print or copy.",
+  "url": "https://www.husir.org/tools/rubric-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a rubric, and when would I use one?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A rubric is a scoring guide that lists each grading criterion (rows) and describes what different performance levels look like (columns). Use it for any assignment where several teachers or graders need to score consistently — essays, science labs, oral presentations, group projects."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do weights work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each row has a weight box. The maximum points shown in the footer are weight × highest level points, and the \"% of total\" is that value divided by the sum of all weighted maxima. Equal weights are the default."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I change a descriptor after it is generated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every cell in the preview is directly editable — click into a box and type. Only boxes you edit yourself are kept when you click \"Fill generic descriptors\" again."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my rubric be saved?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, the current rubric auto-saves in your browser's local storage. Use Print → Save as PDF when you want a file to attach to an assignment or upload to your LMS."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is anything uploaded or shared?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The whole tool runs on your device. Rubrics never leave your browser."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Rubric Generator", "item": "https://www.husir.org/tools/rubric-generator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Rubric Generator</span></span></nav>
+
+<div class="title-wrap">
+<h1>📋 Rubric Generator</h1>
+<p class="subtitle">Criteria &amp; levels &middot; auto descriptors &middot; weighted total &middot; print or copy</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Build a clean, printable scoring rubric for essays, projects, presentations, labs, or group work — without starting from a blank table. Start from a ready-made level scale (4-level Exceeds/Meets/Developing/Begins, 3-level, or 100-point scale), type in the criteria you are grading, and this tool writes a starter descriptor for every cell using your criterion and level names. Edit any cell in the live preview, or click "Fill generic descriptors" to start each box fresh.</p>
+<p>Each criterion can carry a weight, and the footer row shows the maximum score and its share of the total automatically — so a 6-criterion project rubric still adds up to the grade you announced. When the table looks right, print it (or save to PDF from the print dialog) to hand out with the assignment, or copy the text version to paste into Google Docs, Canvas, or an LMS. Everything runs locally in the browser — no account, no upload, and your rubric is auto-saved so a closed tab does not lose your work.</p>
+<div class="faq">
+<p><strong>🎯 What is a rubric, and when would I use one?</strong><br>A rubric is a scoring guide that lists each grading criterion (rows) and describes what different performance levels look like (columns). Use it for any assignment where several teachers or graders need to score consistently — essays, science labs, oral presentations, group projects.</p>
+<p><strong>⚖️ How do weights work?</strong><br>Each row has a weight box. The maximum points shown in the footer are <code>weight × highest level points</code>, and the "% of total" is that value divided by the sum of all weighted maxima. Equal weights are the default.</p>
+<p><strong>✏️ Can I change a descriptor after it is generated?</strong><br>Yes. Every cell in the preview is directly editable — click into a box and type. Only boxes you edit yourself are kept when you click "Fill generic descriptors" again.</p>
+<p><strong>💾 Will my rubric be saved?</strong><br>Yes, the current rubric auto-saves in your browser's local storage. Use Print → Save as PDF when you want a file to attach to an assignment or upload to your LMS.</p>
+<p><strong>🔒 Is anything uploaded or shared?</strong><br>No. The whole tool runs on your device. Rubrics never leave your browser.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Criterion points = weight × level points.<br>
+Total = Σ (weight × level points) over all criteria.<br>
+Percent of total = (weight × level points) ÷ total × 100.<br>
+Example: 4 levels × weight 2 × 4 pts max → 8 pts for that criterion.
+</div>
+</div>
+</details>
+
+<div class="panel no-print">
+  <div class="panel-header"><h3>1 · Assignment &amp; scale</h3><span class="total-pill" id="scaleInfo">Scale: 4 levels</span></div>
+  <div class="inline-row">
+    <div><label>Assignment / rubric title</label><input type="text" id="rubTitle" placeholder="e.g. Research Essay — Grade 8"></div>
+    <div><label>Class &amp; date (optional)</label><input type="text" id="rubMeta" placeholder="e.g. ELA Period 2 · Sep 12"></div>
+  </div>
+  <div class="inline-row">
+    <div><label>Level template</label>
+      <select id="levelPreset">
+        <option value="4">4 levels — Exceeds / Meets / Developing / Begins</option>
+        <option value="4alt">4 levels — Advanced / Proficient / Partially / Unsatisfactory</option>
+        <option value="3">3 levels — Meets / Partial / Does not meet</option>
+        <option value="100">A–D bands — 90+ / 80s / 70s / Below 70</option>
+      </select>
+    </div>
+    <div><label>Customize level names</label><input type="text" id="levelNames" placeholder="Comma-separated, e.g. Exceeds, Meets, Developing, Begins"></div>
+  </div>
+  <p class="hint">The template fills the level-name box. Edit it freely — names apply left (highest) to right (lowest).</p>
+</div>
+
+<div class="panel no-print">
+  <div class="panel-header"><h3>2 · Criteria &amp; weights</h3><button type="button" class="btn btn-ghost" id="addCrit">＋ Add criterion</button></div>
+  <div id="critRows"></div>
+  <div class="btn-row">
+    <button type="button" class="btn btn-primary" id="fillDesc">✨ Fill generic descriptors</button>
+    <button type="button" class="btn btn-ghost" id="sampleRub">📝 Sample project rubric</button>
+    <button type="button" class="btn btn-ghost" id="clearCrit">🗑 Clear all criteria</button>
+  </div>
+  <div class="note" id="noteBox"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>3 · Live preview &amp; print</h3></div>
+  <div id="previewArea" style="overflow-x:auto">
+    <div class="rubric-title" id="pvTitle" style="font-weight:800;font-size:16px;color:#1e293b"></div>
+    <div class="rubric-meta" id="pvMeta" style="color:#64748b;font-size:12.5px;margin:2px 0 8px"></div>
+    <table class="rubric" id="rubTable"></table>
+    <div id="pvEmpty" style="text-align:center;color:#9aa3b5;padding:26px 10px;font-size:14px">Add at least one criterion in step 2 to see the table.</div>
+  </div>
+  <div class="btn-row tool-actions">
+    <button type="button" class="btn btn-primary" id="printBtn">🖨 Print / Save PDF</button>
+    <button type="button" class="btn btn-ghost" id="copyBtn">📋 Copy as text</button>
+    <button type="button" class="btn btn-ghost" id="resetBtn">🔄 Start over</button>
+  </div>
+  <p class="hint">Tip: print headers and footers are hidden automatically — the printed page shows only the rubric table.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../quiz-flashcard-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3B4; Quiz &amp; Flashcard Maker</a><a href="../parent-note-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4AC; Parent Note Generator</a><a href="../classroom-tool/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9D1;&#x200D;&#x1F3EB; Classroom Toolkit</a><a href="../grade-stats/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Grade Stats &amp; Analysis</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var LS_KEY = 'husir-rubric-v1';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+
+  var PRESETS = {
+    '4': ['Exceeds', 'Meets', 'Developing', 'Begins'],
+    '4alt': ['Advanced', 'Proficient', 'Partially Proficient', 'Unsatisfactory'],
+    '3': ['Meets expectations', 'Partially meets', 'Does not meet'],
+    '100': ['90–100 (A)', '80–89 (B)', '70–79 (C)', 'Below 70']
+  };
+
+  var state = { title: '', meta: '', levels: ['Exceeds', 'Meets', 'Developing', 'Begins'], criteria: [] };
+
+  function showNote(msg) {
+    var n = $('noteBox');
+    n.style.display = msg ? 'block' : 'none';
+    n.textContent = msg || '';
+  }
+
+  function save() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  /* ---------- Step 1: scale ---------- */
+  function applyPreset() {
+    var key = $('levelPreset').value;
+    $('levelNames').value = PRESETS[key].join(', ');
+    applyLevelNames();
+  }
+  function applyLevelNames() {
+    state.levels = $('levelNames').value.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    if (!state.levels.length) state.levels = ['Exceeds', 'Meets', 'Developing', 'Begins'];
+    $('scaleInfo').textContent = 'Scale: ' + state.levels.length + ' level' + (state.levels.length > 1 ? 's' : '');
+    $('scaleInfo').textContent += ' · Max per criterion: ' + highPoints() + ' pts';
+    renderPreview();
+    save();
+  }
+  function highPoints() {
+    return Math.min(state.levels.length, 10);
+  }
+
+  /* ---------- Step 2: criteria ---------- */
+  function renderCritRows() {
+    var wrap = $('critRows');
+    wrap.innerHTML = '';
+    state.criteria.forEach(function (c, i) {
+      var row = document.createElement('div');
+      row.className = 'crit-row';
+      row.innerHTML =
+        '<input type="text" class="crit-name" data-i="' + i + '" placeholder="Criterion ' + (i + 1) + ', e.g. Thesis &amp; argument" value="' + esc(c.name) + '">' +
+        '<input type="number" class="crit-weight" data-i="' + i + '" min="0.5" max="10" step="0.5" value="' + esc(c.weight) + '" title="Weight">' +
+        '<button type="button" class="row-del" data-i="' + i + '" title="Remove">✕</button>';
+      wrap.appendChild(row);
+    });
+    if (!state.criteria.length) {
+      wrap.innerHTML = '<div style="text-align:center;color:#9aa3b5;padding:14px 10px;font-size:13.5px">No criteria yet — click "＋ Add criterion" or load the sample rubric.</div>';
+    }
+  }
+  function addCriterion() {
+    state.criteria.push({ name: '', weight: 1, cells: {} });
+    renderCritRows();
+    renderPreview();
+    save();
+  }
+  function removeCriterion(i) {
+    state.criteria.splice(i, 1);
+    renderCritRows();
+    renderPreview();
+    save();
+  }
+  function critInput(e) {
+    var i = +e.target.getAttribute('data-i');
+    if (e.target.classList.contains('crit-name')) {
+      state.criteria[i].name = e.target.value;
+    } else {
+      state.criteria[i].weight = Math.max(0.5, +e.target.value || 1);
+      e.target.value = state.criteria[i].weight;
+    }
+    save();
+    renderPreview();
+  }
+  function clearAll() {
+    if (!state.criteria.length || confirm('Remove all criteria and their descriptors?')) {
+      state.criteria = [];
+      renderCritRows();
+      renderPreview();
+      save();
+    }
+  }
+
+  /* ---------- Descriptors ---------- */
+  function genericText(critName, levelName) {
+    var c = critName.trim().toLowerCase();
+    var l = String(levelName).toLowerCase();
+    if (/exceed|advanced|90/.test(l)) return 'Consistently demonstrates ' + c + ' with insight and precision; clearly exceeds grade-level expectations.';
+    if (/does not meet|not meet|below|begin|unsatisf/.test(l)) return 'Shows little or no evidence of ' + c + '; major ideas are missing or incorrect.';
+    if (/partial|develop|approach|70/.test(l)) return 'Shows a developing grasp of ' + c + '; key ideas are present but incomplete or uneven.';
+    if (/meet|proficien|80/.test(l)) return 'Demonstrates ' + c + ' accurately; meets grade-level expectations with only minor gaps.';
+    return 'Level: ' + levelName + ' — ' + c + '.';
+  }
+  function fillDescriptors() {
+    var filled = 0;
+    state.criteria.forEach(function (c) {
+      state.levels.forEach(function (lv, li) {
+        var txt = c.name.trim() ? genericText(c.name, lv) : 'Descriptor for "' + lv + '".';
+        if (c.cells && c.cells['' + li] != null && String(c.cells['' + li]).trim()) return; // keep hand-written cells
+        if (!c.cells) c.cells = {};
+        c.cells['' + li] = txt;
+        filled++;
+      });
+    });
+    renderPreview();
+    save();
+    showNote(filled ? 'Filled ' + filled + ' descriptor cell' + (filled > 1 ? 's' : '') + '. Hand-typed cells were kept.' : 'Nothing to fill — add a criterion first.');
+  }
+
+  /* ---------- Step 3: preview ---------- */
+  function renderPreview() {
+    $('pvTitle').textContent = state.title.trim() || 'Untitled rubric';
+    $('pvMeta').textContent = state.meta.trim();
+    $('pvEmpty').style.display = state.criteria.length ? 'none' : 'block';
+    var table = $('rubTable');
+    if (!state.criteria.length) { table.innerHTML = ''; return; }
+
+    var html = '<thead><tr><th class="crit-cell">Criteria</th>';
+    state.levels.forEach(function (lv, li) {
+      html += '<th class="level-head">' + esc(lv) + '<div class="score-line">' + scoreForLevel(li) + ' pts</div></th>';
+    });
+    html += '<th style="width:52px">Wt</th></tr></thead><tbody>';
+    state.criteria.forEach(function (c, ci) {
+      html += '<tr><td class="crit-head">' + esc(c.name || 'Criterion ' + (ci + 1)) + '</td>';
+      state.levels.forEach(function (lv, li) {
+        var val = (c.cells && c.cells['' + li] != null) ? c.cells['' + li] : '';
+        html += '<td><textarea class="cell-edit" data-ci="' + ci + '" data-li="' + li + '" placeholder="Describe ' + esc(lv) + ' for ' + esc(c.name || 'this criterion') + '">' + esc(val) + '</textarea></td>';
+      });
+      html += '<td style="text-align:center;font-weight:700;color:#475569">' + esc(c.weight) + '</td></tr>';
+    });
+    html += '</tbody><tfoot>';
+    var weighted = state.criteria.reduce(function (sum, c) { return sum + c.weight; }, 0);
+    var grandTotal = state.criteria.reduce(function (sum, c) { return sum + c.weight * scoreForLevel(0); }, 0);
+    html += '<tr><td>Total possible</td><td colspan="' + (state.levels.length) + '" style="text-align:center;font-weight:800;color:#4c1d95">' + grandTotal + ' pts</td><td>' + weighted + '</td></tr></tfoot>';
+    table.innerHTML = html;
+  }
+  function scoreForLevel(li) {
+    var top = highPoints();
+    return Math.max(top - li, 1);
+  }
+  function onCellEdit(e) {
+    if (!e.target.classList.contains('cell-edit')) return;
+    var ci = +e.target.getAttribute('data-ci');
+    var li = +e.target.getAttribute('data-li');
+    if (!state.criteria[ci].cells) state.criteria[ci].cells = {};
+    state.criteria[ci].cells['' + li] = e.target.value;
+    save();
+  }
+
+  /* ---------- Copy / print ---------- */
+  function copyText() {
+    var lines = [];
+    lines.push(state.title.trim() || 'Rubric');
+    if (state.meta.trim()) lines.push(state.meta.trim());
+    lines.push('');
+    lines.push('Scale: ' + state.levels.join(' → '));
+    lines.push('');
+    state.criteria.forEach(function (c, ci) {
+      lines.push((ci + 1) + '. ' + (c.name || 'Criterion ' + (ci + 1)) + ' (weight ' + c.weight + ', max ' + (c.weight * scoreForLevel(0)) + ' pts)');
+      state.levels.forEach(function (lv, li) {
+        var val = (c.cells && c.cells['' + li] != null) ? c.cells['' + li] : '';
+        lines.push('   [' + lv + ' · ' + scoreForLevel(li) + ' pts] ' + (val || '—'));
+      });
+      lines.push('');
+    });
+    var text = lines.join('\n');
+    function done() { showNote('Rubric copied to clipboard.'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallback(text); });
+    } else { fallback(text); }
+  }
+  function fallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showNote('Rubric copied to clipboard.'); } catch (e) { showNote('Select the preview text and copy manually.'); }
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- Sample / reset ---------- */
+  function loadSample() {
+    state.title = 'Book Report — Grade 6';
+    state.meta = 'ELA Period 3 · Due Oct 18';
+    state.levels = ['Exceeds', 'Meets', 'Developing', 'Begins'];
+    $('levelPreset').value = '4';
+    $('levelNames').value = state.levels.join(', ');
+    state.criteria = [
+      { name: 'Summary & main ideas', weight: 2, cells: {} },
+      { name: 'Evidence & quotes', weight: 2, cells: {} },
+      { name: 'Personal response', weight: 1, cells: {} },
+      { name: 'Grammar & conventions', weight: 1, cells: {} }
+    ];
+    renderCritRows();
+    fillDescriptors();
+    $('rubTitle').value = state.title;
+    $('rubMeta').value = state.meta;
+    showNote('Sample rubric loaded — edit any cell in the preview.');
+  }
+  function resetAll() {
+    if (!confirm('Clear the rubric and start over?')) return;
+    state = { title: '', meta: '', levels: ['Exceeds', 'Meets', 'Developing', 'Begins'], criteria: [] };
+    $('rubTitle').value = ''; $('rubMeta').value = ''; $('levelPreset').value = '4';
+    $('levelNames').value = state.levels.join(', ');
+    renderCritRows(); renderPreview(); save();
+  }
+
+  /* ---------- Events ---------- */
+  $('levelPreset').addEventListener('change', applyPreset);
+  $('levelNames').addEventListener('input', applyLevelNames);
+  $('addCrit').addEventListener('click', addCriterion);
+  $('critRows').addEventListener('input', critInput);
+  $('critRows').addEventListener('click', function (e) {
+    if (e.target.classList.contains('row-del')) removeCriterion(+e.target.getAttribute('data-i'));
+  });
+  $('fillDesc').addEventListener('click', fillDescriptors);
+  $('sampleRub').addEventListener('click', loadSample);
+  $('clearCrit').addEventListener('click', clearAll);
+  $('rubTitle').addEventListener('input', function () { state.title = $('rubTitle').value; renderPreview(); save(); });
+  $('rubMeta').addEventListener('input', function () { state.meta = $('rubMeta').value; renderPreview(); save(); });
+  $('printBtn').addEventListener('click', function () { window.print(); });
+  $('copyBtn').addEventListener('click', copyText);
+  $('resetBtn').addEventListener('click', resetAll);
+  $('rubTable').addEventListener('input', onCellEdit);
+
+  /* ---------- Init ---------- */
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+  if (saved && saved.levels && saved.criteria) {
+    state = saved;
+    $('rubTitle').value = state.title;
+    $('rubMeta').value = state.meta;
+    $('levelNames').value = state.levels.join(', ');
+  } else {
+    $('levelNames').value = state.levels.join(', ');
+    state.criteria = [
+      { name: 'Content & accuracy', weight: 1, cells: {} },
+      { name: 'Organization', weight: 1, cells: {} },
+      { name: 'Presentation & conventions', weight: 1, cells: {} }
+    ];
+  }
+  renderCritRows();
+  applyLevelNames();
+  renderPreview();
+})();
+</script>
+</body>
+</html>

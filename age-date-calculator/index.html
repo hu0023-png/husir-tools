@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F382; Age &amp; Date Calculator | HuSir Tools</title>
+<meta name="description" content="Calculate exact age in years, months, and days from a date of birth, days between any two dates, or add and subtract time from a date. US dates. Private, offline.">
+<link rel="canonical" href="https://www.husir.org/tools/age-date-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🎂 Age & Date Calculator">
+<meta property="og:description" content="Calculate exact age in years, months, and days from a date of birth, days between any two dates, or add and subtract time from a date. US dates. Private, offline.">
+<meta property="og:url" content="https://www.husir.org/tools/age-date-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🎂 Age & Date Calculator">
+<meta name="twitter:description" content="Calculate exact age in years, months, and days from a date of birth, days between any two dates, or add and subtract time from a date. US dates. Private, offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=date],input[type=number]{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;color:#1a1a2e;min-height:44px}
+input[type=date]:focus,input[type=number]:focus{border-color:#667eea;background:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.result-card{background:#f8faff;border:2px solid #e6e9f5;border-radius:14px;padding:16px;margin-top:12px}
+.result-big{font-size:26px;font-weight:800;color:#4c1d95;line-height:1.3}
+.result-sub{font-size:13px;color:#475569;margin-top:6px;line-height:1.7}
+.result-sub b{color:#1a1a2e}
+.status-ok{font-size:12.5px;color:#10b981;font-weight:600}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}.result-big{font-size:21px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🎂 Age & Date Calculator",
+  "description": "Calculate exact age in years, months, and days from a date of birth, days between any two dates, or add and subtract time from a date. US dates. Private, offline.",
+  "url": "https://www.husir.org/tools/age-date-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "📅 How do you count the days between two dates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As elapsed 24-hour periods. “Between” a Monday and the following Monday is 7 days. If you need a count that includes both endpoints, add 1 to the result."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🎃 What happens to February 29 birthdays?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In a non-leap year the birthday falls on February 28 or March 1, depending on convention. This tool counts the calendar day that exists; February 29 is used only in leap years."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "💭 Why does age in years/months/days not always add up neatly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Months have different lengths, so the breakdown is calendar-aware: it borrows days from the previous month (and months from the previous year) exactly like counting age on paper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🕐 Which timezone is used?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your local timezone. Date-only inputs are treated as local midnight, so results match what you see on a wall calendar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Is any date sent to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. All calculations happen locally in your browser with zero network calls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Age & Date Calculator", "item": "https://www.husir.org/tools/age-date-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Age &amp; Date Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F382; Age &amp; Date Calculator</h1>
+<p class="subtitle">Exact age &middot; days between dates &middot; add or subtract time &mdash; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Three date questions answered instantly, with US-style output (month/day/year). From a date of birth, get the exact age in years, months, and days plus the total days lived and days until the next birthday. Between any two dates, get the total number of days and the breakdown into years, months, and days &#8212; useful for pregnancy due dates, leases, warranties, subscriptions, and milestones. Finally, add or subtract years, months, or days from a date to find a deadline or anniversary, with the result&#8217;s weekday included.</p>
+<p>Dates are handled in your local timezone and leap years are accounted for automatically, so February 29 birthdays and leap-day intervals behave correctly. Everything runs entirely on your device &#8212; no account, no upload, fully offline.</p>
+<div class="faq">
+<p><strong>&#x1F4C5; How do you count the days between two dates?</strong><br>As elapsed 24-hour periods. &#8220;Between&#8221; a Monday and the following Monday is 7 days. If you need a count that includes both endpoints, add 1 to the result.</p>
+<p><strong>&#x1F383; What happens to February 29 birthdays?</strong><br>In a non-leap year the birthday falls on February 28 or March 1, depending on convention. This tool counts the calendar day that exists; February 29 is used only in leap years.</p>
+<p><strong>&#x1F4AD; Why does age in years/months/days not always add up neatly?</strong><br>Months have different lengths, so the breakdown is calendar-aware: it borrows days from the previous month (and months from the previous year) exactly like counting age on paper.</p>
+<p><strong>&#x1F550; Which timezone is used?</strong><br>Your local timezone. Date-only inputs are treated as local midnight, so results match what you see on a wall calendar.</p>
+<p><strong>&#x1F512; Is any date sent to a server?</strong><br>Never. All calculations happen locally in your browser with zero network calls.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+Leap year = divisible by 4, except centuries unless divisible by 400 (2000 and 2024 are leap; 1900 and 2100 are not)<br>
+Average year = 365.2425 days &nbsp;&middot;&nbsp; months: 28/29/30/31 days<br>
+Age = calendar difference from date of birth to the reference date (days first, borrowing as needed)
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F382; Age from date of birth</h3></div>
+  <div class="grid2">
+    <div>
+      <label class="field-label" for="dob">Date of birth</label>
+      <input type="date" id="dob" value="1995-05-12">
+    </div>
+    <div>
+      <label class="field-label" for="asof">Age on this date</label>
+      <input type="date" id="asof">
+    </div>
+  </div>
+  <div class="result-card">
+    <div class="result-big" id="ageBig">—</div>
+    <div class="result-sub" id="ageSub">—</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F4C6; Days between two dates</h3></div>
+  <div class="grid2">
+    <div>
+      <label class="field-label" for="d1">Start date</label>
+      <input type="date" id="d1" value="2026-01-01">
+    </div>
+    <div>
+      <label class="field-label" for="d2">End date</label>
+      <input type="date" id="d2">
+    </div>
+  </div>
+  <div class="result-card">
+    <div class="result-big" id="diffBig">—</div>
+    <div class="result-sub" id="diffSub">—</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x2795; Add or subtract time</h3></div>
+  <div class="grid2">
+    <div>
+      <label class="field-label" for="base">Start date</label>
+      <input type="date" id="base">
+    </div>
+    <div class="grid3">
+      <div>
+        <label class="field-label" for="yy">Years</label>
+        <input type="number" id="yy" value="0">
+      </div>
+      <div>
+        <label class="field-label" for="mm">Months</label>
+        <input type="number" id="mm" value="0">
+      </div>
+      <div>
+        <label class="field-label" for="dd">Days</label>
+        <input type="number" id="dd" value="90">
+      </div>
+    </div>
+  </div>
+  <div class="result-card">
+    <div class="result-big" id="addBig">—</div>
+    <div class="result-sub" id="addSub">—</div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a><a href="../due-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F930; Pregnancy Due Date Calculator</a><a href="../bmi-calorie-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2696;&#xFE0F; BMI &amp; Calorie Calculator</a><a href="../pet-age-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🐾 Pet Age Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+}
+function parseD(v){
+  if(!v)return null;
+  var p=v.split('-');
+  return new Date(+p[0],+p[1]-1,+p[2]);
+}
+function weekday(d){return d.toLocaleDateString('en-US',{weekday:'long'});}
+function fmtUS(d){
+  return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear();
+}
+function startOfDay(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+function utc(d){return Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());}
+function diffYMD(a,b){
+  var y=b.getFullYear()-a.getFullYear();
+  var m=b.getMonth()-a.getMonth();
+  var d=b.getDate()-a.getDate();
+  if(d<0){
+    m--;
+    var daysPrev=new Date(b.getFullYear(),b.getMonth(),0).getDate();
+    d+=daysPrev;
+  }
+  if(m<0){y--;m+=12;}
+  return {y:y,m:m,d:d};
+}
+function plural(n,u){return n+' '+u+(n===1?'':'s');}
+function calcAge(){
+  var dob=parseD($('dob').value),asof=parseD($('asof').value);
+  if(!dob||!asof){return;}
+  if(asof<dob){$('ageBig').textContent='Reference date is before birth';$('ageSub').textContent='—';return;}
+  var ymd=diffYMD(dob,asof);
+  $('ageBig').textContent=ymd.y+' years, '+ymd.m+' months, '+ymd.d+' days';
+  var total=Math.round((utc(asof)-utc(dob))/86400000);
+  var nextY=asof.getFullYear();
+  var nb=new Date(nextY,dob.getMonth(),dob.getDate());
+  if(nb<startOfDay(asof)){nb=new Date(nextY+1,dob.getMonth(),dob.getDate());}
+  if(nb.getDate()!==dob.getDate()&&dob.getMonth()===1&&dob.getDate()===29){nb=new Date(nb.getFullYear(),1,28);}
+  var days=Math.round((utc(nb)-utc(asof))/86400000);
+  var nbTxt=days===0?'— it’s today! 🎉':plural(days,'day')+' until next birthday ('+weekday(nb)+')';
+  $('ageSub').innerHTML='Born on a <b>'+weekday(dob)+'</b> · <b>'+total.toLocaleString('en-US')+'</b> total days lived · <b>'+nbTxt+'</b>';
+}
+function calcDiff(){
+  var a=parseD($('d1').value),b=parseD($('d2').value);
+  if(!a||!b){return;}
+  var rev=false;
+  if(b<a){var t=a;a=b;b=t;rev=true;}
+  var total=Math.round((utc(b)-utc(a))/86400000);
+  $('diffBig').textContent=total.toLocaleString('en-US')+' days';
+  var ymd=diffYMD(a,b);
+  var sub='';
+  if(rev)sub='Dates swapped for the count — ';
+  sub+=(ymd.y>0?plural(ymd.y,'year')+' · ':'')+(ymd.m>0?plural(ymd.m,'month')+' · ':'')+plural(ymd.d,'day');
+  if(ymd.y===0&&ymd.m===0){sub+=' (less than a month apart)';}
+  sub+=' · starts on a '+weekday(a)+', ends on a '+weekday(b);
+  $('diffSub').textContent=sub;
+}
+function calcAdd(){
+  var base=parseD($('base').value);
+  if(!base){return;}
+  var y=parseInt($('yy').value,10)||0,m=parseInt($('mm').value,10)||0,d=parseInt($('dd').value,10)||0;
+  var day=base.getDate();
+  var absMonth=base.getFullYear()*12+base.getMonth()+y*12+m;
+  var year=Math.floor(absMonth/12),mo=((absMonth%12)+12)%12;
+  var nd=new Date(year,mo,1);
+  var last=new Date(nd.getFullYear(),nd.getMonth()+1,0).getDate();
+  nd=new Date(nd.getFullYear(),nd.getMonth(),Math.min(day,last));
+  nd=new Date(nd.getFullYear(),nd.getMonth(),nd.getDate()+d);
+  $('addBig').textContent=fmtUS(nd)+' ('+weekday(nd)+')';
+  var sign=y===0&&m===0&&d===0?'unchanged':(y<0||m<0||d<0?'earlier':'later');
+  var parts=[];
+  if(y)parts.push(plural(Math.abs(y),'year'));
+  if(m)parts.push(plural(Math.abs(m),'month'));
+  if(d)parts.push(plural(Math.abs(d),'day'));
+  $('addSub').textContent=(parts.length?parts.join(' + ')+' ':'')+(sign==='unchanged'?'date stays the same':'from '+fmtUS(base)+' → result '+sign);
+}
+$('asof').value=todayStr();
+$('d2').value=todayStr();
+$('base').value=todayStr();
+['dob','asof'].forEach(function(id){$(id).addEventListener('change',calcAge);});
+['d1','d2'].forEach(function(id){$(id).addEventListener('change',calcDiff);});
+['base','yy','mm','dd'].forEach(function(id){$(id).addEventListener('input',calcAdd);});
+calcAge();calcDiff();calcAdd();
+</script>
+</body>
+</html>

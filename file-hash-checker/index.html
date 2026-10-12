@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F510; File Hash Checker — SHA-256 on Device | HuSir Tools</title>
+<meta name="description" content="Verify downloaded files by computing SHA-1, SHA-256, SHA-384, or SHA-512 hashes entirely on your device. No upload, no account, fully private and offline.">
+<link rel="canonical" href="https://www.husir.org/tools/file-hash-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🔐 File Hash Checker — SHA-256 on Device">
+<meta property="og:description" content="Verify downloaded files by computing SHA-1, SHA-256, SHA-384, or SHA-512 hashes entirely on your device. No upload, no account, fully private and offline.">
+<meta property="og:url" content="https://www.husir.org/tools/file-hash-checker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🔐 File Hash Checker — SHA-256 on Device">
+<meta name="twitter:description" content="Verify downloaded files by computing SHA-1, SHA-256, SHA-384, or SHA-512 hashes entirely on your device. No upload, no account, fully private and offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.drop{border:2px dashed #c7cbe0;border-radius:14px;padding:26px 16px;text-align:center;color:#7c86a0;cursor:pointer;background:#fafbff;transition:all .15s;font-size:14px}
+.drop:hover,.drop.over{border-color:#667eea;background:#eef2ff;color:#4c1d95}
+.drop b{color:#4c1d95}
+.row1{display:grid;grid-template-columns:1fr 200px;gap:12px;margin-top:12px;align-items:end}
+.field-label{font-size:12.5px;color:#888;margin-bottom:4px;font-weight:600;display:block}
+select,input[type=text]{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:13.5px;font-family:inherit;outline:none;background:#fafbfc;color:#1a1a2e}
+select:focus,input:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.status{font-size:13px;color:#475569;font-weight:600;margin-top:12px}
+.hrows{margin-top:8px}
+.hrow{background:#f8faff;border:1px solid #e6e9f5;border-radius:12px;padding:10px 12px;margin-top:10px}
+.hname{font-size:13.5px;font-weight:700;color:#1a1a2e;word-break:break-all}
+.hmeta{font-size:11px;color:#98a1b3;margin:2px 0 6px}
+.hval{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;color:#334155;word-break:break-all;line-height:1.5;background:#fff;border:1px solid #eef0f7;border-radius:8px;padding:7px 9px}
+.hrow .algo{color:#4c1d95;font-weight:800}
+.match{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:99px;margin-left:6px}
+.ok{background:#ecfdf5;color:#059669}
+.bad{background:#fef2f2;color:#dc2626}
+.hbtns{display:flex;gap:8px;margin-top:7px;flex-wrap:wrap}
+.mini{background:#eef2ff;border:none;color:#4c1d95;border-radius:8px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.mini:hover{background:#e0e7ff}
+.mini-del{background:#fef2f2;color:#dc2626}
+.mini-del:hover{background:#fee2e2}
+.note{font-size:11.5px;color:#98a1b3;margin-top:12px;line-height:1.6}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.row1{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🔐 File Hash Checker",
+  "description": "Verify downloaded files by computing SHA-1, SHA-256, SHA-384, or SHA-512 hashes entirely on your device. No upload, no account, fully private and offline.",
+  "url": "https://www.husir.org/tools/file-hash-checker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "📝 Which algorithm should I pick?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the one the publisher lists, usually SHA-256. If none is listed, SHA-256 is the best default. SHA-1 is older and weaker; only use it to match an old published value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔁 What does “MATCH” mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The computed hash equals the expected hash you pasted, character for character — the file is bit-for-bit identical to the one the publisher hashed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Is my file uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. The file never leaves your device; the hash is computed locally and nothing is sent over the network."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🧭 Why no MD5?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MD5 is cryptographically broken and not available in the browser's secure crypto API. Use SHA-256 instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "💡 Hash differs — now what?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Delete and re-download the file, then check again. If it still differs, contact the publisher and do not install the file."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "File Hash Checker", "item": "https://www.husir.org/tools/file-hash-checker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">File Hash Checker</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F510; File Hash Checker</h1>
+<p class="subtitle">Verify files with SHA-1 / SHA-256 / SHA-384 / SHA-512 &middot; runs 100% on your device</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Before you install a downloaded program or open a large file, the publisher often provides a checksum &mdash; a long string like <code>e3b0c442&hellip;</code> that uniquely identifies the file's contents. Compute the hash here and compare it with the published value: if they match exactly, the file is complete and untouched; if not, the download is corrupted or has been tampered with.</p>
+<p>Drag in one or more files (or click to choose), pick an algorithm, and the hash is calculated instantly. Paste the expected hash from the download page and the tool marks the result MATCH or MISMATCH, then copy the computed hash with one click for pasting into a terminal command.</p>
+<p>All hashing is done by your browser's built-in cryptography on your own device &mdash; files are never uploaded, which matters when you are verifying installers, firmware, or sensitive documents. The page works fully offline.</p>
+<div class="faq">
+<p><strong>&#x1F4DD; Which algorithm should I pick?</strong><br>Use the one the publisher lists, usually SHA-256. If none is listed, SHA-256 is the best default. SHA-1 is older and weaker; only use it to match an old published value.</p>
+<p><strong>&#x1F501; What does &ldquo;MATCH&rdquo; mean?</strong><br>The computed hash equals the expected hash you pasted, character for character &mdash; the file is bit-for-bit identical to the one the publisher hashed.</p>
+<p><strong>&#x1F512; Is my file uploaded?</strong><br>Never. The file never leaves your device; the hash is computed locally and nothing is sent over the network.</p>
+<p><strong>&#x1F9ED; Why no MD5?</strong><br>MD5 is cryptographically broken and not available in the browser's secure crypto API. Use SHA-256 instead.</p>
+<p><strong>&#x1F4A1; Hash differs — now what?</strong><br>Delete and re-download the file, then check again. If it still differs, contact the publisher and do not install the file.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+SHA-256 digest = 64 hex characters &nbsp;&middot;&nbsp; SHA-1 = 40 &nbsp;&middot;&nbsp; SHA-384 = 96 &nbsp;&middot;&nbsp; SHA-512 = 128<br>
+Compare lowercase, ignoring spaces:  <code>hash(a) === published</code> &nbsp;&rArr;&nbsp; MATCH
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F4C1; Files</h3><span style="font-size:11.5px;color:#98a1b3">Processed locally</span></div>
+  <div class="drop" id="drop">&#x2B07; Drop files here or <b>click to choose</b><br><span style="font-size:11.5px">Any file type &mdash; installers, images, archives</span></div>
+  <input type="file" id="file" multiple style="display:none">
+  <div class="row1">
+    <div>
+      <label class="field-label" for="expected">Expected hash (optional, to compare)</label>
+      <input type="text" id="expected" spellcheck="false" placeholder="Paste the hash from the download page">
+    </div>
+    <div>
+      <label class="field-label" for="algo">Algorithm</label>
+      <select id="algo">
+        <option value="SHA-256" selected>SHA-256</option>
+        <option value="SHA-1">SHA-1</option>
+        <option value="SHA-384">SHA-384</option>
+        <option value="SHA-512">SHA-512</option>
+      </select>
+    </div>
+  </div>
+  <div class="btnrow">
+    <button class="btn btn-ghost" id="clearBtn" type="button">&#x1F9F9; Clear results</button>
+  </div>
+  <div class="status" id="status">Waiting for files.</div>
+  <div class="hrows" id="rows"></div>
+  <p class="note">Large files take a few seconds &mdash; hashing is done by your device's CPU. Results stay on screen until you clear or close the page.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../password-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F511; Password Generator</a><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a><a href="../base64-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F521; Base64 Encoder &amp; Decoder</a><a href="../text-diff-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F50D; Text Diff Checker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hsize(n){
+  if(n<1024)return n+' B';
+  if(n<1048576)return (n/1024).toFixed(1)+' KB';
+  if(n<1073741824)return (n/1048576).toFixed(1)+' MB';
+  return (n/1073741824).toFixed(2)+' GB';
+}
+function hex(buf){var b=new Uint8Array(buf);var out='';for(var i=0;i<b.length;i++)out+=('0'+b[i].toString(16)).slice(-2);return out;}
+function cleanHash(s){return s.toLowerCase().replace(/\s+/g,'').replace(/^sha[0-9-]*:/i,'');}
+function normalize(s){return cleanHash(s);}
+var busy=false,queue=[];
+function process(file){
+  if(!window.crypto||!crypto.subtle){$('status').textContent='Secure crypto API is not available on this page.';$('status').style.color='#b45309';return;}
+  var algo=$('algo').value;
+  queue.push({f:file,algo:algo});
+  drain();
+}
+function drain(){
+  if(busy||!queue.length)return;
+  busy=true;
+  var item=queue.shift();
+  var fr=new FileReader();
+  $('status').textContent='Hashing '+item.f.name+' ('+hsize(item.f.size)+')…';
+  fr.onload=function(){
+    crypto.subtle.digest(item.algo,fr.result).then(function(buf){
+      addRow(item,hex(buf));
+      busy=false;drain();
+    }).catch(function(){busy=false;drain();});
+  };
+  fr.onerror=function(){busy=false;drain();};
+  fr.readAsArrayBuffer(item.f);
+}
+function addRow(item,h){
+  var rows=$('rows');
+  var div=document.createElement('div');div.className='hrow';
+  var exp=normalize($('expected').value);
+  var st='';
+  if(exp){st='<span class="match '+(h===exp?'ok':'bad')+'">'+(h===exp?'\u2713 MATCH':'\u2717 MISMATCH')+'</span>';}
+  var name=document.createElement('div');name.className='hname';
+  name.innerHTML=esc(item.f.name)+' <span class="algo">'+item.algo+'</span>'+st;
+  var meta=document.createElement('div');meta.className='hmeta';meta.textContent=hsize(item.f.size)+' \u00B7 computed on your device';
+  var val=document.createElement('div');val.className='hval';val.textContent=h;
+  var btns=document.createElement('div');btns.className='hbtns';
+  var cp=document.createElement('button');cp.type='button';cp.className='mini';cp.textContent='\uD83D\uDCCB Copy hash';
+  cp.addEventListener('click',function(){
+    function done(){cp.textContent='\u2705 Copied!';setTimeout(function(){cp.textContent='\uD83D\uDCCB Copy hash';},1200);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(h).then(done).catch(function(){fb(h,done);});}
+    else{fb(h,done);}
+  });
+  var del=document.createElement('button');del.type='button';del.className='mini mini-del';del.textContent='\u2715 Remove';
+  del.addEventListener('click',function(){div.remove();updateStatus();});
+  btns.appendChild(cp);btns.appendChild(del);
+  div.appendChild(name);div.appendChild(meta);div.appendChild(val);div.appendChild(btns);
+  rows.appendChild(div);
+  updateStatus();
+}
+function fb(txt,done){
+  var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+function updateStatus(){
+  var n=document.querySelectorAll('#rows .hrow').length;
+  $('status').textContent=n?n+' file'+(n===1?'':'s')+' hashed. Add more files or clear the list.' : 'Waiting for files.';
+  $('status').style.color='#475569';
+}
+$('drop').addEventListener('click',function(){$('file').click();});
+$('file').addEventListener('change',function(){
+  if(this.files)for(var i=0;i<this.files.length;i++)process(this.files[i]);
+  this.value='';
+});
+$('drop').addEventListener('dragover',function(e){e.preventDefault();this.classList.add('over');});
+$('drop').addEventListener('dragleave',function(){this.classList.remove('over');});
+$('drop').addEventListener('drop',function(e){
+  e.preventDefault();this.classList.remove('over');
+  if(e.dataTransfer.files)for(var i=0;i<e.dataTransfer.files.length;i++)process(e.dataTransfer.files[i]);
+});
+$('algo').addEventListener('change',function(){updateStatus();});
+$('clearBtn').addEventListener('click',function(){$('rows').innerHTML='';$('expected').value='';updateStatus();});
+</script>
+</body>
+</html>

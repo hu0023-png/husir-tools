@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz &amp; Flashcard Maker | HuSir Tools</title>
+<meta name="description" content="Make flashcards and quizzes in seconds for vocab, capitals, math facts, or any subject. Study, flip, self-test, export JSON. Private and offline, nothing uploaded.">
+<link rel="canonical" href="https://www.husir.org/tools/quiz-flashcard-maker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Quiz & Flashcard Maker">
+<meta property="og:description" content="Make flashcards and quizzes in seconds for vocab, capitals, math facts, or any subject. Study, flip, self-test, export JSON. Private and offline, nothing uploaded.">
+<meta property="og:url" content="https://www.husir.org/tools/quiz-flashcard-maker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quiz & Flashcard Maker">
+<meta name="twitter:description" content="Make flashcards and quizzes in seconds for vocab, capitals, math facts, or any subject. Study, flip, self-test, export JSON. Private and offline, nothing uploaded.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=text],textarea{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc}
+input:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;line-height:1.6}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-green{background:#10b981;color:#fff}
+.btn-red{background:#ef4444;color:#fff}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.hint{font-size:12px;color:#9aa3b5;margin-top:6px;line-height:1.5}
+.note{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.card-row{display:grid;grid-template-columns:30px 1fr 1fr 34px;gap:8px;margin-bottom:8px;align-items:stretch}
+.row-idx{font-size:12px;font-weight:800;color:#4c1d95;background:#f5f3ff;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.row-del{border:none;background:#fee2e2;color:#b91c1c;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:14px;font-family:inherit;align-self:start}
+.stage{min-height:120px}
+.stage-empty{text-align:center;color:#9aa3b5;padding:34px 10px;font-size:14px}
+.progress-line{font-size:12.5px;color:#888;font-weight:700}
+.fcard{min-height:230px;display:flex;align-items:center;justify-content:center;text-align:center;padding:26px;border-radius:16px;border:2px solid #e6e9f5;cursor:pointer;user-select:none;-webkit-user-select:none;background:#f8faff;transition:background .15s}
+.fcard .fc-text{font-size:21px;font-weight:800;color:#1a1a2e;white-space:pre-wrap;word-break:break-word}
+.fcard.back{background:#f5f3ff;border-color:#c9b8ff}
+.fcard.back .fc-text{color:#4c1d95}
+.flip-hint{text-align:center;font-size:11.5px;color:#b6bcc9;margin-top:8px}
+.qbox{min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;border-radius:16px;background:#f8faff;border:2px solid #e6e9f5}
+.qbox .fc-text{font-size:20px;font-weight:800;color:#1a1a2e;white-space:pre-wrap;word-break:break-word}
+.answer-box{margin-top:10px;padding:16px;border-radius:12px;background:#f5f3ff;border:2px dashed #c9b8ff;font-size:15px;color:#4c1d95;font-weight:700;white-space:pre-wrap;word-break:break-word;display:none}
+.done-box{text-align:center;padding:18px 10px}
+.done-box h4{font-size:19px;color:#111;margin-bottom:8px}
+.score-big{font-size:34px;font-weight:800;color:#4c1d95}
+.wrong-list{margin:12px auto 0;max-width:460px;text-align:left;font-size:13px;color:#333}
+.wrong-list li{margin:3px 0}
+.ft-file{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 16px;border-radius:999px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;font:600 13px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;cursor:pointer;border:2px dashed rgba(255,255,255,.5);box-shadow:0 3px 12px rgba(102,126,234,.35);user-select:none;-webkit-user-select:none;transition:filter .15s}
+.ft-file:hover{filter:brightness(1.08)}
+.ft-file input{display:none}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.btn{min-height:44px;padding-left:14px;padding-right:14px}.card-row{grid-template-columns:24px 1fr 34px}.card-row textarea.cf{grid-column:2;grid-row:1}.card-row textarea.cb{grid-column:2;grid-row:2}.row-del{grid-column:3;grid-row:1}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button]{min-height:44px}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Quiz & Flashcard Maker",
+  "description": "Make flashcards and quizzes in seconds for vocab, capitals, math facts, or any subject. Study, flip, self-test, export JSON. Private and offline, nothing uploaded.",
+  "url": "https://www.husir.org/tools/quiz-flashcard-maker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between Flashcards and Quiz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Flashcards are for learning: you flip cards and mark which ones need more review. Quiz is for testing: you see the question, check the answer, and mark yourself right or wrong to get a score."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the fastest way to make a deck?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Paste one card per line using the format question | answer (or a tab). Example: Sacramento | capital of California. Click \"Paste list\" and add them all at once."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are quiz questions shuffled?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — every quiz starts with a fresh random order, so repeating a deck still challenges your memory."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my deck disappear when I close the tab?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the current deck is saved in your browser's local storage. Export the JSON file whenever you want a permanent backup or to share it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is anything uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Decks, scores, and your practice stay entirely on your device."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Quiz & Flashcard Maker", "item": "https://www.husir.org/tools/quiz-flashcard-maker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Quiz &amp; Flashcard Maker</span></span></nav>
+
+<div class="title-wrap">
+<h1>🎴 Quiz &amp; Flashcard Maker</h1>
+<p class="subtitle">Build a deck in minutes &middot; flip &amp; study &middot; self-test quiz &middot; export &amp; share JSON</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Turn vocabulary words, state capitals, math facts, science terms, or any subject into flashcards and a self-test quiz in a few minutes. Type cards one by one or paste a whole list in "front | back" format — perfect when you already have a study sheet. Practice in two ways: Flashcards let you flip each card and sort out the ones you still need to learn; Quiz shuffles the deck and scores you as you self-check each answer.</p>
+<p>The deck is saved automatically in your browser and can be exported as a small JSON file, so students can practice on another device, or teachers can share one deck with the whole class. Everything runs locally — no account, no upload, works offline.</p>
+<div class="faq">
+<p><strong>🎯 What is the difference between Flashcards and Quiz?</strong><br>Flashcards are for learning: you flip cards and mark which ones need more review. Quiz is for testing: you see the question, check the answer, and mark yourself right or wrong to get a score.</p>
+<p><strong>⚡ What is the fastest way to make a deck?</strong><br>Paste one card per line using the format <code>question | answer</code> (or a tab). Example: <code>Sacramento | capital of California</code>. Click "Paste list" and add them all at once.</p>
+<p><strong>🔀 Are quiz questions shuffled?</strong><br>Yes — every quiz starts with a fresh random order, so repeating a deck still challenges your memory.</p>
+<p><strong>💾 Will my deck disappear when I close the tab?</strong><br>No — the current deck is saved in your browser's local storage. Export the JSON file whenever you want a permanent backup or to share it.</p>
+<p><strong>🔒 Is anything uploaded?</strong><br>No. Decks, scores, and your practice stay entirely on your device.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Paste format: one card per line — <code>front | back</code> (pipe or Tab).<br>
+Export: <code>deck.json</code> = <code>{ "title": "...", "cards": [ {"f": "...", "b": "..."} ] }</code>.<br>
+Study tip: review missed cards again after 1 day, 3 days, and 7 days for stronger recall.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>1 · Build your deck</h3><span class="progress-line" id="cardCount">0 cards</span></div>
+  <input type="text" id="deckTitle" placeholder="Deck title, e.g. US State Capitals — Grade 5">
+  <div id="cardRows" style="margin-top:12px"></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="addCard" type="button">＋ Add card</button>
+    <button class="btn btn-ghost" id="pasteToggle" type="button">📋 Paste list</button>
+    <button class="btn btn-ghost" id="sampleBtn" type="button">✨ Sample deck</button>
+    <button class="btn btn-ghost" id="clearBtn" type="button">🗑 Clear deck</button>
+    <button class="btn btn-ghost" id="exportBtn" type="button">⬇ Export .json</button>
+    <label class="ft-file">⬆ Import .json<input type="file" id="importFile" accept=".json,application/json" hidden></label>
+  </div>
+  <div id="pasteWrap" style="display:none;margin-top:12px">
+    <textarea id="pasteArea" placeholder="One card per line:&#10;Sacramento | capital of California&#10;Austin | capital of Texas&#10;You can use Tab instead of |."></textarea>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="pasteAdd" type="button">Add pasted cards</button>
+    </div>
+  </div>
+  <div class="note" id="noteBox"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>2 · Study &amp; quiz</h3></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="startFlash" type="button">▶ Flashcards</button>
+    <button class="btn btn-primary" id="startQuiz" type="button">✍ Quiz</button>
+    <button class="btn btn-ghost" id="stopBtn" type="button" style="display:none">⬅ Back to start</button>
+  </div>
+  <div class="stage" id="stage">
+    <div class="stage-empty">Build a deck above, then start Flashcards or Quiz.</div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../random-group-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F465; Random Group Generator</a><a href="../attendance-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">📋 Attendance Tracker</a><a href="../rubric-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CB; Rubric Generator</a><a href="../parent-note-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4AC; Parent Note Generator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var cardRows = $('cardRows');
+  var stage = $('stage');
+  var noteBox = $('noteBox');
+  var stopBtn = $('stopBtn');
+  var deckTitle = $('deckTitle');
+  var LS_KEY = 'hqfm_deck_v1';
+  var cards = []; // working copy while studying
+  var active = null; // 'flash' | 'quiz'
+  var fState = {}, qState = {};
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function showNote(msg) { noteBox.style.display = msg ? 'block' : 'none'; noteBox.textContent = msg || ''; }
+  function shuffle(arr) { for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
+
+  function readRows() {
+    var out = [];
+    Array.prototype.slice.call(cardRows.children).forEach(function (r) {
+      var f = r.querySelector('.cf').value.trim(), b = r.querySelector('.cb').value.trim();
+      if (f || b) out.push({ f: f, b: b });
+    });
+    return out;
+  }
+  function saveDeck() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify({ title: deckTitle.value.trim(), cards: readRows() })); } catch (e) {}
+  }
+  function updateCount() {
+    var n = readRows().length;
+    $('cardCount').textContent = n + (n === 1 ? ' card' : ' cards');
+  }
+  function rowHtml(i, f, b) {
+    return '<div class="row-idx">' + (i + 1) + '</div>' +
+      '<textarea class="cf" placeholder="Front — question, word, or prompt">' + esc(f) + '</textarea>' +
+      '<textarea class="cb" placeholder="Back — answer or definition">' + esc(b) + '</textarea>' +
+      '<button type="button" class="row-del" aria-label="Remove card">&#10005;</button>';
+  }
+  function rebuildRows(list) {
+    cardRows.innerHTML = '';
+    list.forEach(function (c, i) {
+      var r = document.createElement('div');
+      r.className = 'card-row';
+      r.innerHTML = rowHtml(i, c.f, c.b);
+      r.querySelector('.row-del').addEventListener('click', function () { r.remove(); updateCount(); saveDeck(); });
+      r.querySelectorAll('textarea').forEach(function (ta) { ta.addEventListener('input', function () { updateCount(); saveDeck(); }); });
+      cardRows.appendChild(r);
+    });
+    updateCount();
+  }
+  $('addCard').addEventListener('click', function () {
+    var r = document.createElement('div');
+    r.className = 'card-row';
+    r.innerHTML = rowHtml(readRows().length, '', '');
+    r.querySelector('.row-del').addEventListener('click', function () { r.remove(); updateCount(); saveDeck(); });
+    r.querySelectorAll('textarea').forEach(function (ta) { ta.addEventListener('input', function () { updateCount(); saveDeck(); }); });
+    cardRows.appendChild(r);
+    updateCount(); saveDeck();
+  });
+
+  function setActive(m) {
+    active = m;
+    stopBtn.style.display = m ? 'inline-flex' : 'none';
+  }
+  stopBtn.addEventListener('click', function () {
+    setActive(null);
+    stage.innerHTML = '<div class="stage-empty">Build a deck above, then start Flashcards or Quiz.</div>';
+  });
+
+  /* ---------- FLASHCARDS ---------- */
+  function startFlash(onlyMissed) {
+    var list = readRows();
+    if (!list.length) { showNote('Add at least one card first.'); return; }
+    showNote('');
+    if (onlyMissed && !list.length) return;
+    cards = shuffle(list.slice());
+    fState = { pos: 0, flipped: false, missed: [] };
+    setActive('flash');
+    renderFlash();
+  }
+  function currentCard() { return cards[fState.pos]; }
+  function renderFlash() {
+    var c = currentCard();
+    var html = '<div class="progress-line">Card ' + (fState.pos + 1) + ' of ' + cards.length + '</div>';
+    html += '<div class="fcard' + (fState.flipped ? ' back' : '') + '" id="fcard"><div class="fc-text">' + (fState.flipped ? esc(c.b || '(no answer)') : esc(c.f || '(no prompt)')) + '</div></div>';
+    html += '<div class="flip-hint">Click the card to flip</div>';
+    html += '<div class="btn-row">' +
+      '<button type="button" class="btn btn-ghost" id="fPrev">← Prev</button>' +
+      '<button type="button" class="btn btn-primary" id="fNext">Next →</button>' +
+      '<button type="button" class="btn btn-ghost" id="fShuf">🔀 Shuffle</button>' +
+      '</div>';
+    html += '<div class="btn-row">' +
+      '<button type="button" class="btn btn-green" id="fKnow">😊 Knew it</button>' +
+      '<button type="button" class="btn btn-red" id="fMiss">🤔 Still learning</button>' +
+      '</div>';
+    stage.innerHTML = html;
+    stage.querySelector('.fcard').addEventListener('click', function () { fState.flipped = !fState.flipped; renderFlash(); });
+    $('fPrev').addEventListener('click', function () { if (fState.pos > 0) { fState.pos--; fState.flipped = false; renderFlash(); } });
+    $('fNext').addEventListener('click', advanceFlash);
+    $('fShuf').addEventListener('click', function () { cards = shuffle(cards.slice()); fState.pos = 0; fState.flipped = false; renderFlash(); });
+    $('fKnow').addEventListener('click', function () { advanceFlash(); });
+    $('fMiss').addEventListener('click', function () { fState.missed.push(currentCard()); advanceFlash(); });
+  }
+  function advanceFlash() {
+    if (fState.pos < cards.length - 1) { fState.pos++; fState.flipped = false; renderFlash(); return; }
+    finishFlash();
+  }
+  function finishFlash() {
+    var m = fState.missed;
+    var html = '<div class="done-box"><h4>' + (m.length ? 'Done! ' + m.length + ' card' + (m.length > 1 ? 's' : '') + ' to review' : '🎉 Done — nothing missed!') + '</h4>';
+    html += '<div class="btn-row" style="justify-content:center">' +
+      (m.length ? '<button type="button" class="btn btn-primary" id="fRetry">🔁 Review ' + m.length + ' missed</button>' : '') +
+      '<button type="button" class="btn btn-ghost" id="fAgain">🔄 Study all again</button></div></div>';
+    stage.innerHTML = html;
+    if (m.length) $('fRetry').addEventListener('click', function () { cards = m; fState = { pos: 0, flipped: false, missed: [] }; renderFlash(); });
+    $('fAgain').addEventListener('click', function () { startFlash(false); });
+  }
+
+  /* ---------- QUIZ ---------- */
+  function startQuiz(onlyMissed) {
+    var list = readRows();
+    if (!list.length) { showNote('Add at least one card first.'); return; }
+    showNote('');
+    cards = onlyMissed ? onlyMissed.slice() : list.slice();
+    qState = { order: shuffle(cards.map(function (_, i) { return i; })), pos: 0, revealed: false, correct: 0, wrong: [] };
+    setActive('quiz');
+    renderQuiz();
+  }
+  function quizCard() { return cards[qState.order[qState.pos]]; }
+  function renderQuiz() {
+    var c = quizCard();
+    var html = '<div class="progress-line">Question ' + (qState.pos + 1) + ' of ' + qState.order.length + ' · Score ' + qState.correct + '</div>';
+    html += '<div class="qbox"><div class="fc-text">' + esc(c.f || '(no question)') + '</div></div>';
+    html += '<div class="answer-box" id="qAns" style="display:' + (qState.revealed ? 'block' : 'none') + '">' + esc(c.b || '(no answer)') + '</div>';
+    html += '<div class="btn-row">' +
+      '<button type="button" class="btn btn-ghost" id="qShow" ' + (qState.revealed ? 'style="display:none"' : '') + '>👁 Show answer</button>' +
+      '<button type="button" class="btn btn-green" id="qRight" ' + (qState.revealed ? '' : 'style="display:none"') + '>✅ I got it</button>' +
+      '<button type="button" class="btn btn-red" id="qWrong" ' + (qState.revealed ? '' : 'style="display:none"') + '>❌ Missed</button>' +
+      '</div>';
+    stage.innerHTML = html;
+    $('qShow').addEventListener('click', function () { qState.revealed = true; renderQuiz(); });
+    $('qRight').addEventListener('click', function () { qState.correct++; nextQuiz(); });
+    $('qWrong').addEventListener('click', function () { qState.wrong.push(quizCard()); nextQuiz(); });
+  }
+  function nextQuiz() {
+    qState.revealed = false;
+    if (qState.pos < qState.order.length - 1) { qState.pos++; renderQuiz(); return; }
+    finishQuiz();
+  }
+  function finishQuiz() {
+    var total = qState.order.length;
+    var html = '<div class="done-box"><h4>Quiz complete</h4>' +
+      '<div class="score-big">' + qState.correct + ' / ' + total + '</div>' +
+      '<div style="font-size:13px;color:#666;margin-top:4px">' + Math.round(qState.correct / total * 100) + '% correct</div>';
+    if (qState.wrong.length) {
+      html += '<div class="wrong-list"><b>Review these:</b><ul>' + qState.wrong.map(function (c) { return '<li><b>' + esc(c.f) + '</b> — ' + esc(c.b) + '</li>'; }).join('') + '</ul></div>';
+    }
+    html += '<div class="btn-row" style="justify-content:center">' +
+      (qState.wrong.length ? '<button type="button" class="btn btn-primary" id="qRetry">🔁 Retry missed</button>' : '') +
+      '<button type="button" class="btn btn-ghost" id="qAgain">🔄 New quiz</button></div></div>';
+    stage.innerHTML = html;
+    if (qState.wrong.length) $('qRetry').addEventListener('click', function () { startQuiz(qState.wrong); });
+    $('qAgain').addEventListener('click', function () { startQuiz(false); });
+  }
+
+  $('startFlash').addEventListener('click', function () { startFlash(false); });
+  $('startQuiz').addEventListener('click', function () { startQuiz(false); });
+
+  /* ---------- SAMPLE / PASTE / EXPORT / IMPORT / CLEAR ---------- */
+  $('sampleBtn').addEventListener('click', function () {
+    deckTitle.value = 'US State Capitals — Grade 5';
+    rebuildRows([
+      { f: 'Sacramento', b: 'capital of California' },
+      { f: 'Austin', b: 'capital of Texas' },
+      { f: 'Albany', b: 'capital of New York' },
+      { f: 'Denver', b: 'capital of Colorado' },
+      { f: 'Phoenix', b: 'capital of Arizona' },
+      { f: 'Olympia', b: 'capital of Washington' },
+      { f: 'Salem', b: 'capital of Oregon' },
+      { f: 'Juneau', b: 'capital of Alaska' },
+      { f: 'Honolulu', b: 'capital of Hawaii' },
+      { f: 'Boston', b: 'capital of Massachusetts' }
+    ]);
+    saveDeck();
+    showNote('Sample deck loaded. Click Flashcards or Quiz to practice.');
+  });
+  $('clearBtn').addEventListener('click', function () {
+    if (!cardRows.children.length || confirm('Clear the whole deck?')) {
+      deckTitle.value = '';
+      rebuildRows([]);
+      saveDeck();
+      setActive(null);
+      stage.innerHTML = '<div class="stage-empty">Build a deck above, then start Flashcards or Quiz.</div>';
+    }
+  });
+  var pasteWrap = $('pasteWrap');
+  $('pasteToggle').addEventListener('click', function () { pasteWrap.style.display = pasteWrap.style.display === 'none' ? 'block' : 'none'; });
+  $('pasteAdd').addEventListener('click', function () {
+    var list = readRows();
+    var added = 0;
+    $('pasteArea').value.split('\n').forEach(function (line) {
+      var s = line.trim();
+      if (!s) return;
+      var parts = s.indexOf('|') > -1 ? s.split('|') : s.split('\t');
+      if (parts.length >= 2) list.push({ f: parts[0].trim(), b: parts.slice(1).join('|').trim() });
+      else list.push({ f: s, b: '' });
+      added++;
+    });
+    if (!added) { showNote('Nothing to add — paste one card per line.'); return; }
+    rebuildRows(list);
+    saveDeck();
+    showNote('Added ' + added + ' card' + (added > 1 ? 's' : '') + '.');
+  });
+  $('exportBtn').addEventListener('click', function () {
+    var data = { title: deckTitle.value.trim() || 'My Deck', cards: readRows() };
+    if (!data.cards.length) { showNote('Add cards before exporting.'); return; }
+    var a = document.createElement('a');
+    a.download = data.title.replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-') + '.json';
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 500);
+  });
+  $('importFile').addEventListener('change', function () {
+    var f = $('importFile').files[0];
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var data = JSON.parse(rd.result);
+        var list = (data.cards || []).slice(0, 300).map(function (c) { return { f: String(c.f || ''), b: String(c.b || '') }; });
+        if (!list.length) { showNote('That file has no cards.'); return; }
+        deckTitle.value = String(data.title || 'Imported Deck');
+        rebuildRows(list);
+        saveDeck();
+        showNote('Imported ' + list.length + ' cards.');
+      } catch (e) { showNote('Could not read that JSON file.'); }
+    };
+    rd.readAsText(f);
+  });
+
+  /* ---------- INIT: load saved deck ---------- */
+  deckTitle.addEventListener('input', saveDeck);
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+  if (saved && (saved.cards || []).length) {
+    deckTitle.value = saved.title || '';
+    rebuildRows(saved.cards);
+  } else {
+    deckTitle.value = 'US State Capitals — Grade 5';
+    rebuildRows([
+      { f: 'Sacramento', b: 'capital of California' },
+      { f: 'Austin', b: 'capital of Texas' },
+      { f: 'Albany', b: 'capital of New York' },
+      { f: 'Denver', b: 'capital of Colorado' },
+      { f: 'Phoenix', b: 'capital of Arizona' },
+      { f: 'Olympia', b: 'capital of Washington' }
+    ]);
+    saveDeck();
+  }
+})();
+</script>
+</body>
+</html>

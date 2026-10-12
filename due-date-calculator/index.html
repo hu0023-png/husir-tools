@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pregnancy Due Date Calculator | HuSir Tools</title>
+<meta name="description" content="Calculate your pregnancy due date from your last menstrual period or conception date. See current week, trimester, milestones, and full-term window. Private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/due-date-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Pregnancy Due Date Calculator">
+<meta property="og:description" content="Calculate your pregnancy due date from your last menstrual period or conception date. See current week, trimester, milestones, and full-term window. Private, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/due-date-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pregnancy Due Date Calculator">
+<meta name="twitter:description" content="Calculate your pregnancy due date from your last menstrual period or conception date. See current week, trimester, milestones, and full-term window. Private, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=date],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.modes{display:flex;gap:8px;margin-top:4px}
+.mode{flex:1;border:2px solid #e2e6f0;border-radius:10px;padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;color:#555;transition:all .15s}
+.mode.active{border-color:#667eea;background:#eef1ff;color:#4c1d95}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:16px}
+.result-big{font-size:26px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong,.rowline b{color:#1a1a2e}
+.rowline.green b{color:#059669}
+.meter{margin-top:10px;height:10px;background:#eef0f6;border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,#f472b6,#ec4899);border-radius:99px}
+.mstone{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;background:#fdf2f8;font-size:13px;color:#9d174d;margin-top:6px}
+.mstone b{color:#831843}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pregnancy Due Date Calculator",
+  "description": "Calculate your pregnancy due date from your last menstrual period or conception date. See current week, trimester, milestones, and full-term window. Private, no signup.",
+  "url": "https://www.husir.org/tools/due-date-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is the due date calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "From LMP: due date = LMP + 280 days + (cycle length − 28). From conception: LMP ≈ conception date − 14 days, then the same rule applies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I read gestational age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pregnancy is counted from LMP, so at week 10 you are actually about 8 weeks past conception. The tool shows \"X weeks + Y days\" from LMP, which is the convention doctors use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When is my baby \"due\"?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Full term is 38–42 weeks. Babies born at 37–38 weeks are early term, 39–40 full term, and 41–42 late term — all within the normal window."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is an ultrasound date more accurate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually yes for the first trimester. If your ultrasound due date differs by more than a week, providers typically switch to the scan date."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this medical advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This is a date-estimation tool only. Share the result with your OB/GYN or midwife, who will confirm it at your first visit."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Pregnancy Due Date Calculator", "item": "https://www.husir.org/tools/due-date-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Pregnancy Due Date Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>🤰 Pregnancy Due Date Calculator</h1>
+<p class="subtitle">Due date from LMP or conception · Current week &amp; trimester · Full-term window</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Expecting? Your due date is the anchor for every prenatal appointment and milestone. This calculator estimates it from the date most people know best — the first day of their last menstrual period (LMP) — using Naegele's rule: add 280 days (40 weeks) and adjust for a cycle that is not 28 days. If you know your conception date instead, the tool converts it to an approximate LMP and works from there.</p>
+<p>Beyond the due date you also get today's gestational age in weeks and days, the trimester you are in, how far along the pregnancy is, and the realistic full-term window from 38 to 42 weeks — helpful because only about 4–5% of babies arrive exactly on their due date. Early ultrasound dating at 8–13 weeks is usually the most accurate estimate, so treat this as a planning date to confirm with your provider.</p>
+<p>Everything is calculated locally in your browser with no account or upload, and no health information is stored or transmitted.</p>
+<div class="faq">
+<p><strong>📅 How is the due date calculated?</strong><br>From LMP: due date = LMP + 280 days + (cycle length − 28). From conception: LMP ≈ conception date − 14 days, then the same rule applies.</p>
+<p><strong>🧮 How do I read gestational age?</strong><br>Pregnancy is counted from LMP, so at week 10 you are actually about 8 weeks past conception. The tool shows "X weeks + Y days" from LMP, which is the convention doctors use.</p>
+<p><strong>📆 When is my baby "due"?</strong><br>Full term is 38–42 weeks. Babies born at 37–38 weeks are early term, 39–40 full term, and 41–42 late term — all within the normal window.</p>
+<p><strong>🔬 Is an ultrasound date more accurate?</strong><br>Usually yes for the first trimester. If your ultrasound due date differs by more than a week, providers typically switch to the scan date.</p>
+<p><strong>⚠️ Is this medical advice?</strong><br>No. This is a date-estimation tool only. Share the result with your OB/GYN or midwife, who will confirm it at your first visit.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Due date = LMP + 280 days + (cycle length − 28)<br>Conception ≈ LMP + 14 days<br>Full-term window = 38 to 42 weeks from LMP<br>Trimester 1: 0–13 wks · Trimester 2: 14–27 wks · Trimester 3: 28 wks+
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Your dates</h3></div>
+<div class="modes">
+<div class="mode active" id="modeLmp">🩸 Last menstrual period (LMP)</div>
+<div class="mode" id="modeConc">💡 Conception date</div>
+</div>
+<label class="field-label" id="dateLabel">First day of last menstrual period</label>
+<input type="date" id="dateIn">
+<div class="grid2">
+<div><label class="field-label">Average cycle length (days)</label><input type="number" id="cycle" min="21" max="45" step="1" value="28"></div>
+<div><label class="field-label">What is today's date?</label><input type="date" id="todayIn"></div>
+</div>
+<p class="note" id="modeNote">LMP-based dating counts pregnancy from the first day of your period.</p>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Your timeline</h3></div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Estimated due date</div>
+<div class="result-big" id="dueDate">—</div>
+<div class="result-sub" id="dueSub">—</div>
+</div>
+<div style="margin-top:14px">
+<div class="rowline"><span>Conception (estimated)</span><strong id="conceptD">—</strong></div>
+<div class="rowline"><span>Gestational age today</span><strong id="gestAge">—</strong></div>
+<div class="rowline"><span>Trimester</span><strong id="triName">—</strong></div>
+<div class="rowline green" style="border-bottom:0"><span>Pregnancy progress</span><b id="progTxt">—</b></div>
+</div>
+<div class="meter"><i id="progBar" style="width:0%"></i></div>
+<div style="margin-top:14px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">🗓️ Key milestones</div>
+<div id="milestones"></div>
+</div>
+<p class="note">Only about 4–5% of babies are born on their exact due date. The 38–42 week window is the healthy, expected range — let your provider guide you from here.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../age-date-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F382; Age &amp; Date Calculator</a><a href="../bmi-calorie-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2696;&#xFE0F; BMI &amp; Calorie Calculator</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a><a href="../date-workday-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C5; Date &amp; Workday Counter</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var mode='lmp';
+function parseD(s){if(!s)return null;var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function fmt(d){if(!d)return '—';return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
+function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function diffDays(a,b){return Math.round((b-a)/86400000);}
+function iso(d){var y=d.getFullYear(),m=('0'+(d.getMonth()+1)).slice(-2),da=('0'+d.getDate()).slice(-2);return y+'-'+m+'-'+da;}
+function wd(totalDays){
+  if(totalDays<0) return null;
+  var w=Math.floor(totalDays/7),d=totalDays%7;
+  return w+' weeks, '+d+' day'+(d===1?'':'s');
+}
+function calc(){
+  var raw=$('dateIn').value;
+  var today=$('todayIn').value?parseD($('todayIn').value):new Date();
+  var cycle=Math.max(21,Math.min(45,parseFloat($('cycle').value)||28));
+  var base=parseD(raw);
+  if(!base){$('dueDate').textContent='—';$('dueSub').textContent='Pick a date above';return;}
+  var lmp=(mode==='conc')?addDays(base,-14):base;
+  var due=addDays(lmp,280+(cycle-28));
+  var conc=addDays(lmp,14);
+  var dayDiff=diffDays(lmp,today);
+  var dueDiff=diffDays(today,due);
+  $('dueDate').textContent=fmt(due);
+  var windowStart=addDays(lmp,38*7),windowEnd=addDays(lmp,42*7);
+  $('dueSub').textContent='40 weeks from LMP · full-term window '+fmt(windowStart)+' to '+fmt(windowEnd);
+  $('conceptD').textContent=fmt(conc);
+  var gestTxt,gestDays;
+  if(dayDiff<0){gestTxt='Pregnancy starts on '+fmt(lmp)+' — not yet ';gestDays=0;}
+  else{gestDays=dayDiff;gestTxt=wd(dayDiff);}
+  $('gestAge').textContent=(dayDiff<0)?'Not yet pregnant (LMP in the future)':gestTxt+' (counted from '+fmt(lmp)+')';
+  var tri='—',triN=0;
+  if(dayDiff>=0&&dayDiff<14*7){tri='Trimester 1 · 0–13 weeks';triN=1;}
+  else if(dayDiff<28*7){tri='Trimester 2 · 14–27 weeks';triN=2;}
+  else if(dayDiff>=28*7){tri='Trimester 3 · 28 weeks +';triN=3;}
+  $('triName').textContent=tri;
+  var prog=Math.max(0,Math.min(100,dayDiff/280*100));
+  $('progBar').style.width=prog.toFixed(1)+'%';
+  if(dueDiff>=0){$('progTxt').textContent=Math.round(prog)+'% complete · '+dueDiff+' days to go';}
+  else{$('progTxt').textContent='100% — past due by '+Math.abs(dueDiff)+' days';}
+  var ms='';
+  ms+='<div class="mstone"><span>Conception (approx.)</span><b>'+fmt(conc)+'</b></div>';
+  ms+='<div class="mstone"><span>Trimester 1 ends (13 wks)</span><b>'+fmt(addDays(lmp,13*7))+'</b></div>';
+  ms+='<div class="mstone"><span>Trimester 2 ends (27 wks)</span><b>'+fmt(addDays(lmp,27*7))+'</b></div>';
+  ms+='<div class="mstone"><span>Full term begins (38 wks)</span><b>'+fmt(windowStart)+'</b></div>';
+  ms+='<div class="mstone"><span>Due date (40 wks)</span><b>'+fmt(due)+'</b></div>';
+  ms+='<div class="mstone"><span>Full term ends (42 wks)</span><b>'+fmt(windowEnd)+'</b></div>';
+  $('milestones').innerHTML=ms;
+}
+function initDates(){
+  var today=new Date();
+  $('todayIn').value=iso(today);
+  var lmpDef=addDays(today,-70);
+  $('dateIn').value=iso(lmpDef);
+}
+$('modeLmp').addEventListener('click',function(){mode='lmp';$('modeLmp').classList.add('active');$('modeConc').classList.remove('active');$('dateLabel').textContent='First day of last menstrual period';$('modeNote').textContent='LMP-based dating counts pregnancy from the first day of your period.';calc();});
+$('modeConc').addEventListener('click',function(){mode='conc';$('modeConc').classList.add('active');$('modeLmp').classList.remove('active');$('dateLabel').textContent='Conception date (approx.)';$('modeNote').textContent='The tool estimates LMP as conception minus 14 days, then applies Naegele\u2019s rule.';calc();});
+['dateIn','todayIn','cycle'].forEach(function(id){$(id).addEventListener('input',calc);});
+initDates();
+calc();
+</script>
+</body>
+</html>

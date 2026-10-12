@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F4CC; Eisenhower Matrix — Prioritize Tasks | HuSir Tools</title>
+<meta name="description" content="Sort tasks by urgent and important with the Eisenhower Matrix: Do now, Schedule, Delegate, or Eliminate. No login, no upload, saved on your device, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/eisenhower-matrix/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="📌 Eisenhower Matrix — Prioritize Tasks">
+<meta property="og:description" content="Sort tasks by urgent and important with the Eisenhower Matrix: Do now, Schedule, Delegate, or Eliminate. No login, no upload, saved on your device, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/eisenhower-matrix/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="📌 Eisenhower Matrix — Prioritize Tasks">
+<meta name="twitter:description" content="Sort tasks by urgent and important with the Eisenhower Matrix: Do now, Schedule, Delegate, or Eliminate. No login, no upload, saved on your device, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:27px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:inherit;line-height:1.5;outline:none;background:#fafbfc;color:#1a1a2e}
+input[type=text]:focus,select:focus{border-color:#667eea;background:#fff}
+.addrow{display:grid;grid-template-columns:1fr 220px auto;gap:10px;align-items:end}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:10px 18px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{border:1px solid #e0e0e0;background:#f8fafc;border-radius:999px;padding:6px 12px;font-size:12px;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover{border-color:#667eea;color:#4c1d95;background:#eef2ff}
+.matrix{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.quad{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);display:flex;flex-direction:column;overflow:hidden}
+.quad-head{padding:13px 16px 11px;color:#fff}
+.quad-head b{font-size:15px;display:block}
+.quad-head span{font-size:11.5px;opacity:.92}
+.quad-body{padding:10px 12px 12px;flex:1;min-height:150px}
+.q1 .quad-head{background:#dc2626}
+.q2 .quad-head{background:#059669}
+.q3 .quad-head{background:#d97706}
+.q4 .quad-head{background:#64748b}
+.q1 .quad-body{background:#fff7f7}
+.q2 .quad-body{background:#f3fdf8}
+.q3 .quad-body{background:#fffbeb}
+.q4 .quad-body{background:#f8fafc}
+.count{float:right;background:rgba(255,255,255,.25);border-radius:99px;padding:1px 9px;font-size:12px}
+.task{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e8eaf3;border-radius:10px;padding:7px 9px;margin-top:8px}
+.task.done .t-text{text-decoration:line-through;color:#94a3b8}
+.task input[type=checkbox]{width:17px;height:17px;accent-color:#667eea;flex:0 0 auto}
+.t-text{flex:1;font-size:13px;color:#1a1a2e;line-height:1.4;word-break:break-word}
+.t-del{background:none;border:none;color:#cbd5e1;font-size:15px;cursor:pointer;padding:2px 5px;line-height:1}
+.t-del:hover{color:#dc2626}
+.empty{color:#b6c0d4;font-size:12px;text-align:center;padding:26px 8px}
+.status{font-size:12.5px;color:#dc2626;font-weight:600}
+@keyframes rowflash{0%{background:#fef9c3}100%{background:#fff}}
+.task.flash{animation:rowflash 1.6s ease-out 3}
+.note{font-size:11.5px;color:#98a1b3;margin-top:12px}
+@media(max-width:680px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.matrix{grid-template-columns:1fr}.addrow{grid-template-columns:1fr}.addrow select,.addrow .btn{width:100%;justify-content:center}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "📌 Eisenhower Matrix",
+  "description": "Sort tasks by urgent and important with the Eisenhower Matrix: Do now, Schedule, Delegate, or Eliminate. No login, no upload, saved on your device, works offline.",
+  "url": "https://www.husir.org/tools/eisenhower-matrix/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "💡 What goes in each box?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Do now — urgent and important (a deadline today). Schedule — important but not urgent (deep work, planning, exercise). Delegate or minimize — urgent but not important (most emails, interruptions). Eliminate — neither (mindless scrolling, busywork)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔁 What if a task changes priority?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open the dropdown on the task and move it. Its position in the matrix updates immediately and is saved."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📋 Where is my data stored?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only in this browser's local storage on your device. Clearing site data removes it; no server ever sees it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⏳ I keep procrastinating on Q2 tasks — any trick?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That is normal. Schedule Q2 tasks with a specific time and block out distractions; the matrix's whole point is to make you protect that time before urgency steals it."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Eisenhower Matrix", "item": "https://www.husir.org/tools/eisenhower-matrix/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Eisenhower Matrix</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F4CC; Eisenhower Matrix</h1>
+<p class="subtitle">Sort tasks by urgent &amp; important &middot; saved in your browser &middot; runs 100% locally</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block .ex{background:#f0fdf4;border:1px dashed #6ee7b7;border-radius:10px;padding:11px 14px;margin-top:12px;font-size:13px;line-height:1.9;color:#14532d}
+.info-block .ex b{color:#065f46}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>When everything feels urgent, nothing is. The Eisenhower Matrix (also called the urgent-important matrix) forces a quick two-question decision on every task: Is it <b>urgent</b> — does it need attention right now? Is it <b>important</b> — does it matter for your goals in the long run? The answers drop the task into one of four boxes: Do now, Schedule, Delegate, or Eliminate.</p>
+<p>Type a task, pick a starting box, and drag nothing — this tool keeps it simpler than that. Tick tasks off as you finish them, move a task to a different box with one dropdown when its priority changes, and clear completed items when the board gets noisy. Everything is saved automatically in this browser, so a refresh won't lose your plan.</p>
+<p>It is built for the way ADHD brains actually work: fewer decisions, visible consequences, and no feature sprawl. Runs 100% on your device — no account, no upload, fully offline.</p>
+<div class="faq">
+<p><strong>&#x1F4A1; What goes in each box?</strong><br><b>Do now</b> — urgent and important (a deadline today). <b>Schedule</b> — important but not urgent (deep work, planning, exercise). <b>Delegate or minimize</b> — urgent but not important (most emails, interruptions). <b>Eliminate</b> — neither (mindless scrolling, busywork).</p>
+<p><strong>&#x1F501; What if a task changes priority?</strong><br>Open the dropdown on the task and move it. Its position in the matrix updates immediately and is saved.</p>
+<p><strong>&#x1F4CB; Where is my data stored?</strong><br>Only in this browser's local storage on your device. Clearing site data removes it; no server ever sees it.</p>
+<p><strong>&#x23F3; I keep procrastinating on Q2 tasks — any trick?</strong><br>That is normal. Schedule Q2 tasks with a specific time and block out distractions; the matrix's whole point is to make you protect that time before urgency steals it.</p>
+</div>
+<div class="ex"><b>&#x1F3AF; Real-life examples &mdash; an ordinary workday</b><br>
+<b>&#x26A1; Do now:</b> finish the report due at 5 PM &middot; take a sick child to urgent care &middot; answer the client who needs it today<br>
+<b>&#x1F4C5; Schedule:</b> prep next week&rsquo;s quarterly review &middot; workout 3&times; this week &middot; start the online course &middot; book the dentist<br>
+<b>&#x1F91D; Delegate / minimize:</b> forward the email chain someone else owns &middot; book the conference room &middot; file the low-priority form<br>
+<b>&#x1F5D1;&#xFE0F; Eliminate:</b> doomscrolling &middot; meetings with no agenda &middot; rewriting emails that are fine as-is<br>
+Same task can move boxes: a &ldquo;Schedule&rdquo; task becomes &ldquo;Do now&rdquo; the moment its deadline arrives &mdash; use the dropdown on the task to move it.</div>
+<div class="formula"><b>&#x1F4D0; Decision rule</b><br>
+Urgent + important = Do now &nbsp;&middot;&nbsp; Important, not urgent = Schedule &nbsp;&middot;&nbsp; Urgent, not important = Delegate / minimize &nbsp;&middot;&nbsp; Neither = Eliminate
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x2795; Add a task</h3></div>
+  <div class="addrow">
+    <div>
+      <label class="field-label" for="newTask">Task</label>
+      <input type="text" id="newTask" maxlength="160" placeholder="e.g. Reply to client before noon">
+    </div>
+    <div>
+      <label class="field-label" for="newQ">Start in</label>
+      <select id="newQ">
+        <option value="q1">⚡ Do now — urgent &amp; important</option>
+        <option value="q2" selected>📅 Schedule — important, not urgent</option>
+        <option value="q3">🤝 Delegate — urgent, not important</option>
+        <option value="q4">🗑️ Eliminate — neither</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" id="addBtn" type="button">Add task</button>
+  </div>
+  <div class="chips">
+    <button class="chip" type="button" data-q="q2" data-t="Draft the quarterly plan">Draft quarterly plan</button>
+    <button class="chip" type="button" data-q="q1" data-t="Call the plumber — leak today">Fix urgent leak</button>
+    <button class="chip" type="button" data-q="q3" data-t="Reply to low-priority emails">Reply to emails</button>
+    <button class="chip" type="button" data-q="q4" data-t="Delete the random browser tabs">Clear tab clutter</button>
+  </div>
+  <span class="status" id="st"></span>
+  <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn btn-ghost" id="sampleBtn" type="button">&#x1F4C2; Load sample board</button><button class="btn btn-ghost" id="clearDone" type="button">&#x1F9F9; Clear completed</button></div>
+  <p class="note">Tasks are saved in this browser automatically.</p>
+</div>
+
+<div class="matrix" id="matrix"></div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../focus-minimal/board/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CB; Task Board</a><a href="../focus-minimal/habits/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x2705; Habit Tracker</a><a href="../focus-minimal/ledger/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D2; Simple Income &amp; Expense Tracker</a><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+function $(id){return document.getElementById(id);}
+var KEY='husir-eisen-v1';
+var QUADS=[
+  {id:'q1',emoji:'\u26A1',name:'Do now',sub:'Urgent & important',empty:'Add a deadline task here.'},
+  {id:'q2',emoji:'\uD83D\uDCC5',name:'Schedule',sub:'Important, not urgent',empty:'Protect time for deep work here.'},
+  {id:'q3',emoji:'\uD83E\uDD1D',name:'Delegate / minimize',sub:'Urgent, not important',empty:'Hand off interruptions here.'},
+  {id:'q4',emoji:'\uD83D\uDDD1\uFE0F',name:'Eliminate',sub:'Neither urgent nor important',empty:'Drop time-wasters here.'}
+];
+var state={next:1,tasks:[]};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+function load(){try{var r=localStorage.getItem(KEY);if(r){var d=JSON.parse(r);if(d&&Array.isArray(d.tasks)){state=d;}}}catch(e){}}
+var lastFlash=null;
+function addTask(text,q,showMsg){
+  text=(text||'').trim();
+  if(!text){$('st').textContent='Type a task first.';return false;}
+  var t={id:state.next++,t:text,q:q||'q2',done:false};
+  state.tasks.push(t);
+  lastFlash=t.id;
+  save();render();
+  if(showMsg){
+    var qn=QUADS.filter(function(x){return x.id===t.q;})[0];
+    $('st').style.color='#059669';
+    $('st').textContent='✅ Added “'+text+'” to '+qn.name+'.';
+    var m=$('matrix');if(m&&m.scrollIntoView)m.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  return true;
+}
+function render(){
+  var m=$('matrix');m.innerHTML='';
+  QUADS.forEach(function(qd){
+    var items=state.tasks.filter(function(t){return t.q===qd.id;});
+    var done=items.filter(function(t){return t.done;}).length;
+    var box=document.createElement('div');
+    box.className='quad '+qd.id;
+    var head=document.createElement('div');
+    head.className='quad-head';
+    head.innerHTML='<span class="count">'+items.length+'</span><b>'+qd.emoji+' '+qd.name+'</b><span>'+qd.sub+'</span>';
+    var body=document.createElement('div');
+    body.className='quad-body';
+    if(!items.length){var e=document.createElement('div');e.className='empty';e.textContent=qd.empty;body.appendChild(e);}
+    else{
+      items.forEach(function(t){
+        var row=document.createElement('div');
+        row.className='task'+(t.done?' done':'')+(t.id===lastFlash?' flash':'');
+        var cb=document.createElement('input');cb.type='checkbox';cb.checked=t.done;
+        cb.addEventListener('change',function(){t.done=cb.checked;save();render();});
+        var txt=document.createElement('span');txt.className='t-text';txt.textContent=t.t;
+        var mv=document.createElement('select');
+        QUADS.forEach(function(q2){var o=document.createElement('option');o.value=q2.id;o.textContent=q2.name;if(q2.id===t.q)o.selected=true;mv.appendChild(o);});
+        mv.addEventListener('change',function(){t.q=mv.value;save();render();});
+        var del=document.createElement('button');del.className='t-del';del.type='button';del.title='Delete';del.textContent='\u2715';
+        del.addEventListener('click',function(){state.tasks=state.tasks.filter(function(x){return x.id!==t.id;});save();render();});
+        row.appendChild(cb);row.appendChild(txt);row.appendChild(mv);row.appendChild(del);
+        body.appendChild(row);
+      });
+      if(done){var c=document.createElement('div');c.className='empty';c.textContent=done+' completed — use Clear completed to tidy up.';body.appendChild(c);}
+    }
+    box.appendChild(head);box.appendChild(body);m.appendChild(box);
+  });
+}
+$('addBtn').addEventListener('click',function(){var t=$('newTask').value;var q=$('newQ').value;if(addTask(t,q)){};$('newTask').value='';});
+$('newTask').addEventListener('keydown',function(e){if(e.key==='Enter'){$('addBtn').click();}});
+$('newTask').addEventListener('input',function(){$('st').textContent='';});
+document.querySelectorAll('.chips .chip').forEach(function(ch){
+  ch.addEventListener('click',function(){
+    addTask(ch.getAttribute('data-t'),ch.getAttribute('data-q'),true);
+  });
+});
+$('sampleBtn').addEventListener('click',function(){
+  if(state.tasks.length&&!confirm('Replace the current board with a sample board?'))return;
+  state.tasks=[
+    {id:state.next++,t:"Finish the status report due at 5 PM",q:'q1',done:false},
+    {id:state.next++,t:"Answer the client who needs it today",q:'q1',done:false},
+    {id:state.next++,t:"Prep next week's quarterly review",q:'q2',done:false},
+    {id:state.next++,t:"Workout — 3 times this week",q:'q2',done:false},
+    {id:state.next++,t:"Book the dentist appointment",q:'q2',done:false},
+    {id:state.next++,t:"Forward the email chain someone else owns",q:'q3',done:false},
+    {id:state.next++,t:"Book a conference room for Friday",q:'q3',done:false},
+    {id:state.next++,t:"Doomscrolling before bed",q:'q4',done:false}
+  ];
+  save();render();
+});
+$('clearDone').addEventListener('click',function(){
+  var n=state.tasks.filter(function(t){return t.done;}).length;
+  if(!n){return;}
+  if(confirm('Remove '+n+' completed task'+(n===1?'':'s')+'?')){state.tasks=state.tasks.filter(function(t){return !t.done;});save();render();}
+});
+load();
+if(!state.tasks.length){
+  state.tasks=[
+    {id:state.next++,t:'Plan this week — schedule your three priorities',q:'q2',done:false},
+    {id:state.next++,t:'Reply to the message that needs an answer today',q:'q1',done:false},
+    {id:state.next++,t:'Sort the inbox into folders',q:'q3',done:false},
+    {id:state.next++,t:'Close the 20 random browser tabs',q:'q4',done:false}
+  ];
+}
+render();
+</script>
+</body>
+</html>

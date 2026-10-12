@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Attendance Tracker — Track Attendance &amp; Absences | HuSir Tools</title>
+<meta name="description" content="Track class attendance day by day: present, late, absent, excused. Auto totals per student and per day, export CSV, print. Private and offline.">
+<link rel="canonical" href="https://www.husir.org/tools/attendance-tracker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Attendance Tracker">
+<meta property="og:description" content="Track class attendance day by day: present, late, absent, excused. Auto totals per student and per day, export CSV, print. Private and offline.">
+<meta property="og:url" content="https://www.husir.org/tools/attendance-tracker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Attendance Tracker">
+<meta name="twitter:description" content="Track class attendance day by day: present, late, absent, excused. Auto totals per student and per day, export CSV, print. Private and offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=text],input[type=date],textarea{width:100%;padding:9px 11px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;background:#fafbfc}
+input:focus,textarea:focus{border-color:#667eea;background:#fff}
+textarea{resize:vertical;line-height:1.6}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-green{background:#10b981;color:#fff}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.hint{font-size:12px;color:#9aa3b5;margin-top:6px;line-height:1.5}
+.note{display:none;font-size:13px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:9px 12px;margin-top:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#f5f3ff;color:#4c1d95;border-radius:999px;padding:5px 8px 5px 12px;font-size:13px;font-weight:600}
+.chip button{border:none;background:#ddd6fe;color:#4c1d95;border-radius:50%;width:18px;height:18px;line-height:1;cursor:pointer;font-size:11px}
+.table-wrap{overflow-x:auto}
+table.att{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap}
+table.att th,table.att td{border:1px solid #e2e8f0;padding:5px 7px;text-align:center}
+table.att thead th{background:#f1f5ff;color:#3730a3;font-size:11.5px;position:relative}
+table.att thead th .rm-date{position:absolute;top:1px;right:3px;border:none;background:transparent;color:#c7cede;cursor:pointer;font-size:10px;line-height:1}
+table.att thead th .rm-date:hover{color:#b91c1c}
+table.att .stu-col{text-align:left;font-weight:600;color:#1e293b;min-width:150px;background:#f8fafc;position:sticky;left:0}
+table.att tbody td.stu-col{position:sticky;left:0;z-index:1}
+.cell{min-width:44px;height:30px;border:none;background:#fff;border-radius:6px;font-weight:800;cursor:pointer;font-family:inherit;font-size:12px;color:#94a3b8;transition:background .1s}
+.cell:hover{background:#f1f5f9}
+.cell.P{background:#d1fae5;color:#047857}
+.cell.L{background:#fef3c7;color:#b45309}
+.cell.A{background:#fee2e2;color:#b91c1c}
+.cell.E{background:#dbeafe;color:#1d4ed8}
+.cell.blank{color:#cbd5e1}
+tfoot td{background:#f8fafc;font-weight:700;font-size:11px;color:#334155}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:#555;margin-top:6px;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+.sum-col{font-size:11px;color:#64748b;text-align:right;min-width:120px}
+.sum-col b{display:block;color:#0f172a;font-size:13px}
+.date-add-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.date-add-row input[type=date]{width:150px}
+.date-add-row input[type=text]{flex:1;min-width:150px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 12px}.btn{min-height:44px;padding-left:14px;padding-right:14px}.cell{min-width:38px}}
+@page{size:letter;margin:1in}
+@media print{table.att{font-size:9.5px}table.att th,table.att td{padding:2px 3px}table.att .cell{min-width:22px;height:20px;border:1px solid #cbd5e1}table.att .stu-col{min-width:120px}table.att .sum-col{min-width:90px}table.att thead th{font-size:10px}}
+@media print{body{background:#fff;padding:0}body *{box-shadow:none!important}.no-print,#tool-back-nav,.info-block{display:none!important}.container{max-width:100%;gap:6px}.panel{border-radius:0;padding:0;box-shadow:none}.title-wrap{margin:0 0 4px}h1{color:#111;text-shadow:none;font-size:20px;text-align:left}.subtitle{color:#555;text-align:left}.table-wrap{overflow:visible}table.att{font-size:10.5px}table.att th,table.att td{padding:3px 5px}.cell{color:#000!important;background:#fff!important}td.stu-col{background:#fff!important}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button]{min-height:44px}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Attendance Tracker",
+  "description": "Track class attendance day by day: present, late, absent, excused. Auto totals per student and per day, export CSV, print. Private and offline.",
+  "url": "https://www.husir.org/tools/attendance-tracker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I mark a student?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click a cell to cycle through P → L → A → E → blank. Use the legend colors to scan the day at a glance; column footers show counts like \"P 22 · L 1 · A 1\"."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is \"attended\" counted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Attended = Present + Late (the student was in school). Attendance % = attended ÷ total days marked for that student. Excused and unexcused absences both lower it, but only unexcused count as \"Absent\" in the row summary."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to add every date by hand?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — \"＋ Add today\" appends the current date once per day. Use \"Add another date…\" to backfill or pre-add future days (e.g., the whole week)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is my data saved?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In your browser's local storage on this device. Export CSV whenever you want a file to keep, email, or put in your LMS."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Student names and attendance never leave your computer."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Attendance Tracker", "item": "https://www.husir.org/tools/attendance-tracker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Attendance Tracker</span></span></nav>
+
+<div class="title-wrap no-print">
+<h1>📅 Attendance Tracker</h1>
+<p class="subtitle">Click a cell to cycle: P present &middot; L late &middot; A absent &middot; E excused</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) ===== -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Keep a lightweight daily attendance log for one class without a grade book, app, or account. Paste your roster once, tap "＋ Add today" each school day, and click through the roll: <b>P</b> present, <b>L</b> late, <b>A</b> absent, <b>E</b> excused. Each column shows the day's totals, each row shows the student's running record — days attended, times late, absences — and the percent of days attended is calculated for you.</p>
+<p>This is the kind of record homeroom teachers, club sponsors, and tutors need for parent conferences, report-card comments, or referral paperwork. When the period ends, export the whole grid as CSV to open in Excel or Google Sheets, or print the sheet for a sub folder or a paper file. The class saves automatically in your browser, so you can reopen it tomorrow and keep going. Everything is local: no upload, no login, and the offline copy works on a school Chromebook with no internet.</p>
+<div class="faq">
+<p><strong>🔁 How do I mark a student?</strong><br>Click a cell to cycle through P → L → A → E → blank. Use the legend colors to scan the day at a glance; column footers show counts like "P 22 · L 1 · A 1".</p>
+<p><strong>📊 How is "attended" counted?</strong><br>Attended = Present + Late (the student was in school). Attendance % = attended ÷ total days marked for that student. Excused and unexcused absences both lower it, but only unexcused count as "Absent" in the row summary.</p>
+<p><strong>📆 Do I have to add every date by hand?</strong><br>No — "＋ Add today" appends the current date once per day. Use "Add another date…" to backfill or pre-add future days (e.g., the whole week).</p>
+<p><strong>💾 Where is my data saved?</strong><br>In your browser's local storage on this device. Export CSV whenever you want a file to keep, email, or put in your LMS.</p>
+<p><strong>🔒 Is this private?</strong><br>Yes. Student names and attendance never leave your computer.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Attendance % = (P + L) ÷ (P + L + A + E) × 100 per student, using only marked days.<br>
+Row summary: P = present · L = late · A = absent (unexcused) · E = excused.<br>
+Tip: click the small × on a date header to remove a day (e.g., a mis-added date).
+</div>
+</div>
+</details>
+
+<div class="panel no-print">
+  <div class="panel-header"><h3>1 · Class &amp; roster</h3></div>
+  <input type="text" id="className" placeholder="Class name, e.g. Grade 5 Homeroom — Period 1">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <input type="text" id="newStudent" placeholder="Add one student…" style="flex:1;min-width:150px">
+    <button type="button" class="btn btn-primary" id="addStuBtn">＋ Add</button>
+    <button type="button" class="btn btn-ghost" id="pasteToggle">📋 Paste roster</button>
+    <button type="button" class="btn btn-ghost" id="sampleBtn">✨ Sample class</button>
+    <button type="button" class="btn btn-ghost" id="clearRoster">🗑 Clear roster</button>
+  </div>
+  <div id="pasteWrap" style="display:none;margin-top:10px">
+    <textarea id="pasteArea" rows="4" placeholder="Paste one student name per line, then click below."></textarea>
+    <button type="button" class="btn btn-green" id="pasteAdd" style="margin-top:6px">Add pasted names</button>
+  </div>
+  <div class="chips" id="rosterChips"></div>
+</div>
+
+<div class="panel no-print">
+  <div class="panel-header"><h3>2 · Dates</h3></div>
+  <div class="date-add-row">
+    <button type="button" class="btn btn-primary" id="addToday">＋ Add today</button>
+    <input type="date" id="customDate">
+    <button type="button" class="btn btn-ghost" id="addCustom">Add date</button>
+    <button type="button" class="btn btn-ghost" id="removeLast">Remove last date</button>
+    <button type="button" class="btn btn-ghost" id="markAllBtn">✓ Mark all present today</button>
+  </div>
+  <div class="legend">
+    <span><span class="dot" style="background:#d1fae5"></span> P present</span>
+    <span><span class="dot" style="background:#fef3c7"></span> L late</span>
+    <span><span class="dot" style="background:#fee2e2"></span> A absent</span>
+    <span><span class="dot" style="background:#dbeafe"></span> E excused</span>
+    <span>click a cell to cycle · click × on a date to remove</span>
+  </div>
+  <div class="note" id="noteBox"></div>
+</div>
+
+<div class="panel" id="printArea">
+  <div class="panel-header no-print"><h3>3 · Roll sheet &amp; export</h3>
+    <span>
+      <button type="button" class="btn btn-ghost" id="csvBtn">⬇ Export CSV</button>
+      <button type="button" class="btn btn-primary" id="printBtn">🖨 Print</button>
+    </span>
+  </div>
+  <div id="sheetTitle" style="font-weight:800;font-size:17px;color:#1e293b"></div>
+  <div id="sheetMeta" style="color:#64748b;font-size:12.5px;margin:2px 0 8px"></div>
+  <div class="table-wrap"><table class="att" id="attTable"></table></div>
+  <div id="emptyMsg" style="text-align:center;color:#9aa3b5;padding:26px 10px;font-size:14px">Add a roster in step 1, then add dates in step 2.</div>
+</div>
+
+<div class="no-print" style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<!--DL--><div class="no-print" style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div><!--/DL-->
+<div class="no-print" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div class="no-print" style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../grade-stats/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Grade Stats &amp; Analysis</a><a href="../quiz-flashcard-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3B4; Quiz &amp; Flashcard Maker</a><a href="../parent-note-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4AC; Parent Note Generator</a><a href="../classroom-tool/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9D1;&#x200D;&#x1F3EB; Classroom Toolkit</a></div></div>
+<a id="tool-back-nav" class="no-print" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var LS_KEY = 'husir-attendance-v1';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+
+  var state = { name: '', students: [], dates: [], marks: {} }; // marks[date] = { 0:'P', 1:'L', ... } by student index
+
+  function showNote(msg) { var n = $('noteBox'); n.style.display = msg ? 'block' : 'none'; n.textContent = msg || ''; }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function fmtDate(iso) {
+    var p = iso.split('-');
+    return (p[1] || '') + '/' + (p[2] || '') + (p[0] && p[0] !== '0000' ? '/' + p[0].slice(2) : '');
+  }
+  function fmtDateLong(iso) {
+    var d = new Date(iso + 'T00:00:00');
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', weekday: 'short' });
+  }
+  var CYCLE = ['P', 'L', 'A', 'E'];
+
+  function rosterHTML() {
+    var w = $('rosterChips');
+    if (!state.students.length) {
+      w.innerHTML = '<div style="color:#9aa3b5;font-size:13px">No students yet — type a name, paste a roster, or load the sample.</div>';
+      return;
+    }
+    w.innerHTML = state.students.map(function (s, i) {
+      return '<span class="chip">' + esc(s) + '<button type="button" data-i="' + i + '" title="Remove">✕</button></span>';
+    }).join('');
+  }
+
+  function addDate(iso) {
+    if (!iso) return false;
+    if (state.dates.indexOf(iso) > -1) { showNote('That date is already on the sheet.'); return false; }
+    state.dates.push(iso);
+    state.marks[iso] = {};
+    return true;
+  }
+
+  function render() {
+    $('className').value = state.name;
+    rosterHTML();
+    $('sheetTitle').textContent = state.name.trim() || 'Attendance';
+    $('sheetMeta').textContent = state.students.length + ' student' + (state.students.length === 1 ? '' : 's') + ' · ' + state.dates.length + ' day' + (state.dates.length === 1 ? '' : 's') + ' recorded';
+    $('emptyMsg').style.display = (state.students.length && state.dates.length) ? 'none' : 'block';
+    var tbl = $('attTable');
+    if (!state.students.length || !state.dates.length) { tbl.innerHTML = ''; return; }
+
+    var html = '<thead><tr><th class="stu-col">Student</th>';
+    state.dates.forEach(function (iso) {
+      html += '<th>' + fmtDate(iso) + '<button type="button" class="rm-date" data-d="' + esc(iso) + '" title="Remove this date">×</button></th>';
+    });
+    html += '<th style="min-width:150px">Running record</th></tr></thead><tbody>';
+
+    state.students.forEach(function (stu, si) {
+      html += '<tr><td class="stu-col">' + esc(stu) + '</td>';
+      var P = 0, L = 0, A = 0, E = 0, marked = 0;
+      state.dates.forEach(function (iso) {
+        var code = (state.marks[iso] || {})['' + si] || '';
+        if (code) { marked++; if (code === 'P') P++; if (code === 'L') L++; if (code === 'A') A++; if (code === 'E') E++; }
+        html += '<td><button type="button" class="cell ' + (code || 'blank') + '" data-d="' + esc(iso) + '" data-s="' + si + '" title="' + esc(stu) + ' · ' + fmtDateLong(iso) + '">' + (code || '·') + '</button></td>';
+      });
+      var att = marked ? Math.round((P + L) / marked * 100) : 0;
+      html += '<td class="sum-col"><b>' + att + '% attended</b>' + P + 'P · ' + L + 'L · ' + A + 'A · ' + E + 'E</td></tr>';
+    });
+
+    html += '</tbody><tfoot><tr><td class="stu-col">Day totals</td>';
+    state.dates.forEach(function (iso) {
+      var c = { P: 0, L: 0, A: 0, E: 0 };
+      state.students.forEach(function (_, si) {
+        var code = (state.marks[iso] || {})['' + si] || '';
+        if (c[code] != null) c[code]++;
+      });
+      html += '<td>P ' + c.P + (c.L ? ' · L ' + c.L : '') + (c.A ? ' · A ' + c.A : '') + (c.E ? ' · E ' + c.E : '') + '</td>';
+    });
+    html += '<td></td></tr></tfoot>';
+    tbl.innerHTML = html;
+  }
+
+  function cycle(iso, si) {
+    var m = state.marks[iso] || (state.marks[iso] = {});
+    var cur = m['' + si] || '';
+    var next = '';
+    if (!cur) next = 'P';
+    else {
+      var idx = CYCLE.indexOf(cur);
+      if (idx === -1) next = 'P';
+      else next = (idx === CYCLE.length - 1) ? '' : CYCLE[idx + 1];
+    }
+    m['' + si] = next;
+    save();
+    render();
+  }
+
+  function removeStudent(i) {
+    state.students.splice(i, 1);
+    state.dates.forEach(function (iso) {
+      var m = state.marks[iso] || {};
+      delete m['' + i];
+      var nm = {};
+      Object.keys(m).forEach(function (k) {
+        var kk = +k;
+        nm['' + (kk > i ? kk - 1 : kk)] = m[k];
+      });
+      state.marks[iso] = nm;
+    });
+    save();
+    render();
+  }
+
+  function exportCSV() {
+    if (!state.students.length || !state.dates.length) { showNote('Add students and dates before exporting.'); return; }
+    var rows = [];
+    var head = ['Student'].concat(state.dates.map(fmtDate), ['Attended %', 'P', 'L', 'A', 'E']);
+    rows.push(head);
+    state.students.forEach(function (stu, si) {
+      var P = 0, L = 0, A = 0, E = 0, marked = 0;
+      var day = [];
+      state.dates.forEach(function (iso) {
+        var code = (state.marks[iso] || {})['' + si] || '';
+        day.push(code || '');
+        if (code === 'P') { P++; marked++; } else if (code === 'L') { L++; marked++; } else if (code === 'A') { A++; marked++; } else if (code === 'E') { E++; marked++; }
+      });
+      rows.push([stu].concat(day, [marked ? Math.round((P + L) / marked * 100) : '', P, L, A, E]));
+    });
+    var csv = rows.map(function (r) {
+      return r.map(function (v) {
+        v = String(v == null ? '' : v);
+        return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }).join(',');
+    }).join('\r\n');
+    var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.download = (state.name.trim().replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-') || 'attendance') + '.csv';
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 400);
+  }
+
+  function loadSample() {
+    state.name = 'Grade 5 Homeroom';
+    state.students = ['Emma Johnson', 'Liam Smith', 'Olivia Brown', 'Noah Davis', 'Ava Wilson', 'Ethan Miller'];
+    state.dates = [];
+    state.marks = {};
+    var t = todayISO();
+    var d1 = new Date(); d1.setDate(d1.getDate() - 1);
+    var y = d1.getFullYear(), mo = String(d1.getMonth() + 1).padStart(2, '0'), da = String(d1.getDate()).padStart(2, '0');
+    var yest = y + '-' + mo + '-' + da;
+    addDate(yest); addDate(t);
+    var seeds = [
+      ['P', 'P', 'L', 'P', 'P', 'P'],
+      ['P', 'P', 'P', 'L', 'A', 'E']
+    ];
+    state.dates.forEach(function (iso, di) {
+      var m = state.marks[iso] = {};
+      state.students.forEach(function (_, si) { m['' + si] = seeds[di][si]; });
+    });
+    save();
+    render();
+    showNote('Sample class loaded — add dates or mark the roll.');
+  }
+
+  /* ---------- Events ---------- */
+  $('className').addEventListener('input', function () { state.name = $('className').value; save(); render(); });
+  $('addStuBtn').addEventListener('click', function () {
+    var v = $('newStudent').value.trim();
+    if (!v) return;
+    if (state.students.indexOf(v) > -1) { showNote('That student is already on the roster.'); return; }
+    state.students.push(v);
+    $('newStudent').value = '';
+    save(); render();
+  });
+  $('newStudent').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('addStuBtn').click(); });
+  $('pasteToggle').addEventListener('click', function () {
+    var w = $('pasteWrap'); w.style.display = w.style.display === 'none' ? 'block' : 'none';
+  });
+  $('pasteAdd').addEventListener('click', function () {
+    var added = 0;
+    $('pasteArea').value.split('\n').forEach(function (line) {
+      var v = line.trim();
+      if (!v || state.students.indexOf(v) > -1) return;
+      state.students.push(v); added++;
+    });
+    $('pasteArea').value = '';
+    save(); render();
+    showNote(added ? 'Added ' + added + ' student' + (added > 1 ? 's' : '') + '.' : 'Nothing new to add.');
+  });
+  $('sampleBtn').addEventListener('click', loadSample);
+  $('clearRoster').addEventListener('click', function () {
+    if (!state.students.length || confirm('Remove all students and marks?')) {
+      state.students = []; state.dates = []; state.marks = {};
+      save(); render();
+    }
+  });
+  $('rosterChips').addEventListener('click', function (e) {
+    if (e.target.tagName === 'BUTTON') removeStudent(+e.target.getAttribute('data-i'));
+  });
+  $('addToday').addEventListener('click', function () {
+    if (!state.students.length) { showNote('Add students first (step 1).'); return; }
+    if (addDate(todayISO())) { save(); render(); } else showNote('Today is already on the sheet.');
+  });
+  $('addCustom').addEventListener('click', function () {
+    if (!state.students.length) { showNote('Add students first (step 1).'); return; }
+    var v = $('customDate').value;
+    if (!v) { showNote('Pick a date first.'); return; }
+    if (addDate(v)) { save(); render(); $('customDate').value = ''; }
+  });
+  $('removeLast').addEventListener('click', function () {
+    if (!state.dates.length) return;
+    delete state.marks[state.dates[state.dates.length - 1]];
+    state.dates.pop();
+    save(); render();
+  });
+  $('markAllBtn').addEventListener('click', function () {
+    if (!state.dates.length) { showNote('Add at least one date first.'); return; }
+    var iso = state.dates[state.dates.length - 1];
+    var m = state.marks[iso] || (state.marks[iso] = {});
+    state.students.forEach(function (_, si) { if (!m['' + si]) m['' + si] = 'P'; });
+    save(); render();
+  });
+  $('attTable').addEventListener('click', function (e) {
+    if (e.target.classList.contains('cell')) {
+      cycle(e.target.getAttribute('data-d'), +e.target.getAttribute('data-s'));
+    } else if (e.target.classList.contains('rm-date')) {
+      var iso = e.target.getAttribute('data-d');
+      if (confirm('Remove the date ' + fmtDateLong(iso) + ' and its marks?')) {
+        state.dates = state.dates.filter(function (d) { return d !== iso; });
+        delete state.marks[iso];
+        save(); render();
+      }
+    }
+  });
+  $('csvBtn').addEventListener('click', exportCSV);
+  $('printBtn').addEventListener('click', function () { window.print(); });
+
+  /* ---------- Init ---------- */
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+  if (saved && saved.students && saved.dates) {
+    state = saved;
+  } else {
+    loadSample();
+  }
+  render();
+})();
+</script>
+</body>
+</html>

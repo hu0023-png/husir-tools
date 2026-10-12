@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Budget Tracker & Calculator — Free | HuSir Tools</title>
+<meta name="description" content="Plan monthly income, fixed bills, and variable spending to see what is left to save, with a 50/30/20 example. Free & private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/budget-tracker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Monthly Budget Tracker & Calculator — Free">
+<meta property="og:description" content="Plan monthly income, fixed bills, and variable spending to see what is left to save, with a 50/30/20 example. Free & private, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/budget-tracker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Monthly Budget Tracker & Calculator — Free">
+<meta name="twitter:description" content="Plan monthly income, fixed bills, and variable spending to see what is left to save, with a 50/30/20 example. Free & private, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.totline{display:flex;justify-content:space-between;font-size:13.5px;color:#475569;padding:8px 2px;border-top:1px solid #f1f2f8;margin-top:6px;font-weight:600}
+.brow{display:grid;grid-template-columns:1fr 120px 34px;gap:8px;margin-bottom:8px;align-items:center}
+.brow input{width:100%;margin:0}
+.stat{background:#f8faff;border:1px solid #e6e9f5;border-radius:10px;padding:10px 6px;text-align:center}
+.stat span{display:block;font-size:11.5px;color:#7c86a0;margin-bottom:2px}
+.stat strong{font-size:17px;color:#1a1a2e}
+.meter{height:10px;border-radius:99px;background:#e8eaf3;margin-top:14px;overflow:hidden}
+.meter-fill{height:100%;width:0;border-radius:99px;background:#10b981;transition:width .3s}
+.delbtn{cursor:pointer;border:0;background:transparent;color:#cbd2e0;font-size:17px;padding:4px}
+.delbtn:hover{color:#dc2626}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Monthly Budget Tracker",
+  "description": "Plan monthly income, fixed bills, and variable spending to see what is left to save, with a 50/30/20 example. Free & private, no signup.",
+  "url": "https://www.husir.org/tools/budget-tracker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the 50/30/20 rule?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A popular US guideline: 50% of after-tax income for needs, 30% for wants, 20% for savings/debt. Use the example button to see how it looks, then adjust to your real numbers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as fixed vs variable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fixed bills are roughly the same every month (rent, internet, insurance). Variable spending changes with choices (groceries, eating out, shopping) — so it is the lever you can pull to free up cash."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my budget saved online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — it is stored in your browser's local storage on this device only. Clear the month or your browser data to reset."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work offline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — everything runs locally with no internet needed."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Monthly Budget Tracker", "item": "https://www.husir.org/tools/budget-tracker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Monthly Budget Tracker</span></span></nav>
+
+<div class="title-wrap">
+<h1>💰 Monthly Budget Tracker</h1>
+<p class="subtitle">Income · Fixed &amp; variable spending · What is left to save</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>See where a month of money really goes. Enter your monthly take-home income, list fixed bills (rent, utilities, subscriptions), then estimate variable spending (groceries, dining, gas, fun). The tracker totals each group and shows what is left to save — the number that actually matters each month.</p>
+<p>Budgets are saved only in this browser for the month you pick, so you can compare months side by side or start fresh. Nothing is uploaded, no bank connection, no ads — just your numbers on your device.</p>
+<p><strong>&#9888;&#65039; Disclaimer:</strong> Estimates for planning only &mdash; not tax or financial advice. Rates and rules change, so verify with your state or a qualified professional before filing or making big decisions.</p>
+<div class="faq">
+<p><strong>🎯 What is the 50/30/20 rule?</strong><br>A popular US guideline: 50% of after-tax income for needs, 30% for wants, 20% for savings/debt. Use the example button to see how it looks, then adjust to your real numbers.</p>
+<p><strong>📦 What counts as fixed vs variable?</strong><br>Fixed bills are roughly the same every month (rent, internet, insurance). Variable spending changes with choices (groceries, eating out, shopping) — so it is the lever you can pull to free up cash.</p>
+<p><strong>🔁 Is my budget saved online?</strong><br>No — it is stored in your browser's local storage on this device only. Clear the month or your browser data to reset.</p>
+<p><strong>💾 Does it work offline?</strong><br>Yes — everything runs locally with no internet needed.</p>
+</div>
+<div class="formula"><b>📐 Key formulas</b><br>
+Remaining = income − fixed expenses − variable expenses<br>
+Savings rate = remaining ÷ income × 100%<br>
+50/30/20 split: needs 50% · wants 30% · savings 20% of after-tax income
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>📅 Month</h3></div>
+  <div class="grid2">
+    <div><div class="field-label">Budget month</div><input type="month" id="month"></div>
+    <div><div class="field-label">Monthly take-home income ($)</div><input type="number" id="income" value="4000" step="50" min="0"></div>
+  </div>
+  <button class="btn btn-ghost btn-sm" id="exampleBtn" type="button" style="margin-top:8px">Load 50/30/20 example</button>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>📦 Fixed Expenses</h3><button class="btn btn-ghost btn-sm" id="addFixed" type="button">＋ Add</button></div>
+  <div id="fixedList"></div>
+  <div class="totline">Fixed total: <strong id="fixedTot">$0.00</strong></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>🛒 Variable Spending (estimate)</h3><button class="btn btn-ghost btn-sm" id="addVar" type="button">＋ Add</button></div>
+  <div id="varList"></div>
+  <div class="totline">Variable total: <strong id="varTot">$0.00</strong></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>📊 Month Summary</h3></div>
+  <div class="grid2">
+    <div class="stat"><span>Total expenses</span><strong id="sExp">—</strong></div>
+    <div class="stat"><span>Remaining to save</span><strong id="sLeft">—</strong></div>
+  </div>
+  <div class="meter"><div class="meter-fill" id="mfill"></div></div>
+  <div class="result-sub" id="sNote">—</div>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../focus-minimal/ledger/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D2; Simple Income &amp; Expense Tracker</a><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a><a href="../debt-payoff-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C9; Debt Payoff Calculator</a><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var $=function(id){return document.getElementById(id);};
+var KEY='husir-budget-v1';
+var monthEl=$('month');
+var now=new Date();
+monthEl.value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+var data={month:monthEl.value,income:4000,fixed:[],varr:[]};
+function load(){
+  try{var d=JSON.parse(localStorage.getItem(KEY));if(d&&d.month===monthEl.value)data=d;}catch(e){}
+  data.month=monthEl.value;
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function rowHtml(list,kind){
+  var arr=list[kind];
+  var h='';
+  arr.forEach(function(r,i){
+    h+='<div class="brow"><input type="text" value="'+r.n.replace(/"/g,'&quot;')+'" placeholder="Name" data-k="'+kind+'" data-i="'+i+'" data-f="n"><input type="number" value="'+r.a+'" step="0.01" min="0" data-k="'+kind+'" data-i="'+i+'" data-f="a"><button class="delbtn" data-k="'+kind+'" data-i="'+i+'" title="Delete">×</button></div>';
+  });
+  return h;
+}
+function render(){
+  load();
+  $('income').value=data.income;
+  $('fixedList').innerHTML=rowHtml(data,'fixed')+'<div style="color:#98a1b3;font-size:12px">'+(data.fixed.length?'':'No fixed bills yet — add rent, utilities, subscriptions…')+'</div>';
+  $('varList').innerHTML=rowHtml(data,'varr')+'<div style="color:#98a1b3;font-size:12px">'+(data.varr.length?'':'No variable categories yet — add groceries, dining, gas, fun…')+'</div>';
+  var inc=parseFloat($('income').value)||0;
+  var fT=data.fixed.reduce(function(s,x){return s+(parseFloat(x.a)||0);},0);
+  var vT=data.varr.reduce(function(s,x){return s+(parseFloat(x.a)||0);},0);
+  $('fixedTot').textContent=money(fT);
+  $('varTot').textContent=money(vT);
+  var exp=fT+vT;
+  var left=inc-exp;
+  $('sExp').textContent=money(exp);
+  $('sLeft').textContent=money(left);
+  var pct=inc>0?Math.round(exp/inc*100):0;
+  $('mfill').style.width=Math.min(100,pct)+'%';
+  $('mfill').style.background=pct>100?'#dc2626':(pct>80?'#f59e0b':'#10b981');
+  var note='Expenses use '+pct+'% of income. ';
+  note+=left>=0?('You can save '+money(left)+' this month'+(inc>0?' ('+Math.round(left/inc*100)+'% savings rate).':'.')):'You are over budget by '+money(-left)+'.';
+  $('sNote').textContent=note;
+  bindInputs();
+}
+function bindInputs(){
+  document.querySelectorAll('#fixedList input,#varList input').forEach(function(inp){
+    inp.oninput=function(){
+      var k=inp.getAttribute('data-k'),i=parseInt(inp.getAttribute('data-i'),10),f=inp.getAttribute('data-f');
+      data[k][i][f]=f==='a'?(parseFloat(inp.value)||0):inp.value;
+      save();render();
+    };
+  });
+  document.querySelectorAll('.delbtn').forEach(function(b){
+    b.onclick=function(){
+      var k=b.getAttribute('data-k'),i=parseInt(b.getAttribute('data-i'),10);
+      data[k].splice(i,1);save();render();
+    };
+  });
+}
+$('month').addEventListener('change',function(){data.month=monthEl.value;load();save();render();});
+$('income').addEventListener('input',function(){data.income=parseFloat($('income').value)||0;save();render();});
+$('addFixed').addEventListener('click',function(){data.fixed.push({n:'',a:0});save();render();});
+$('addVar').addEventListener('click',function(){data.varr.push({n:'',a:0});save();render();});
+$('exampleBtn').addEventListener('click',function(){
+  var inc=parseFloat($('income').value)||4000;
+  data.income=inc;
+  data.fixed=[{n:'Rent / mortgage',a:Math.round(inc*0.25)},{n:'Utilities & internet',a:Math.round(inc*0.06)},{n:'Insurance',a:Math.round(inc*0.06)},{n:'Subscriptions',a:40}];
+  data.varr=[{n:'Groceries',a:Math.round(inc*0.15)},{n:'Dining out',a:Math.round(inc*0.08)},{n:'Gas & transport',a:Math.round(inc*0.07)},{n:'Fun & shopping',a:Math.round(inc*0.15)}];
+  save();render();
+});
+load();render();
+
+</script>
+</body>
+</html>

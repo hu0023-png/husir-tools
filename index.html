@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Browser Tools — Private, Local &amp; No Signup | HuSir</title>
+<meta name="description" content="75 free browser tools for PDF, QR codes, taxes, teachers, productivity, developers and everyday life. No signup, no uploads, no tracking.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.husir.org/tools/">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Free Browser Tools — Private, Local &amp; No Signup | HuSir">
+<meta property="og:description" content="75 free browser tools for PDF, QR codes, taxes, teachers, productivity, developers and everyday life. No signup, no uploads, no tracking.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.husir.org/tools/">
+<meta property="og:image" content="https://www.husir.org/tools/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Browser Tools — Private, Local &amp; No Signup | HuSir">
+<meta name="twitter:description" content="75 free browser tools for PDF, QR codes, taxes, teachers, productivity, developers and everyday life. No signup, no uploads, no tracking.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-image.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+  }
+  .container { max-width: 1050px; margin: 0 auto; }
+  h1 {
+    text-align: center; color: #fff; font-size: 32px; font-weight: 800;
+    margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); letter-spacing: 1px;
+  }
+  .subtitle {
+    text-align: center; color: rgba(255,255,255,0.85); font-size: 14px; margin-bottom: 8px;
+  }
+  .tagline {
+    text-align: center; color: rgba(255,255,255,0.78); font-size: 12px; margin-bottom: 28px;
+  }
+  .intro-section {
+    background: rgba(255,255,255,0.08); border-radius: 14px; padding: 28px 32px;
+    margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.85); font-size: 14px; line-height: 1.1;
+    backdrop-filter: blur(10px);
+  }
+  .intro-section h2 {
+    font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 16px;
+  }
+  .intro-section strong { color: #fff; }
+  .intro-section p { margin-bottom: 14px; }
+  .intro-section p:last-child { margin-bottom: 0; }
+
+  .section { margin-bottom: 32px; }
+  .section-title {
+    color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 14px;
+    padding-left: 4px; letter-spacing: 1px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-icon { font-size: 22px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    display: flex; flex-direction: column; gap: 8px;
+    color: inherit; text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .card-name { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+  .card-desc { font-size: 13px; color: #666; line-height: 1.5; flex: 1; }
+  .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+  .card-btn {
+    padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    text-decoration: none; display: inline-block; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-go {
+    background: linear-gradient(135deg, #667eea, #764ba2); color: #fff;
+    box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+  }
+  .btn-go:hover { box-shadow: 0 4px 16px rgba(102,126,234,0.5); }
+  .btn-pro {
+    background: #f59e0b; color: #7c2d12;
+  }
+  .btn-pro:hover { background: #fbbf24; }
+  .badge {
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    background: #fef3c7; color: #92400e;
+  }
+  .footer {
+    text-align: center; margin-top: 40px; color: rgba(255,255,255,0.78); font-size: 12px; line-height: 1.1;
+  }
+  .footer a { color: rgba(255,255,255,0.9); text-decoration: underline; }
+  .search-wrap { position: relative; max-width: 680px; margin: 0 auto 32px; }
+  .tool-search {
+    width: 100%; padding: 13px 48px 13px 16px; border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.12);
+    color: #fff; font-size: 15px; outline: none; backdrop-filter: blur(10px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+  .tool-search::placeholder { color: rgba(255,255,255,0.55); }
+  .search-clear {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 34px; height: 34px; border: 0; border-radius: 50%;
+    background: rgba(255,255,255,0.14); color: #fff; font-size: 16px;
+    cursor: pointer; display: none; align-items: center; justify-content: center;
+  }
+  .search-clear.visible { display: flex; }
+  .search-empty {
+    display: block; text-align: center; color: rgba(255,255,255,0.65);
+    font-size: 14px; padding: 20px 0 8px;
+  }
+  .catnav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 960px; margin: -6px auto 26px; padding: 0 12px; }
+  .catnav a, .role-chip {
+    display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; border-radius: 999px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.85);
+    font-size: 12.5px; font-weight: 600; text-decoration: none; cursor: pointer; font-family: inherit;
+    line-height: 1.4; transition: background 0.15s, border-color 0.15s;
+  }
+  .catnav a:hover, .role-chip:hover { background: rgba(255,255,255,0.15); }
+  .catnav a:active { transform: translateY(1px); }
+  .role-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 28px; max-width: 960px; padding: 0 12px; }
+  .role-chip.on { background: rgba(34,197,94,0.22); border-color: #22c55e; color: #4ade80; }
+  .section { scroll-margin-top: 18px; }
+  .card-top { display: flex; align-items: center; justify-content: space-between; min-height: 42px; }
+  .card-icon {
+    width: 42px; height: 42px; border-radius: 12px; background: #eef2ff; color: #4f46e5;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    box-shadow: inset 0 0 0 1px rgba(79,70,229,0.08);
+  }
+  .hot-badge {
+    background: #fee2e2; color: #b91c1c; font-size: 11px; font-weight: 700;
+    padding: 5px 9px; border-radius: 999px; line-height: 1; white-space: nowrap;
+  }
+  .new-badge {
+    background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 700;
+    padding: 5px 9px; border-radius: 999px; line-height: 1; white-space: nowrap;
+  }
+  .teacher-badge {
+    background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 700;
+    padding: 5px 9px; border-radius: 999px; line-height: 1; white-space: nowrap;
+  }
+  .badge-pair { display: inline-flex; align-items: center; gap: 6px; }
+  .section-highlight {
+    background: linear-gradient(135deg, #053b2f 0%, #065f46 45%, #047857 100%);
+    border: 1px solid rgba(110,231,183,0.55);
+    border-radius: 16px;
+    padding: 22px 20px;
+    box-shadow: 0 18px 48px rgba(2,26,20,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .section-highlight .section-title { margin-bottom: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.28); }
+  .teacher-lead {
+    max-width: 780px; margin: 0 auto 20px; color: #ecfdf5;
+    background: rgba(3,28,22,0.55); border: 1px solid rgba(110,231,183,0.32);
+    border-radius: 10px; padding: 10px 16px; font-size: 13px; line-height: 1.6;
+    text-align: center;
+  }
+  .teacher-lead strong { color: #fff; }
+  .is-hidden { display: none !important; }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .skip-link {
+    position: fixed; top: -100px; left: 12px; z-index: 9999;
+    background: #0f172a; color: #fff; font-size: 13px; font-weight: 700;
+    padding: 10px 16px; border-radius: 8px; text-decoration: none;
+  }
+  .skip-link:focus { top: 12px; }
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid #fde68a; outline-offset: 2px;
+  }
+  .card:focus-visible { outline: 3px solid #fde68a; outline-offset: 2px; }
+  @media (max-width: 640px) {
+    body { padding: 24px 12px 40px; }
+    h1 { font-size: 24px; }
+    .grid { grid-template-columns: 1fr; }
+    .tool-search { min-height: 48px; font-size: 16px; }
+    .search-clear { width: 40px; height: 40px; }
+    .card-btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.husir.org/tools/#website",
+      "url": "https://www.husir.org/tools/",
+      "name": "HuSir Tools — Free Browser Tools",
+      "publisher": {
+        "@type": "Organization",
+        "name": "HuSir",
+        "url": "https://www.husir.org/"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.husir.org/tools/#webpage",
+      "url": "https://www.husir.org/tools/",
+      "name": "Free Browser Tools — Private, Local & No Signup | HuSir",
+      "description": "75+ free browser tools for PDF, QR codes, taxes, teachers, productivity, developers and everyday life. No signup, no uploads, no tracking.",
+      "isPartOf": {
+        "@id": "https://www.husir.org/tools/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Free browser-based utilities: productivity, finance, education, developer and everyday tools"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "HuSir Free Browser Tools",
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "numberOfItems": 75,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Pomodoro Timer",
+          "url": "https://www.husir.org/tools/focus-minimal/timer/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Habit Tracker",
+          "url": "https://www.husir.org/tools/focus-minimal/habits/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Task Board",
+          "url": "https://www.husir.org/tools/focus-minimal/board/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Eisenhower Matrix",
+          "url": "https://www.husir.org/tools/eisenhower-matrix/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Simple Income & Expense Tracker",
+          "url": "https://www.husir.org/tools/focus-minimal/ledger/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Tip Split Calculator",
+          "url": "https://www.husir.org/tools/tip-split-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Sales Tax Calculator",
+          "url": "https://www.husir.org/tools/sales-tax-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Paycheck Calculator",
+          "url": "https://www.husir.org/tools/paycheck-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Loan Calculator (Mortgage & Auto)",
+          "url": "https://www.husir.org/tools/loan-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Mortgage Refinance Calculator",
+          "url": "https://www.husir.org/tools/mortgage-refinance-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Compound Interest Calculator",
+          "url": "https://www.husir.org/tools/compound-interest-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Rule of 72 & Simple Interest",
+          "url": "https://www.husir.org/tools/rule-of-72-simple-interest/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Savings Goal Calculator",
+          "url": "https://www.husir.org/tools/savings-goal-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "401(k) Retirement Calculator",
+          "url": "https://www.husir.org/tools/401k-retirement-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "name": "Social Security Retirement Age",
+          "url": "https://www.husir.org/tools/social-security-age-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "name": "Mileage Tracker (IRS)",
+          "url": "https://www.husir.org/tools/mileage-tracker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "name": "Budget Tracker",
+          "url": "https://www.husir.org/tools/budget-tracker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "name": "Quarterly Estimated Tax (1099)",
+          "url": "https://www.husir.org/tools/quarterly-tax-estimator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "name": "Debt Payoff Calculator",
+          "url": "https://www.husir.org/tools/debt-payoff-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "name": "Rent vs Buy & Affordability",
+          "url": "https://www.husir.org/tools/rent-vs-buy-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "name": "Unit Converter",
+          "url": "https://www.husir.org/tools/unit-converter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "name": "Cooking & Baking Converter",
+          "url": "https://www.husir.org/tools/cooking-converter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "name": "Clothing & Shoe Size Converter",
+          "url": "https://www.husir.org/tools/size-converter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 24,
+          "name": "Timezone Converter & Meeting Planner",
+          "url": "https://www.husir.org/tools/timezone-converter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 25,
+          "name": "Date & Workday Counter",
+          "url": "https://www.husir.org/tools/date-workday-counter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 26,
+          "name": "QR Code Generator",
+          "url": "https://www.husir.org/tools/qrcode-gen/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 27,
+          "name": "WiFi QR Code Generator",
+          "url": "https://www.husir.org/tools/wifi-qrcode/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 28,
+          "name": "Batch QR Code Generator",
+          "url": "https://www.husir.org/tools/batch-qrcode/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 29,
+          "name": "QR Code Scanner",
+          "url": "https://www.husir.org/tools/qr-scanner/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 30,
+          "name": "PDF Toolbox",
+          "url": "https://www.husir.org/tools/pdf-toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 31,
+          "name": "Meeting Minutes Generator",
+          "url": "https://www.husir.org/tools/meeting-minutes/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 32,
+          "name": "Meeting Cost Calculator",
+          "url": "https://www.husir.org/tools/meeting-cost-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 33,
+          "name": "Markdown to Rich Text",
+          "url": "https://www.husir.org/tools/md-to-rich-text/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 34,
+          "name": "Text Case & Word Counter",
+          "url": "https://www.husir.org/tools/case-converter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 35,
+          "name": "Receipt Generator",
+          "url": "https://www.husir.org/tools/receipt-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 36,
+          "name": "Invoice & W-9 Generator",
+          "url": "https://www.husir.org/tools/invoice-w9-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 37,
+          "name": "Resume & Cover Letter Builder",
+          "url": "https://www.husir.org/tools/resume-cover-letter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 38,
+          "name": "Grade Stats & Analysis",
+          "url": "https://www.husir.org/tools/grade-stats/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 39,
+          "name": "Seating Chart Randomizer",
+          "url": "https://www.husir.org/tools/team-shuffle/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 40,
+          "name": "Classroom Toolkit",
+          "url": "https://www.husir.org/tools/classroom-tool/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 41,
+          "name": "Random Group Generator",
+          "url": "https://www.husir.org/tools/random-group-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 42,
+          "name": "Quiz & Flashcard Maker",
+          "url": "https://www.husir.org/tools/quiz-flashcard-maker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 43,
+          "name": "Attendance Tracker",
+          "url": "https://www.husir.org/tools/attendance-tracker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 44,
+          "name": "Parent Note Generator",
+          "url": "https://www.husir.org/tools/parent-note-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 45,
+          "name": "Rubric Generator",
+          "url": "https://www.husir.org/tools/rubric-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 46,
+          "name": "Social Achievement Card Maker",
+          "url": "https://www.husir.org/tools/flex-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 47,
+          "name": "Grid Image Splitter",
+          "url": "https://www.husir.org/tools/grid-splitter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 48,
+          "name": "Handwriting Generator",
+          "url": "https://www.husir.org/tools/handwriting-gen/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 49,
+          "name": "Certificate Maker",
+          "url": "https://www.husir.org/tools/certificate-crafter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 50,
+          "name": "Color Contrast Checker",
+          "url": "https://www.husir.org/tools/color-contrast-checker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 51,
+          "name": "Social Media Image Resizer",
+          "url": "https://www.husir.org/tools/social-image-resizer/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 52,
+          "name": "Quote Card & Logo Maker",
+          "url": "https://www.husir.org/tools/card-maker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 53,
+          "name": "SVG Optimizer & Minifier",
+          "url": "https://www.husir.org/tools/svg-optimizer/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 54,
+          "name": "Secret Santa Generator",
+          "url": "https://www.husir.org/tools/secret-santa-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 55,
+          "name": "Fantasy Football Draft Kit",
+          "url": "https://www.husir.org/tools/fantasy-football-draft/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 56,
+          "name": "March Madness Bracket",
+          "url": "https://www.husir.org/tools/march-madness-bracket/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 57,
+          "name": "BMI & Calorie Calculator",
+          "url": "https://www.husir.org/tools/bmi-calorie-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 58,
+          "name": "Age & Date Calculator",
+          "url": "https://www.husir.org/tools/age-date-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 59,
+          "name": "Countdown & Event Timer",
+          "url": "https://www.husir.org/tools/countdown-timer/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 60,
+          "name": "Decision Picker",
+          "url": "https://www.husir.org/tools/decision-picker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 61,
+          "name": "Poll & Vote Counter",
+          "url": "https://www.husir.org/tools/poll-vote-counter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 62,
+          "name": "Pregnancy Due Date Calculator",
+          "url": "https://www.husir.org/tools/due-date-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 63,
+          "name": "Pet Age Calculator",
+          "url": "https://www.husir.org/tools/pet-age-calculator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 64,
+          "name": "Base64 Encoder & Decoder",
+          "url": "https://www.husir.org/tools/base64-encoder-decoder/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 65,
+          "name": "URL Encoder & Decoder",
+          "url": "https://www.husir.org/tools/url-encoder-decoder/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 66,
+          "name": "JSON & YAML Formatter",
+          "url": "https://www.husir.org/tools/json-yaml-formatter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 67,
+          "name": "Regex Tester",
+          "url": "https://www.husir.org/tools/regex-tester/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 68,
+          "name": "Text Diff Checker",
+          "url": "https://www.husir.org/tools/text-diff-checker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 69,
+          "name": "Color Code Converter",
+          "url": "https://www.husir.org/tools/color-code-converter/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 70,
+          "name": "Image Compress & Privacy",
+          "url": "https://www.husir.org/tools/image-compress/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 71,
+          "name": "Password Generator",
+          "url": "https://www.husir.org/tools/password-generator/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 72,
+          "name": "File Hash Checker",
+          "url": "https://www.husir.org/tools/file-hash-checker/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 73,
+          "name": "Candidate Vote Counter",
+          "url": "https://www.husir.org/tools/candidate-counter-pro/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 74,
+          "name": "Lucky Spin Wheel",
+          "url": "https://www.husir.org/tools/spin-wheel-pro/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 75,
+          "name": "ID Photo Maker",
+          "url": "https://www.husir.org/tools/id-photo-pro/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#sec-focus">Skip to tools</a>
+<div class="container">
+  <h1>&#x1F6E0; Free Browser Tools</h1>
+  <p class="subtitle">Browser-based utilities that run entirely on your device</p>
+  <p class="tagline">No sign-up &middot; No distractions &middot; Works offline &middot; Zero data collection</p>
+  <p class="tagline" style="margin-top:6px;margin-bottom:14px;color:rgba(255,255,255,0.8)">Most tools are 100% free. A few Pro tools are one-time purchase, no subscription.</p>
+
+  <div style="text-align:center;margin:0 0 18px">
+    <a href="#sec-teacher" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;background:rgba(34,197,94,0.22);color:#dcfce7;font-size:14px;font-weight:700;text-decoration:none;border:1px solid rgba(34,197,94,0.55)">&#x1F34E; New &mdash; For US Teachers: 8 offline classroom tools</a>
+  </div>
+
+  <div class="search-wrap">
+    <input type="search" id="toolSearch" class="tool-search" placeholder="Search tools, e.g. timer, QR, receipt, PDF..." autocomplete="off" aria-label="Search tools">
+    <button class="search-clear" id="clearSearch" type="button" aria-label="Clear search">&#10005;</button>
+  </div>
+  <div class="search-empty is-hidden" id="searchEmpty">No tools found. Try a different word.</div>
+  <div id="resultLive" class="visually-hidden" aria-live="polite"></div>
+
+  <nav class="catnav" aria-label="Categories">
+    <a href="#sec-focus">&#x1F9E0; Focus &amp; ADHD</a>
+    <a href="#sec-teacher">&#x1F34E; Teacher Tools</a>
+    <a href="#sec-money">&#x1F4B5; Money &amp; Tax</a>
+    <a href="#sec-convert">&#x1F9EE; Converters &amp; Time</a>
+    <a href="#sec-business">&#x1F4BC; Business &amp; Office</a>
+    <a href="#sec-career">&#x1F454; Career &amp; Job</a>
+    <a href="#sec-creative">&#x1F3A8; Creative &amp; Social</a>
+    <a href="#sec-party">&#x1F389; Party &amp; Fun</a>
+    <a href="#sec-health">&#x2764;&#xFE0F; Health &amp; Life</a>
+    <a href="#sec-dev">&#x1F9E9; Developer Tools</a>
+    <a href="#sec-privacy">&#x1F510; Privacy &amp; Security</a>
+    <a href="#sec-pro">&#x2B50; Pro Tools</a>
+  </nav>
+  <div class="role-row" id="roleRow">
+    <button type="button" class="role-chip on" data-role="all">All tools</button>
+    <button type="button" class="role-chip" data-role="teachers">&#x1F469;&#x200D;&#x1F3EB; Teachers</button>
+    <button type="button" class="role-chip" data-role="money">&#x1F4B5; US Money &amp; Tax</button>
+    <button type="button" class="role-chip" data-role="focus">&#x1F9E0; ADHD &amp; focus</button>
+  </div>
+
+  <main>
+  <!-- ── Intro ── -->
+  <div class="intro-section">
+    <h2>Who is this for?</h2>
+    <p>75 simple tools. One rule: <strong>your data stays with you</strong>. Built for teachers, freelancers, ADHD-friendly workflows, developers, and everyday tasks &mdash; everything runs locally in your browser. No accounts, no uploads, no tracking. <a href="no-upload/" style="color:#fff;text-decoration:underline;font-weight:600">See how we prove it &#8594;</a></p>
+    <p>Made with US users in mind: sales tax, paycheck estimates, IRS mileage, W-9 invoices, federal holidays, US time zones, US measurements, and more.</p>
+    <p>&#x1F34E; <strong>For US teachers:</strong> 8 classroom tools &mdash; grades, seating charts, attendance, rubrics, quizzes and parent notes &mdash; that run fully offline, so student data never leaves the device. <a href="#sec-teacher" style="color:#fff;text-decoration:underline;font-weight:600">Jump to Teacher Tools &#8594;</a></p>
+  </div>
+
+  <div style="text-align:center;margin:-16px 0 28px">
+    <a href="no-upload/" style="display:inline-block;padding:10px 24px;border-radius:24px;background:rgba(255,255,255,0.18);color:#fff;font-size:14px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,0.3);backdrop-filter:blur(10px)">&#x1F6E1;&#xFE0F; No-Upload Tools &mdash; check it yourself in 30 seconds</a>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px">
+    <a href="https://www.husir.org/tools/dl.php" style="display:inline-block;padding:12px 28px;border-radius:25px;background:rgba(16,185,129,0.2);color:#10b981;font-size:14px;font-weight:700;text-decoration:none;border:1px solid rgba(16,185,129,0.3);backdrop-filter:blur(10px);transition:all 0.2s" onmouseover="this.style.background='rgba(16,185,129,0.35)'" onmouseout="this.style.background='rgba(16,185,129,0.2)'">&#x1F4E5; Download All Tools &mdash; Offline Version (ZIP)</a>
+    <p style="color:rgba(255,255,255,0.7);font-size:11px;margin-top:6px">Every tool in a single ZIP. Unzip and open any HTML file &mdash; all tools work 100% offline after download, and nothing is ever uploaded.</p>
+  </div>
+
+  <!-- ── Focus Minimal ── -->
+
+  <!-- ── Focus & ADHD ── -->
+
+  <!-- ── Focus & ADHD ── -->
+
+  <!-- ── Focus & ADHD ── -->
+  <div class="section" id="sec-focus">
+    <h2 class="section-title"><span class="section-icon">&#x25C6;</span> Focus &amp; ADHD</h2>
+    <div class="grid">
+<a class="card" data-search="pomodoro timer focus time adhd session break productivity" href="focus-minimal/timer/" aria-label="Pomodoro Timer">
+        <div class="card-top">
+          <div class="card-icon">&#x1F345;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Pomodoro Timer</h3>
+        <div class="card-desc">One-button 25-min focus sessions with auto break switching. No settings, no cognitive load.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="habit tracker daily streak checklist routine" href="focus-minimal/habits/" aria-label="Habit Tracker">
+        <div class="card-top">
+          <div class="card-icon">&#x2705;</div>
+          
+        </div>
+        <h3 class="card-name">Habit Tracker</h3>
+        <div class="card-desc">Check off daily habits. See your streak. No goals, no charts, no guilt.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="task board todo doing done kanban drag" href="focus-minimal/board/" aria-label="Task Board">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4CB;</div>
+          
+        </div>
+        <h3 class="card-name">Task Board</h3>
+        <div class="card-desc">Drag tasks between To Do, Doing, Done. No subtasks, no labels, no noise.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="eisenhower matrix urgent important prioritize task priority to do quadrants do now schedule delegate eliminate" href="eisenhower-matrix/" aria-label="Eisenhower Matrix">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4CC;</div>
+        </div>
+        <h3 class="card-name">Eisenhower Matrix</h3>
+        <div class="card-desc">Sort tasks by urgent and important: Do now, Schedule, Delegate, or Eliminate. Saves on your device, 100% local.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Teacher Tools (spotlight) ── -->
+  <div class="section section-highlight" id="sec-teacher">
+    <h2 class="section-title"><span class="section-icon">&#x1F34E;</span> Teacher Tools &mdash; built for US classrooms</h2>
+    <p class="teacher-lead">&#x1F512; <strong>Offline &amp; no uploads.</strong> Student names, grades and notes never leave this device &mdash; no accounts, no servers, no tracking. Works on a school laptop with the Wi-Fi off. <a href="classroom-privacy/" style="color:#fff;text-decoration:underline;font-weight:600">See how we prove it &#8594;</a></p>
+    <div class="grid">
+<a class="card" data-search="grade stats analysis teacher scores average ranking chart letter grade gpa privacy offline no upload" href="grade-stats/" aria-label="Grade Stats &amp; Analysis">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4CA;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Grade Stats &amp; Analysis</h3>
+        <div class="card-desc">Import scores; get averages, rankings, A–F letter grades, class GPA (4.0), and distribution charts. Export with one click.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="seating chart randomizer team shuffle classroom student privacy offline no upload" href="team-shuffle/" aria-label="Seating Chart Randomizer">
+        <div class="card-top">
+          <div class="card-icon">&#x1F6D1;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Seating Chart Randomizer</h3>
+        <div class="card-desc">Enter student names, auto-generate seating arrangements. Drag to adjust. Export and print.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="classroom toolkit teacher name picker group timer quiz privacy offline no upload" href="classroom-tool/" aria-label="Classroom Toolkit">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9D1;&#x200D;&#x1F3EB;</div>
+          <span class="badge-pair"><span class="badge teacher-badge">&#x1F34E; Teacher</span><span class="badge hot-badge">&#x1F525; Popular</span></span>
+        </div>
+        <h3 class="card-name">Classroom Toolkit</h3>
+        <div class="card-desc">Random name picker, group points, countdown timer, and math quiz in one page. Runs offline &mdash; nothing is uploaded.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="random group generator team assigner groups classroom shuffle fair teams pairs privacy offline no upload" href="random-group-generator/" aria-label="Random Group Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F465;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Random Group Generator</h3>
+        <div class="card-desc">Paste a name list and split it into fair random teams &mdash; by team size or team count. Copy-ready and offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="flashcard quiz maker study vocabulary capitals math facts practice deck flip self test privacy offline no upload" href="quiz-flashcard-maker/" aria-label="Quiz &amp; Flashcard Maker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3B4;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Quiz &amp; Flashcard Maker</h3>
+        <div class="card-desc">Make flashcards and quizzes for vocab, capitals, or math facts. Flip to study, self-test, export JSON. Private and offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="attendance tracker daily roll present late absent excused roster sheet log teacher classroom homeroom privacy offline no upload" href="attendance-tracker/" aria-label="Attendance Tracker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4C6;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Attendance Tracker</h3>
+        <div class="card-desc">Daily roll in one click: present, late, absent, excused. Auto totals per student and per day &mdash; export CSV or print.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="parent communication note generator teacher message email sms template contact family positive behavior missing work privacy offline no upload" href="parent-note-generator/" aria-label="Parent Note Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4AC;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Parent Note Generator</h3>
+        <div class="card-desc">Write a warm, professional message to families in seconds &mdash; pick a situation, choose a tone, copy or email it.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="rubric generator scoring criteria performance levels descriptors grading project essay teacher assignment privacy offline no upload" href="rubric-generator/" aria-label="Rubric Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4CB;</div>
+          <span class="badge teacher-badge">&#x1F34E; Teacher</span>
+        </div>
+        <h3 class="card-name">Rubric Generator</h3>
+        <div class="card-desc">Build a printable scoring rubric: criteria, level names, auto descriptors, weighted totals. Print, save PDF, or copy.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Money & Tax ── -->
+  <div class="section" id="sec-money">
+    <h2 class="section-title"><span class="section-icon">&#x1F4B5;</span> Money &amp; Tax</h2>
+    <div class="grid">
+<a class="card" data-search="income expense tracker ledger money finance budget minimal" href="focus-minimal/ledger/" aria-label="Simple Income &amp; Expense Tracker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4D2;</div>
+          
+        </div>
+        <h3 class="card-name">Simple Income &amp; Expense Tracker</h3>
+        <div class="card-desc">Log money in and out with no signup and no categories. Monthly balance at a glance.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="tip split calculator bill tax rounding pretax after tax" href="tip-split-calculator/" aria-label="Tip Split Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4B8;</div>
+          
+        </div>
+        <h3 class="card-name">Tip Split Calculator</h3>
+        <div class="card-desc">Split bills and tips among friends — US presets (15/18/20/22%), pre-tax or after-tax tipping, and rounding.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="sales tax calculator by state rate price total local tax seller zip county" href="sales-tax-calculator/" aria-label="Sales Tax Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F6D2;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Sales Tax Calculator</h3>
+        <div class="card-desc">Add US state + local sales tax by ZIP to any price and see the exact total. Private, no signup, and offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="paycheck calculator hourly to salary take home pay federal state fica 401k net pay" href="paycheck-calculator/" aria-label="Paycheck Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4B5;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Paycheck Calculator</h3>
+        <div class="card-desc">Convert hourly to salary and estimate federal, state, FICA, and 401(k) withholding for realistic take-home pay — estimates only, not tax advice.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="loan calculator mortgage auto payment amortization interest rate" href="loan-calculator/" aria-label="Loan Calculator (Mortgage &amp; Auto)">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3E2;</div>
+        </div>
+        <h3 class="card-name">Loan Calculator (Mortgage &amp; Auto)</h3>
+        <div class="card-desc">Monthly payments and a full amortization table for mortgages and car loans — principal, interest, and total cost.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="mortgage refinance calculator rate term closing costs break even interest saved monthly payment comparison" href="mortgage-refinance-calculator/" aria-label="Mortgage Refinance Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3E1;</div>
+        </div>
+        <h3 class="card-name">Mortgage Refinance Calculator</h3>
+        <div class="card-desc">Compare your current mortgage with a rate-and-term refinance: new payment, interest saved, and break-even months.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="compound interest calculator savings investment growth monthly deposit rate years apy 401k ira cd" href="compound-interest-calculator/" aria-label="Compound Interest Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4B0;</div>
+        </div>
+        <h3 class="card-name">Compound Interest Calculator</h3>
+        <div class="card-desc">Project how savings grow with compound interest — initial deposit, monthly contributions, rate, and year-by-year growth.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="rule of 72 simple interest doubling time years to double money interest math compound" href="rule-of-72-simple-interest/" aria-label="Rule of 72 &amp; Simple Interest">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9EE;</div>
+        </div>
+        <h3 class="card-name">Rule of 72 &amp; Simple Interest</h3>
+        <div class="card-desc">Estimate how many years it takes money to double at any rate, plus simple interest earned on a principal. All local.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="savings goal calculator monthly deposit how much to save per month target amount down payment emergency fund wedding vacation timeline" href="savings-goal-calculator/" aria-label="Savings Goal Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3AF;</div>
+        </div>
+        <h3 class="card-name">Savings Goal Calculator</h3>
+        <div class="card-desc">Find the monthly deposit needed to reach any savings goal on time, or how long your current pace will take.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+
+<a class="card" data-search="401k retirement calculator savings employer match compound growth ira balance projection 2026 limit" href="401k-retirement-calculator/" aria-label="401(k) Retirement Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4C8;</div>
+        </div>
+        <h3 class="card-name">401(k) Retirement Calculator</h3>
+        <div class="card-desc">Project your 401(k) with your own contributions, employer match, and compound growth — plus rough monthly retirement income.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="social security full retirement age fra claim 62 70 benefit calculator ssa delayed credits reduction statement" href="social-security-age-calculator/" aria-label="Social Security Retirement Age">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9D3;</div>
+        </div>
+        <h3 class="card-name">Social Security Retirement Age</h3>
+        <div class="card-desc">Look up your Full Retirement Age and see how claiming at 62&ndash;70 changes your monthly Social Security benefit.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="mileage tracker irs deduction business medical charitable miles log" href="mileage-tracker/" aria-label="Mileage Tracker (IRS)">
+        <div class="card-top">
+          <div class="card-icon">&#x1F69B;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Mileage Tracker (IRS)</h3>
+        <div class="card-desc">Log business, medical, and charitable drives and estimate your IRS deduction at current standard mileage rates (2026).</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="budget tracker monthly expense income 50/30/20 savings fixed variable" href="budget-tracker/" aria-label="Budget Tracker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4CA;</div>
+        </div>
+        <h3 class="card-name">Budget Tracker</h3>
+        <div class="card-desc">Plan monthly income, fixed bills, and variable spending to see what is left to save. Stays on your device.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="quarterly estimated tax 1099 self employment form 1040 es payment schedule irs freelancer gig se tax" href="quarterly-tax-estimator/" aria-label="Quarterly Estimated Tax (1099)">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9FE;</div>
+          <span class="badge new-badge">&#x1F195; New</span>
+        </div>
+        <h3 class="card-name">Quarterly Estimated Tax (1099)</h3>
+        <div class="card-desc">Estimate self-employment tax and federal income tax for 1099 income, then get four Form 1040-ES quarterly payments with due dates.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="debt payoff snowball avalanche credit card loan interest minimum extra payment debt free" href="debt-payoff-calculator/" aria-label="Debt Payoff Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4C9;</div>
+          <span class="badge new-badge">&#x1F195; New</span>
+        </div>
+        <h3 class="card-name">Debt Payoff Calculator</h3>
+        <div class="card-desc">Compare snowball vs avalanche payoff plans — debt-free date, total interest, and what extra monthly payments save you.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="rent vs buy home affordability mortgage decision compare house price monthly payment" href="rent-vs-buy-calculator/" aria-label="Rent vs Buy &amp; Affordability">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3E0;</div>
+          <span class="badge new-badge">&#x1F195; New</span>
+        </div>
+        <h3 class="card-name">Rent vs Buy &amp; Affordability</h3>
+        <div class="card-desc">Compare renting vs buying over any time horizon and find out how much home you can afford from income and down payment.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Converters & Time ── -->
+  <div class="section" id="sec-convert">
+    <h2 class="section-title"><span class="section-icon">&#x1F9EE;</span> Converters &amp; Time</h2>
+    <div class="grid">
+<a class="card" data-search="unit converter length weight temperature celsius fahrenheit inches centimeters pounds kilograms cups to grams gallons miles kilometers" href="unit-converter/" aria-label="Unit Converter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9EE;</div>
+        </div>
+        <h3 class="card-name">Unit Converter</h3>
+        <div class="card-desc">US &amp; metric conversions: length, weight, temperature, volume, speed, and data. No upload, works offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+      <a class="card" data-search="cooking baking converter grams to cups cups to grams flour sugar butter oats oven temperature fahrenheit celsius recipe scale ingredients" href="cooking-converter/" aria-label="Cooking &amp; Baking Converter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F963;</div>
+        </div>
+        <h3 class="card-name">Cooking &amp; Baking Converter</h3>
+        <div class="card-desc">Convert real ingredients between grams and US cups — flour, sugar, butter, oats — plus oven °F ↔ °C. Local &amp; offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="clothing shoe size converter us eu uk women men kids dresses suit jacket shirt collar cm" href="size-converter/" aria-label="Clothing &amp; Shoe Size Converter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F45F;</div>
+        </div>
+        <h3 class="card-name">Clothing &amp; Shoe Size Converter</h3>
+        <div class="card-desc">US ↔ EU ↔ UK sizes for women&rsquo;s, men&rsquo;s, and kids&rsquo; shoes, dresses, suit jackets, and shirt collars. Local &amp; offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="timezone converter meeting planner est pst gmt dst world clock et ct mt pt eastern central mountain pacific" href="timezone-converter/" aria-label="Timezone Converter &amp; Meeting Planner">
+        <div class="card-top">
+          <div class="card-icon">&#x1F30D;</div>
+        </div>
+        <h3 class="card-name">Timezone Converter &amp; Meeting Planner</h3>
+        <div class="card-desc">Convert times across US zones (ET / CT / MT / PT) and the world with DST handled automatically, and find meeting slots that fit everyone's 9-to-5.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+      <a class="card" data-search="date calculator days between workdays federal holidays" href="date-workday-counter/" aria-label="Date &amp; Workday Counter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4C5;</div>
+        </div>
+        <h3 class="card-name">Date &amp; Workday Counter</h3>
+        <div class="card-desc">Count total days, weekends, working days, and US federal holidays between any two dates.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Business & Office ── -->
+  <div class="section" id="sec-business">
+    <h2 class="section-title"><span class="section-icon">&#x1F4BC;</span> Business &amp; Office</h2>
+    <div class="grid">
+<a class="card" data-search="qr code generator link wifi vcard phone email logo" href="qrcode-gen/" aria-label="QR Code Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4F1;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">QR Code Generator</h3>
+        <div class="card-desc">Generate QR codes for links, text, phone, email, WiFi, and vCard. Custom colors; embed your own logo.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="wifi qr code wi-fi network password login poster door sticker" href="wifi-qrcode/" aria-label="WiFi QR Code Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4F6;</div>
+          
+        </div>
+        <h3 class="card-name">WiFi QR Code Generator</h3>
+        <div class="card-desc">Turn your Wi-Fi into a scannable QR code &mdash; guests join with one scan. Printable table card + optional center logo.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="batch qr code generator multiple bulk sheet print dynamic" href="batch-qrcode/" aria-label="Batch QR Code Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F5A8;&#xFE0F;</div>
+          
+        </div>
+        <h3 class="card-name">Batch QR Code Generator</h3>
+        <div class="card-desc">Paste a list and generate a whole sheet of QR codes at once &mdash; pick colors, print, cut. Also makes editable dynamic codes.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="qr scanner read decode camera image barcode privacy offline" href="qr-scanner/" aria-label="QR Code Scanner">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4F7;</div>
+        </div>
+        <h3 class="card-name">QR Code Scanner</h3>
+        <div class="card-desc">Scan QR codes with your camera or decode them from an image file. On-device, private, works offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="pdf toolbox merge split compress convert" href="pdf-toolbox/" aria-label="PDF Toolbox">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4C4;</div>
+          
+        </div>
+        <h3 class="card-name">PDF Toolbox</h3>
+        <div class="card-desc">Merge, split, compress, and convert PDFs. All processed locally in your browser.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="meeting minutes generator notes transcript export" href="meeting-minutes/" aria-label="Meeting Minutes Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4DD;</div>
+          
+        </div>
+        <h3 class="card-name">Meeting Minutes Generator</h3>
+        <div class="card-desc">Enter notes, auto-format into professional meeting minutes. Ready to export and print.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="meeting cost calculator hourly salary attendees cost per minute expensive meetings" href="meeting-cost-calculator/" aria-label="Meeting Cost Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4BC;</div>
+        </div>
+        <h3 class="card-name">Meeting Cost Calculator</h3>
+        <div class="card-desc">See what a meeting really costs: attendees, hourly rates, and duration &mdash; per meeting and per minute.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="markdown rich text copy email google docs" href="md-to-rich-text/" aria-label="Markdown to Rich Text">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4C4;</div>
+          
+        </div>
+        <h3 class="card-name">Markdown to Rich Text</h3>
+        <div class="card-desc">Write in Markdown, preview with 5 themes. Copy formatted output to email or Google Docs.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+      <a class="card" data-search="case converter uppercase title case word count character reading time" href="case-converter/" aria-label="Text Case &amp; Word Counter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F524;</div>
+        </div>
+        <h3 class="card-name">Text Case &amp; Word Counter</h3>
+        <div class="card-desc">Uppercase, title case, sentence case, camelCase, snake_case, kebab-case — with word count and reading time.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="receipt generator expense reimbursement invoice" href="receipt-generator/" aria-label="Receipt Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9FE;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Receipt Generator</h3>
+        <div class="card-desc">Playful receipt maker &mdash; realistic-looking templates for pranks and gag gifts. For entertainment only, never valid as proof of purchase.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="invoice generator w9 form 1099 contractor freelancer bill tax id ssn ein client line items" href="invoice-w9-generator/" aria-label="Invoice &amp; W-9 Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4DC;</div>
+        </div>
+        <h3 class="card-name">Invoice &amp; W-9 Generator</h3>
+        <div class="card-desc">Send a clean freelance invoice with line items and totals, or collect a US contractor's W-9 info. Print or save as PDF.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Career & Job ── -->
+  <div class="section" id="sec-career">
+    <h2 class="section-title"><span class="section-icon">&#x1F454;</span> Career &amp; Job</h2>
+    <div class="grid">
+<a class="card" data-search="resume builder ats friendly cover letter generator job application cv interview" href="resume-cover-letter/" aria-label="Resume &amp; Cover Letter Builder">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4DC;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Resume &amp; Cover Letter Builder</h3>
+        <div class="card-desc">Build an ATS-friendly one-page resume and a matching cover letter. Print or save as PDF, fully private and offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Creative & Social ── -->
+  <div class="section" id="sec-creative">
+    <h2 class="section-title"><span class="section-icon">&#x1F3A8;</span> Creative &amp; Social</h2>
+    <div class="grid">
+<a class="card" data-search="social achievement card maker flex generator social media stats brag" href="flex-generator/" aria-label="Social Achievement Card Maker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3C6;</div>
+          
+        </div>
+        <h3 class="card-name">Social Achievement Card Maker</h3>
+        <div class="card-desc">Design social achievement and flex cards to show off milestones, stats, and wins with style.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="grid image splitter instagram panorama collage" href="grid-splitter/" aria-label="Grid Image Splitter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9E9;</div>
+          
+        </div>
+        <h3 class="card-name">Grid Image Splitter</h3>
+        <div class="card-desc">Slice images into grid layouts, stitch panoramas, and arrange collages for Instagram.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="handwriting generator text image pen" href="handwriting-gen/" aria-label="Handwriting Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x270D;&#xFE0F;</div>
+          
+        </div>
+        <h3 class="card-name">Handwriting Generator</h3>
+        <div class="card-desc">Convert typed text into realistic handwriting. Multiple pen styles. Export as image.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="certificate maker crafter award template achievement design print" href="certificate-crafter/" aria-label="Certificate Maker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3C5;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Certificate Maker</h3>
+        <div class="card-desc">Design and print custom certificates for awards, achievements, or events. Ready-made templates.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="color contrast checker wcag accessibility palette complementary triadic analogous shade" href="color-contrast-checker/" aria-label="Color Contrast Checker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3A8;</div>
+        </div>
+        <h3 class="card-name">Color Contrast Checker</h3>
+        <div class="card-desc">Check WCAG AA/AAA contrast between any two colors and generate palettes with copy-ready hex codes.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="social media image resizer instagram post story facebook x twitter linkedin pinterest youtube thumbnail size crop resize" href="social-image-resizer/" aria-label="Social Media Image Resizer">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4D0;</div>
+        </div>
+        <h3 class="card-name">Social Media Image Resizer</h3>
+        <div class="card-desc">Resize one photo to every platform size &mdash; Instagram, Facebook, X, LinkedIn, Pinterest, YouTube. Zoom and crop, export PNG/JPG.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="quote card maker logo monogram social graphic instagram x linkedin png gradient text design brand" href="card-maker/" aria-label="Quote Card &amp; Logo Maker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3A8;</div>
+        </div>
+        <h3 class="card-name">Quote Card &amp; Logo Maker</h3>
+        <div class="card-desc">Turn a quote or brand initials into a clean PNG social graphic or monogram logo. Gradients and preset sizes.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="svg optimizer minifier icon cleaner remove metadata comments empty layers compress shrink svg file size xml" href="svg-optimizer/" aria-label="SVG Optimizer &amp; Minifier">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9F9;</div>
+        </div>
+        <h3 class="card-name">SVG Optimizer &amp; Minifier</h3>
+        <div class="card-desc">Clean and shrink SVG icons locally: strip editor metadata, comments, and empty layers, then download. Nothing uploaded.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── Party & Fun ── -->
+  <div class="section" id="sec-party">
+    <h2 class="section-title"><span class="section-icon">&#x1F389;</span> Party &amp; Fun</h2>
+    <div class="grid">
+<a class="card" data-search="secret santa gift pair random assignment" href="secret-santa-generator/" aria-label="Secret Santa Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F381;</div>
+          <span class="badge hot-badge">&#x1F525; Popular</span>
+        </div>
+        <h3 class="card-name">Secret Santa Generator</h3>
+        <div class="card-desc">Randomly assign Secret Santa pairs, then reveal on screen, copy the list, or export an image. No signup, no upload, no repeats.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="fantasy football draft order randomizer team names snake league picks" href="fantasy-football-draft/" aria-label="Fantasy Football Draft Kit">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3C8;</div>
+        </div>
+        <h3 class="card-name">Fantasy Football Draft Kit</h3>
+        <div class="card-desc">Fun team name generator plus a fair snake draft-order randomizer for your league. Private and offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="march madness bracket generator tournament seeds 64 teams ncaa pool pick winners champion simulate" href="march-madness-bracket/" aria-label="March Madness Bracket">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3C0;</div>
+        </div>
+        <h3 class="card-name">March Madness Bracket</h3>
+        <div class="card-desc">Generate a 16, 32, or 64-team March Madness-style bracket with seeds. Pick winners round by round or auto-simulate.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Health & Daily Life ── -->
+  <div class="section" id="sec-health">
+    <h2 class="section-title"><span class="section-icon">&#x2764;&#xFE0F;</span> Health &amp; Life</h2>
+    <div class="grid">
+<a class="card" data-search="bmi calculator body mass index healthy weight calorie bmr maintenance daily needs" href="bmi-calorie-calculator/" aria-label="BMI &amp; Calorie Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x2696;&#xFE0F;</div>
+        </div>
+        <h3 class="card-name">BMI &amp; Calorie Calculator</h3>
+        <div class="card-desc">BMI with category, healthy weight range, BMR, and maintenance calories in US or metric units. 100% local.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="age calculator date of birth years months days difference between dates add subtract days" href="age-date-calculator/" aria-label="Age &amp; Date Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F382;</div>
+        </div>
+        <h3 class="card-name">Age &amp; Date Calculator</h3>
+        <div class="card-desc">Exact age from a birth date, days between any two dates, and add or subtract time from a date. US dates.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="countdown timer event days until holiday birthday vacation deadline christmas thanksgiving" href="countdown-timer/" aria-label="Countdown &amp; Event Timer">
+        <div class="card-top">
+          <div class="card-icon">&#x23F3;</div>
+        </div>
+        <h3 class="card-name">Countdown &amp; Event Timer</h3>
+        <div class="card-desc">Live countdown to any date or time. One click adds all US federal holidays. Events stay saved on your device.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="decision picker random chooser raffle name draw weighted lottery choose pick" href="decision-picker/" aria-label="Decision Picker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3AF;</div>
+        </div>
+        <h3 class="card-name">Decision Picker</h3>
+        <div class="card-desc">Random picker with optional weights and raffle mode. Fair draws, session tally, and history. 100% local.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="poll vote counter classroom meeting quick tally results show of hands survey" href="poll-vote-counter/" aria-label="Poll &amp; Vote Counter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4E3;</div>
+        </div>
+        <h3 class="card-name">Poll &amp; Vote Counter</h3>
+        <div class="card-desc">Run a quick local poll: tap to vote, live bars and totals, copy results. Great for classrooms and meetings.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="pregnancy due date calculator lmp conception weeks trimester baby full term" href="due-date-calculator/" aria-label="Pregnancy Due Date Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F930;</div>
+          <span class="badge new-badge">&#x1F195; New</span>
+        </div>
+        <h3 class="card-name">Pregnancy Due Date Calculator</h3>
+        <div class="card-desc">Due date from LMP or conception date, current week and trimester, plus the full-term window. Pure date math — no medical claims.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="pet age calculator dog years cat years human years puppy kitten life stage dog size breed" href="pet-age-calculator/" aria-label="Pet Age Calculator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F43E;</div>
+        </div>
+        <h3 class="card-name">Pet Age Calculator</h3>
+        <div class="card-desc">Dog or cat age in human years by size, with life stage and a full comparison chart. Private and instant.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── Developer Tools ── -->
+  <div class="section" id="sec-dev">
+    <h2 class="section-title"><span class="section-icon">&#x1F9E9;</span> Developer Tools</h2>
+    <div class="grid">
+<a class="card" data-search="base64 encode decode text data uri jwt token utf8 url safe converter" href="base64-encoder-decoder/" aria-label="Base64 Encoder &amp; Decoder">
+        <div class="card-top">
+          <div class="card-icon">&#x1F521;</div>
+        </div>
+        <h3 class="card-name">Base64 Encoder &amp; Decoder</h3>
+        <div class="card-desc">Convert text to and from Base64. UTF-8 safe for emoji and CJK, with a URL-safe alphabet option. 100% local.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="url encoder decoder percent encode query parameter unicode escape uri" href="url-encoder-decoder/" aria-label="URL Encoder &amp; Decoder">
+        <div class="card-top">
+          <div class="card-icon">&#x1F517;</div>
+        </div>
+        <h3 class="card-name">URL Encoder &amp; Decoder</h3>
+        <div class="card-desc">Percent-encode or decode URLs and query strings. Unicode, spaces, and reserved characters handled locally.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="json yaml formatter validator pretty print minify convert config docker compose parser" href="json-yaml-formatter/" aria-label="JSON &amp; YAML Formatter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F4E6;</div>
+        </div>
+        <h3 class="card-name">JSON &amp; YAML Formatter</h3>
+        <div class="card-desc">Format, validate, minify, and convert between JSON and YAML with line-level error reports. 100% local.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="regex tester regular expression pattern match capture group test javascript flags" href="regex-tester/" aria-label="Regex Tester">
+        <div class="card-top">
+          <div class="card-icon">&#x1F9EA;</div>
+        </div>
+        <h3 class="card-name">Regex Tester</h3>
+        <div class="card-desc">Test JavaScript regular expressions live: matches highlighted, capture groups listed, flags included.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="text diff checker compare two texts versions added removed changed lines side by side editor review" href="text-diff-checker/" aria-label="Text Diff Checker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F50D;</div>
+        </div>
+        <h3 class="card-name">Text Diff Checker</h3>
+        <div class="card-desc">Compare two texts or code versions line by line — added, removed, and unchanged lines with one-click copy.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="color code converter hex rgb hsl css colorpicker alpha convert" href="color-code-converter/" aria-label="Color Code Converter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F308;</div>
+        </div>
+        <h3 class="card-name">Color Code Converter</h3>
+        <div class="card-desc">Convert colors between HEX, RGB, and HSL with a live swatch. Supports alpha. Runs entirely offline.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Privacy & Security ── -->
+  <div class="section" id="sec-privacy">
+    <h2 class="section-title"><span class="section-icon">&#x1F510;</span> Privacy &amp; Security</h2>
+    <div class="grid">
+<a class="card" data-search="image compress privacy exif batch photo" href="image-compress/" aria-label="Image Compress &amp; Privacy">
+        <div class="card-top">
+          <div class="card-icon">&#x1F5BC;&#xFE0F;</div>
+          
+        </div>
+        <h3 class="card-name">Image Compress &amp; Privacy</h3>
+        <div class="card-desc">Batch compress images, strip EXIF metadata. All processed locally &mdash; nothing uploaded.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="password generator strong random strength secure passphrase" href="password-generator/" aria-label="Password Generator">
+        <div class="card-top">
+          <div class="card-icon">&#x1F511;</div>
+        </div>
+        <h3 class="card-name">Password Generator</h3>
+        <div class="card-desc">Strong random passwords with length, character sets, and a strength meter. 100% local, no upload.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+<a class="card" data-search="file hash checker sha256 sha1 sha512 verify checksum download integrity compare" href="file-hash-checker/" aria-label="File Hash Checker">
+        <div class="card-top">
+          <div class="card-icon">&#x1F512;</div>
+        </div>
+        <h3 class="card-name">File Hash Checker</h3>
+        <div class="card-desc">Verify downloaded files by computing SHA-1, SHA-256, SHA-384, or SHA-512 hashes. Fully local, no upload.</div>
+        <div class="card-bottom"><span></span><span class="card-btn btn-go">Open &rarr;</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Pro Tools ── -->
+  <div class="section" id="sec-pro">
+    <h2 class="section-title"><span class="section-icon">&#x2B50;</span> Pro Tools <span style="font-size:12px;font-weight:400;opacity:0.7;">&mdash; free to try (watermarked) &middot; one-time purchase, no subscription, removes watermarks</span></h2>
+    <div class="grid">
+<a class="card" data-search="candidate vote counter election tally champion" href="candidate-counter-pro/" aria-label="Candidate Vote Counter">
+        <div class="card-top">
+          <div class="card-icon">&#x1F5F3;&#xFE0F;</div>
+          
+        </div>
+        <h3 class="card-name">Candidate Vote Counter</h3>
+        <div class="card-desc">Real-time vote tally with a bar chart and a winner celebration animation. One-click export.</div>
+        <div class="card-bottom">
+          <span class="badge">PRO &middot; $3.99 one-time</span>
+          <span class="card-btn btn-pro">Free Trial &rarr;</span>
+        </div>
+      </a>
+<a class="card" data-search="lucky spin wheel prize raffle party game" href="spin-wheel-pro/" aria-label="Lucky Spin Wheel">
+        <div class="card-top">
+          <div class="card-icon">&#x1F3A1;</div>
+          
+        </div>
+        <h3 class="card-name">Lucky Spin Wheel</h3>
+        <div class="card-desc">Custom prize list, animated spinning wheel. Perfect for raffles, events, and party games.</div>
+        <div class="card-bottom">
+          <span class="badge">PRO &middot; $2.99 one-time</span>
+          <span class="card-btn btn-pro">Free Trial &rarr;</span>
+        </div>
+      </a>
+<a class="card" data-search="id photo maker background crop passport visa" href="id-photo-pro/" aria-label="ID Photo Maker">
+        <div class="card-top">
+          <div class="card-icon">&#x1FAAA;</div>
+          
+        </div>
+        <h3 class="card-name">ID Photo Maker</h3>
+        <div class="card-desc">Auto background replacement with US Passport 2&times;2-inch and visa presets, plus print layouts — photo never leaves your device.</div>
+        <div class="card-bottom">
+          <span class="badge">PRO &middot; $2.99 one-time</span>
+          <span class="card-btn btn-pro">Free Trial &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  </main>
+  <footer class="footer">
+    <p style="font-size:15px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:10px">Free &middot; Local &middot; Private &middot; Simple</p>
+    <p>All tools run 100% in your browser. No data leaves your device. No tracking.</p>
+    <p style="margin-top:14px"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank">&#x2615; Buy me a coffee</a></p>
+    <p style="margin-top:10px"><a href="https://www.husir.org/about-husir/">About HuSir</a> &middot; <a href="privacy/">Privacy</a> &middot; <a href="terms/">Terms</a> &middot; <a href="mailto:hu0023@gmail.com">Contact</a></p>
+    <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.75)"><a href="https://www.husir.org/en/" target="_blank" style="color:rgba(255,255,255,0.85);text-decoration:underline;text-underline-offset:2px">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></p>
+    <p style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.55)">Built by HuSir &mdash; a privacy-first, local-first software project.</p>
+  </footer>
+  <script>
+    (function () {
+      var input = document.getElementById('toolSearch');
+      var clear = document.getElementById('clearSearch');
+      var empty = document.getElementById('searchEmpty');
+      var sections = document.querySelectorAll('.section');
+      var cards = document.querySelectorAll('.card');
+      var roleMap = {
+        teachers: ['sec-teacher'],
+        money: ['sec-money', 'sec-business', 'sec-career'],
+        focus: ['sec-focus']
+      };
+      var activeRole = 'all';
+
+      function filterTools() {
+        var query = (input.value || '').trim().toLowerCase();
+        var visibleCards = 0;
+        var allow = (activeRole === 'all') ? null : roleMap[activeRole];
+
+        sections.forEach(function (section) {
+          var visibleInSection = 0;
+          var inRole = !allow || allow.indexOf(section.id) !== -1;
+          section.querySelectorAll('.card').forEach(function (card) {
+            var haystack = ((card.dataset.search || '') + ' ' + card.textContent).toLowerCase();
+            var show = inRole && (!query || haystack.indexOf(query) !== -1);
+            card.classList.toggle('is-hidden', !show);
+            if (show) visibleInSection++;
+          });
+          section.classList.toggle('is-hidden', visibleInSection === 0);
+          visibleCards += visibleInSection;
+        });
+
+        var live = document.getElementById('resultLive');
+        if (live) {
+          live.textContent = (query || activeRole !== 'all')
+            ? 'Showing ' + visibleCards + ' of ' + cards.length + ' tools.'
+            : '';
+        }
+        clear.classList.toggle('visible', query.length > 0);
+        empty.classList.toggle('is-hidden', query.length === 0 || visibleCards > 0);
+      }
+
+      input.addEventListener('input', filterTools);
+      clear.addEventListener('click', function () {
+        input.value = '';
+        filterTools();
+        input.focus();
+      });
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && input.value) {
+          input.value = '';
+          filterTools();
+        }
+      });
+      var roleChips = document.querySelectorAll('.role-chip');
+      roleChips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          roleChips.forEach(function (c) { c.classList.remove('on'); });
+          chip.classList.add('on');
+          activeRole = chip.getAttribute('data-role');
+          filterTools();
+        });
+      });
+      filterTools();
+    })();
+  </script>
+</div>
+</body>
+</html>

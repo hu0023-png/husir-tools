@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRS Mileage Deduction Calculator (2026 Rates) | HuSir Tools</title>
+<meta name="description" content="Log business, medical, and charitable mileage and estimate your IRS deduction at the 2026 standard mileage rates. Free, private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/mileage-tracker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="IRS Mileage Deduction Calculator (2026 Rates)">
+<meta property="og:description" content="Log business, medical, and charitable mileage and estimate your IRS deduction at the 2026 standard mileage rates. Free, private, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/mileage-tracker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IRS Mileage Deduction Calculator (2026 Rates)">
+<meta name="twitter:description" content="Log business, medical, and charitable mileage and estimate your IRS deduction at the 2026 standard mileage rates. Free, private, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.catline{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.logrow{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid #f3f4fa;font-size:13.5px}
+.logrow .d{color:#7c86a0;min-width:86px;font-size:12.5px}
+.logrow .n{flex:1;color:#334155;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logrow .amt{font-weight:700;color:#1a1a2e}
+.btype{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:.3px}
+.business{background:#ecfdf5;color:#059669}.medical{background:#eff6ff;color:#3b82f6}.charitable{background:#fef3c7;color:#b45309}
+.logdel{cursor:pointer;border:0;background:transparent;color:#cbd2e0;font-size:16px;padding:2px 6px}
+.logdel:hover{color:#dc2626}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mileage Tracker",
+  "description": "Log business, medical, and charitable mileage and estimate your IRS deduction at the 2026 standard mileage rates. Free, private, no signup.",
+  "url": "https://www.husir.org/tools/mileage-tracker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the IRS standard mileage rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The IRS sets a cents-per-mile rate each year (current, Jul 1 – Dec 31, 2026: 76¢ business, 23.5¢ medical, 14¢ charitable). Rates are editable here so the tool works for any tax year."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as business mileage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generally, miles driven for work that your employer does not reimburse — visiting clients, running errands, and traveling between work sites. Commuting to your regular workplace usually does not count."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Medical and charitable mileage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Medical mileage covers trips to doctors, pharmacies, and treatments; charitable mileage covers driving for a qualified charity. Both have lower rates than business miles."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to keep records?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the IRS expects contemporaneous records (date, purpose, miles). This log gives you that paper trail; keep receipts for parking and tolls too."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — entries stay in your browser's local storage on this device, and the page works fully offline."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Mileage Tracker", "item": "https://www.husir.org/tools/mileage-tracker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Mileage Tracker</span></span></nav>
+
+<div class="title-wrap">
+<h1>🚗 Mileage Tracker</h1>
+<p class="subtitle">IRS mileage log · Business / Medical / Charitable</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Log every deductible trip through the year — business errands, medical appointments, and charitable driving — and let the standard IRS mileage rates turn miles into a deduction. Add trips one at a time with a date, type, and note; the tracker totals each category and shows the estimated deduction using editable per-mile rates.</p>
+<p>Everything is stored locally in your browser (or nowhere, if you prefer to export and clear). Use the CSV export to drop the log into your tax software or spreadsheet at tax time.</p>
+<div class="faq">
+<p><strong>🚗 What is the IRS standard mileage rate?</strong><br>The IRS sets a cents-per-mile rate each year (current, Jul 1 – Dec 31, 2026: 76¢ business, 23.5¢ medical, 14¢ charitable). Rates are editable here so the tool works for any tax year.</p>
+<p><strong>🧾 What counts as business mileage?</strong><br>Generally, miles driven for work that your employer does not reimburse — visiting clients, running errands, and traveling between work sites. Commuting to your regular workplace usually does not count.</p>
+<p><strong>🩺 Medical and charitable mileage?</strong><br>Medical mileage covers trips to doctors, pharmacies, and treatments; charitable mileage covers driving for a qualified charity. Both have lower rates than business miles.</p>
+<p><strong>📁 Do I need to keep records?</strong><br>Yes — the IRS expects contemporaneous records (date, purpose, miles). This log gives you that paper trail; keep receipts for parking and tolls too.</p>
+<p><strong>🔒 Is my data uploaded?</strong><br>No — entries stay in your browser's local storage on this device, and the page works fully offline.</p>
+</div>
+<div class="formula"><b>📐 Key formulas</b><br>
+Deduction = miles × rate for that trip type<br>
+Total deduction = business + medical + charitable totals<br>
+Current IRS standard rates (Jul 1 – Dec 31, 2026): business $0.76 · medical $0.235 · charitable $0.14 (per mile, editable)
+</div>
+<p><strong>⚠️ Disclaimer</strong><br>Estimates for planning only — not tax advice. Rates and rules change; verify with your state or a tax professional before filing.</p>
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>➕ Add a Trip</h3></div>
+  <div class="grid2">
+    <div>
+      <div class="field-label">Date</div>
+      <input type="date" id="date">
+    </div>
+    <div>
+      <div class="field-label">Trip type</div>
+      <select id="type">
+        <option value="business" selected>Business</option>
+        <option value="medical">Medical</option>
+        <option value="charitable">Charitable</option>
+      </select>
+    </div>
+    <div>
+      <div class="field-label">Miles</div>
+      <input type="number" id="miles" value="10" step="0.1" min="0">
+    </div>
+    <div>
+      <div class="field-label">Note / purpose</div>
+      <input type="text" id="note" placeholder="e.g. Client meeting in Austin" maxlength="80">
+    </div>
+  </div>
+  <button class="btn btn-primary" id="addBtn" type="button" style="margin-top:12px">＋ Add Trip</button>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>📊 Year-to-Date Summary</h3></div>
+  <div class="grid2">
+    <div><div class="field-label">Business rate ($/mile)</div><input type="number" id="rb" value="0.76" step="0.01" min="0"></div>
+    <div><div class="field-label">Medical rate ($/mile)</div><input type="number" id="rm" value="0.235" step="0.001" min="0"></div>
+    <div><div class="field-label">Charitable rate ($/mile)</div><input type="number" id="rc" value="0.14" step="0.01" min="0"></div>
+  </div>
+  <div class="result-box" style="margin-top:14px">
+    <div style="font-size:12px;color:#7c86a0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Estimated total deduction</div>
+    <div class="result-big" id="tot">$0.00</div>
+  </div>
+  <div id="cats" style="margin-top:12px"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>🗂 Trip Log <span id="count" style="font-size:12px;color:#98a1b3;font-weight:400"></span></h3>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" id="exportBtn" type="button">Export CSV</button>
+      <button class="btn btn-ghost btn-sm" id="clearBtn" type="button" style="color:#dc2626">Clear</button>
+    </div>
+  </div>
+  <div id="log"></div>
+  <p style="font-size:11.5px;color:#98a1b3;margin-top:10px">Saved only in this browser on this device. Export CSV before clearing if you want a permanent record.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../sales-tax-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧾 Sales Tax Calculator</a><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a><a href="../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a><a href="../quarterly-tax-estimator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧾 Quarterly Estimated Tax (1099)</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var $=function(id){return document.getElementById(id);};
+var KEY='husir-mileage-log-v1';
+var TYPES={business:'Business',medical:'Medical',charitable:'Charitable'};
+var rows=[];
+function load(){try{rows=JSON.parse(localStorage.getItem(KEY))||[];}catch(e){rows=[];}}
+function save(){localStorage.setItem(KEY,JSON.stringify(rows));render();}
+function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+$('date').value=today();
+function add(){
+  var d=$('date').value||today(),t=$('type').value,m=parseFloat($('miles').value),n=$('note').value.trim();
+  if(!(m>0)){alert('Enter a mileage amount greater than 0.');return;}
+  rows.push({d:d,t:t,m:m,n:n});
+  $('note').value='';$('miles').value='10';
+  save();
+}
+function rates(){return {business:parseFloat($('rb').value)||0,medical:parseFloat($('rm').value)||0,charitable:parseFloat($('rc').value)||0};}
+function render(){
+  var r=rates();
+  var sums={business:0,medical:0,charitable:0};
+  rows.forEach(function(x){sums[x.t]=(sums[x.t]||0)+x.m;});
+  var total=(sums.business*r.business+sums.medical*r.medical+sums.charitable*r.charitable);
+  $('tot').textContent=money(total);
+  $('count').textContent='('+rows.length+(rows.length===1?' trip':' trips')+')';
+  var cats='';
+  Object.keys(TYPES).forEach(function(k){
+    var m=sums[k]||0;
+    cats+='<div class="catline"><span><span class="btype '+k+'">'+TYPES[k]+'</span> &nbsp;'+m.toFixed(1)+' mi</span><strong>'+money(m*r[k])+'</strong></div>';
+  });
+  $('cats').innerHTML=cats;
+  var log='';
+  if(rows.length===0){log='<div style="color:#98a1b3;font-size:13px;padding:10px 4px">No trips logged yet — add your first drive above.</div>';}
+  else{
+    var copy=rows.slice().reverse();
+    copy.forEach(function(x,i){
+      var idx=rows.length-1-i;
+      log+='<div class="logrow"><span class="d">'+x.d+'</span><span class="btype '+x.t+'">'+TYPES[x.t]+'</span><span class="n">'+(x.n?escapeHtml(x.n):'—')+' · '+x.m.toFixed(1)+' mi</span><span class="amt">'+money(x.m*r[x.t])+'</span><button class="logdel" data-i="'+idx+'" title="Delete">×</button></div>';
+    });
+  }
+  $('log').innerHTML=log;
+  document.querySelectorAll('.logdel').forEach(function(b){b.addEventListener('click',function(){rows.splice(parseInt(b.getAttribute('data-i')),1);save();});});
+}
+function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function exportCsv(){
+  if(rows.length===0){alert('Nothing to export yet.');return;}
+  var head='Date,Type,Miles,Note\n';
+  var body=rows.map(function(x){return x.d+','+x.t+','+x.m+',"'+String(x.n||'').replace(/"/g,'""')+'"';}).join('\n');
+  var blob=new Blob([head+body],{type:'text/csv'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mileage-log.csv';a.click();
+}
+$('addBtn').addEventListener('click',add);
+$('exportBtn').addEventListener('click',exportCsv);
+$('clearBtn').addEventListener('click',function(){if(rows.length&&confirm('Clear all '+rows.length+' trips? This cannot be undone.')){rows=[];save();}});
+['rb','rm','rc'].forEach(function(id){$(id).addEventListener('input',render);});
+$('miles').addEventListener('keydown',function(e){if(e.key==='Enter')add();});
+load();render();
+
+</script>
+</body>
+</html>

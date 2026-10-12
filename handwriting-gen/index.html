@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Text to Handwriting Generator | HuSir Tools</title>
+<meta name="description" content="Turn text into a handwritten-style page for letters, notes, or creative projects. No upload, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/handwriting-gen/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Text to Handwriting Generator">
+<meta property="og:description" content="Turn text into a handwritten-style page for letters, notes, or creative projects. No upload, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/handwriting-gen/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Text to Handwriting Generator">
+<meta name="twitter:description" content="Turn text into a handwritten-style page for letters, notes, or creative projects. No upload, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+
+<link href="https://fonts.loli.net/css2?family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=ZCOOL+QingKe+HuangYou&family=Zhi+Mang+Xing&family=LXGW+WenKai&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh; padding: 32px 16px;
+  }
+  .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+  .title-wrap { text-align: center; }
+  h1 { text-align: center; color: #fff; font-size: 30px; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 800; letter-spacing: 2px; }
+  .subtitle { text-align: center; color: rgba(255,255,255,0.7); font-size: 14px; }
+  .panel { background: #fff; border-radius: 16px; padding: 22px 26px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .panel-header h3 { font-size: 16px; color: #333; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 20px; }
+  .col-form { flex: 0 0 340px; min-width: 280px; }
+  .col-preview { flex: 1; min-width: 340px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 5px; padding: 10px 20px; border-radius: 10px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; white-space: nowrap; justify-content: center; }
+  .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; box-shadow: 0 4px 16px rgba(102,126,234,0.4); width:100%; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(102,126,234,0.55); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-outline { background: #fff; color: #667eea; border: 2px solid #667eea; width:100%; }
+  .btn-outline:hover { background: #f5f3ff; }
+
+  textarea { width: 100%; min-height: 160px; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px; font-size: 15px; font-family: inherit; line-height: 1.8; resize: vertical; outline: none; transition: border-color 0.2s; background: #fafbfc; }
+  textarea:focus { border-color: #667eea; background: #fff; }
+  select { width: 100%; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; font-family: inherit; outline: none; transition: border-color 0.2s; margin-bottom: 10px; background: #fafbfc; font-weight: 600; }
+  select:focus { border-color: #667eea; background: #fff; }
+  .field-label { font-size: 13px; color: #888; margin-bottom: 4px; display: block; font-weight: 600; }
+
+  .config-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; }
+  .config-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #444; font-weight: 600; }
+  .config-item input[type="range"] { width: 80px; accent-color: #667eea; }
+  .config-item input[type="color"] { width: 36px; height: 36px; border: 2px solid #e0e0e0; border-radius: 8px; padding: 2px; cursor: pointer; }
+  .config-item span.val { min-width: 22px; text-align: center; }
+
+  .paper-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+  .paper-btn { aspect-ratio: 1.3; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+  .paper-btn:hover { border-color: #667eea; }
+  .paper-btn.active { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102,126,234,0.25); }
+  .paper-lined { background: repeating-linear-gradient(#fefef9 0px, #fefef9 23px, #c8d6e5 23px, #c8d6e5 24px); }
+  .paper-grid-bg { background-image: linear-gradient(#ddd 1px,transparent 1px), linear-gradient(90deg,#ddd 1px,transparent 1px); background-size: 20px 20px; background-color: #fff; }
+  .paper-dot { background: radial-gradient(circle,#ccc 1px,transparent 1px); background-size: 20px 20px; background-color: #fff; }
+  .paper-plain { background: #fffdf5; }
+
+  .preview-wrapper { display: flex; justify-content: center; }
+  .preview-canvas { width: 100%; max-width: 420px; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.12); background: #fff; }
+  canvas { display: block; width: 100%; height: auto; }
+  .empty-state { text-align: center; color: #ccc; padding: 50px 0; font-size: 15px; }
+  .empty-state svg { margin-bottom: 12px; }
+
+  .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: #fff; padding: 10px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .toast.show { opacity: 1; }
+
+  @media (max-width: 750px) {
+    .row { flex-direction: column; }
+    .col-form { flex: 1; }
+    .panel { padding: 16px 14px; }
+    h1 { font-size: 22px; }
+    .subtitle { font-size: 12px; }
+    body { padding: 20px 8px; }
+    .container { gap: 12px; }
+  }
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Text to Handwriting",
+  "description": "Turn text into a handwritten-style page for letters, notes, or creative projects. No upload, no signup.",
+  "url": "https://www.husir.org/tools/handwriting-gen/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which pen styles are available?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Choose among the listed pen types, such as pencil and ballpoint looks, to change the weight and feel of the writing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What paper options exist?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Four backgrounds are included, from plain to lined notebook styles, so you can pick the sheet that fits your purpose."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I control the look?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — handwriting font, size, color, and pen type are all adjustable before you export."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will printouts look right?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Download the PNG at full size and print with fit-to-page; choose a light background for ink-friendly printing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my text private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the page runs fully offline with no upload."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Text to Handwriting", "item": "https://www.husir.org/tools/handwriting-gen/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Text to Handwriting</span></span></nav>
+
+  <div class="title-wrap">
+    <h1>✍️ Text to Handwriting</h1>
+    <p class="subtitle">10 handwriting fonts · adjustable size & color · 4 paper backgrounds</p>
+  </div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Turn typed text into natural-looking handwriting for personal notes, letters, study materials, and printed worksheets. Ten handwriting fonts, several pen types, adjustable size and color, and four paper backgrounds let you match the mood of a real handwritten page.</p>
+<p>Everything is rendered locally in your browser — your text is never uploaded. Preview the page, download it as a PNG, and print on US Letter or A4 when the look is right.</p>
+<div class="faq">
+<p><strong>✍️ Which pen styles are available?</strong><br>Choose among the listed pen types, such as pencil and ballpoint looks, to change the weight and feel of the writing.</p>
+<p><strong>📄 What paper options exist?</strong><br>Four backgrounds are included, from plain to lined notebook styles, so you can pick the sheet that fits your purpose.</p>
+<p><strong>🔤 Can I control the look?</strong><br>Yes — handwriting font, size, color, and pen type are all adjustable before you export.</p>
+<p><strong>🖨️ Will printouts look right?</strong><br>Download the PNG at full size and print with fit-to-page; choose a light background for ink-friendly printing.</p>
+<p><strong>🔒 Is my text private?</strong><br>Yes — the page runs fully offline with no upload.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Paper: print-ready PNG for US Letter or A4<br>10 handwriting fonts · 4 paper backgrounds<br>Adjust font size, color, and pen type before download<br>Preview always shows the final page look
+</div>
+</div>
+</details>
+
+<div class="row">
+    <div class="col-form">
+      <div class="panel">
+        <div class="panel-header"><h3>📝 Enter text</h3></div>
+        <textarea id="textInput" placeholder="Paste your text here...&#10;Multi-line supported, auto-wraps.&#10;&#10;Example:&#10;Dear John:&#10;&#10;  Hope this letter finds you well. It's been too long.&#10;  The weather's getting cold — stay warm...."></textarea>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>🎨 Font Style</h3></div>
+        <label class="field-label">✍️ Handwriting Font</label>
+        <select id="fontSelect">
+          <option value="mashan">Ma Shan Zheng —— Bold Brush</option>
+          <option value="kuaile">ZCOOL Happy —— Round & Cute</option>
+          <option value="xiaowei">ZCOOL Xiaowei —— Slim & Elegant</option>
+          <option value="huangyou">ZCOOL Butter —— Artistic Brush</option>
+          <option value="liujian">Liu Jian Mao Cao —— Wild Cursive</option>
+          <option value="longcang">Long Cang —— Smooth Flow</option>
+          <option value="zhimang">Zhi Mang Xing —— Flowing Semi-Cursive</option>
+          <option value="wenkai">LXGW WenKai —— KaiTi Handwriting</option>
+          <option value="kaiti">KaiTi — Traditional (System)</option>
+          <option value="xingkai">XingKai — Cursive (System)</option>
+        </select>
+        <label class="field-label" style="margin-top:10px;">🖊️ Pen Type</label>
+        <select id="instrumentSelect">
+          <option value="fountain">Fountain Pen — Elegant & Balanced</option>
+          <option value="brush">Brush — Bold & Strong</option>
+          <option value="ballpoint">Ballpoint —— Fine & Daily</option>
+          <option value="pencil">Pencil — Slightly Rough</option>
+          <option value="marker">Marker — Bold & Chunky</option>
+          <option value="fineline">Fine Liner — Slim & Fluid</option>
+        </select>
+        <div class="config-row">
+          <div class="config-item"><span>Size</span><input type="range" id="fontSize" min="16" max="48" value="28" step="1"><span class="val" id="fontSizeVal">26</span></div>
+          <div class="config-item"><span>Color</span><input type="color" id="inkColor" value="#1a3c6e"></div>
+        </div>
+        <div class="config-row">
+          <div class="config-item"><span>Line Spacing</span><input type="range" id="lineHeight" min="1.3" max="2.5" value="1.8" step="0.05"><span class="val" id="lineHeightVal">1.8</span></div>
+          <div class="config-item"><span>Jitter</span><input type="range" id="jitter" min="0" max="6" value="2" step="0.5"><span class="val" id="jitterVal">2</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>📄 Paper Background</h3></div>
+        <div class="paper-grid" id="paperGrid">
+          <div class="paper-btn paper-lined active" data-paper="lined" title="Lined Paper"></div>
+          <div class="paper-btn paper-grid-bg" data-paper="grid" title="Grid Paper"></div>
+          <div class="paper-btn paper-dot" data-paper="dot" title="Dot grid"></div>
+          <div class="paper-btn paper-plain" data-paper="plain" title="Plain white"></div>
+        </div>
+        <button class="btn btn-primary" id="generateBtn">✍️ Generate Handwriting</button>
+        <button class="btn btn-outline" id="downloadBtn" disabled style="margin-top:8px;">📥 Download PNG</button>
+      </div>
+    </div>
+
+    <div class="col-preview">
+      <div class="panel">
+        <div class="panel-header"><h3>👁 Preview</h3></div>
+        <div class="preview-wrapper">
+          <div class="preview-canvas" id="canvasWrapper">
+            <canvas id="previewCanvas"></canvas>
+          </div>
+        </div>
+        <div class="empty-state" id="emptyPreview">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#c7c7cc" stroke-width="1.2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          <p>Enter text then click 「Generate Handwriting」Preview</p><p style="font-size:12px;color:#ddd;margin-top:4px;">Previewat A4 ratio, Easy to print</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function() {
+  var textInput = document.getElementById('textInput');
+  var generateBtn = document.getElementById('generateBtn');
+  var downloadBtn = document.getElementById('downloadBtn');
+  var canvas = document.getElementById('previewCanvas');
+  var emptyPreview = document.getElementById('emptyPreview');
+  var fontSelect = document.getElementById('fontSelect');
+  var fontSizeSlider = document.getElementById('fontSize');
+  var fontSizeVal = document.getElementById('fontSizeVal');
+  var lineHeightSlider = document.getElementById('lineHeight');
+  var lineHeightVal = document.getElementById('lineHeightVal');
+  var jitterSlider = document.getElementById('jitter');
+  var jitterVal = document.getElementById('jitterVal');
+  var inkColor = document.getElementById('inkColor');
+  var paperGrid = document.getElementById('paperGrid');
+
+  var currentPaper = 'lined';
+  var instrumentSelect = document.getElementById('instrumentSelect');
+
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 2000);
+  }
+
+  var fontFamilies = {
+    mashan:   '"Ma Shan Zheng", "STKaiti", "KaiTi", cursive',
+    kuaile:   '"ZCOOL KuaiLe", "PingFang SC", sans-serif',
+    xiaowei:  '"ZCOOL XiaoWei", "STKaiti", "KaiTi", serif',
+    huangyou: '"ZCOOL QingKe HuangYou", "STKaiti", cursive',
+    liujian:  '"Liu Jian Mao Cao", "STKaiti", cursive',
+    longcang: '"Long Cang", "STKaiti", "KaiTi", cursive',
+    zhimang:  '"Zhi Mang Xing", "STKaiti", cursive',
+    wenkai:   '"LXGW WenKai", "STKaiti", "KaiTi", serif',
+    kaiti:    '"STKaiti", "KaiTi", "Noto Serif SC", serif',
+    xingkai:  '"STXingkai", "Xingkai SC", "STKaiti", "KaiTi"'
+  };
+
+  // 6 writing instrument profiles
+  var instruments = {
+    brush:    { name: 'Brush pen',   lineW: [1.4,2.6], sizeV:0.80, tilt:[-5,6],   jitterM:2.0, offY:-2, shadow:[0.3,0.8] },
+    fountain: { name: 'Fountain pen',   lineW: [0.6,1.4], sizeV:0.90, tilt:[-3,4],   jitterM:1.2, offY:-1, shadow:[0.1,0.4] },
+    ballpoint:{ name: 'Ballpoint', lineW: [0.3,0.7], sizeV:0.94, tilt:[-1,2],   jitterM:0.6, offY: 0, shadow:[0,0.2]   },
+    pencil:   { name: 'Pencil',   lineW: [0.4,0.8], sizeV:0.92, tilt:[-2,3],   jitterM:1.0, offY: 0, shadow:[0.2,0.5] },
+    marker:   { name: 'Marker', lineW: [1.8,3.2], sizeV:0.85, tilt:[-2,3],   jitterM:1.0, offY:-1, shadow:[0,0.3]   },
+    fineline: { name: 'Fine liner', lineW: [0.8,1.8], sizeV:0.88, tilt:[-4,5],   jitterM:1.6, offY:-1, shadow:[0.2,0.5] }
+  };
+
+  paperGrid.addEventListener('click', function(e) {
+    var btn = e.target.closest('.paper-btn');
+    if (!btn) return;
+    document.querySelectorAll('.paper-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentPaper = btn.dataset.paper;
+    if (textInput.value.trim()) generate();
+  });
+
+  fontSizeSlider.addEventListener('input', function() { fontSizeVal.textContent = this.value; });
+  lineHeightSlider.addEventListener('input', function() { lineHeightVal.textContent = this.value; });
+  jitterSlider.addEventListener('input', function() { jitterVal.textContent = this.value; });
+
+  function seededRandom(seed) {
+    var s = seed;
+    return function() { s = (s * 1664525 + 1013904223) & 0xffffffff; return (s >>> 0) / 0xffffffff; };
+  }
+
+  function drawPaper(ctx, w, h) {
+    // A4 paper with subtle warmth
+    ctx.fillStyle = '#fdfdfb';
+    ctx.fillRect(0, 0, w, h);
+    // Subtle paper texture: barely visible noise
+    ctx.fillStyle = 'rgba(0,0,0,0.008)';
+    for (var i = 0; i < 200; i++) {
+      var rx = Math.random() * w, ry = Math.random() * h;
+      ctx.fillRect(rx, ry, 1, 1);
+    }
+
+    if (currentPaper === 'lined') {
+      ctx.strokeStyle = '#d5ddf0'; ctx.lineWidth = 0.5;
+      for (var y = 0; y < h; y += 28) { ctx.beginPath(); ctx.moveTo(30, y); ctx.lineTo(w - 20, y); ctx.stroke(); }
+      ctx.strokeStyle = 'rgba(220,120,120,0.2)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.moveTo(46, 0); ctx.lineTo(46, h); ctx.stroke();
+    } else if (currentPaper === 'grid') {
+      ctx.strokeStyle = '#e4e4e4'; ctx.lineWidth = 0.4;
+      for (var x = 20; x < w; x += 20) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (var y = 20; y < h; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+    } else if (currentPaper === 'dot') {
+      ctx.fillStyle = '#ccc';
+      for (var x = 20; x < w; x += 20) { for (var y = 20; y < h; y += 20) { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill(); } }
+    }
+  }
+
+  function generate() {
+    var text = textInput.value;
+    if (!text.trim()) { showToast('⚠️ Please enter text'); return; }
+
+    var fontFamily = fontFamilies[fontSelect.value];
+    var instr = instruments[instrumentSelect.value];
+    var fontSize = parseInt(fontSizeSlider.value);
+    var lineH = parseFloat(lineHeightSlider.value);
+    var jitterAmt = parseFloat(jitterSlider.value);
+    var color = inkColor.value;
+
+    // A4 proportions: 1 : 1.414
+    var paperW = 595;
+    var paperH = 842;
+    var margin = 48;  // ~12mm realistic margin
+    var padding = margin;
+    var lineSpacing = fontSize * lineH;
+    var maxWidth = paperW - margin * 2;
+
+    // Split + wrap
+    var rawLines = text.split('\n');
+    var lines = [];
+    rawLines.forEach(function(raw) {
+      if (!raw.trim()) { lines.push(''); return; }
+      var tc = document.createElement('canvas');
+      var tctx = tc.getContext('2d');
+      tctx.font = fontSize + 'px ' + fontFamily;
+      var cur = '';
+      for (var i = 0; i < raw.length; i++) {
+        var ch = raw[i];
+        var test = cur + ch;
+        if (tctx.measureText(test).width > maxWidth && cur.length > 0) {
+          lines.push(cur); cur = ch;
+        } else { cur = test; }
+      }
+      if (cur) lines.push(cur);
+    });
+
+    // Render at 2x for retina, fixed to A4 size
+    var dpr = 2;
+    canvas.width = paperW * dpr;
+    canvas.height = paperH * dpr;
+    canvas.style.width = '100%';
+    canvas.style.height = 'auto';
+    canvas.style.aspectRatio = '1 / 1.414';
+
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    drawPaper(ctx, paperW, paperH);
+
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    // Seed after paper texture (which uses Math.random for texture)
+    var rand = seededRandom(text.length + fontSize);
+
+    lines.forEach(function(line, li) {
+      if (!line) return;
+      var y = padding + li * lineSpacing + fontSize;
+      var x = padding + 8;
+
+      for (var ci = 0; ci < line.length; ci++) {
+        var ch = line[ci];
+        if (ch === '\r') continue;
+
+        // ── Per-character randomization ──
+        var cSize = fontSize * (instr.sizeV + rand() * (1 - instr.sizeV));
+        var tilt = instr.tilt[0] + rand() * (instr.tilt[1] - instr.tilt[0]);
+        var offY = instr.offY + (rand() - 0.5) * jitterAmt * instr.jitterM;
+        var offX = (rand() - 0.5) * jitterAmt * instr.jitterM;
+        var lw = instr.lineW[0] + rand() * (instr.lineW[1] - instr.lineW[0]);
+        var shBlur = instr.shadow[0] + rand() * (instr.shadow[1] - instr.shadow[0]);
+
+        ctx.save();
+        ctx.font = cSize + 'px ' + fontFamily;
+        ctx.translate(x + offX, y + offY);
+        ctx.rotate(tilt * Math.PI / 180);
+
+        // ── Stroke (simulates pen pressure / ink flow) ──
+        if (lw > 0.1) {
+          ctx.lineWidth = lw;
+          ctx.globalAlpha = 0.15 + rand() * 0.2;
+          ctx.strokeText(ch, 0, 0);
+          ctx.globalAlpha = 1;
+        }
+        // ── Shadow (ink bleed on paper) ──
+        if (shBlur > 0.1) {
+          ctx.shadowColor = color;
+          ctx.shadowBlur = shBlur;
+        }
+        // ── Fill (main character) ──
+        ctx.fillText(ch, 0, 0);
+
+        ctx.restore();
+
+        ctx.font = fontSize + 'px ' + fontFamily;
+        x += ctx.measureText(ch).width * (0.9 + rand() * 0.2);
+
+        if (rand() > 0.93) x += rand() * 2;
+      }
+    });
+
+    emptyPreview.style.display = 'none';
+    canvas.style.display = 'block';
+    downloadBtn.disabled = false;
+  }
+
+  generateBtn.addEventListener('click', generate);
+
+  downloadBtn.addEventListener('click', function() {
+    if (canvas.toBlob) {
+      canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'handwriting_' + Date.now() + '.png';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        showToast('📥 Download');
+      }, 'image/png');
+    } else {
+      var link = document.createElement('a');
+      link.download = 'handwriting_' + Date.now() + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  });
+
+  // Init
+  textInput.value = 'Dear Alex：\n\n  Hello！Great to hear from you。\n\n  About Study Methods，I have a few suggestions。\n  First,，Read 30 minutes daily。\n  Second,，Summarize in your own words。\n\n  Learning is a marathon，isn\'t a sprint。\n  Stay patient，You will see results！\n\nWishing you progress！\n\nYour friend：Tom\n2024Year12Month';
+})();
+</script>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a><a href="../certificate-crafter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C5; Certificate Maker</a><a href="../flex-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C6; Social Achievement Card Maker</a><a href="../md-to-rich-text/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; Markdown to Rich Text</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none;">🛠 More Free Tools →</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

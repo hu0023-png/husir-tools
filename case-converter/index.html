@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Case &amp; Word Counter | HuSir Tools</title>
+<meta name="description" content="Convert text case (uppercase, lowercase, title, sentence, camelCase, snake_case, kebab-case) with live word, character, and reading-time counters. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/case-converter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Text Case & Word Counter">
+<meta property="og:description" content="Convert text case (uppercase, lowercase, title, sentence, camelCase, snake_case, kebab-case) with live word, character, and reading-time counters. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/case-converter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Text Case & Word Counter">
+<meta name="twitter:description" content="Convert text case (uppercase, lowercase, title, sentence, camelCase, snake_case, kebab-case) with live word, character, and reading-time counters. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btnrow .btn{padding:8px 14px;border-radius:9px;border:none;font-size:12.5px;font-weight:700;cursor:pointer;color:#fff;font-family:inherit}
+.b1{background:#7f1d1d}.b2{background:#1e40af}.b3{background:#4c1d95}.b4{background:#065f46}.b5{background:#9a3412}.b6{background:#0e7490}.b7{background:#78350f}.b8{background:#374151}
+.btnrow .btn:hover{filter:brightness(1.1)}
+.counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.counts div{background:#f8faff;border:1px solid #e6e9f5;border-radius:10px;padding:10px;text-align:center}
+.counts strong{display:block;font-size:20px;color:#4c1d95}
+.counts span{font-size:11px;color:#7c86a0}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Text Case & Word Counter",
+  "description": "Convert text case (uppercase, lowercase, title, sentence, camelCase, snake_case, kebab-case) with live word, character, and reading-time counters. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/case-converter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Title Case work here?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It follows the common US headline style: capitalize the first and last words plus every major word, and keep short articles, conjunctions, and prepositions (a, an, the, and, or, for, in, on, of, to, with…) lowercase in the middle."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⏱ How is reading time estimated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At the average adult reading speed of about 200 words per minute; speaking time uses about 130 words per minute."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why would I use camelCase or snake_case?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are naming conventions for code and data — camelCase for JavaScript-style variables, snake_case for file names and databases, kebab-case for URLs and CSS classes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my text uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — every transformation and count happens locally on your device, and the offline copy needs no internet."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Text Case & Word Counter", "item": "https://www.husir.org/tools/case-converter/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Text Case &amp; Word Counter</span></span></nav>
+
+<div class="title-wrap">
+<h1>🔤 Text Case &amp; Word Counter</h1>
+<p class="subtitle">Title / Sentence / camelCase · Word count + reading time</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Fix the case of any text in one click — UPPERCASE, lowercase, Title Case (AP-style headline rules), sentence case, camelCase, PascalCase, snake_case, and kebab-case — while live counters show characters, words, sentences, lines, and estimated reading time. Ideal for email subject lines, blog headlines, social posts, code identifiers, and proofreading your own writing.</p>
+<p>The converter runs entirely in your browser: paste sensitive drafts, cover letters, or notes and nothing is ever uploaded. The counters update as you type, and one click copies the result back to your clipboard.</p>
+<div class="faq">
+<p><strong>📰 How does Title Case work here?</strong><br>It follows the common US headline style: capitalize the first and last words plus every major word, and keep short articles, conjunctions, and prepositions (a, an, the, and, or, for, in, on, of, to, with…) lowercase in the middle.</p>
+<p><strong>⏱️ How is reading time estimated?</strong><br>At the average adult reading speed of about 200 words per minute; speaking time uses about 130 words per minute.</p>
+<p><strong>💻 Why would I use camelCase or snake_case?</strong><br>They are naming conventions for code and data — camelCase for JavaScript-style variables, snake_case for file names and databases, kebab-case for URLs and CSS classes.</p>
+<p><strong>🔒 Is my text uploaded?</strong><br>No — every transformation and count happens locally on your device, and the offline copy needs no internet.</p>
+</div>
+<div class="formula"><b>📐 Key formulas</b><br>
+Reading time = word count ÷ 200 words per minute<br>
+Speaking time = word count ÷ 130 words per minute<br>
+Characters count includes spaces unless noted; word count splits on whitespace
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>📝 Your Text</h3><button class="btn btn-ghost btn-sm" id="sampleBtn" type="button">Load sample</button></div>
+  <textarea id="txt" rows="8" placeholder="Paste or type your text here…" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;resize:vertical;line-height:1.6;outline:none"></textarea>
+  <div class="btnrow">
+    <button class="btn b1" data-c="upper">UPPERCASE</button>
+    <button class="btn b2" data-c="lower">lowercase</button>
+    <button class="btn b3" data-c="title">Title Case</button>
+    <button class="btn b4" data-c="sentence">Sentence case</button>
+    <button class="btn b5" data-c="camel">camelCase</button>
+    <button class="btn b6" data-c="pascal">PascalCase</button>
+    <button class="btn b7" data-c="snake">snake_case</button>
+    <button class="btn b8" data-c="kebab">kebab-case</button>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>📊 Counts</h3><button class="btn btn-primary btn-sm" id="copyBtn" type="button">📋 Copy result</button></div>
+  <div class="counts">
+    <div><strong id="cChars">0</strong><span>Characters</span></div>
+    <div><strong id="cNoSp">0</strong><span>Characters (no spaces)</span></div>
+    <div><strong id="cWords">0</strong><span>Words</span></div>
+    <div><strong id="cSent">0</strong><span>Sentences</span></div>
+    <div><strong id="cLines">0</strong><span>Lines</span></div>
+  </div>
+  <div style="margin-top:12px;font-size:13px;color:#475569">
+    Reading time: <strong id="readTime">0 min</strong> · Speaking time: <strong id="speakTime">0 min</strong>
+  </div>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../md-to-rich-text/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; Markdown to Rich Text</a><a href="../text-diff-checker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F50D; Text Diff Checker</a><a href="../resume-cover-letter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">📜 Resume &amp; Cover Letter Builder</a><a href="../url-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F517; URL Encoder &amp; Decoder</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var $=function(id){return document.getElementById(id);};
+var SAMPLE='The quick brown fox jumps over the lazy dog, and the busy programmer writes clean code. Did you know that text case tools also count your words and reading time?\n\nTry the buttons above: UPPERCASE, title case, camelCase, snake_case, and more.';
+function conv(txt,c){
+  if(c==='upper')return txt.toUpperCase();
+  if(c==='lower')return txt.toLowerCase();
+  if(c==='title')return titleCase(txt);
+  if(c==='sentence')return sentenceCase(txt);
+  if(c==='camel')return camelCase(txt,false);
+  if(c==='pascal')return camelCase(txt,true);
+  if(c==='snake')return joinCase(txt,'_');
+  if(c==='kebab')return joinCase(txt,'-');
+  return txt;
+}
+var SMALL={'a':1,'an':1,'the':1,'and':1,'or':1,'for':1,'nor':1,'but':1,'yet':1,'so':1,'at':1,'by':1,'in':1,'of':1,'on':1,'to':1,'up':1,'as':1,'if':1,'with':1};
+function cap(w){return w?w.charAt(0).toUpperCase()+w.slice(1).toLowerCase():w;}
+function titleCase(txt){
+  return txt.replace(/[A-Za-z0-9][A-Za-z0-9''-]*/g,function(w,i,s){
+    var prev=s.slice(0,i).trim().slice(-1);
+    var next=s.slice(i+w.length).trim().charAt(0);
+    var isFirst=prev===''||prev==='\n'||prev===':';
+    var isLast=next===''||next==='\n'||next===':'||next==='.'||next==='?'||next==='!';
+    var low=w.toLowerCase();
+    if(!isFirst&&!isLast&&SMALL[low])return low;
+    return cap(w);
+  });
+}
+function sentenceCase(txt){
+  return txt.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,function(m){return m.toUpperCase();});
+}
+function words(txt){return txt.trim().split(/\s+/).filter(Boolean);}
+function camelCase(txt,pascal){
+  var ws=words(txt);
+  if(ws.length===0)return '';
+  var out=ws.map(function(w,idx){
+    var parts=w.split(/[^A-Za-z0-9]+/).filter(Boolean);
+    var joined=parts.map(function(p,i){return i===0?p.toLowerCase():cap(p);}).join('');
+    return (idx===0&&!pascal)?joined.charAt(0).toLowerCase()+joined.slice(1):(joined.charAt(0).toUpperCase()+joined.slice(1));
+  });
+  var r=out.map(function(w,i){return i===0?w:cap(w);}).join('');
+  if(!pascal&&r)r=r.charAt(0).toLowerCase()+r.slice(1);
+  return r.replace(/\s+/g,'');
+}
+function joinCase(txt,sep){
+  var parts=txt.split(/[^A-Za-z0-9]+/).filter(Boolean);
+  return parts.map(function(p){return p.toLowerCase();}).join(sep);
+}
+function counts(){
+  var t=$('txt').value;
+  var n=t.length;
+  $('cChars').textContent=n;
+  $('cNoSp').textContent=t.replace(/\s/g,'').length;
+  var w=t.trim()?t.trim().split(/\s+/).length:0;
+  $('cWords').textContent=w;
+  var sent=t.split(/[.!?]+/).filter(function(s){return s.trim().length>0;}).length;
+  $('cSent').textContent=sent;
+  var lines=t?t.split('\n').length:0;
+  $('cLines').textContent=lines;
+  $('readTime').textContent=w===0?'0 min':Math.max(1,Math.round(w/200))+' min';
+  $('speakTime').textContent=w===0?'0 min':Math.max(1,Math.round(w/130))+' min';
+}
+document.querySelectorAll('.btnrow .btn').forEach(function(b){
+  b.addEventListener('click',function(){$('txt').value=conv($('txt').value,b.getAttribute('data-c'));counts();});
+});
+$('txt').addEventListener('input',counts);
+$('sampleBtn').addEventListener('click',function(){$('txt').value=SAMPLE;counts();});
+$('copyBtn').addEventListener('click',function(){
+  var t=$('txt').value;
+  if(!t)return;
+  function done(){var b=$('copyBtn');var old=b.textContent;b.textContent='✅ Copied!';setTimeout(function(){b.textContent=old;},1200);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(function(){fb(t,done);});}else{fb(t,done);}
+});
+function fb(t,done){
+  var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('sampleBtn').click();
+
+</script>
+</body>
+</html>

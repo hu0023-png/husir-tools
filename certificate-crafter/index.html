@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Certificate Maker &amp; Award Template Generator | HuSir Tools</title>
+<meta name="description" content="Create printable certificates and awards in your browser. No signup, no upload, works offline.">
+<link rel="canonical" href="https://www.husir.org/tools/certificate-crafter/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Certificate Maker & Award Template Generator">
+<meta property="og:description" content="Create printable certificates and awards in your browser. No signup, no upload, works offline.">
+<meta property="og:url" content="https://www.husir.org/tools/certificate-crafter/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Certificate Maker & Award Template Generator">
+<meta name="twitter:description" content="Create printable certificates and awards in your browser. No signup, no upload, works offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+}
+.app {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+header h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.col-form { flex: 0 0 320px; min-width: 280px; }
+.col-preview { flex: 1; min-width: 400px; }
+.panel {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.panel-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e6e73;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.template-item {
+  aspect-ratio: 1.414;
+  border: 2px solid #d2d2d7;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #86868b;
+  font-weight: 600;
+  text-align: center;
+  padding: 4px;
+}
+.template-item:hover { border-color: #0071e3; }
+.template-item.active { border-color: #0071e3; box-shadow: 0 0 0 2px rgba(0,113,227,0.2); }
+.tmpl-classic { background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%); border-color: #c9a96e; }
+.tmpl-modern { background: linear-gradient(135deg, #eaf2f8 0%, #d4e6f1 100%); border-color: #5b9bd5; }
+.tmpl-maroon { background: linear-gradient(135deg, #fdf2f2 0%, #f5d0d0 100%); border-color: #8b1a1a; }
+.tmpl-navy { background: linear-gradient(135deg, #1a2744 0%, #253a5e 100%); border-color: #c9a96e; color: #d4c48a; }
+.tmpl-green { background: linear-gradient(135deg, #eafaf1 0%, #d5f5e3 100%); border-color: #27ae60; }
+.tmpl-slate { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-color: #6c757d; }
+input[type="text"], textarea, select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #d2d2d7;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+  margin-bottom: 10px;
+}
+input:focus, textarea:focus, select:focus { border-color: #0071e3; }
+textarea { resize: vertical; min-height: 50px; }
+.field-label {
+  font-size: 12px;
+  color: #86868b;
+  margin-bottom: 4px;
+  display: block;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.btn-primary { background: #0071e3; color: #fff; width:100%; justify-content:center; }
+.btn-primary:hover { background: #0060c0; }
+.btn-outline {
+  background: #fff;
+  color: #0071e3;
+  border: 1.5px solid #0071e3;
+}
+.btn-outline:hover { background: #f0f7ff; }
+.btn-row { display: flex; gap: 8px; margin-top: 12px; }
+.btn-row .btn { flex: 1; justify-content: center; }
+.preview-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.cert-preview {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1.414;
+  border: 1px solid #e8e8ed;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.cert-preview.modern-font { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
+.cert-bg {
+  position: absolute;
+  inset: 0;
+}
+.cert-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10%;
+  text-align: center;
+}
+.cert-border {
+  position: absolute;
+  inset: 3%;
+  border: 1px solid rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+.cert-title {
+  font-size: clamp(14px, 3.5vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 8%;
+}
+.cert-body {
+  font-size: clamp(11px, 2.2vw, 17px);
+  line-height: 2;
+}
+.cert-name {
+  font-size: clamp(16px, 4vw, 32px);
+  font-weight: 700;
+  margin: 4% 0;
+}
+.cert-date {
+  font-size: clamp(10px, 1.8vw, 14px);
+  margin-top: 8%;
+  color: #555;
+}
+.cert-seal {
+  position: absolute;
+  right: 10%;
+  bottom: 12%;
+  width: clamp(50px, 12vw, 90px);
+  height: clamp(50px, 12vw, 90px);
+  border-radius: 50%;
+  border: 3px solid rgba(180,50,50,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-15deg);
+  color: rgba(180,50,50,0.7);
+  font-size: clamp(8px, 1.5vw, 12px);
+  font-weight: 700;
+  pointer-events: none;
+  text-align: center;
+  line-height: 1.2;
+}
+.empty-state {
+  text-align: center;
+  color: #86868b;
+  padding: 60px 0;
+  font-size: 14px;
+}
+@media (max-width: 700px) {
+  .row { flex-direction: column; }
+  .col-form { flex: 1; }
+  .template-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Certificate Maker",
+  "description": "Create printable certificates and awards in your browser. No signup, no upload, works offline.",
+  "url": "https://www.husir.org/tools/certificate-crafter/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I print it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — download the PNG and print on US Letter or A4; use the fit-to-page option in your printer settings for best results."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I edit the text after downloading?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Text becomes part of the exported image, so make changes in the page and download again before sending it out."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it suitable for official awards?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is great for school, class, community, and internal awards. For legal or accredited documents, use your organization's official template."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What details should I include?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A clear award title, the recipient's name, what it is for, the date, and the issuing organization or signature line."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Certificate Maker", "item": "https://www.husir.org/tools/certificate-crafter/"}]}</script>
+</head>
+<body>
+<div class="app">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Certificate Maker</span></span></nav>
+
+  <header>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3" ry="3"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><path d="M9 15c.83.67 1.83 1 3 1s2.17-.33 3-1"/></svg>
+    <h1>Certificate Maker</h1>
+  </header>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Design and print polished certificates in minutes — completion, appreciation, achievement, or awards. Fill in the title, recipient, description, award name, date, and issuing organization, choose a template style, then download a high-quality image you can print or email.</p>
+<p>Everything happens on your device with no account and no upload, which makes it convenient for teachers, coaches, small businesses, churches, and event organizers who need a professional-looking certificate quickly.</p>
+<div class="faq">
+<p><strong>🖨️ Can I print it?</strong><br>Yes — download the PNG and print on US Letter or A4; use the fit-to-page option in your printer settings for best results.</p>
+<p><strong>✏️ Can I edit the text after downloading?</strong><br>Text becomes part of the exported image, so make changes in the page and download again before sending it out.</p>
+<p><strong>📜 Is it suitable for official awards?</strong><br>It is great for school, class, community, and internal awards. For legal or accredited documents, use your organization's official template.</p>
+<p><strong>🧾 What details should I include?</strong><br>A clear award title, the recipient's name, what it is for, the date, and the issuing organization or signature line.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+US Letter: 8.5 × 11 inches · A4: 210 × 297 mm<br>Export at the page's full resolution for clean printing<br>Keep roughly a 1-inch margin so printers do not crop the border
+</div>
+</div>
+</details>
+
+<div class="row">
+    <div class="col-form">
+      <div class="panel">
+        <div class="panel-label">Templates</div>
+        <div class="template-grid" id="templateGrid">
+          <div class="template-item tmpl-classic active" data-template="classic">Classic<br>Gold</div>
+          <div class="template-item tmpl-modern" data-template="modern">Modern<br>Blue</div>
+          <div class="template-item tmpl-maroon" data-template="maroon">Honor<br>Roll</div>
+          <div class="template-item tmpl-navy" data-template="navy">Presidential</div>
+          <div class="template-item tmpl-green" data-template="green">Fresh<br>Green</div>
+          <div class="template-item tmpl-slate" data-template="slate">Minimal<br>Slate</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Certificate Content</div>
+        <label class="field-label">Title</label>
+        <input type="text" id="certTitle" value="Certificate of Achievement" placeholder="Certificate title">
+        <label class="field-label">Recipient</label>
+        <input type="text" id="certName" value="John Smith" placeholder="Name or group">
+        <label class="field-label">Description</label>
+        <textarea id="certDesc" rows="2" placeholder="Describe the achievement...">In recognition of outstanding performance and dedication, is hereby awarded the</textarea>
+        <label class="field-label">Award Name</label>
+        <input type="text" id="certAward" value="Excellence Award" placeholder="Award name">
+        <label class="field-label">Date</label>
+        <input type="text" id="certDate" value="June 15, 2026" placeholder="Date">
+        <label class="field-label">Issuing Organization</label>
+        <input type="text" id="certOrg" value="Lincoln Elementary School" placeholder="Organization">
+        <div class="btn-row">
+          <button class="btn btn-primary" id="downloadBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Hi-Res
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-preview">
+      <div class="panel">
+        <div class="panel-label">Live Preview</div>
+        <div class="preview-wrapper">
+          <div class="cert-preview" id="certPreview">
+            <div class="cert-bg" id="certBg"></div>
+            <div class="cert-border"></div>
+            <div class="cert-inner">
+              <div class="cert-title" id="previewTitle">Certificate of Achievement</div>
+              <div class="cert-body" id="previewBody"></div>
+              <div class="cert-date" id="previewDate"></div>
+            </div>
+            <div class="cert-seal" id="certSeal"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Libraries are fetched from several CDNs in turn: cdn.jsdelivr.net is unreachable
+   on some networks (many China ISPs block or throttle it), and a library that never
+   arrived used to mean the tool failed silently -- Export did nothing, the chart
+   never drew, the preview stayed blank. Now a failed host falls through to the next,
+   and a call made before the library arrives is queued instead of being lost. */
+window.husirLib=(function(){var L={"html2canvas": ["https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"]},ready={},waiting={};
+function mark(n){ready[n]=!0;var q=waiting[n]||[];waiting[n]=[];for(var i=0;i<q.length;i++){try{q[i]()}catch(e){}}}
+function attempt(n,i){var a=L[n];if(i>=a.length)return;var s=document.createElement('script'),done=!1;
+function drop(){if(s.parentNode)s.parentNode.removeChild(s)}
+var t=setTimeout(function(){if(done)return;done=!0;drop();attempt(n,i+1)},8000);
+s.onload=function(){if(done)return;done=!0;clearTimeout(t);mark(n)};
+s.onerror=function(){if(done)return;done=!0;clearTimeout(t);drop();attempt(n,i+1)};
+s.src=a[i];document.head.appendChild(s)}
+for(var n in L){if(window[n])ready[n]=!0;else attempt(n,0)}
+return{isReady:function(n){return!!ready[n]},when:function(n,f){if(ready[n]){f();return}var q=waiting[n]=waiting[n]||[];if(q.indexOf(f)<0)q.push(f)}}})();
+</script>
+<script>
+/* html2canvas is always called with await/.then, so a call that arrives before the
+   library does can wait for it instead of throwing "html2canvas is not defined". */
+(function(){var n='html2canvas';if(window[n])return;
+var proxy=function(){var a=arguments,self=this;
+if(window[n]&&window[n]!==proxy)return window[n].apply(self,a);
+return new Promise(function(res,rej){var done=!1;
+var t=setTimeout(function(){if(done)return;done=!0;rej(new Error('html2canvas could not be downloaded - check your internet connection'))},30000);
+window.husirLib.when(n,function(){if(done)return;done=!0;clearTimeout(t);
+if(window[n]&&window[n]!==proxy){try{res(window[n].apply(self,a))}catch(e){rej(e)}}else{rej(new Error('html2canvas failed to load'))}})})};
+window[n]=proxy})();
+</script>
+<script>
+(function() {
+  const templateGrid = document.getElementById('templateGrid');
+  const certPreview = document.getElementById('certPreview');
+  const certBg = document.getElementById('certBg');
+  const previewTitle = document.getElementById('previewTitle');
+  const previewBody = document.getElementById('previewBody');
+  const previewDate = document.getElementById('previewDate');
+  const certSeal = document.getElementById('certSeal');
+
+  const inputs = {
+    certTitle: document.getElementById('certTitle'),
+    certName: document.getElementById('certName'),
+    certDesc: document.getElementById('certDesc'),
+    certAward: document.getElementById('certAward'),
+    certDate: document.getElementById('certDate'),
+    certOrg: document.getElementById('certOrg')
+  };
+
+  let currentTemplate = 'classic';
+
+  const templateStyles = {
+    classic: {
+      bg: 'linear-gradient(135deg, #fef9e7 0%, #fdebd0 50%, #fef9e7 100%)',
+      font: 'Georgia, "Times New Roman", serif',
+      titleColor: '#8b6914',
+      textColor: '#5d4e37',
+      borderColor: 'rgba(201,169,110,0.3)',
+      sealColor: 'rgba(180,50,50,0.55)',
+      badge: ''
+    },
+    modern: {
+      bg: 'linear-gradient(135deg, #eaf2f8 0%, #d4e6f1 50%, #eaf2f8 100%)',
+      font: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif',
+      titleColor: '#2c6faa',
+      textColor: '#34495e',
+      borderColor: 'rgba(91,155,213,0.25)',
+      sealColor: 'rgba(44,111,170,0.55)',
+      badge: 'modern-font'
+    },
+    maroon: {
+      bg: 'linear-gradient(135deg, #fdf2f2 0%, #f5d0d0 50%, #fdf2f2 100%)',
+      font: 'Georgia, "Times New Roman", serif',
+      titleColor: '#8b1a1a',
+      textColor: '#4a1515',
+      borderColor: 'rgba(139,26,26,0.25)',
+      sealColor: 'rgba(139,26,26,0.55)',
+      badge: ''
+    },
+    navy: {
+      bg: 'linear-gradient(135deg, #1a2744 0%, #253a5e 50%, #1a2744 100%)',
+      font: 'Georgia, "Times New Roman", serif',
+      titleColor: '#d4c48a',
+      textColor: '#b8c8d8',
+      borderColor: 'rgba(201,169,110,0.3)',
+      sealColor: 'rgba(201,169,110,0.5)',
+      badge: ''
+    },
+    green: {
+      bg: 'linear-gradient(135deg, #eafaf1 0%, #d5f5e3 50%, #eafaf1 100%)',
+      font: 'Georgia, "Times New Roman", serif',
+      titleColor: '#1e8449',
+      textColor: '#145a32',
+      borderColor: 'rgba(39,174,96,0.25)',
+      sealColor: 'rgba(39,174,96,0.5)',
+      badge: ''
+    },
+    slate: {
+      bg: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%)',
+      font: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif',
+      titleColor: '#343a40',
+      textColor: '#495057',
+      borderColor: 'rgba(108,117,125,0.25)',
+      sealColor: 'rgba(108,117,125,0.45)',
+      badge: 'modern-font'
+    }
+  };
+
+  templateGrid.addEventListener('click', function(e) {
+    const item = e.target.closest('.template-item');
+    if (!item) return;
+    document.querySelectorAll('.template-item').forEach(t => t.classList.remove('active'));
+    item.classList.add('active');
+    currentTemplate = item.dataset.template;
+    applyTemplate();
+  });
+
+  function applyTemplate() {
+    const style = templateStyles[currentTemplate];
+    certBg.style.background = style.bg;
+    certPreview.style.fontFamily = style.font;
+    previewTitle.style.color = style.titleColor;
+    previewBody.style.color = style.textColor;
+    previewDate.style.color = style.textColor;
+    certSeal.style.color = style.sealColor;
+    certSeal.style.borderColor = style.sealColor;
+    certPreview.classList.remove('modern-font');
+    if (style.badge) certPreview.classList.add(style.badge);
+  }
+
+  function updatePreview() {
+    const desc = inputs.certDesc.value || '';
+    const name = inputs.certName.value || '______';
+    const award = inputs.certAward.value || '______';
+    const org = inputs.certOrg.value || '';
+
+    previewTitle.textContent = inputs.certTitle.value || 'Certificate of Achievement';
+    previewBody.innerHTML = desc + '<br><span class="cert-name">' + name + '</span><br>' + award;
+    previewDate.innerHTML = (org ? org + '<br>' : '') + (inputs.certDate.value || '');
+    certSeal.textContent = org ? org.substring(0, 12) : 'SEAL';
+  }
+
+  Object.values(inputs).forEach(el => {
+    el.addEventListener('input', updatePreview);
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', function() {
+    html2canvas(certPreview, {
+      scale: 3,
+      backgroundColor: null,
+      useCORS: true
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'certificate_' + (inputs.certName.value || 'recipient').replace(/\s+/g, '_') + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(() => {
+      alert('Export failed. Please try again.');
+    });
+  });
+
+  applyTemplate();
+  updatePreview();
+})();
+</script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:#999;font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#999'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#0f172a;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid #ddd"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:#999;text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#999'">☕ Buy me a coffee</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../handwriting-gen/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x270D;&#xFE0F; Handwriting Generator</a><a href="../flex-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C6; Social Achievement Card Maker</a><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

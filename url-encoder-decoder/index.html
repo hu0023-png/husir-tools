@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F517; URL Encoder &amp; Decoder | HuSir Tools</title>
+<meta name="description" content="Percent-encode or decode URLs and query strings instantly in your browser. Handles Unicode, spaces, and reserved characters. Private, offline, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/url-encoder-decoder/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🔗 URL Encoder & Decoder">
+<meta property="og:description" content="Percent-encode or decode URLs and query strings instantly in your browser. Handles Unicode, spaces, and reserved characters. Private, offline, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/url-encoder-decoder/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🔗 URL Encoder & Decoder">
+<meta name="twitter:description" content="Percent-encode or decode URLs and query strings instantly in your browser. Handles Unicode, spaces, and reserved characters. Private, offline, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:12px 0 4px;font-weight:600;display:block}
+textarea{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.55;outline:none;background:#fafbfc;resize:vertical;min-height:130px;color:#1a1a2e}
+textarea:focus{border-color:#667eea;background:#fff}
+textarea[readonly]{background:#f8faff;border-color:#e6e9f5}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btnrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.mode-seg{display:inline-flex;background:#eef0f7;border-radius:10px;padding:4px;gap:4px;flex-wrap:wrap}
+.mode-seg button{border:none;background:transparent;padding:9px 18px;border-radius:8px;font-size:13.5px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit}
+.mode-seg button.active{background:#fff;color:#4c1d95;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.chk{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#334155;cursor:pointer;padding:4px 0}
+.chk input{width:auto;accent-color:#667eea;margin:0}
+.status{font-size:12.5px;color:#10b981;font-weight:600}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:10px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.mode-seg button{padding:8px 12px}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🔗 URL Encoder & Decoder",
+  "description": "Percent-encode or decode URLs and query strings instantly in your browser. Handles Unicode, spaces, and reserved characters. Private, offline, no upload.",
+  "url": "https://www.husir.org/tools/url-encoder-decoder/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "❓ What is the difference between %20 and +?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In URL paths, a space is %20. In query strings (?q=…), some systems also accept + as a space. This page encodes spaces as %20; when decoding you can optionally convert + back to a space."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🌍 Will Chinese, emoji, or accents work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Each character is turned into UTF-8 bytes, then each byte becomes %XX. “你好🌍” becomes %E4%BD%A0%E5%A5%BD%F0%9F%8C%8D."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Why are reserved characters escaped?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Characters like &, =, ?, and # split a URL into parts. If a search value contains them, they must be escaped or the server will misread the query string."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔁 Should I encode a whole URL at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually not. Encode the path segment and each parameter value separately, keeping the ://, ?, &, and = separators intact. This tool encodes a single component, so it is perfect for that job."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "⚠️ Why does decoding leave some % unchanged?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Malformed escapes such as %ZZ or an incomplete %E4 cannot be converted; this page keeps them as-is and flags the error instead of producing broken text."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🛠️ Does this tool open or track my links?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Encoding and decoding happen locally on your device, and the page makes no network requests."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "URL Encoder & Decoder", "item": "https://www.husir.org/tools/url-encoder-decoder/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">URL Encoder &amp; Decoder</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F517; URL Encoder &amp; Decoder</h1>
+<p class="subtitle">Percent-encode &amp; decode &middot; query-string aware &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<!-- INFO BLOCK (reusable page template) -->
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>A URL may only contain a limited set of ASCII characters. Spaces, Chinese characters, emoji, and punctuation such as <code>&amp;</code>, <code>=</code>, <code>#</code>, or <code>%</code> must be &#8220;percent-encoded&#8221; before the URL is sent. This tool encodes and decodes text entirely in your browser: type a value to see its encoded form, or paste an encoded string to read the original text.</p>
+<p>Typical uses: preparing query parameters for an API, building a link that contains Chinese or emoji, converting a filename with spaces into a download link, or decoding tracking URLs and analytics links to see what they really contain. The encoder follows the component rules used by <code>encodeURIComponent</code> (a space becomes <code>%20</code>; reserved characters like <code>&amp;</code> and <code>=</code> are escaped). Nothing is uploaded &#8212; the page works offline with zero network calls.</p>
+<div class="faq">
+<p><strong>&#x2753; What is the difference between %20 and +?</strong><br>In URL <em>paths</em>, a space is <code>%20</code>. In <em>query strings</em> (<code>?q=&#8230;</code>), some systems also accept <code>+</code> as a space. This page encodes spaces as <code>%20</code>; when decoding you can optionally convert <code>+</code> back to a space.</p>
+<p><strong>&#x1F30D; Will Chinese, emoji, or accents work?</strong><br>Yes. Each character is turned into UTF-8 bytes, then each byte becomes <code>%XX</code>. &#8220;&#x4F60;&#x597D;&#x1F30D;&#8221; becomes <code>%E4%BD%A0%E5%A5%BD%F0%9F%8C%8D</code>.</p>
+<p><strong>&#x1F512; Why are reserved characters escaped?</strong><br>Characters like <code>&amp;</code>, <code>=</code>, <code>?</code>, and <code>#</code> split a URL into parts. If a search value contains them, they must be escaped or the server will misread the query string.</p>
+<p><strong>&#x1F501; Should I encode a whole URL at once?</strong><br>Usually not. Encode the path segment and each parameter <em>value</em> separately, keeping the <code>://</code>, <code>?</code>, <code>&amp;</code>, and <code>=</code> separators intact. This tool encodes a single component, so it is perfect for that job.</p>
+<p><strong>&#x26A0;&#xFE0F; Why does decoding leave some % unchanged?</strong><br>Malformed escapes such as <code>%ZZ</code> or an incomplete <code>%E4</code> cannot be converted; this page keeps them as-is and flags the error instead of producing broken text.</p>
+<p><strong>&#x1F6E0;&#xFE0F; Does this tool open or track my links?</strong><br>Never. Encoding and decoding happen locally on your device, and the page makes no network requests.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Quick reference</b><br>
+Space = <code>%20</code> &nbsp; &middot; &nbsp; <code>&amp;</code> = <code>%26</code> &nbsp; &middot; &nbsp; <code>=</code> = <code>%3D</code> &nbsp; &middot; &nbsp; <code>#</code> = <code>%23</code> &nbsp; &middot; &nbsp; <code>%</code> = <code>%25</code><br>
+Unreserved A&#8211;Z a&#8211;z 0&#8211;9 <code>-</code> <code>_</code> <code>.</code> <code>~</code> stay unchanged<br>
+UTF-8: &#8220;&#x4F60;&#8221; (&#20320;) &#8594; <code>%E4%BD%A0</code> &#8230; &#8220;caf&#233;&#8221; &#8594; <code>caf%C3%A9</code>
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F504; Mode</h3><span class="status" style="color:#98a1b3;font-weight:400">100% local &#183; nothing uploaded</span></div>
+  <div class="mode-seg" role="tablist">
+    <button type="button" id="modeEnc" class="active">&#x2B07;&#xFE0F; Encode</button>
+    <button type="button" id="modeDec">&#x2B06;&#xFE0F; Decode</button>
+  </div>
+  <label class="field-label" id="inputLabel" for="input">Text to percent-encode</label>
+  <textarea id="input" spellcheck="false" placeholder="e.g. https://example.com/search?q=你好 world 100% fresh&page=1"></textarea>
+  <div class="btnrow">
+    <button class="btn btn-ghost" id="sampleBtn" type="button">&#x27F3; Try an example</button>
+    <button class="btn btn-ghost" id="swapBtn" type="button">&#x21C5; Send result to input</button>
+    <label class="chk" id="plusWrap"><input type="checkbox" id="plus"> Treat + as space when decoding (query style)</label>
+  </div>
+  <label class="field-label" for="output">Result</label>
+  <textarea id="output" readonly spellcheck="false" placeholder="Result appears here as you type"></textarea>
+  <div class="btnrow">
+    <button class="btn btn-primary" id="copyBtn" type="button">&#x1F4CB; Copy result</button>
+    <span class="status" id="status"></span>
+  </div>
+  <p class="hint">Encoding/decoding happens live on your device &#8212; your text never leaves this page.</p>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../base64-encoder-decoder/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F521; Base64 Encoder &amp; Decoder</a><a href="../json-yaml-formatter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E6; JSON &amp; YAML Formatter</a><a href="../regex-tester/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9EA; Regex Tester</a><a href="../password-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F511; Password Generator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var ENC_SAMPLE='https://example.com/search?q=你好 world 100% fresh&page=1';
+var DEC_SAMPLE='https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%E4%BD%A0%E5%A5%BD%20world%20100%25%20fresh%26page%3D1';
+
+function setMode(enc){
+  $('modeEnc').classList.toggle('active',enc);
+  $('modeDec').classList.toggle('active',!enc);
+  $('inputLabel').textContent=enc?'Text to percent-encode':'Percent-encoded string to decode';
+  $('sampleBtn').textContent=enc?'⟳ Try a text example':'⟳ Try an encoded example';
+  $('plusWrap').style.display=enc?'none':'inline-flex';
+  convert();
+}
+function encodeStr(s){
+  return encodeURIComponent(s).replace(/[!'()*]/g,function(c){
+    return '%'+c.charCodeAt(0).toString(16).toUpperCase();
+  });
+}
+function decodeStr(s){
+  if($('plus').checked){s=s.replace(/\+/g,' ');}
+  try{return {ok:true,value:decodeURIComponent(s)};}
+  catch(e){
+    var out=s.replace(/%[0-9A-Fa-f]{2}/g,function(m){
+      return String.fromCharCode(parseInt(m.slice(1),16));
+    });
+    return {ok:false,value:out};
+  }
+}
+function convert(){
+  var raw=$('input').value;
+  var out=$('output'),msg='';
+  if(!raw){out.value='';return;}
+  var enc=$('modeEnc').classList.contains('active');
+  if(enc){
+    out.value=encodeStr(raw);
+  }else{
+    var r=decodeStr(raw);
+    out.value=r.value;
+    if(!r.ok){msg='Warning: some % escapes were invalid and were left unchanged.';}
+  }
+  $('status').textContent=msg;
+  $('status').style.color=msg?'#d97706':'#10b981';
+}
+function copyResult(){
+  var out=$('output');
+  if(!out.value){return;}
+  function done(){var st=$('status');st.textContent='✅ Copied!';st.style.color='#10b981';setTimeout(function(){st.textContent='';},1400);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(out.value).then(done).catch(function(){fallback(out.value,done);});
+  }else{fallback(out.value,done);}
+}
+function fallback(txt,done){
+  var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);done();
+}
+$('modeEnc').addEventListener('click',function(){setMode(true);});
+$('modeDec').addEventListener('click',function(){setMode(false);});
+$('input').addEventListener('input',convert);
+$('plus').addEventListener('change',convert);
+$('swapBtn').addEventListener('click',function(){
+  var v=$('output').value;
+  if(!v){return;}
+  $('input').value=v;
+  setMode(!$('modeEnc').classList.contains('active'));
+});
+$('sampleBtn').addEventListener('click',function(){
+  $('input').value=$('modeEnc').classList.contains('active')?ENC_SAMPLE:DEC_SAMPLE;
+  convert();
+});
+$('copyBtn').addEventListener('click',copyResult);
+setMode(true);
+</script>
+</body>
+</html>

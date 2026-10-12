@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Receipt Generator — Custom Receipt Maker | HuSir Tools</title>
+<meta name="description" content="Make playful fake receipt templates for pranks, jokes, and gag gifts. For entertainment only, never valid as proof of purchase. No upload, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/receipt-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Receipt Generator — Custom Receipt Maker">
+<meta property="og:description" content="Make playful fake receipt templates for pranks, jokes, and gag gifts. For entertainment only, never valid as proof of purchase. No upload, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/receipt-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Receipt Generator — Custom Receipt Maker">
+<meta name="twitter:description" content="Make playful fake receipt templates for pranks, jokes, and gag gifts. For entertainment only, never valid as proof of purchase. No upload, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC",sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+.app h1{text-align:center;font-size:26px;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,#10b981,#06b6d4,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.app .sub{text-align:center;font-size:13px;color:#666;margin-bottom:28px}
+
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.tpl-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 16px;cursor:pointer;transition:all 0.25s;text-align:center}
+.tpl-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
+.tpl-card .tpl-icon{font-size:36px;margin-bottom:8px;display:block}
+.tpl-card .tpl-name{font-size:14px;font-weight:700;color:#ddd}
+.tpl-card .tpl-desc{font-size:11px;color:#888;margin-top:4px}
+
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:10000;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:60px 8px 40px}
+.overlay.show{display:flex}
+.overlay .top-bar{position:fixed;top:0;left:0;right:0;z-index:1001;background:rgba(0,0,0,0.95);padding:8px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.top-bar .btn-back{font-size:16px;padding:6px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;cursor:pointer;font-family:inherit}
+.top-bar .btn-save{padding:8px 16px;background:linear-gradient(135deg,#10b981,#06b6d4);border:none;color:#fff;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+.top-bar span{flex:1;font-size:14px;color:#aaa}
+
+.editor{display:flex;gap:20px;align-items:flex-start;max-width:900px;width:100%}
+.preview-area{flex-shrink:0;display:flex;justify-content:center}
+.receipt{width:300px;background:#fffef9;color:#1a1a1a;font-family:'Courier New','SF Mono',monospace;font-size:11px;line-height:1.5;padding:24px 18px 20px;box-shadow:0 4px 20px rgba(0,0,0,0.3);border-radius:2px;min-height:200px}
+.receipt .center{text-align:center}
+.receipt .bold{font-weight:700}
+.receipt .divider{border:none;border-top:1px dashed #999;margin:8px 0}
+.receipt .divider-dot{border:none;border-top:1px dotted #ccc;margin:6px 0}
+.receipt .right{text-align:right}
+.receipt .item-row{display:flex;justify-content:space-between;padding:1px 0}
+.receipt .item-qty{width:24px;text-align:center;flex-shrink:0}
+.receipt .item-name{flex:1;padding:0 4px}
+.receipt .item-price{text-align:right;min-width:50px}
+.receipt .barcode{font-family:'Libre Barcode 39',monospace;font-size:28px;text-align:center;letter-spacing:2px;margin:8px 0;overflow:hidden}
+.receipt .barcode-fallback{text-align:center;padding:8px 0;background:repeating-linear-gradient(90deg,#1a1a1a 0,#1a1a1a 2px,transparent 2px,transparent 4px);height:40px;margin:6px 0;opacity:0.6}
+
+.controls{flex:1;max-height:70vh;overflow-y:auto;padding-right:8px}
+.controls .section{margin-bottom:14px}
+.controls label{display:block;font-size:12px;color:#999;margin-bottom:4px;font-weight:600}
+.controls input,.controls textarea{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;font-family:inherit;outline:none;resize:vertical}
+.controls textarea{min-height:50px;font-family:'Courier New',monospace;font-size:12px}
+.controls input:focus,.controls textarea:focus{border-color:#10b981}
+
+.mobile-save-btn{position:fixed;bottom:20px;right:20px;z-index:1001;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(16,185,129,0.4);display:none;align-items:center;justify-content:center}
+@media(max-width:700px){
+  .editor{flex-direction:column;align-items:center;gap:12px}
+  .receipt{width:260px;font-size:10px;padding:16px 12px 14px}
+  .controls{width:100%;max-height:none;overflow-y:visible;padding-bottom:20px}
+  .controls input,.controls textarea{font-size:16px}
+  .mobile-save-btn{display:none}
+  .overlay.show .mobile-save-btn{display:flex}
+}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+
+.export-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.export-overlay img{max-width:100%;max-height:100%;object-fit:contain}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Receipt Generator",
+  "description": "Make playful fake receipt templates for pranks, jokes, and gag gifts. For entertainment only, never valid as proof of purchase. No upload, no signup.",
+  "url": "https://www.husir.org/tools/receipt-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I use a generated receipt as proof of purchase?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the results are for entertainment only and must never be presented as real receipts for returns, taxes, or reimbursements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which templates exist?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Twelve realistic-style templates are included; browse the grid to find the scene you want."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I edit the details?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — change the fields shown for your chosen template and preview before downloading."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — everything is created locally on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is this good for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gag gifts, birthday laughs, and party games where everyone knows it is a joke — keep it playful and clearly fictional."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Receipt Generator", "item": "https://www.husir.org/tools/receipt-generator/"}]}</script>
+</head>
+<body>
+
+<div class="app">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Receipt Generator</span></span></nav>
+
+  <h1>🧾 Receipt Generator</h1>
+  <div class="sub">Prank Material Factory · 12 realistic templates · For entertainment only</div>
+    <div style="text-align:center;margin:12px 0 18px"><span style="display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:rgba(17,24,39,.62);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 14px">&#x1F512; Local Processing &mdash; files never leave your device</span></div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Generate a realistic-looking receipt in seconds for pranks and jokes. Twelve templates cover everyday shopping, dining, and service scenes, making it perfect for gag gifts, birthday laughs, and party entertainment.</p>
+<p>The tool runs entirely in your browser: nothing is uploaded, no account is needed, and the output is clearly for entertainment only. Fill in the fields, preview, and download as a PNG.</p>
+<div class="faq">
+<p><strong>🧾 Can I use a generated receipt as proof of purchase?</strong><br>No — the results are for entertainment only and must never be presented as real receipts for returns, taxes, or reimbursements.</p>
+<p><strong>🎨 Which templates exist?</strong><br>Twelve realistic-style templates are included; browse the grid to find the scene you want.</p>
+<p><strong>✏️ Can I edit the details?</strong><br>Yes — change the fields shown for your chosen template and preview before downloading.</p>
+<p><strong>🔒 Is my data uploaded?</strong><br>No — everything is created locally on your device.</p>
+<p><strong>🎁 What is this good for?</strong><br>Gag gifts, birthday laughs, and party games where everyone knows it is a joke — keep it playful and clearly fictional.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+12 realistic templates · PNG output<br>For entertainment only — not valid as proof of purchase<br>Add a playful note so nobody mistakes it for a real receipt
+</div>
+</div>
+</details>
+
+<div class="tpl-grid" id="tpl-grid"></div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="top-bar">
+    <button class="btn-back" onclick="closeEditor()">← Back to templates</button>
+    <span id="editor-title"></span>
+    <button class="btn-save" onclick="exportImage()">📥 Save Image</button>
+  </div>
+  <button class="mobile-save-btn" id="mobile-save-btn" onclick="exportImage()">💾</button>
+  <div class="editor">
+    <div class="preview-area"><div class="receipt" id="receipt"></div></div>
+    <div class="controls" id="editor-controls"></div>
+  </div>
+</div>
+
+<script>
+var templates = [
+  {
+    id:'seven',icon:'🏪',name:'7-ELEVEN',desc:'Convenience Store',
+    defaults:{s7_store:'NO.0721',s7_addr:'350 5th Ave, New York, NY 10118',s7_date:'2026-07-18 14:32',s7_items:'Arizona Green Tea    1   1.99\nLay\'s Classic Chips  1   2.49\nHot Dog(Big Bite)    2   2.99\nTuna Sandwich        1   4.99\nBIC Lighter          1   2.29',s7_total:'14.76',s7_pay:'Visa ****8842'},
+    fields:[
+      {key:'s7_store',label:'Store No.'},{key:'s7_addr',label:'Store Address'},
+      {key:'s7_date',label:'Date & Time'},{key:'s7_items',label:'Items (per line: Name Qty Price)',type:'textarea'},
+      {key:'s7_total',label:'Total'},{key:'s7_pay',label:'Payment'}
+    ],
+    render:function(d){
+      var items=d.s7_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:16px;color:#e32b2b;letter-spacing:3px">7-ELEVEN</div>';
+      h+='<div class="center" style="font-size:9px;margin:2px 0">Open 24/7</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Store: '+d.s7_store+'</div><div style="font-size:9px">Addr: '+d.s7_addr+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.s7_date+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div style="font-size:9px;margin-bottom:4px">Item               Qty  Price</div>';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">'+it.qty+'</span><span class="item-price">'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold"><span>Total</span><span>$'+d.s7_total+'</span></div>';
+      h+='<div style="font-size:9px;margin-top:4px">Pay: '+d.s7_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:9px">All sales final · No refunds</div>';
+      h+='<div class="barcode-fallback"></div>';
+      h+='<div class="center" style="font-size:8px;color:#999">'+d.s7_store+' '+d.s7_date.replace(' ',' ')+'</div>';
+      return h;
+    }
+  },
+  {
+    id:'mcd',icon:'🍔',name:"McDonald's",desc:'Fast Food',
+    defaults:{mcd_store:'NO.0886',mcd_order:'#A8821',mcd_date:'2026-07-18 18:45',mcd_type:'Dine-in',mcd_items:'Big Mac Meal(Med)   1  10.99\nMcChicken           1   5.49\n6pc McNuggets       1   5.99\nCoca-Cola(Lg)       1   2.49\nApple Pie           2   2.98',mcd_total:'27.94',mcd_pay:'Apple Pay'},
+    fields:[
+      {key:'mcd_store',label:'Store No.'},{key:'mcd_order',label:'Order No.'},
+      {key:'mcd_date',label:'Date & Time'},{key:'mcd_type',label:'Dine-in/Takeout'},
+      {key:'mcd_items',label:'Items',type:'textarea'},{key:'mcd_total',label:'Total'},{key:'mcd_pay',label:'Payment'}
+    ],
+    render:function(d){
+      var items=d.mcd_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:15px;color:#da291c">McDonald\'s</div>';
+      h+='<div class="center" style="font-size:8px;color:#da291c">i\'m lovin\' it</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Store: '+d.mcd_store+' | '+d.mcd_type+'</div>';
+      h+='<div style="font-size:9px">Order: '+d.mcd_order+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.mcd_date+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div style="font-size:9px;margin-bottom:4px">Item               Qty  Amount</div>';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold"><span>Total</span><span>$'+d.mcd_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.mcd_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Thank you · Come again soon</div>';
+      h+='<div class="center" style="font-size:8px;color:#999">Please keep receipt for inquiries</div>';
+      return h;
+    }
+  },
+  {
+    id:'starbucks',icon:'☕',name:'Starbucks',desc:'Coffee Shop',
+    defaults:{sb_store:'5th Ave & 42nd St',sb_date:'2026-07-18 15:20',sb_order:'SB-20260718-4281',sb_items:'Caffe Latte(Venti/Hot)  1   5.95\nMatcha Frapp(Grande)    1   5.75\nNY Cheesecake           1   4.95',sb_total:'16.65',sb_stars:'3',sb_pay:'Starbucks Card'},
+    fields:[
+      {key:'sb_store',label:'Store Name'},{key:'sb_date',label:'Date & Time'},{key:'sb_order',label:'Order No.'},
+      {key:'sb_items',label:'Items',type:'textarea'},{key:'sb_total',label:'Total'},
+      {key:'sb_stars',label:'Stars Earned'},{key:'sb_pay',label:'Payment'}
+    ],
+    render:function(d){
+      var items=d.sb_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:14px;color:#00704a">STARBUCKS</div>';
+      h+='<div class="center" style="font-size:8px;color:#00704a">Starbucks Coffee</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Store: '+d.sb_store+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.sb_date+'</div>';
+      h+='<div style="font-size:9px">Order: '+d.sb_order+'</div>';
+      h+='<hr class="divider-dot">';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold"><span>Total</span><span>$'+d.sb_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.sb_pay+'</div>';
+      h+='<div style="font-size:9px">⭐ Earned '+d.sb_stars+' Stars this visit</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Thank you for your visit</div>';
+      return h;
+    }
+  },
+  {
+    id:'supermarket',icon:'🛒',name:'Supermarket',desc:'Grocery Shopping',
+    defaults:{sm_name:'Walmart Supercenter',sm_date:'2026-07-18 11:15',sm_cashier:'0821',sm_items:'Great Value Milk 1gal  1   3.49\nLarge Eggs(12ct)       1   4.29\nTomatoes(Roma)         4   3.16\nPork Belly(1.5lb)      1   8.97\nJasmine Rice(5lb)      1   7.98\nKikkoman Soy Sauce     1   4.49',sm_total:'32.38',sm_pay:'Visa ****8842',sm_discount:'-3.00'},
+    fields:[
+      {key:'sm_name',label:'Store Name'},{key:'sm_date',label:'Date & Time'},{key:'sm_cashier',label:'Cashier No.'},
+      {key:'sm_items',label:'Items',type:'textarea'},{key:'sm_discount',label:'Discount'},
+      {key:'sm_total',label:'Paid'},{key:'sm_pay',label:'Payment'}
+    ],
+    render:function(d){
+      var items=d.sm_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:15px">'+d.sm_name+'</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Time: '+d.sm_date+' Cashier: '+d.sm_cashier+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div style="font-size:9px;margin-bottom:4px">Item               Qty  Price</div>';
+      var subtotal=0;
+      items.forEach(function(it){var lineTotal=parseFloat(it.price)*parseInt(it.qty);subtotal+=lineTotal;
+        h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">'+it.qty+'</span><span class="item-price">'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row"><span>Subtotal</span><span>$'+subtotal.toFixed(2)+'</span></div>';
+      if(d.sm_discount && d.sm_discount!=='0') h+='<div class="item-row" style="color:#e32b2b"><span>Discount</span><span>'+d.sm_discount+'</span></div>';
+      h+='<div class="item-row bold" style="font-size:12px"><span>Total</span><span>$'+d.sm_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.sm_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Returns within 7 days with receipt for quality issues</div>';
+      h+='<div class="center" style="font-size:8px">Customer Service: 1-800-555-0199</div>';
+      return h;
+    }
+  },
+  {
+    id:'doordash',icon:'🥡',name:'DoorDash',desc:'Food Delivery',
+    defaults:{mt_shop:"Joe\'s Pizza & Pasta",mt_order:'#DD2026071888421',mt_date:'2026-07-18 12:05',mt_items:'Pepperoni Pizza(L)    1  18.99\nChicken Alfredo       1  14.99\nCaesar Salad          1   9.99\nGarlic Bread          1   5.99',mt_food:'49.96',mt_pack:'2.50',mt_delivery:'4.99',mt_total:'57.45',mt_addr:'350 5th Ave, Apt 12B, New York, NY 10118',mt_phone:'(212) 555-0188'},
+    fields:[
+      {key:'mt_shop',label:'Store Name'},{key:'mt_order',label:'Order No.'},{key:'mt_date',label:'Order Time'},
+      {key:'mt_items',label:'Items',type:'textarea'},{key:'mt_food',label:'Food Subtotal'},
+      {key:'mt_pack',label:'Packaging Fee'},{key:'mt_delivery',label:'Delivery Fee'},{key:'mt_total',label:'Paid'},
+      {key:'mt_addr',label:'Delivery Address'},{key:'mt_phone',label:'Phone'}
+    ],
+    render:function(d){
+      var items=d.mt_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:14px;color:#ff3008">DoorDash</div>';
+      h+='<hr class="divider">';
+      h+='<div class="bold" style="font-size:10px">'+d.mt_shop+'</div>';
+      h+='<div style="font-size:9px">Order: '+d.mt_order+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.mt_date+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div style="font-size:9px;margin-bottom:4px">Item               Qty  Amount</div>';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row"><span>Food Subtotal</span><span>$'+d.mt_food+'</span></div>';
+      h+='<div class="item-row"><span>Packaging Fee</span><span>$'+d.mt_pack+'</span></div>';
+      h+='<div class="item-row"><span>Delivery Fee</span><span>$'+d.mt_delivery+'</span></div>';
+      h+='<div class="item-row bold" style="font-size:12px"><span>Total</span><span>$'+d.mt_total+'</span></div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">📍 '+d.mt_addr+'</div>';
+      h+='<div style="font-size:9px">📞 '+d.mt_phone+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Questions? Contact your Dasher or the restaurant</div>';
+      return h;
+    }
+  },
+  {
+    id:'tea',icon:'🧋',name:'Bubble Tea',desc:'Bubble Tea Shop',
+    defaults:{te_name:'Boba Guys (SoHo)',te_date:'2026-07-18 16:10',te_order:'XC2026071800421',te_items:'Grape Green Tea(less ice) 1   6.75\nStrawberry Matcha Latte   1   7.25\nBrown Sugar Milk Tea(hot) 1   6.50',te_total:'20.50',te_num:'B042',te_pickup:'Ready by 4:25 PM'},
+    fields:[
+      {key:'te_name',label:'Store Name'},{key:'te_date',label:'Order Time'},{key:'te_order',label:'Order No.'},
+      {key:'te_items',label:'Items',type:'textarea'},{key:'te_total',label:'Total'},
+      {key:'te_num',label:'Pickup No.'},{key:'te_pickup',label:'Pickup Info'}
+    ],
+    render:function(d){
+      var items=d.te_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:16px;color:#6b3fa0">'+d.te_name+'</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Time: '+d.te_date+'</div>';
+      h+='<div style="font-size:9px">Order: '+d.te_order+'</div>';
+      h+='<hr class="divider-dot">';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold"><span>Total</span><span>$'+d.te_total+'</span></div>';
+      h+='<div class="center bold" style="font-size:28px;margin:8px 0;color:#6b3fa0">'+d.te_num+'</div>';
+      h+='<div class="center" style="font-size:9px">'+d.te_pickup+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px;color:#6b3fa0">Premium Bubble Tea · Est. 2011</div>';
+      return h;
+    }
+  },
+  {
+    id:'pharmacy',icon:'💊',name:'Pharmacy',desc:'Pharmacy',
+    defaults:{ph_name:'CVS Pharmacy (Downtown)',ph_date:'2026-07-18 09:20',ph_items:'Tylenol Extra Strength  2  12.99\nAdvil Liqui-Gels        1  14.99\nVitamin C 500mg         1   8.99\nBand-Aids(20ct)         1   5.49\nN95 Masks(10pk)         1  12.99',ph_total:'55.45',ph_pay:'HSA Card',ph_card:'4737****8842'},
+    fields:[
+      {key:'ph_name',label:'Pharmacy Name'},{key:'ph_date',label:'Date & Time'},
+      {key:'ph_items',label:'Items',type:'textarea'},{key:'ph_total',label:'Total'},
+      {key:'ph_pay',label:'Payment'},{key:'ph_card',label:'HSA Card'}
+    ],
+    render:function(d){
+      var items=d.ph_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:14px;color:#0a7e3e">'+d.ph_name+'</div>';
+      h+='<div class="center" style="font-size:8px">License: PH-2024-08842-NY</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Time: '+d.ph_date+'</div>';
+      h+='<hr class="divider-dot">';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold"><span>Total</span><span>$'+d.ph_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.ph_pay+' ('+d.ph_card+')</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Prescription medications are non-returnable</div>';
+      return h;
+    }
+  },
+  {
+    id:'gas',icon:'⛽',name:'Gas Station',desc:'Gas Station',
+    defaults:{gs_name:'Shell Station (Main St)',gs_date:'2026-07-18 08:15',gs_gun:'Pump #5',gs_grade:'Premium 93',gs_gallons:'14.25',gs_price_per_gal_per_gal:'4.39',gs_total:'62.56',gs_pay:'Visa ****8842',gs_plate:'NYC-8842'},
+    fields:[
+      {key:'gs_name',label:'Station Name'},{key:'gs_date',label:'Date & Time'},{key:'gs_gun',label:'Pump No.'},
+      {key:'gs_grade',label:'Fuel Grade'},{key:'gs_gallons',label:' Gallons'},
+      {key:'gs_price_per_gal',label:'Price ($/gal)'},{key:'gs_total',label:'Total'},{key:'gs_pay',label:'Payment'},{key:'gs_plate',label:'License Plate'}
+    ],
+    render:function(d){
+      var gallons=parseFloat(d.gs_gallons)||0,price=parseFloat(d.gs_price_per_gal_per_gal_per_gal)||0;
+      var total=(gallons*price).toFixed(2);
+      var h='<div class="center bold" style="font-size:14px;color:#da291c">'+d.gs_name+'</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Time: '+d.gs_date+'</div>';
+      h+='<div style="font-size:9px">'+d.gs_gun+' | Plate: '+d.gs_plate+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row"><span>Fuel</span><span>'+d.gs_grade+'</span></div>';
+      h+='<div class="item-row"><span>Gal</span><span>'+d.gs_gallons+' L</span></div>';
+      h+='<div class="item-row"><span>Price</span><span>$'+d.gs_price_per_gal_per_gal+'/L</span></div>';
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold" style="font-size:13px"><span>Total</span><span>$'+total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.gs_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">No cell phone use while refueling | No smoking</div>';
+      return h;
+    }
+  },
+  {
+    id:'pizza',icon:'🍕',name:'Pizza Hut',desc:'Pizza',
+    defaults:{pz_store:'Pizza Hut (Downtown)',pz_order:'PH2026071800023',pz_date:'2026-07-18 19:30',pz_type:'Takeout',pz_items:'Supreme Pizza(Lg)          1  15.99\nBBQ Chicken Pizza(Med)     1  12.99\nCrispy Calamari            1   5.99\nIced Lemon Tea(Lg)         2   4.98',pz_total:'39.95',pz_pay:'Apple Pay'},
+    fields:[
+      {key:'pz_store',label:'Store Name'},{key:'pz_order',label:'Order No.'},{key:'pz_date',label:'Date & Time'},
+      {key:'pz_type',label:'Dine-in/Takeout'},{key:'pz_items',label:'Items',type:'textarea'},
+      {key:'pz_total',label:'Total'},{key:'pz_pay',label:'Payment'}
+    ],
+    render:function(d){
+      var items=d.pz_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:15px;color:#c8102e">Pizza Hut</div>';
+      h+='<div class="center" style="font-size:8px;color:#c8102e">Pizza Hut</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Store: '+d.pz_store+' | '+d.pz_type+'</div>';
+      h+='<div style="font-size:9px">Order: '+d.pz_order+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.pz_date+'</div>';
+      h+='<hr class="divider-dot">';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold"><span>Total</span><span>$'+d.pz_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.pz_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Made fresh to order · Worth the wait</div>';
+      return h;
+    }
+  },
+  {
+    id:'cinema',icon:'🎬',name:'Cinema',desc:'Movie Theater',
+    defaults:{ci_name:'AMC Theatres (Times Square)',ci_date:'2026-07-18 20:00',ci_movie:'Dune: Part Two',ci_hall:'IMAX Auditorium 5',ci_seat:'Row G Seat 12',ci_time:'20:30',ci_items:'Large Popcorn      1  10.99\nLarge Soda         1   6.99\nBottled Water      1   3.99',ci_ticket:'22.99',ci_food:'17.97',ci_total:'40.96'},
+    fields:[
+      {key:'ci_name',label:'Theater Name'},{key:'ci_date',label:'Date'},{key:'ci_movie',label:'Movie'},
+      {key:'ci_hall',label:'Auditorium'},{key:'ci_seat',label:'Seat'},{key:'ci_time',label:'Showtime'},
+      {key:'ci_items',label:'Concessions',type:'textarea'},{key:'ci_ticket',label:'Ticket'},{key:'ci_food',label:'Concessions'},{key:'ci_total',label:'Total'}
+    ],
+    render:function(d){
+      var items=d.ci_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:14px">'+d.ci_name+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center bold" style="font-size:12px">'+d.ci_movie+'</div>';
+      h+='<div class="center" style="font-size:9px">'+d.ci_hall+' | '+d.ci_seat+'</div>';
+      h+='<div class="center" style="font-size:9px">'+d.ci_date+' '+d.ci_time+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row"><span>Ticket</span><span>$'+d.ci_ticket+'</span></div>';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row"><span>Ticket</span><span>$'+d.ci_ticket+'</span></div>';
+      h+='<div class="item-row"><span>Concessions</span><span>$'+d.ci_food+'</span></div>';
+      h+='<div class="item-row bold" style="font-size:12px"><span>Total</span><span>$'+d.ci_total+'</span></div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Doors open 20 min before showtime | No outside food</div>';
+      return h;
+    }
+  },
+  {
+    id:'sams',icon:'🏪',name:"Sam's Club",desc:'Wholesale Club',
+    defaults:{ss_store:"Sam's Club (Brooklyn)",ss_date:'2026-07-18 15:40',ss_member:'6600****8842',ss_items:'Member\'s Mark Toilet Paper(30rolls)  1  69.90\nMember\'s Mark Whole Milk(6×1L) 1  59.90\nUSDA Beef Chuck Roll(2.2lb)              1  89.00\nSwiss Rolls(16ct)                1  59.80\nCherries(Dark Sweet/2lb)              1  149.00\nKey Lime Juice(8pk)               1  39.90',ss_total:'467.50',ss_pay:'Visa ****8842'},
+    fields:[
+      {key:'ss_store',label:'Store Name'},{key:'ss_date',label:'Date & Time'},{key:'ss_member',label:'Member No.'},
+      {key:'ss_items',label:'Items',type:'textarea'},{key:'ss_total',label:'Total'},{key:'ss_pay',label:'Payment'}
+    ],
+    render:function(d){
+      var items=d.ss_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:14px;color:#004c97">Sam\'s Club</div>';
+      h+='<div class="center" style="font-size:8px;color:#004c97">Sam\'s Club</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Store: '+d.ss_store+'</div>';
+      h+='<div style="font-size:9px">Member: '+d.ss_member+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.ss_date+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div style="font-size:9px;margin-bottom:4px">Item                    Qty  Amount</div>';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold" style="font-size:12px"><span>Total</span><span>$'+d.ss_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.ss_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Members only · Quality living · Buy more, save more</div>';
+      h+='<div class="center" style="font-size:8px;color:#999">30-day return with receipt | Support: 1-888-746-7726</div>';
+      return h;
+    }
+  },
+  {
+    id:'wholefoods',icon:'🥬',name:'Whole Foods',desc:'Organic Grocery',
+    defaults:{hm_store:'Whole Foods Market (Columbus Circle)',hm_date:'2026-07-18 17:20',hm_order:'WF20260718008852',hm_type:'In-Store Pickup',hm_items:'Live Maine Lobster(1.25lb)  1  24.99\nAtlantic Salmon Fillet(8oz)   1  12.99\nOrganic Whole Milk(1/2gal)    1   5.49\nOrganic Strawberries(1lb)     1   6.99\n365 Chicken Wings(1.5lb)      1   9.99\nSourdough Bread Loaf          1   5.49',hm_total:'65.94',hm_pay:'Amazon Prime',hm_member:'Prime Member'},
+    fields:[
+      {key:'hm_store',label:'Store Name'},{key:'hm_date',label:'Date & Time'},{key:'hm_order',label:'Order No.'},
+      {key:'hm_type',label:'Method'},{key:'hm_items',label:'Items',type:'textarea'},
+      {key:'hm_total',label:'Total'},{key:'hm_pay',label:'Payment'},{key:'hm_member',label:'Member Type'}
+    ],
+    render:function(d){
+      var items=d.hm_items.split('\n').filter(function(l){return l.trim()}).map(function(l){
+        var p=l.trim().split(/\s+/);return{name:p.slice(0,-2).join(' '),qty:p[p.length-2]||'1',price:p[p.length-1]||'0'}});
+      var h='<div class="center bold" style="font-size:15px;color:#006633">Whole Foods</div>';
+      h+='<div class="center" style="font-size:8px;color:#006633">America\'s Healthiest Grocery Store</div>';
+      h+='<hr class="divider">';
+      h+='<div style="font-size:9px">Store: '+d.hm_store+' | '+d.hm_type+'</div>';
+      h+='<div style="font-size:9px">Order: '+d.hm_order+'</div>';
+      h+='<div style="font-size:9px">Time: '+d.hm_date+'</div>';
+      h+='<div style="font-size:9px">Member: '+d.hm_member+'</div>';
+      h+='<hr class="divider-dot">';
+      h+='<div style="font-size:9px;margin-bottom:4px">Item                    Qty  Amount</div>';
+      items.forEach(function(it){h+='<div class="item-row"><span class="item-name">'+it.name+'</span><span class="item-qty">x'+it.qty+'</span><span class="item-price">$'+it.price+'</span></div>'});
+      h+='<hr class="divider-dot">';
+      h+='<div class="item-row bold" style="font-size:12px"><span>Total</span><span>$'+d.hm_total+'</span></div>';
+      h+='<div style="font-size:9px">Pay: '+d.hm_pay+'</div>';
+      h+='<hr class="divider">';
+      h+='<div class="center" style="font-size:8px">Fresh & Organic · No artificial preservatives · Satisfaction guaranteed</div>';
+      h+='<div class="center" style="font-size:8px;color:#006633">🥬 Prime Member exclusive pricing</div>';
+      return h;
+    }
+  }
+];
+
+var currentTpl=null,currentData={};
+
+document.getElementById('tpl-grid').innerHTML=templates.map(function(t){
+  return'<div class="tpl-card" onclick="openTpl(\''+t.id+'\')"><span class="tpl-icon">'+t.icon+'</span><div class="tpl-name">'+t.name+'</div><div class="tpl-desc">'+t.desc+'</div></div>';
+}).join('');
+
+function openTpl(id){
+  currentTpl=templates.find(function(t){return t.id===id});
+  currentData=JSON.parse(JSON.stringify(currentTpl.defaults));
+  document.getElementById('editor-title').textContent=currentTpl.icon+' '+currentTpl.name;
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+  if(window.innerWidth<700) document.getElementById('mobile-save-btn').style.display='flex';
+  renderReceipt();renderControls();
+}
+function closeEditor(){
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('mobile-save-btn').style.display='none';
+  document.body.style.overflow='';currentTpl=null;
+}
+function renderReceipt(){document.getElementById('receipt').innerHTML=currentTpl.render(currentData)}
+function renderControls(){
+  document.getElementById('editor-controls').innerHTML=currentTpl.fields.map(function(f){
+    var isTA=f.type==='textarea';
+    var val=currentData[f.key]||'';
+    if(isTA) return'<div class="section"><label>'+f.label+'</label><textarea oninput="updateField(\''+f.key+'\',this.value)">'+val+'</textarea></div>';
+    return'<div class="section"><label>'+f.label+'</label><input type="text" value="'+val.replace(/"/g,'&quot;')+'" placeholder="'+f.placeholder+'" oninput="updateField(\''+f.key+'\',this.value)"></div>';
+  }).join('');
+}
+function updateField(key,value){currentData[key]=value;renderReceipt()}
+
+function exportImage(){
+  var el=document.getElementById('receipt');
+  html2canvas(el,{scale:2,backgroundColor:'#fffef9',logging:false}).then(function(canvas){
+    var dataUrl=canvas.toDataURL('image/png');
+    if(window.innerWidth<768){
+      var ov=document.createElement('div');ov.className='export-overlay';ov.onclick=function(){ov.remove()};
+      var img=document.createElement('img');img.src=dataUrl;ov.appendChild(img);document.body.appendChild(ov);
+    }else{var a=document.createElement('a');a.download=currentTpl.id+'.png';a.href=dataUrl;a.click()}
+  }).catch(function(){});
+}
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&currentTpl)closeEditor()});
+var s=document.createElement('script');s.src='https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js';document.head.appendChild(s);
+</script>
+
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../certificate-crafter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C5; Certificate Maker</a><a href="../invoice-w9-generator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4DC; Invoice &amp; W-9 Generator</a><a href="../tip-split-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B8; Tip Split Calculator</a><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

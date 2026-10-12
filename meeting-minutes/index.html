@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Meeting Minutes Generator | HuSir Tools</title>
+<meta name="description" content="Create clean meeting minutes from simple notes. No signup, no upload, works entirely in your browser.">
+<link rel="canonical" href="https://www.husir.org/tools/meeting-minutes/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Meeting Minutes Generator">
+<meta property="og:description" content="Create clean meeting minutes from simple notes. No signup, no upload, works entirely in your browser.">
+<meta property="og:url" content="https://www.husir.org/tools/meeting-minutes/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Meeting Minutes Generator">
+<meta name="twitter:description" content="Create clean meeting minutes from simple notes. No signup, no upload, works entirely in your browser.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh; padding: 40px 20px; color: #e0e0e0;
+}
+.container { max-width: 900px; margin: 0 auto; }
+
+/* Header */
+h1 { text-align: center; font-size: 30px; margin-bottom: 4px; color: #fff; letter-spacing: 2px; }
+.subtitle { text-align: center; color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 24px; }
+
+/* Step indicator */
+.steps { display: flex; gap: 0; margin-bottom: 24px; }
+.step { flex:1; padding: 12px 8px; text-align: center; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); border: none; cursor: pointer; font-size: 13px; font-weight: 600; transition: all .2s; }
+.step:first-child { border-radius: 10px 0 0 10px; }
+.step:last-child { border-radius: 0 10px 10px 0; }
+.step.active { background: #e94560; color: #fff; }
+.step.completed { background: rgba(16,185,129,0.25); color: #34d399; }
+.step .n { display: inline-block; width: 20px; height: 20px; border-radius: 50%; line-height: 20px; font-size: 10px; margin-right: 4px; background: rgba(255,255,255,0.12); }
+.step.active .n { background: rgba(255,255,255,0.3); }
+.step-content { display: none; }
+.step-content.active { display: block; }
+
+/* Cards */
+.card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 24px; margin-bottom: 16px; backdrop-filter: blur(10px); }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.card-header h3 { font-size: 15px; color: #fff; }
+
+/* Buttons */
+.btn { padding: 10px 20px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; }
+.btn-sm { padding: 6px 14px; font-size: 11px; border-radius: 8px; }
+.btn-primary { background: #e94560; color: #fff; }
+.btn-primary:hover { background: #d63850; }
+.btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #ccc; }
+.btn-outline:hover { border-color: #e94560; color: #e94560; }
+.btn-success { background: #10b981; color: #fff; }
+.btn-success:hover { background: #059669; }
+
+/* Textarea */
+textarea {
+  width: 100%; min-height: 280px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 16px; color: #e0e0e0; font-size: 14px; font-family: inherit;
+  line-height: 1.8; resize: vertical; outline: none; transition: border-color .2s;
+}
+textarea:focus { border-color: #e94560; }
+textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+/* Sample data */
+.sample-hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 6px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+/* Results */
+.result-section { margin-bottom: 16px; }
+.result-section h4 {
+  font-size: 13px; color: #e94560; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.result-section .badge { font-size: 10px; background: #e94560; color: #fff; padding: 1px 8px; border-radius: 10px; }
+.result-content { font-size: 13px; line-height: 1.7; color: #ccc; }
+.result-content ul { list-style: none; padding: 0; }
+.result-content li { padding: 8px 12px; margin-bottom: 6px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid #e94560; }
+.result-content li .assignee { color: #fbbf24; font-weight: 600; }
+.result-content li .deadline { color: #34d399; margin-left: 6px; font-size: 11px; }
+.result-content .decision-item { border-left-color: #3b82f6; }
+
+/* Keywords */
+.keywords { display: flex; gap: 6px; flex-wrap: wrap; }
+.keyword { padding: 3px 10px; border-radius: 20px; background: rgba(233,69,96,0.15); color: #e94560; font-size: 11px; }
+
+/* Template selector */
+.template-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.template-card { padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all .15s; background: rgba(255,255,255,0.03); text-align: center; }
+.template-card:hover { border-color: rgba(255,255,255,0.3); }
+.template-card.selected { border-color: #e94560; background: rgba(233,69,96,0.1); }
+.template-card .tname { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.template-card .tdesc { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+/* Preview */
+.preview-box {
+  background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+  padding: 20px; font-family: "SF Mono", "Fira Code", monospace; font-size: 12px;
+  line-height: 1.7; max-height: 400px; overflow-y: auto; white-space: pre-wrap; color: #c9d1d9;
+}
+.preview-box h1,.preview-box h2,.preview-box h3 { color: #e94560; margin: 8px 0; }
+.preview-box strong { color: #fbbf24; }
+
+/* Toast */
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: #fff; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 999; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+/* Editable */
+[contenteditable]:focus { outline: none; }
+.edit-hint { display: block; color: rgba(255,255,255,0.3); font-size: 10px; margin-top: 4px; }
+
+/* Stats bar */
+.stats-bar { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+.stats-bar span { display: flex; align-items: center; gap: 4px; }
+.stats-bar .val { color: #e94560; font-weight: 700; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 { font-size: 22px; }
+  .card { padding: 14px 16px; }
+  .template-cards { grid-template-columns: repeat(2,1fr); }
+}
+/* ── ASR Card ── */
+.asr-card { overflow: hidden; }
+.asr-card.collapsed .asr-body { display: none; }
+.asr-card.collapsed .asr-arrow { transform: rotate(0deg); }
+.asr-toggle { cursor: pointer; user-select: none; }
+.asr-arrow { display: inline-block; transition: transform .2s; transform: rotate(90deg); font-size: 11px; color: rgba(255,255,255,0.5); }
+.asr-body { padding: 0 0 10px 0; }
+.asr-config { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.asr-field { flex: 1; min-width: 140px; }
+.asr-field label { display: block; font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+.asr-field input, .asr-field select {
+  width: 100%; padding: 8px 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; color: #e0e0e0; font-size: 13px; outline: none;
+}
+.asr-field input:focus, .asr-field select:focus { border-color: #e94560; }
+.asr-dropzone {
+  border: 2px dashed rgba(255,255,255,0.15); border-radius: 12px; padding: 24px;
+  text-align: center; cursor: pointer; transition: all .2s; margin-bottom: 8px;
+}
+.asr-dropzone:hover, .asr-dropzone.dragover { border-color: #e94560; background: rgba(233,69,96,0.05); }
+.asr-dropzone p { margin: 0; color: rgba(255,255,255,0.4); font-size: 13px; }
+.asr-dropzone .asr-dropzone-hint { font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 4px; }
+.asr-file-info {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+  background: rgba(16,185,129,0.08); border-radius: 8px; margin-bottom: 8px;
+}
+.asr-file-name { font-size: 13px; color: #34d399; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.asr-file-size { font-size: 11px; color: rgba(255,255,255,0.4); }
+.asr-progress { display: inline-block; color: #fbbf24; font-size: 12px; margin-left: 10px; }
+.asr-preview { margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+.asr-preview-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.03); font-size: 12px; color: rgba(255,255,255,0.5); }
+.asr-preview-content { padding: 12px 14px; font-size: 13px; line-height: 1.7; color: #ccc; max-height: 200px; overflow-y: auto; white-space: pre-wrap; background: rgba(0,0,0,0.15); }
+.asr-error { margin-top: 10px; padding: 10px 14px; background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.3); border-radius: 8px; font-size: 12px; color: #e94560; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Meeting Minutes Generator",
+  "description": "Create clean meeting minutes from simple notes. No signup, no upload, works entirely in your browser.",
+  "url": "https://www.husir.org/tools/meeting-minutes/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which languages does it support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Chinese and English transcripts are supported, and the tool is tuned for Chinese-language meetings in particular."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get the minutes out?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the export template to download a Word-style file, or copy the formatted text into email or a document."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my transcript uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — processing happens on your device, and closing the tab leaves nothing behind."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I correct mistakes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — edit the transcript and regenerate, then review the extracted sections before exporting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I have no transcript yet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the optional speech-to-text step to get a draft, then paste it in for summarization."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Meeting Minutes Generator", "item": "https://www.husir.org/tools/meeting-minutes/"}]}</script>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Meeting Minutes Generator</span></span></nav>
+
+  <h1>Meeting Minutes Generator</h1>
+  <p class="subtitle">Paste meeting transcripts — auto-extract key points, action items, and decisions.<br><small style="color:rgba(255,255,255,0.5)">Optimized for Chinese-language meetings. English support is experimental.</small></p>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Turn a raw meeting transcript into structured minutes: a meeting summary, key decisions, action items, and keywords. Paste the transcript (Chinese or English) or use the optional speech-to-text step, then export a formatted Word document or copy the result.</p>
+<p>The extraction runs locally in your browser, so confidential discussions — board calls, client meetings, and HR talks — are never uploaded for processing. It is quick enough to run right after a call while the context is still fresh.</p>
+<div class="faq">
+<p><strong>🌐 Which languages does it support?</strong><br>Chinese and English transcripts are supported, and the tool is tuned for Chinese-language meetings in particular.</p>
+<p><strong>📤 How do I get the minutes out?</strong><br>Use the export template to download a Word-style file, or copy the formatted text into email or a document.</p>
+<p><strong>🔒 Is my transcript uploaded?</strong><br>No — processing happens on your device, and closing the tab leaves nothing behind.</p>
+<p><strong>✏️ Can I correct mistakes?</strong><br>Yes — edit the transcript and regenerate, then review the extracted sections before exporting.</p>
+<p><strong>🎙️ What if I have no transcript yet?</strong><br>Use the optional speech-to-text step to get a draft, then paste it in for summarization.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Output sections: Meeting summary · Key decisions · Action items · Keywords<br>One pasted transcript = one meeting's minutes<br>Export options: Word template or copy to clipboard
+</div>
+</div>
+</details>
+
+<div class="steps" id="steps">
+    <button class="step active" data-step="1"><span class="n">1</span> Input Text</button>
+    <button class="step" data-step="2"><span class="n">2</span> View Results</button>
+    <button class="step" data-step="3"><span class="n">3</span> Export with Template</button>
+  </div>
+
+  <!-- Step 1: Input -->
+  <div class="step-content active" data-step="1">
+    <!-- Speech to Text card -->
+    <div class="card asr-card collapsed" id="asrCard">
+      <div class="card-header asr-toggle" id="asrToggle">
+        <h3>Speech to Text <span style="font-size:11px;color:rgba(255,255,255,0.3);font-weight:400">(optional)</span></h3>
+        <span class="asr-arrow">▶</span>
+      </div>
+      <div class="asr-body">
+        <div class="asr-config">
+          <div class="asr-field">
+            <label>API Provider</label>
+            <select id="asrProvider">
+              <option value="openai">OpenAI Whisper</option>
+              <option value="groq">Groq (free tier)</option>
+              <option value="custom">Custom Endpoint</option>
+            </select>
+          </div>
+          <div class="asr-field" id="asrCustomUrlField" style="display:none">
+            <label>Custom Endpoint URL</label>
+            <input id="asrCustomUrl" placeholder="https://your-api.com/v1/audio/transcriptions">
+          </div>
+        </div>
+        <div class="asr-config">
+          <div class="asr-field">
+            <label>API Key</label>
+            <input type="password" id="asrApiKey" placeholder="sk-... or gsk_..." autocomplete="off">
+          </div>
+          <div class="asr-field">
+            <label>Model</label>
+            <input id="asrModel" value="whisper-1" placeholder="whisper-1">
+          </div>
+          <div class="asr-field">
+            <label>Language</label>
+            <select id="asrLanguage">
+              <option value="zh">Chinese</option>
+              <option value="en">English</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">한국어</option>
+              <option value="">Auto Detect</option>
+            </select>
+          </div>
+        </div>
+        <div class="asr-dropzone" id="asrDropzone">
+          <p>Drag audio file here, or click to select</p>
+          <p class="asr-dropzone-hint">Supports mp3, wav, m4a, ogg, flac, webm (max 25MB)</p>
+          <input type="file" id="asrFileInput" accept="audio/*" style="display:none">
+        </div>
+        <div class="asr-file-info" id="asrFileInfo" style="display:none">
+          <span class="asr-file-name" id="asrFileName"></span>
+          <span class="asr-file-size" id="asrFileSize"></span>
+          <button class="btn btn-sm btn-outline asr-file-remove" id="btnRemoveFile">Remove</button>
+        </div>
+        <div style="text-align:center; margin-top: 12px;">
+          <button class="btn btn-primary" id="btnTranscribe" disabled>Start Transcription</button>
+          <span class="asr-progress" id="asrProgress" style="display:none">Transcribing......</span>
+        </div>
+        <div class="asr-preview" id="asrPreview" style="display:none">
+          <div class="asr-preview-header">
+            <span>Transcription Result</span>
+            <button class="btn btn-sm btn-primary" id="btnFillTextarea">Fill text area</button>
+          </div>
+          <div class="asr-preview-content" id="asrPreviewContent"></div>
+        </div>
+        <div class="asr-error" id="asrError" style="display:none"></div>
+        <div style="font-size:10px; color:rgba(255,255,255,0.2); margin-top:8px; text-align:center">
+          Note: Direct browser API calls may hit CORS limits. Deploy to a server if needed.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Paste Meeting Transcript</h3>
+        <button class="btn btn-sm btn-outline" id="btnSample">Load Sample Data</button>
+      </div>
+      <textarea id="inputText" placeholder="Paste meeting transcript here&#10;&#10;Supported formats:&#10;  • Speaker labels: Alice: Let's discuss Q3 planning&#10;  • Timestamp labels: [00:05:30] Bob presented project progress&#10;  • Plain text: unannotated meeting notes work too&#10;&#10;Longer, more structured text yields better results."></textarea>
+      <div class="sample-hint">
+        Tip: Paste text then click "Extract Minutes", or load sample data to try it out
+      </div>
+      <div style="text-align:center; margin-top: 14px;">
+        <button class="btn btn-primary" id="btnExtract">Extract Minutes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Review Results -->
+  <div class="step-content" data-step="2">
+    <div class="card">
+      <div class="card-header">
+        <h3>Extracted Summary</h3>
+        <button class="btn btn-sm btn-outline" id="btnReExtract">Re-extract</button>
+      </div>
+      <div class="stats-bar" id="statsBar"></div>
+
+      <div class="result-section" id="summarySection">
+        <h4>Meeting Summary <span class="badge" id="summaryCount"></span></h4>
+        <div class="result-content" id="summaryContent"></div>
+      </div>
+
+      <div class="result-section" id="decisionsSection">
+        <h4>Key Decisions</h4>
+        <div class="result-content" id="decisionsContent"></div>
+      </div>
+
+      <div class="result-section" id="actionsSection">
+        <h4>Action Items</h4>
+        <div class="result-content" id="actionsContent"></div>
+      </div>
+
+      <div class="result-section" id="keywordsSection">
+        <h4>Keywords</h4>
+        <div class="keywords" id="keywordsContent"></div>
+      </div>
+
+      <div style="text-align:center; margin-top: 14px;">
+        <button class="btn btn-primary" id="btnToExport">Next: Export with Template</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Export -->
+  <div class="step-content" data-step="3">
+    <div class="card">
+      <div class="card-header"><h3>Select Export Template</h3></div>
+      <div class="template-cards" id="templateCards">
+        <div class="template-card selected" data-template="standard">
+          <div class="tname">Standard Minutes</div>
+          <div class="tdesc">Summary + Decisions + Action Items</div>
+        </div>
+        <div class="template-card" data-template="daily">
+          <div class="tname">Daily/Weekly Report</div>
+          <div class="tdesc">Progress + Issues + Plan</div>
+        </div>
+        <div class="template-card" data-template="review">
+          <div class="tname">Retrospective Template</div>
+          <div class="tdesc">Review + Analysis + Improvements</div>
+        </div>
+        <div class="template-card" data-template="resolution">
+          <div class="tname">Resolution Template</div>
+          <div class="tdesc">Decision + Rationale + Execution</div>
+        </div>
+        <div class="template-card" data-template="standup">
+          <div class="tname">Stand-up Template</div>
+          <div class="tdesc">Yesterday + Today + Blocked</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Preview</h3>
+        <button class="btn btn-sm btn-outline" id="btnCopy">Copy to Clipboard</button>
+      </div>
+      <div class="preview-box" id="previewBox" contenteditable="true" spellcheck="false"></div>
+      <div class="edit-hint">Preview is editable — exported content updates with your changes.</div>
+      <div style="display:flex; gap:8px; justify-content:center; margin-top: 14px; flex-wrap:wrap;">
+        <button class="btn btn-outline" id="btnDownloadMD">Download Markdown (.md)</button>
+        <button class="btn btn-outline" id="btnDownloadTXT">Download Plain Text (.txt)</button>
+        <button class="btn btn-outline" id="btnDownloadHTML">Download HTML Document</button>
+      </div>
+    </div>
+  </div>
+
+  <p style="text-align:center; color:rgba(255,255,255,0.15); font-size:11px; margin-top: 16px;">
+    Meeting Minutes Generator — 100% client-side · No data leaves your browser · Press 1-3 to switch steps
+  </p>
+  
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+  <div style="text-align:center;margin-top:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08)">
+    <a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.78);text-decoration:none;font-size:12px;transition:color 0.2s" onmouseover="this.style.color='#ccc'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">☕ Buy me a coffee</a>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+const toast = $('toast');
+const inputText = $('inputText');
+const btnExtract = $('btnExtract');
+const btnReExtract = $('btnReExtract');
+const btnToExport = $('btnToExport');
+const btnCopy = $('btnCopy');
+const btnSample = $('btnSample');
+const previewBox = $('previewBox');
+
+let currentStep = 1;
+let completedSteps = new Set();
+let extractedData = null;
+let selectedTemplate = 'standard';
+let currentMarkdown = '';
+
+// ── ASR (Speech-to-Text) ──
+const ASR_PROVIDERS = {
+  openai: {
+    name: 'OpenAI Whisper',
+    endpoint: 'https://api.openai.com/v1/audio/transcriptions',
+    model: 'whisper-1',
+  },
+  groq: {
+    name: 'Groq',
+    endpoint: 'https://api.groq.com/openai/v1/audio/transcriptions',
+    model: 'whisper-large-v3-turbo',
+  },
+  custom: {
+    name: 'Custom',
+    endpoint: '',
+    model: 'whisper-1',
+  },
+};
+
+let asrApiKey = localStorage.getItem('asr_api_key') || '';
+let asrProvider = localStorage.getItem('asr_provider') || 'openai';
+let asrAudioFile = null;
+
+function updateAsrModel() {
+  const p = ASR_PROVIDERS[asrProvider];
+  $('asrModel').value = p.model;
+  $('asrCustomUrlField').style.display = asrProvider === 'custom' ? '' : 'none';
+}
+
+function toggleAsrCard() {
+  const card = $('asrCard');
+  card.classList.toggle('collapsed');
+}
+
+function showAsrError(msg) {
+  const el = $('asrError');
+  el.textContent = msg;
+  el.style.display = '';
+}
+
+function hideAsrError() {
+  $('asrError').style.display = 'none';
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+const ASR_ALLOWED_TYPES = ['audio/mpeg', 'audio/mp4', 'audio/mpeg3', 'audio/x-m4a',
+  'audio/wav', 'audio/x-wav', 'audio/webm', 'audio/ogg', 'audio/flac',
+  'audio/mp3', 'video/mp4', 'audio/m4a', 'audio/x-mp3'];
+
+function handleAsrFile(file) {
+  // Check size
+  if (file.size > 25 * 1024 * 1024) {
+    showAsrError('File too large — please select an audio file under 25MB');
+    return;
+  }
+  // Accept most audio formats even if MIME type isn't exact
+  asrAudioFile = file;
+  hideAsrError();
+  $('asrFileInfo').style.display = '';
+  $('asrFileName').textContent = file.name;
+  $('asrFileSize').textContent = formatFileSize(file.size);
+  $('btnTranscribe').disabled = false;
+  $('asrPreview').style.display = 'none';
+  $('asrError').style.display = 'none';
+}
+
+function clearAsrFile() {
+  asrAudioFile = null;
+  $('asrFileInput').value = '';
+  $('asrFileInfo').style.display = 'none';
+  $('btnTranscribe').disabled = true;
+}
+
+async function transcribeAudio() {
+  if (!asrAudioFile) { showAsrError('Please select an audio file first'); return; }
+
+  const key = $('asrApiKey').value.trim();
+  if (!key) { showAsrError('Please enter your API key'); return; }
+
+  const provider = ASR_PROVIDERS[asrProvider];
+  let endpoint = provider.endpoint;
+  if (asrProvider === 'custom') {
+    endpoint = ($('asrCustomUrl').value || '').trim();
+    if (!endpoint) { showAsrError('Please enter your Custom Endpoint URL'); return; }
+  }
+
+  const model = $('asrModel').value.trim() || provider.model;
+  const lang = $('asrLanguage').value;
+
+  $('btnTranscribe').disabled = true;
+  $('asrProgress').style.display = '';
+  $('asrPreview').style.display = 'none';
+  hideAsrError();
+
+  const formData = new FormData();
+  formData.append('file', asrAudioFile);
+  formData.append('model', model);
+  formData.append('response_format', 'text');
+  if (lang) formData.append('language', lang);
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 120000);
+
+  try {
+    const resp = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + key },
+      body: formData,
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+    $('asrProgress').style.display = 'none';
+    $('btnTranscribe').disabled = false;
+
+    if (!resp.ok) {
+      let errText = await resp.text().catch(() => '');
+      try { const j = JSON.parse(errText); errText = j.error && j.error.message ? j.error.message : errText; } catch(e) {}
+      showAsrError('Transcription failed (HTTP ' + resp.status + '): ' + (errText || resp.statusText));
+      return;
+    }
+
+    const text = await resp.text();
+    if (!text.trim()) { showAsrError('Transcription Resultis empty. Check if audio contains valid speech.'); return; }
+
+    $('asrPreviewContent').textContent = text;
+    $('asrPreview').style.display = '';
+  } catch (e) {
+    clearTimeout(timeout);
+    $('asrProgress').style.display = 'none';
+    $('btnTranscribe').disabled = false;
+    if (e.name === 'AbortError') {
+      showAsrError('Transcription timeout (120s). Check network or audio file size.');
+    } else {
+      showAsrError('Network request failed: ' + e.message + ' (Possible CORS restriction — deploy to a server)');
+    }
+  }
+}
+
+function fillTextarea() {
+  const text = $('asrPreviewContent').textContent;
+  if (!text.trim()) return;
+  inputText.value = (inputText.value.trim() ? inputText.value + '\n\n' : '') + text;
+  // Collapse ASR card
+  toggleAsrCard();
+  showToast('Transcript filled in — click "Extract Minutes" below to continue');
+}
+
+function initAsr() {
+  // Restore saved state
+  $('asrProvider').value = asrProvider;
+  $('asrApiKey').value = asrApiKey;
+  updateAsrModel();
+
+  // Toggle card
+  $('asrToggle').addEventListener('click', toggleAsrCard);
+
+  // Provider change
+  $('asrProvider').addEventListener('change', function() {
+    asrProvider = this.value;
+    localStorage.setItem('asr_provider', asrProvider);
+    updateAsrModel();
+  });
+
+  // Custom URL persist
+  const savedUrl = localStorage.getItem('asr_custom_url') || '';
+  $('asrCustomUrl').value = savedUrl;
+  $('asrCustomUrl').addEventListener('input', function() {
+    localStorage.setItem('asr_custom_url', this.value.trim());
+  });
+
+  // API Key persist
+  $('asrApiKey').addEventListener('input', function() {
+    asrApiKey = this.value.trim();
+    localStorage.setItem('asr_api_key', asrApiKey);
+  });
+
+  // Dropzone click
+  $('asrDropzone').addEventListener('click', function() { $('asrFileInput').click(); });
+
+  // File input change
+  $('asrFileInput').addEventListener('change', function() {
+    if (this.files.length > 0) handleAsrFile(this.files[0]);
+  });
+
+  // Drag & drop
+  const dz = $('asrDropzone');
+  dz.addEventListener('dragover', function(e) { e.preventDefault(); dz.classList.add('dragover'); });
+  dz.addEventListener('dragleave', function() { dz.classList.remove('dragover'); });
+  dz.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dz.classList.remove('dragover');
+    if (e.dataTransfer.files.length > 0) handleAsrFile(e.dataTransfer.files[0]);
+  });
+
+  // Remove file
+  $('btnRemoveFile').addEventListener('click', clearAsrFile);
+
+  // Transcribe
+  $('btnTranscribe').addEventListener('click', transcribeAudio);
+
+  // Fill textarea
+  $('btnFillTextarea').addEventListener('click', fillTextarea);
+}
+
+// ── Toast ──
+function showToast(msg) {
+  toast.textContent = msg; toast.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ── Step navigation ──
+function goToStep(n) {
+  if (n < 1 || n > 3) return;
+  if (n > 1 && !extractedData) { showToast('Please extract the meeting content first'); return; }
+  currentStep = n;
+  document.querySelectorAll('.step-content').forEach(e => e.classList.remove('active'));
+  document.querySelector('.step-content[data-step="' + n + '"]').classList.add('active');
+  document.querySelectorAll('.steps .step').forEach(s => {
+    s.classList.remove('active','completed');
+    const sn = parseInt(s.dataset.step);
+    if (sn === n) s.classList.add('active');
+    else if (completedSteps.has(sn) && sn < n) s.classList.add('completed');
+  });
+  if (n === 3) renderPreview();
+}
+
+$('steps').addEventListener('click', e => {
+  const s = e.target.closest('.step');
+  if (s) goToStep(parseInt(s.dataset.step));
+});
+
+document.addEventListener('keydown', e => {
+  if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+  const n = parseInt(e.key);
+  if (n >= 1 && n <= 3) goToStep(n);
+});
+
+// ── Extraction engine ──
+function preprocess(text) {
+  return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+}
+
+function splitParagraphs(text) {
+  return text.split(/\n{2,}/).map(p => p.trim()).filter(p => p.length > 0);
+}
+
+// Detect speaker from a paragraph
+const SPEAKER_RE = /(?:^|\n)\s*(?:\[[\d:.]+\]\s*)?(?:【[^】]+】\s*)?([^\s：:]{2,8})\s*[：:]\s*/gm;
+const SPEAKER_TAG_RE = /[\[（(]([^\]）)]{2,8})[\]）)]\s*[：:]/g;
+
+function detectSpeaker(para) {
+  // Strip leading timestamp like [00:05:10] or [1:23:45.678]
+  const cleaned = para.replace(/^\[[\d:.]+\]\s*/, '');
+  // Try "Name：content" pattern (Name can be 2-8 Chinese/alpha chars)
+  const m1 = cleaned.match(/^([^\s：:，,]{2,8})\s*[：:]/);
+  if (m1) return m1[1];
+  // Try "[Name] content" pattern (but NOT timestamp — already stripped)
+  const m2 = cleaned.match(/^\[([^\]]{2,8})\]/);
+  if (m2) return m2[1];
+  return null;
+}
+
+function extractSpeakersAndContent(paragraphs) {
+  const speakers = new Map();
+  const turns = [];
+  paragraphs.forEach(para => {
+    const speaker = detectSpeaker(para);
+    if (speaker) {
+      speakers.set(speaker, (speakers.get(speaker) || 0) + 1);
+      // Strip timestamp first, then speaker prefix: "Name："
+      var content = para.replace(/^\[[\d:.]+\]\s*/, '').trim();
+      content = content.replace(/^[^\s：:，,]{2,8}\s*[：:]/, '').trim();
+      content = content.replace(/^\[[^\]]{2,8}\]\s*/, '').trim();
+      turns.push({ speaker, content });
+    } else {
+      turns.push({ speaker: null, content: para.replace(/^\[[\d:.]+\]\s*/, '').trim() || para });
+    }
+  });
+  return { speakers, turns };
+}
+
+// Score sentences by importance using keyword density and position
+const IMPORTANT_WORDS = [
+  '决定','确认','通过','同意','结论','最终','必须','务必','重要','关键',
+  '风险','问题','Blocked','延期','紧急','优先级','下一步','接下来','计划',
+  '目标','指标','完成','上线','发布','里程碑','Deadline','预算','成本',
+  '需求','变更','异常','故障','修复','优化','提升'
+];
+
+function scoreContent(text) {
+  let score = 0;
+  const lower = text.toLowerCase();
+  IMPORTANT_WORDS.forEach(w => {
+    const count = (lower.match(new RegExp(w, 'g')) || []).length;
+    score += count * 3;
+  });
+  // Length bonus (neither too short nor too long)
+  const len = text.length;
+  if (len > 30 && len < 300) score += 5;
+  if (len > 300) score += 2;
+  // First paragraph bonus
+  score += 2;
+  return score;
+}
+
+// Extract action items
+const ACTION_PATTERNS = [
+  // Pattern: trigger_word + task (stop at 。or；)
+  /(?:你来|我来|需要|请|由|安排|负责|跟进|Handle|完成|Action|执行|推进|协调|准备|提交|Send|通知|检查|审核|审批|评估|调研|开发|测试|上线|部署|发布|采购|预定|联系|沟通|对接|追踪|统计|整理|收集|撰写|设计|规划|制定|修改|优化|确认|解决|排查|修复)[：:，,\s]*([^。；\n]{5,60})(?:[。；\n]|$)/g,
+  // Enumerated items: "1）X" or "一、X" — only at sentence start
+  /(?:^|[。；\n])\s*(?:\d+[）\)、]|[一二三四五六七八九十]+[、．])\s*([^。；\n]{5,60})/g,
+  // @mention / TODO / 待办
+  /(?:@|待办|TODO|事项|action\s*item)[：:\s]*([^。\n]{5,80})/gi,
+  // Deadline + action: "下周五之前给出评估报告"
+  /(?:下[周月]|本周|今天|明天|后天|周五|周末|周一|周二|周三|周四|月底|年底|下周五|下周一)[^。]*?(?:做|Handle|完成|跟进|提交|给出|交付|发)([^。；]{4,50})/g,
+  // Person + responsibility: "陈工负责技术方案"
+  /([^\s，。]{2,6})\s*(?:负责|跟进|Handle|牵头|来做|搞定)\s*([^。；\n]{4,60})/g,
+  // Next step
+  /(?:下一步|接下来)\s*[：:]?\s*([^。\n]{5,80})/g,
+];
+
+const ASSIGNEE_PATTERNS = [
+  /([^\s，。]{2,6})\s*(?:负责|跟进|Handle|牵头|完成|做|来(?:负责|Handle|跟进|做))/,
+  /@([^\s，。]{1,8})/,
+  /(?:由|请|交给|安排|让)\s*([^\s，。]{2,6})/,
+];
+
+const DEADLINE_PATTERNS = [
+  /(?:Deadline|DDL|deadline|在|于)\s*([\d]{1,2}[月\/\-][\d]{1,2}[日号]|周[一二三四五六日]|[明后]天|[下本]周[一二三四五六日]|[\d]+[个]?[日月]后)/i,
+  /([\d]{1,2}[月\/\-][\d]{1,2}[日号])/,
+];
+
+function extractActionItems(turns) {
+  const items = [];
+  const seen = new Set();
+
+  turns.forEach(turn => {
+    const text = turn.content;
+    ACTION_PATTERNS.forEach(pattern => {
+      pattern.lastIndex = 0; // reset global state between turns
+      let m;
+      while ((m = pattern.exec(text)) !== null) {
+        // For 2-capture-group patterns (person + task), use group 2 as task
+        const task = (m[2] || m[1] || m[0]).trim();
+        if (task.length < 5 || task.length > 100) continue;
+        const hash = task.substring(0, 40);
+        if (seen.has(hash)) continue;
+        seen.add(hash);
+
+        // Extract assignee: prefer pre-captured person from pattern (m[2] exists = person+task pattern)
+        let assignee = m[2] ? (m[1] || '') : '';
+        if (!assignee) {
+          const am = task.match(ASSIGNEE_PATTERNS[0]) || task.match(ASSIGNEE_PATTERNS[1]) || task.match(ASSIGNEE_PATTERNS[2]);
+          if (am) assignee = am[1];
+        }
+
+        // Extract deadline
+        let deadline = '';
+        DEADLINE_PATTERNS.forEach(dp => {
+          const dm = task.match(dp) || text.match(dp);
+          if (dm) deadline = dm[1];
+        });
+
+        items.push({ task, assignee: assignee || (turn.speaker || ''), deadline, source: turn.speaker });
+      }
+    });
+  });
+
+  return items.slice(0, 20);
+}
+
+// Extract decisions
+const DECISION_PATTERNS = [
+  /(?:决定|Confirmed|敲定|拍板)[：:]*\s*([^。\n]{10,100})/g,
+  /(?:同意|批准|通过)\s*[了]?\s*([^。\n]{10,80})/g,
+  /(?:结论|结论是|最终方案|最终Confirmed)[：:]*\s*([^。\n]{10,100})/g,
+  /(?:那就|就这么|一致同意|达成共识|大家都同意)\s*([^。\n]{10,80})/g,
+  /(?:确认|明确)\s*[了]?\s*(?:以下|如下)?[：:]?\s*([^。\n]{10,80})/g,
+];
+
+function extractDecisions(turns) {
+  const decisions = [];
+  const seen = new Set();
+
+  turns.forEach(turn => {
+    const text = turn.content;
+    DECISION_PATTERNS.forEach(pattern => {
+      pattern.lastIndex = 0; // reset global state between turns
+      let m;
+      while ((m = pattern.exec(text)) !== null) {
+        const decision = (m[1] || m[0]).trim();
+        if (decision.length < 8 || seen.has(decision.substring(0, 50))) continue;
+        seen.add(decision.substring(0, 50));
+        decisions.push({ decision, source: turn.speaker });
+      }
+    });
+  });
+
+  return decisions.slice(0, 15);
+}
+
+// Extract keywords
+const STOP_WORDS = new Set([
+  '这个','那个','我们','你们','他们','就是','然后','所以','但是','因为',
+  '如果','可以','应该','需要','已经','可能','一个','什么','怎么','没有',
+  '大家','觉得','问题','时候','现在','这样','还是','非常','比较','一下',
+  '等等','或者','不过','而且','马上','一定','这边','那边','之前','之后',
+  '上面','下面','知道','今天','明天','昨天','目前','已经','还有',
+  'the','a','an','is','are','was','were','be','been','being','have','has','had',
+  'do','does','did','will','would','could','should','may','might','can','shall',
+  'i','you','he','she','it','we','they','me','him','her','us','them',
+  'my','your','his','its','our','their','this','that','these','those',
+  'of','in','to','for','on','at','from','by','with','about','as','into','through',
+  'and','but','or','nor','not','so','yet','both','either','neither','each','every',
+]);
+
+function extractKeywords(text, limit) {
+  limit = limit || 20;
+  const cleaned = text.replace(/[^\u4e00-\u9fa5a-zA-Z0-9\s]/g, ' ').toLowerCase();
+  const words = cleaned.match(/[\u4e00-\u9fa5]{2,4}|[a-zA-Z]{3,}/g) || [];
+  const freq = {};
+  words.forEach(w => {
+    if (STOP_WORDS.has(w) || w.length < 2) return;
+    freq[w] = (freq[w] || 0) + 1;
+  });
+  return Object.entries(freq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([word, count]) => ({ word, count }));
+}
+
+// Generate summary: pick top-scored paragraphs from each turn
+function generateSummary(turns) {
+  const scored = turns
+    .filter(t => t.content.length > 20)
+    .map((t, i) => ({ ...t, score: scoreContent(t.content), index: i }))
+    .sort((a, b) => b.score - a.score);
+
+  const topN = Math.min(Math.max(3, Math.floor(turns.length * 0.25)), 10);
+  return scored.slice(0, topN).sort((a, b) => a.index - b.index);
+}
+
+// ── Main extraction ──
+function extract(text) {
+  const clean = preprocess(text);
+  const paragraphs = splitParagraphs(clean);
+  const { speakers, turns } = extractSpeakersAndContent(paragraphs);
+
+  const actions = extractActionItems(turns);
+  const decisions = extractDecisions(turns);
+  const keywords = extractKeywords(clean);
+  const summary = generateSummary(turns);
+
+  // Count total chars, speakers
+  const speakerList = [];
+  speakers.forEach((count, name) => speakerList.push({ name, count }));
+  speakerList.sort((a, b) => b.count - a.count);
+
+  return {
+    rawText: clean,
+    paragraphCount: paragraphs.length,
+    turnCount: turns.length,
+    speakers: speakerList,
+    summary,
+    decisions,
+    actions,
+    keywords,
+  };
+}
+
+// ── Render results ──
+function renderResults(data) {
+  // Stats
+  $('statsBar').innerHTML =
+    '<span>Paragraphs: <b class="val">' + data.paragraphCount + '</b></span>' +
+    '<span>Speaker turns: <b class="val">' + data.turnCount + '</b></span>' +
+    '<span>Speakers: <b class="val">' + data.speakers.length + '</b></span>' +
+    '<span>Action Items: <b class="val">' + data.actions.length + '</b></span>' +
+    '<span>Decisions: <b class="val">' + data.decisions.length + '</b></span>';
+
+  $('summaryCount').textContent = data.summary.length + ' key points';
+
+  // Summary
+  let summaryHTML = '<ul>';
+  data.summary.forEach(s => {
+    const prefix = s.speaker ? '<span class="assignee">[' + escHtml(s.speaker) + ']</span> ' : '';
+    summaryHTML += '<li>' + prefix + escHtml(s.content.substring(0, 200)) + '</li>';
+  });
+  summaryHTML += '</ul>';
+  $('summaryContent').innerHTML = summaryHTML || '<p style="color:rgba(255,255,255,0.3)">No key points detected</p>';
+
+  // Decisions
+  if (data.decisions.length > 0) {
+    let dHTML = '<ul>';
+    data.decisions.forEach(d => {
+      const src = d.source ? ' <span style="color:rgba(255,255,255,0.3);font-size:11px">— ' + escHtml(d.source) + '</span>' : '';
+      dHTML += '<li class="decision-item">' + escHtml(d.decision) + src + '</li>';
+    });
+    dHTML += '</ul>';
+    $('decisionsContent').innerHTML = dHTML;
+  } else {
+    $('decisionsContent').innerHTML = '<p style="color:rgba(255,255,255,0.3)">No decisions detected</p>';
+  }
+
+  // Actions
+  if (data.actions.length > 0) {
+    let aHTML = '<ul>';
+    data.actions.forEach(a => {
+      let line = escHtml(a.task);
+      if (a.assignee) line += ' &nbsp; <span class="assignee">' + escHtml(a.assignee) + '</span>';
+      if (a.deadline) line += ' &nbsp; <span class="deadline">' + escHtml(a.deadline) + '</span>';
+      aHTML += '<li>' + line + '</li>';
+    });
+    aHTML += '</ul>';
+    $('actionsContent').innerHTML = aHTML;
+  } else {
+    $('actionsContent').innerHTML = '<p style="color:rgba(255,255,255,0.3)">No action items detected</p>';
+  }
+
+  // Keywords
+  let kHTML = '';
+  data.keywords.slice(0, 12).forEach(k => {
+    kHTML += '<span class="keyword">' + escHtml(k.word) + ' (' + k.count + ')</span>';
+  });
+  $('keywordsContent').innerHTML = kHTML || '<span style="color:rgba(255,255,255,0.3)">—</span>';
+}
+
+// ── Templates ──
+function renderTemplate(data, template) {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const dateISO = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+
+  let md = '';
+
+  switch (template) {
+    case 'standard':
+      md += '# Meeting Minutes\n\n';
+      md += '**Date**: ' + dateStr + '\n\n';
+      if (data.speakers.length > 0) {
+        md += '**Attendees**: ' + data.speakers.map(s => s.name).join(', ') + '\n\n';
+      }
+      md += '## Meeting Summary\n\n';
+      data.summary.forEach((s, i) => {
+        md += (i + 1) + '. ';
+        if (s.speaker) md += '**[' + s.speaker + ']** ';
+        md += s.content + '\n';
+      });
+      md += '\n## Key Decisions\n\n';
+      if (data.decisions.length > 0) {
+        data.decisions.forEach((d, i) => {
+          md += (i + 1) + '. ' + d.decision + '\n';
+        });
+      } else { md += '(No explicit decisions were recorded in this meeting)\n'; }
+      md += '\n## Action Items\n\n';
+      if (data.actions.length > 0) {
+        data.actions.forEach((a, i) => {
+          md += '- [ ] ' + a.task;
+          if (a.assignee) md += ' — **' + a.assignee + '**';
+          if (a.deadline) md += ' Deadline: ' + a.deadline;
+          md += '\n';
+        });
+      } else { md += '(No action items were recorded in this meeting)\n'; }
+      md += '\n## Next Meeting\n\nTo be confirmed\n';
+      break;
+
+    case 'daily':
+      const isWeek = data.paragraphCount > 30 ? 'Weekly' : 'Daily';
+      md += '# ' + isWeek + ' Report — ' + dateStr + '\n\n';
+      md += '**Submitted by**: \n\n';
+      md += '## Progress / Completed Today\n\n';
+      data.summary.forEach((s, i) => {
+        md += '- ' + s.content + '\n';
+      });
+      if (data.actions.length > 0) {
+        md += '\n## Issues / Blocked Items\n\n';
+        data.actions.filter(a => a.task.match(/问题|Blocked|风险|延期|异常|故障/)).forEach(a => {
+          md += '- ' + a.task + '\n';
+          if (a.assignee) md += '  Owner: ' + a.assignee + '\n';
+        });
+        const others = data.actions.filter(a => !a.task.match(/问题|Blocked|风险|延期|异常|故障/));
+        if (others.length > 0) {
+          md += '\n## Next ' + (data.paragraphCount > 30 ? 'Week' : 'Day') + ' Plan\n\n';
+          others.forEach(a => {
+            md += '- ' + a.task + '\n';
+            if (a.assignee) md += '  Owner: ' + a.assignee + '\n';
+          });
+        }
+      }
+      break;
+
+    case 'review':
+      md += '# Project Retrospective Report\n\n';
+      md += '**Date**: ' + dateStr + '\n';
+      md += '**Project / Topic**: \n\n';
+      md += '## Retrospective Goals\n\n';
+      md += '## Results\n\n';
+      data.summary.forEach((s, i) => {
+        md += '- ' + s.content + '\n';
+      });
+      md += '\n## Root Cause Analysis\n\n';
+      if (data.decisions.length > 0) {
+        md += '### What Went Well\n\n';
+        data.decisions.forEach(d => { md += '- ' + d.decision + '\n'; });
+      }
+      md += '\n### What Could Be Improved\n\n';
+      md += '\n## Action Plan\n\n';
+      if (data.actions.length > 0) {
+        data.actions.forEach(a => {
+          md += '- [ ] ' + a.task + '\n';
+          if (a.assignee) md += '  Owner: ' + a.assignee + '\n';
+          if (a.deadline) md += '  Deadline: ' + a.deadline + '\n';
+        });
+      }
+      md += '\n## Lessons Learned\n\n';
+      break;
+
+    case 'resolution':
+      md += '# Meeting Resolutions\n\n';
+      md += '**Date**: ' + dateStr + '\n\n';
+      if (data.decisions.length > 0) {
+        md += '## Resolutions\n\n';
+        data.decisions.forEach((d, i) => {
+          md += '### Resolution ' + (i + 1) + '\n\n';
+          md += '**Resolution**: ' + d.decision + '\n\n';
+          md += '**Rationale**: \n\n';
+          md += '**Execution Requirements**: \n\n';
+          md += '---\n\n';
+        });
+      }
+      if (data.actions.length > 0) {
+        md += '## Assignments\n\n';
+        md += '| Item | Owner | Deadline |\n';
+        md += '|------|--------|----------|\n';
+        data.actions.forEach(a => {
+          md += '| ' + a.task + ' | ' + (a.assignee || '—') + ' | ' + (a.deadline || '—') + ' |\n';
+        });
+      }
+      break;
+
+    case 'standup':
+      md += '# Daily Stand-up Notes\n\n';
+      md += '**Date**: ' + dateStr + '\n\n';
+      if (data.speakers.length > 0) {
+        data.speakers.forEach(s => {
+          md += '## ' + s.name + '\n\n';
+          md += '- **Completed Yesterday**: \n';
+          md += '- **Planned Today**: \n';
+          md += '- **Blocked / Issues**: \n\n';
+          // Try to find relevant content for this person
+          const related = data.actions.filter(a => a.assignee === s.name || a.source === s.name);
+          if (related.length > 0) {
+            related.forEach(a => {
+              md += '  - ' + a.task + '\n';
+            });
+            md += '\n';
+          }
+        });
+      } else {
+        md += '## Whole Team Stand-up\n\n';
+        data.actions.forEach(a => {
+          md += '- **' + (a.assignee || 'Unassigned') + '**: ' + a.task + '\n';
+        });
+      }
+      break;
+  }
+
+  return md;
+}
+
+// ── Render preview ──
+function renderPreview() {
+  if (!extractedData) return;
+  currentMarkdown = renderTemplate(extractedData, selectedTemplate);
+  previewBox.textContent = currentMarkdown;
+}
+
+// ── Event: Extract ──
+btnExtract.addEventListener('click', () => {
+  const text = inputText.value.trim();
+  if (text.length < 30) { showToast('Please paste at least 30 characters of meeting text'); return; }
+  extractedData = extract(text);
+  completedSteps.add(1);
+  completedSteps.add(2);
+  renderResults(extractedData);
+  goToStep(2);
+});
+
+// ── Event: Re-extract ──
+btnReExtract.addEventListener('click', () => {
+  goToStep(1);
+});
+
+// ── Event: Go to export ──
+btnToExport.addEventListener('click', () => {
+  completedSteps.add(2);
+  goToStep(3);
+});
+
+// ── Template selection ──
+$('templateCards').addEventListener('click', e => {
+  const card = e.target.closest('.template-card');
+  if (!card) return;
+  selectedTemplate = card.dataset.template;
+  document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  renderPreview();
+});
+
+// ── Preview editing ──
+previewBox.addEventListener('input', () => {
+  currentMarkdown = previewBox.textContent;
+});
+
+// ── Export functions ──
+function downloadFile(content, filename, mime) {
+  const blob = new Blob([content], { type: mime + ';charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+$('btnDownloadMD').addEventListener('click', () => {
+  if (!currentMarkdown) { showToast('Nothing to export yet'); return; }
+  downloadFile(currentMarkdown, 'meeting-minutes.md', 'text/markdown');
+  showToast('Markdown downloaded');
+});
+
+$('btnDownloadTXT').addEventListener('click', () => {
+  if (!currentMarkdown) { showToast('Nothing to export yet'); return; }
+  downloadFile(currentMarkdown, 'meeting-minutes.txt', 'text/plain');
+  showToast('Plain text downloaded');
+});
+
+$('btnDownloadHTML').addEventListener('click', () => {
+  if (!extractedData) { showToast('Nothing to export yet'); return; }
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Meeting Minutes</title><style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:20px;line-height:1.8;color:#333}h1{color:#e94560}h2{color:#1a1a2e;border-bottom:2px solid #e94560;padding-bottom:4px}ul{padding-left:20px}li{margin:6px 0}</style>
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+</head><body>${markdownToHtml(currentMarkdown)}
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+</body></html>`;
+  downloadFile(html, 'meeting-minutes.html', 'text/html');
+  showToast('HTML downloaded');
+});
+
+$('btnCopy').addEventListener('click', async () => {
+  if (!currentMarkdown) { showToast('Nothing to copy yet'); return; }
+  try {
+    await navigator.clipboard.writeText(currentMarkdown);
+    showToast('Copied to clipboard');
+  } catch (e) {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = currentMarkdown; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('Copied to clipboard');
+  }
+});
+
+// ── Sample data ──
+const SAMPLE_TEXT = `[00:05:10] Alice: Hi everyone, today we're holding the Q3 product planning meeting. We have three agenda items: product roadmap review, technical proposal evaluation, and resource allocation.
+
+[00:06:00] Bob: Let me start with last quarter's product metrics. Q2 user growth reached 15%, daily active users exceeded 500K. However, user retention dropped 3 percentage points — this needs attention.
+
+[00:08:30] Carol: From a technical perspective, our current architecture has performance bottlenecks. Peak API response times exceed 2 seconds. We need an architecture upgrade next quarter. I recommend a microservices approach, estimated 2 months of development.
+
+[00:12:00] Alice: Agreed — performance optimization is the top Q3 priority. Carol, you'll lead the detailed technical design. Please deliver an evaluation report by next Friday.
+
+[00:14:20] Dave: On the budget side, Q3 marketing budget needs a 20% increase for new feature launch campaigns. We also need to plan for copywriting and design resources.
+
+[00:18:00] Eve: The design team currently has two parallel projects and is stretched thin. If Q3 adds more marketing requests, we may need to contract external design resources.
+
+[00:21:30] Bob: I suggest we draft the budget proposal first, confirm with Finance next week, then finalize the execution plan. Also, the product team needs to quickly produce a retention optimization plan.
+
+[00:25:00] Alice: OK, here are the decisions: 1) Carol leads the architecture upgrade proposal, deadline next Friday; 2) Dave leads the Q3 marketing budget proposal, deadline next Wednesday; 3) Bob leads the user retention optimization plan, deadline end of month. Eve, please assess the design resource gap and give me an estimate by this Friday.
+
+[00:28:00] Carol: Noted. One risk to flag: if we proceed with microservices split, it may impact the ongoing A/B testing platform timeline.
+
+[00:30:00] Alice: The A/B testing platform is also critical — no delays. Carol, see if you can run both in parallel. If you need extra resources, come directly to me.
+
+[00:32:00] Eve: Great. We'll review progress across all workstreams in the next meeting. That's all for today.`;
+
+btnSample.addEventListener('click', () => {
+  inputText.value = SAMPLE_TEXT;
+  showToast('Sample meeting text loaded');
+});
+
+// ── Helpers ──
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+function markdownToHtml(md) {
+  return md
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h2 style="font-size:22px;color:#e94560;border:0;padding:0;margin:8px 0">$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n- \[ \] /g, '\n<li><input type="checkbox"> ')
+    .replace(/\n- /g, '\n<li>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(.+)$/gm, (m, p) => p.startsWith('<') ? p : '<p>' + p + '</p>');
+}
+
+// ── Init ASR ──
+initAsr();
+
+})();
+</script>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../meeting-cost-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4BC; Meeting Cost Calculator</a><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a><a href="../md-to-rich-text/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; Markdown to Rich Text</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none;">🛠 More Free Tools →</a></div>
+
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

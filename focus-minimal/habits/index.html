@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Habit Tracker — Minimal Daily Streak Tool | HuSir Tools</title>
+<meta name="description" content="Track daily habits and streaks in a clean, private browser tool. No account, no upload, no distractions.">
+<link rel="canonical" href="https://www.husir.org/tools/focus-minimal/habits/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Habit Tracker — Minimal Daily Streak Tool">
+<meta property="og:description" content="Track daily habits and streaks in a clean, private browser tool. No account, no upload, no distractions.">
+<meta property="og:url" content="https://www.husir.org/tools/focus-minimal/habits/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Habit Tracker — Minimal Daily Streak Tool">
+<meta name="twitter:description" content="Track daily habits and streaks in a clean, private browser tool. No account, no upload, no distractions.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    min-height: 100vh; padding: 40px 20px;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; color: #6ee7b7; margin-bottom: 24px; letter-spacing: 1px; }
+
+  .add-row { display: flex; gap: 10px; margin-bottom: 28px; }
+  .add-row input {
+    flex: 1; background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 8px;
+    padding: 10px 14px; color: #e0e0e0; font-size: 15px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .add-row input:focus { border-color: #6ee7b7; }
+  .add-row input::placeholder { color: #444; }
+  .add-row button {
+    background: #6ee7b7; color: #0f0f1a; border: none; border-radius: 8px;
+    padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .add-row button:hover { opacity: 0.85; }
+
+  .habit-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .habit {
+    display: flex; align-items: center; gap: 12px;
+    background: #1a1a2e; border-radius: 10px; padding: 14px 16px;
+    transition: background 0.2s;
+    border: 1px solid transparent;
+  }
+  .habit:hover { border-color: #2a2a40; }
+
+  .habit-check {
+    width: 22px; height: 22px; border-radius: 6px; border: 2px solid #3a3a50;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .habit-check.done { background: #6ee7b7; border-color: #6ee7b7; }
+  .habit-check.done::after {
+    content: ''; width: 5px; height: 9px; border: solid #0f0f1a;
+    border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-1px);
+  }
+
+  .habit-info { flex: 1; min-width: 0; }
+  .habit-name { font-size: 15px; color: #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .habit-streak { font-size: 12px; color: #555; margin-top: 2px; }
+
+  .habit-streak-bar {
+    display: flex; gap: 3px; align-items: center;
+  }
+  .streak-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: #2a2a40;
+    transition: background 0.3s;
+  }
+  .streak-dot.filled { background: #6ee7b7; }
+
+  .habit-delete {
+    width: 28px; height: 28px; background: none; border: none; color: #444;
+    cursor: pointer; font-size: 16px; display: flex; align-items: center;
+    justify-content: center; border-radius: 6px; transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .habit-delete:hover { color: #ef4444; background: rgba(239,68,68,0.1); }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: #333;
+    font-size: 14px; line-height: 1.8;
+  }
+  .empty-state strong { color: #555; }
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Habits",
+  "description": "Track daily habits and streaks in a clean, private browser tool. No account, no upload, no distractions.",
+  "url": "https://www.husir.org/tools/focus-minimal/habits/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is the streak counted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Completing the habit on consecutive days extends the streak, shown in days (Nd); the dots give a quick view of recent days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I mark a day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tap the check circle beside the habit when you finish it today."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I remove a habit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — use the delete button on the habit row."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — everything is stored only on this device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I miss a day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Just tap the circle again tomorrow — the goal is a fresh streak and a simple daily rhythm."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="container">
+  <h1>Habits</h1>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>A minimal daily habit tracker that helps you keep a simple streak alive. Add a habit, tap the check circle each day you do it, and the streak bar shows your rhythm — great for morning routines, reading, exercise, and ADHD-friendly tiny goals.</p>
+<p>Everything is stored locally in your browser: private, offline, and not tied to any account. Delete habits you no longer need and keep the list as simple as your day.</p>
+<div class="faq">
+<p><strong>🔥 How is the streak counted?</strong><br>Completing the habit on consecutive days extends the streak, shown in days (Nd); the dots give a quick view of recent days.</p>
+<p><strong>✅ How do I mark a day?</strong><br>Tap the check circle beside the habit when you finish it today.</p>
+<p><strong>🗑️ Can I remove a habit?</strong><br>Yes — use the delete button on the habit row.</p>
+<p><strong>🔒 Is my data private?</strong><br>Yes — everything is stored only on this device.</p>
+<p><strong>📆 What if I miss a day?</strong><br>Just tap the circle again tomorrow — the goal is a fresh streak and a simple daily rhythm.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Streak = consecutive completed days<br>Tap the circle to mark today done<br>Recent days shown as a dot bar under each habit
+</div>
+</div>
+</details>
+
+<div class="add-row">
+    <input type="text" id="habitInput" placeholder="New habit..." maxlength="40" autofocus>
+    <button id="addBtn">Add</button>
+  </div>
+
+  <div class="habit-list" id="habitList">
+    <div class="empty-state">
+      <strong>No habits yet.</strong><br>Add one above and start tracking.
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'focus-minimal-habits';
+let habits = [];
+
+function load() {
+  try { habits = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { habits = []; }
+  if (!Array.isArray(habits)) habits = [];
+  // Ensure each habit has history: array of date strings
+  habits.forEach(h => { if (!h.history) h.history = []; });
+}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(habits)); }
+
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function isDoneToday(h) { return h.history.includes(todayStr()); }
+
+function getStreak(h) {
+  let streak = 0;
+  const d = new Date();
+  // Check backwards from today
+  for (let i = 0; i < 365; i++) {
+    const check = new Date(d);
+    check.setDate(d.getDate() - i);
+    const s = check.getFullYear() + '-' + String(check.getMonth()+1).padStart(2,'0') + '-' + String(check.getDate()).padStart(2,'0');
+    if (h.history.includes(s)) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function getLast7(h) {
+  const result = [];
+  const d = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const check = new Date(d);
+    check.setDate(d.getDate() - i);
+    const s = check.getFullYear() + '-' + String(check.getMonth()+1).padStart(2,'0') + '-' + String(check.getDate()).padStart(2,'0');
+    result.push(h.history.includes(s));
+  }
+  return result;
+}
+
+function render() {
+  const list = document.getElementById('habitList');
+  if (habits.length === 0) {
+    list.innerHTML = '<div class="empty-state"><strong>No habits yet.</strong><br>Add one above and start tracking.</div>';
+    return;
+  }
+  list.innerHTML = habits.map((h, i) => {
+    const done = isDoneToday(h);
+    const streak = getStreak(h);
+    const last7 = getLast7(h);
+    const dots = last7.map(f => `<span class="streak-dot${f ? ' filled' : ''}"></span>`).join('');
+    return `
+      <div class="habit">
+        <div class="habit-check${done ? ' done' : ''}" onclick="toggle(${i})"></div>
+        <div class="habit-info">
+          <div class="habit-name">${esc(h.name)}</div>
+          <div class="habit-streak-bar">${dots} <span style="margin-left:6px;font-size:11px;color:#555">${streak}d</span></div>
+        </div>
+        <button class="habit-delete" onclick="remove(${i})" title="Delete">&times;</button>
+      </div>`;
+  }).join('');
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function toggle(i) {
+  const t = todayStr();
+  const h = habits[i];
+  const idx = h.history.indexOf(t);
+  if (idx >= 0) h.history.splice(idx, 1);
+  else h.history.push(t);
+  save();
+  render();
+}
+
+function remove(i) {
+  habits.splice(i, 1);
+  save();
+  render();
+}
+
+document.getElementById('addBtn').addEventListener('click', () => {
+  const input = document.getElementById('habitInput');
+  const name = input.value.trim();
+  if (!name) return;
+  habits.push({ name, history: [] });
+  save();
+  input.value = '';
+  input.focus();
+  render();
+});
+
+document.getElementById('habitInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('addBtn').click();
+});
+
+load();
+render();
+</script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../../focus-minimal/timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F345; Pomodoro Timer</a><a href="../../focus-minimal/board/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CB; Task Board</a><a href="../../focus-minimal/ledger/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D2; Simple Income &amp; Expense Tracker</a><a href="../../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

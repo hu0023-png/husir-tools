@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Secret Santa Generator &amp; Gift Exchange Randomizer | HuSir Tools</title>
+<meta name="description" content="Randomly assign Secret Santa gift exchanges for family, friends, or coworkers. No signup, no upload.">
+<link rel="canonical" href="https://www.husir.org/tools/secret-santa-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Secret Santa Generator & Gift Exchange Randomizer">
+<meta property="og:description" content="Randomly assign Secret Santa gift exchanges for family, friends, or coworkers. No signup, no upload.">
+<meta property="og:url" content="https://www.husir.org/tools/secret-santa-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Secret Santa Generator & Gift Exchange Randomizer">
+<meta name="twitter:description" content="Randomly assign Secret Santa gift exchanges for family, friends, or coworkers. No signup, no upload.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:#0f0f1a;color:#fff;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:24px 16px 60px;
+}
+.app{width:100%;max-width:520px;display:flex;flex-direction:column;gap:20px}
+
+.header{text-align:center}
+.header h1{
+  font-size:26px;font-weight:900;
+  background:linear-gradient(135deg,#ef4444,#22c55e);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+}
+.header .sub{font-size:13px;color:#666;margin-top:4px}
+
+.card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:20px 22px;
+}
+.card-label{
+  font-size:11px;font-weight:700;color:#666;text-transform:uppercase;
+  letter-spacing:0.05em;margin-bottom:12px;
+}
+
+textarea{
+  width:100%;min-height:120px;border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:12px;padding:14px;font-size:15px;font-family:inherit;
+  line-height:1.8;resize:vertical;outline:none;transition:border-color 0.2s;
+  background:rgba(255,255,255,0.04);color:#fff;
+}
+textarea:focus{border-color:#ef4444}
+textarea::placeholder{color:#555}
+.input-hint{font-size:11px;color:#555;margin-top:6px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:12px 24px;border-radius:12px;border:none;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all 0.15s;
+  font-family:inherit;justify-content:center;
+}
+.btn-generate{
+  background:linear-gradient(135deg,#ef4444,#22c55e);color:#fff;
+  width:100%;box-shadow:0 4px 16px rgba(239,68,68,0.3);
+}
+.btn-generate:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(239,68,68,0.4)}
+.btn-generate:active{transform:translateY(0)}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#ccc;border:1px solid rgba(255,255,255,0.1)}
+.btn-ghost:hover{background:rgba(255,255,255,0.1)}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+.budget-input{
+  display:flex;align-items:center;gap:8px;margin-top:8px;
+}
+.budget-input span{color:#666;font-size:14px;font-weight:600}
+.budget-input input{
+  width:80px;padding:8px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);color:#fff;font-size:15px;font-weight:600;
+  text-align:center;outline:none;font-family:inherit;
+}
+.budget-input input:focus{border-color:#22c55e}
+
+/* Results */
+.result-list{display:flex;flex-direction:column;gap:8px}
+.result-item{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;padding:14px 16px;cursor:pointer;
+  transition:all 0.2s;position:relative;overflow:hidden;
+}
+.result-item:hover{border-color:rgba(255,255,255,0.15)}
+.result-item .giver{font-size:14px;font-weight:600;color:#fff}
+.result-item .reveal-area{
+  max-height:0;overflow:hidden;transition:max-height 0.3s ease;
+}
+.result-item.revealed .reveal-area{max-height:120px}
+.result-item .recipient{
+  margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);
+  font-size:14px;color:#22c55e;font-weight:700;
+}
+.result-item .budget-note{font-size:11px;color:#888;margin-top:4px}
+.result-item .wishlist-hint{font-size:11px;color:#888;margin-top:2px;font-style:italic}
+.result-item .reveal-icon{
+  position:absolute;right:14px;top:14px;font-size:18px;color:#666;
+  transition:transform 0.2s;
+}
+.result-item.revealed .reveal-icon{transform:rotate(180deg)}
+
+/* Exclusions */
+.exclude-section{margin-top:10px}
+.exclude-hint{font-size:11px;color:#666;margin-bottom:6px}
+
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:#10b981;color:#fff;padding:10px 22px;border-radius:10px;
+  font-size:14px;font-weight:600;z-index:999;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  opacity:0;pointer-events:none;transition:opacity 0.3s ease;
+}
+.toast.show{opacity:1}
+
+.export-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;background:#000;
+  z-index:99999;display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.export-overlay img{max-width:90%;max-height:90%;object-fit:contain}
+
+.footer{text-align:center;font-size:10px;color:#444;line-height:1.6}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+
+@media(max-width:400px){
+  .btn-row .btn{flex:1}
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Secret Santa",
+  "description": "Randomly assign Secret Santa gift exchanges for family, friends, or coworkers. No signup, no upload.",
+  "url": "https://www.husir.org/tools/secret-santa-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How are pairings created?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The shuffle pairs the names randomly so that each participant both gives and receives once."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I shuffle again?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — generate a new set of pairings as many times as you like before you reveal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if there is an odd number of people?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Everyone still receives a gift, but one pairing circle may be uneven — some groups add a host or extra participant to even things out."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I keep the result?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the export option to keep the pairings for later, then reveal when your group is together."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are names uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the drawing happens entirely in your browser."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Secret Santa", "item": "https://www.husir.org/tools/secret-santa-generator/"}]}</script>
+</head>
+<body>
+<div class="app">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Secret Santa</span></span></nav>
+
+  <div class="header">
+    <h1>Secret Santa</h1>
+    <div class="sub">Random pairings &middot; One-click reveal &middot; Privacy first</div>
+  </div>
+
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Organize a fair Secret Santa gift exchange in minutes. Enter the participant names, generate random pairings, and reveal them for your party — everyone gives one gift and receives one. Perfect for office parties, family gatherings, and friend groups.</p>
+<p>The page works locally and is designed for one shared screen or a private reveal: your names are never uploaded. Re-shuffle until the drawing feels right, then click reveal when the fun starts.</p>
+<div class="faq">
+<p><strong>🎲 How are pairings created?</strong><br>The shuffle pairs the names randomly so that each participant both gives and receives once.</p>
+<p><strong>🔁 Can I shuffle again?</strong><br>Yes — generate a new set of pairings as many times as you like before you reveal.</p>
+<p><strong>👥 What if there is an odd number of people?</strong><br>Everyone still receives a gift, but one pairing circle may be uneven — some groups add a host or extra participant to even things out.</p>
+<p><strong>📤 Can I keep the result?</strong><br>Use the export option to keep the pairings for later, then reveal when your group is together.</p>
+<p><strong>🔒 Are names uploaded?</strong><br>No — the drawing happens entirely in your browser.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+Each run: one giver per participant, one gift received<br>For N participants there are N pairings in the loop<br>Reveal only when everyone is present — half the fun is the surprise
+</div>
+</div>
+</details>
+
+<!-- Input -->
+  <div class="card">
+    <div class="card-label">Participants</div>
+    <textarea id="nameInput" placeholder="One name per line&#10;&#10;Alice&#10;Bob&#10;Charlie&#10;Diana&#10;Eve&#10;Frank"></textarea>
+    <div class="input-hint" id="nameCount">0 participants</div>
+    <div class="budget-input">
+      <span>Budget</span>
+      <input type="text" id="budgetInput" value="25" placeholder="25">
+      <span style="font-size:12px;color:#555">USD</span>
+    </div>
+    <button class="btn btn-generate" id="generateBtn" style="margin-top:14px">
+      Generate Pairings
+    </button>
+  </div>
+
+  <!-- Results -->
+  <div class="card" id="resultsCard" style="display:none">
+    <div class="card-label" style="color:rgba(34,197,94,0.7)">Pairings <span style="font-weight:400;font-size:10px;margin-left:6px">(click to reveal)</span></div>
+    <div class="result-list" id="resultList"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost btn-sm" id="copyAllBtn">Copy All</button>
+      <button class="btn btn-ghost btn-sm" id="reshuffleBtn">Re-shuffle</button>
+      <button class="btn btn-ghost btn-sm" id="exportBtn">Export Image</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    For entertainment only &middot; secret-santa.surge.sh
+  </div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+  <div style="text-align:center;margin-top:8px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08)">
+    <a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.78);text-decoration:none;font-size:12px;transition:color 0.2s" onmouseover="this.style.color='#ccc'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">☕ Buy me a coffee</a>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  var nameInput = document.getElementById('nameInput');
+  var nameCount = document.getElementById('nameCount');
+  var budgetInput = document.getElementById('budgetInput');
+  var generateBtn = document.getElementById('generateBtn');
+  var resultsCard = document.getElementById('resultsCard');
+  var resultList = document.getElementById('resultList');
+  var reshuffleBtn = document.getElementById('reshuffleBtn');
+  var copyAllBtn = document.getElementById('copyAllBtn');
+  var exportBtn = document.getElementById('exportBtn');
+
+  var currentPairings = null;
+  var allRevealed = false;
+
+  function parseNames(raw){
+    if(!raw.trim()) return [];
+    return raw.split(/[\n\r]+|,/)
+      .map(function(s){ return s.trim(); })
+      .filter(function(s){ return s.length > 0; });
+  }
+
+  function updateCount(){
+    var n = parseNames(nameInput.value).length;
+    nameCount.textContent = n + ' participant' + (n !== 1 ? 's' : '');
+    nameCount.style.color = n >= 2 ? '#10b981' : '#ef4444';
+    generateBtn.disabled = n < 2;
+    if(n < 2) generateBtn.style.opacity = '0.4';
+    else generateBtn.style.opacity = '1';
+  }
+
+  nameInput.addEventListener('input', updateCount);
+
+  function generate() {
+    var names = parseNames(nameInput.value);
+    if(names.length < 2){ showToast('Need at least 2 participants'); return; }
+    if(names.length === 2){
+      currentPairings = [{giver: names[0], recipient: names[1]}, {giver: names[1], recipient: names[0]}];
+    } else {
+      // Fisher-Yates based derangement
+      var recipients, attempts = 0;
+      do {
+        recipients = names.slice();
+        // Shuffle
+        for(var i = recipients.length - 1; i > 0; i--){
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = recipients[i]; recipients[i] = recipients[j]; recipients[j] = tmp;
+        }
+        attempts++;
+        // Check no self-match
+        var valid = true;
+        for(var k = 0; k < names.length; k++){
+          if(names[k] === recipients[k]){ valid = false; break; }
+        }
+        if(attempts > 1000) break; // safety
+      } while(!valid);
+      currentPairings = names.map(function(name, idx){
+        return {giver: name, recipient: recipients[idx]};
+      });
+    }
+    renderResults();
+  }
+
+  function renderResults(){
+    var budget = budgetInput.value || '25';
+    resultsCard.style.display = 'block';
+    allRevealed = false;
+
+    resultList.innerHTML = currentPairings.map(function(p, i){
+      return '<div class="result-item" data-idx="'+i+'" onclick="toggleReveal(this)">'+
+        '<span class="reveal-icon">&#9660;</span>'+
+        '<div class="giver">'+escapeHtml(p.giver)+'</div>'+
+        '<div class="reveal-area">'+
+        '<div class="recipient">&#127873; Buying for: '+escapeHtml(p.recipient)+'</div>'+
+        '<div class="budget-note">Budget: $'+budget+'</div>'+
+        '</div></div>';
+    }).join('');
+
+    resultList.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+
+  window.toggleReveal = function(el){
+    el.classList.toggle('revealed');
+  };
+
+  function revealAll(){
+    var items = resultList.querySelectorAll('.result-item');
+    var anyHidden = false;
+    items.forEach(function(item){ if(!item.classList.contains('revealed')) anyHidden = true; });
+    items.forEach(function(item){
+      if(anyHidden) item.classList.add('revealed');
+      else item.classList.remove('revealed');
+    });
+  }
+
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2000);
+  }
+
+  function escapeHtml(str){
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  generateBtn.addEventListener('click', generate);
+
+  reshuffleBtn.addEventListener('click', function(){
+    if(!currentPairings) return;
+    generate();
+    showToast('Re-shuffled');
+  });
+
+  copyAllBtn.addEventListener('click', function(){
+    if(!currentPairings) return;
+    var budget = budgetInput.value || '25';
+    var text = currentPairings.map(function(p){
+      return p.giver + ' \u2192 ' + p.recipient + ' (Budget: $' + budget + ')';
+    }).join('\n');
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('Copied ' + currentPairings.length + ' pairings');
+    });
+  });
+
+  exportBtn.addEventListener('click', function(){
+    var budget = budgetInput.value || '25';
+    var exportDiv = document.createElement('div');
+    exportDiv.style.cssText = 'width:375px;padding:24px 20px;background:#0f0f1a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;position:fixed;left:-9999px;top:0';
+
+    var headerHtml = '<div style="text-align:center;margin-bottom:20px">'+
+      '<div style="font-size:24px;font-weight:900;background:linear-gradient(135deg,#ef4444,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Secret Santa</div>'+
+      '<div style="font-size:11px;color:#666;margin-top:4px">Budget: $'+budget+' per gift</div></div>';
+
+    var itemsHtml = '<div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden">';
+    currentPairings.forEach(function(p, i){
+      itemsHtml += '<div style="padding:14px 18px;'+(i>0?'border-top:1px solid rgba(255,255,255,0.06)':'')+'">'+
+        '<div style="font-size:13px;color:#999">'+escapeHtml(p.giver)+'</div>'+
+        '<div style="font-size:15px;font-weight:700;color:#22c55e;margin-top:2px">&#127873; '+escapeHtml(p.recipient)+'</div></div>';
+    });
+    itemsHtml += '</div>';
+
+    exportDiv.innerHTML = headerHtml + itemsHtml;
+    document.body.appendChild(exportDiv);
+
+    html2canvas(exportDiv, {scale:2,backgroundColor:'#0f0f1a',logging:false}).then(function(canvas){
+      exportDiv.remove();
+      var dataUrl = canvas.toDataURL('image/png');
+      if(window.innerWidth < 768){
+        var ov = document.createElement('div'); ov.className = 'export-overlay';
+        ov.onclick = function(){ ov.remove(); };
+        var img = document.createElement('img'); img.src = dataUrl;
+        ov.appendChild(img); document.body.appendChild(ov);
+      } else {
+        var a = document.createElement('a'); a.download = 'secret-santa.png';
+        a.href = dataUrl; a.click();
+      }
+    }).catch(function(){ exportDiv.remove(); });
+  });
+
+  // Keyboard: press Enter in budget to generate
+  budgetInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); generate(); }
+  });
+
+  // Init
+  updateCount();
+})();
+</script>
+<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a><a href="../spin-wheel-pro/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A1; Lucky Spin Wheel</a><a href="../poll-vote-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E3; Poll &amp; Vote Counter</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Contrast &amp; Palette | HuSir Tools</title>
+<meta name="description" content="Check WCAG AA/AAA contrast between any two colors and generate complementary, triadic, analogous, or shade palettes with copy-ready hex codes. Private, offline.">
+<link rel="canonical" href="https://www.husir.org/tools/color-contrast-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Color Contrast & Palette">
+<meta property="og:description" content="Check WCAG AA/AAA contrast between any two colors and generate complementary, triadic, analogous, or shade palettes with copy-ready hex codes. Private, offline.">
+<meta property="og:url" content="https://www.husir.org/tools/color-contrast-checker/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Color Contrast & Palette">
+<meta name="twitter:description" content="Check WCAG AA/AAA contrast between any two colors and generate complementary, triadic, analogous, or shade palettes with copy-ready hex codes. Private, offline.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2{grid-template-columns:1fr}}
+
+.colorrow{display:flex;gap:8px;align-items:center}
+.colorrow input[type=color]{width:52px;height:40px;border:2px solid #e0e0e0;border-radius:9px;padding:2px;cursor:pointer}
+.colorrow input[type=text]{flex:1;font-family:ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase}
+.contrast-card{border:2px solid #e6e9f5;border-radius:12px;padding:16px;margin-top:12px}
+.stat{background:#f8faff;border:1px solid #e6e9f5;border-radius:10px;padding:10px 6px;text-align:center}
+.stat span{display:block;font-size:11.5px;color:#7c86a0;margin-bottom:2px}
+.stat strong{font-size:17px;color:#1a1a2e}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:5px 10px;border-radius:8px;margin:0 6px 6px 0}
+.badok{background:#ecfdf5;color:#047857}.badno{background:#fef2f2;color:#b91c1c}
+.pchip{border-radius:10px;padding:14px 10px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;border:1px solid rgba(0,0,0,.08)}
+.pchip b{font-weight:700}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Color Contrast & Palette",
+  "description": "Check WCAG AA/AAA contrast between any two colors and generate complementary, triadic, analogous, or shade palettes with copy-ready hex codes. Private, offline.",
+  "url": "https://www.husir.org/tools/color-contrast-checker/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does WCAG require?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For normal text: AA needs 4.5:1 and AAA needs 7:1. Large text (18px+ or 14px bold) passes AA at 3:1 and AAA at 4.5:1."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is contrast calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contrast = (Lighter + 0.05) ÷ (Darker + 0.05), using the WCAG relative-luminance formula for each color's red, green, and blue channels."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do the palette schemes mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Complementary is the opposite color (180°), triadic uses three evenly spaced hues (120° apart), analogous steps to nearby hues, and shades keeps one hue while changing lightness."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I copy a color?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click any palette chip — its hex code is copied to your clipboard instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is anything uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — all calculations run locally on your device and the page works offline."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Color Contrast & Palette", "item": "https://www.husir.org/tools/color-contrast-checker/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Color Contrast &amp; Palette</span></span></nav>
+
+<div class="title-wrap">
+<h1>🎨 Color Contrast &amp; Palette</h1>
+<p class="subtitle">WCAG contrast checker · Complementary / triadic / shades</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Two color tools in one page, built for designers and developers: a WCAG contrast checker that tests text against any background, and a palette generator that creates complementary, triadic, analogous, and shade schemes from one brand color. Every result includes copy-ready hex codes.</p>
+<p>Contrast matters for accessibility — low-contrast text is hard to read and fails WCAG 2.x. The checker shows the ratio (from 1:1 to 21:1) and whether the pair passes AA and AAA for normal and large text. All color math happens locally; no images or colors are uploaded.</p>
+<div class="faq">
+<p><strong>🧑‍🦯 What does WCAG require?</strong><br>For normal text: AA needs 4.5:1 and AAA needs 7:1. Large text (18px+ or 14px bold) passes AA at 3:1 and AAA at 4.5:1.</p>
+<p><strong>🧮 How is contrast calculated?</strong><br>Contrast = (Lighter + 0.05) ÷ (Darker + 0.05), using the WCAG relative-luminance formula for each color's red, green, and blue channels.</p>
+<p><strong>🎨 What do the palette schemes mean?</strong><br>Complementary is the opposite color (180°), triadic uses three evenly spaced hues (120° apart), analogous steps to nearby hues, and shades keeps one hue while changing lightness.</p>
+<p><strong>📋 How do I copy a color?</strong><br>Click any palette chip — its hex code is copied to your clipboard instantly.</p>
+<p><strong>🔒 Is anything uploaded?</strong><br>No — all calculations run locally on your device and the page works offline.</p>
+</div>
+<div class="formula"><b>📐 Key formulas</b><br>
+Contrast ratio = (L₁ + 0.05) ÷ (L₂ + 0.05), where L is WCAG relative luminance<br>
+Passes AA: normal 4.5:1 · large 3:1 · AAA: normal 7:1 · large 4.5:1<br>
+Palette hues: complementary 180° · triadic 120° · analogous ±30–60°
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>🔍 WCAG Contrast Checker</h3></div>
+  <div class="grid2">
+    <div>
+      <div class="field-label">Text color</div>
+      <div class="colorrow"><input type="color" id="fg" value="#111827"><input type="text" id="fgHex" value="#111827" maxlength="7"></div>
+    </div>
+    <div>
+      <div class="field-label">Background color</div>
+      <div class="colorrow"><input type="color" id="bg" value="#f9fafb"><input type="text" id="bgHex" value="#f9fafb" maxlength="7"></div>
+    </div>
+  </div>
+  <div class="contrast-card" id="ccard">
+    <div style="font-size:22px;font-weight:800" id="cText">Aa — Sample text</div>
+    <div style="font-size:13px;opacity:.85" id="cSub">Small text sample for contrast testing</div>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+    <div class="stat"><span>Contrast ratio</span><strong id="ratio">—</strong></div>
+    <div class="stat"><span>Verdict</span><strong id="verdict" style="font-size:14px">—</strong></div>
+  </div>
+  <div id="badges" style="margin-top:10px"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>🎨 Palette Generator</h3></div>
+  <div class="grid2">
+    <div>
+      <div class="field-label">Base color</div>
+      <div class="colorrow"><input type="color" id="base" value="#667eea"><input type="text" id="baseHex" value="#667eea" maxlength="7"></div>
+    </div>
+    <div>
+      <div class="field-label">Scheme</div>
+      <select id="scheme">
+        <option value="comp" selected>Complementary</option>
+        <option value="tri">Triadic</option>
+        <option value="ana">Analogous</option>
+        <option value="shade">Shades</option>
+      </select>
+    </div>
+  </div>
+  <div id="pal" style="margin-top:14px"></div>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../color-code-converter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F308; Color Code Converter</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a><a href="../image-compress/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F5BC;&#xFE0F; Image Compress &amp; Privacy</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+
+var $=function(id){return document.getElementById(id);};
+function normHex(v){
+  v=String(v).trim();
+  if(v[0]!=='#')v='#'+v;
+  if(/^#[0-9a-fA-F]{3}$/.test(v)){v='#'+v[1]+v[1]+v[2]+v[2]+v[3]+v[3];}
+  return /^#[0-9a-fA-F]{6}$/.test(v)?v.toUpperCase():null;
+}
+function rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+function lum(h){
+  var c=rgb(h).map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});
+  return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];
+}
+function ratio(a,b){var l1=lum(a),l2=lum(b);var hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+0.05)/(lo+0.05);}
+function copyText(t){
+  function done(b){b.textContent='✅ Copied';setTimeout(function(){b.textContent=t;},1200);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){flash(t);}).catch(function(){fb(t);});}else{fb(t);}
+  function flash(t){}
+}
+function fb(t){
+  var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+}
+function contrast(){
+  var f=normHex($('fgHex').value)||normHex($('fg').value);
+  var b=normHex($('bgHex').value)||normHex($('bg').value);
+  if(!f||!b)return;
+  $('fg').value=f;$('fgHex').value=f;
+  $('bg').value=b;$('bgHex').value=b;
+  $('ccard').style.background=b;
+  $('ccard').style.color=f;
+  $('cText').style.color=f;
+  $('cSub').style.color=f;
+  var r=ratio(f,b);
+  $('ratio').textContent=r.toFixed(2)+':1';
+  var aaN=r>=4.5,aaL=r>=3,aaaN=r>=7,aaaL=r>=4.5;
+  var v=aaN?'AA ✓':(aaL?'Large AA ✓':'Fail');
+  if(aaaN)v='AAA ✓';
+  $('verdict').textContent=v;
+  var badges='';
+  badges+='<span class="badge '+(aaN?'badok':'badno')+'">Normal text AA 4.5</span>';
+  badges+='<span class="badge '+(aaL?'badok':'badno')+'">Large text AA 3</span>';
+  badges+='<span class="badge '+(aaaN?'badok':'badno')+'">Normal AAA 7</span>';
+  badges+='<span class="badge '+(aaaL?'badok':'badno')+'">Large AAA 4.5</span>';
+  $('badges').innerHTML=badges;
+}
+function hexToHsl(h){
+  var c=rgb(h).map(function(v){return v/255;});
+  var max=Math.max.apply(null,c),min=Math.min.apply(null,c);
+  var l=(max+min)/2,d=max-min;var s=d===0?0:d/(1-Math.abs(2*l-1));
+  var i=c.indexOf(max),hh;
+  if(d===0)hh=0;
+  else if(i===0)hh=60*(((c[1]-c[2])/d)%6);
+  else if(i===1)hh=60*((c[2]-c[0])/d+2);
+  else hh=60*((c[0]-c[1])/d+4);
+  if(hh<0)hh+=360;
+  return [hh,s*100,l*100];
+}
+function hslToHex(h,s,l){
+  s/=100;l/=100;
+  var c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2;
+  var r,g,b;
+  if(h<60){r=c;g=x;b=0;}else if(h<120){r=x;g=c;b=0;}else if(h<180){r=0;g=c;b=x;}else if(h<240){r=0;g=x;b=c;}else if(h<300){r=x;g=0;b=c;}else{r=c;g=0;b=x;}
+  function to(v){return Math.round((v+m)*255).toString(16).padStart(2,'0');}
+  return '#'+(to(r)+to(g)+to(b)).toUpperCase();
+}
+function palette(){
+  var base=normHex($('baseHex').value)||normHex($('base').value);
+  if(!base)return;
+  $('base').value=base;$('baseHex').value=base;
+  var hsl=hexToHsl(base),h=hsl[0],s=hsl[1],l=hsl[2];
+  var scheme=$('scheme').value,hexes=[];
+  if(scheme==='comp'){hexes=[base,hslToHex((h+180)%360,s,l)];}
+  else if(scheme==='tri'){hexes=[base,hslToHex((h+120)%360,s,l),hslToHex((h+240)%360,s,l)];}
+  else if(scheme==='ana'){hexes=[hslToHex((h+330)%360,s,l),base,hslToHex((h+30)%360,s,l),hslToHex((h+60)%360,s,l)];}
+  else{hexes=[hslToHex(h,s,Math.min(95,l+30)),hslToHex(h,s,Math.min(88,l+18)),base,hslToHex(h,s,Math.max(10,l-18)),hslToHex(h,s,Math.max(5,l-30))];}
+  var pal=$('pal'),h2='';
+  hexes.forEach(function(x){
+    var c=rgb(x),dark=(0.2126*c[0]+0.7152*c[1]+0.0722*c[2])<128;
+    h2+='<div class="pchip" style="background:'+x+';color:'+(dark?'#ffffff':'#111827')+'" data-h="'+x+'"><b>'+x+'</b><span>click to copy</span></div>';
+  });
+  pal.innerHTML=h2;
+  pal.querySelectorAll('.pchip').forEach(function(ch){
+    ch.addEventListener('click',function(){var v=ch.getAttribute('data-h');copyText(v);ch.innerHTML='<b>'+v+'</b><span>✅ Copied</span>';setTimeout(function(){ch.innerHTML='<b>'+v+'</b><span>click to copy</span>';},1200);});
+  });
+}
+['fg','bg'].forEach(function(id){$(id).addEventListener('input',function(){$('fgHex').value=$(id).value;contrast();});});
+['fgHex','bgHex'].forEach(function(id){$(id).addEventListener('input',contrast);});
+$('base').addEventListener('input',function(){$('baseHex').value=$('base').value;palette();});
+$('baseHex').addEventListener('input',palette);
+$('scheme').addEventListener('change',palette);
+contrast();palette();
+
+</script>
+</body>
+</html>

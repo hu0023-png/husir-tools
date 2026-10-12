@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compound Interest Calculator — Growth by Year | HuSir Tools</title>
+<meta name="description" content="Project how savings and investments grow with compound interest: initial deposit, monthly contributions, rate, and year-by-year growth. Free & private.">
+<link rel="canonical" href="https://www.husir.org/tools/compound-interest-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Compound Interest Calculator — Growth by Year">
+<meta property="og:description" content="Project how savings and investments grow with compound interest: initial deposit, monthly contributions, rate, and year-by-year growth. Free & private.">
+<meta property="og:url" content="https://www.husir.org/tools/compound-interest-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Compound Interest Calculator — Growth by Year">
+<meta name="twitter:description" content="Project how savings and investments grow with compound interest: initial deposit, monthly contributions, rate, and year-by-year growth. Free & private.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=text],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.stat{background:#f8faff;border:1px solid #e6e9f5;border-radius:10px;padding:10px 14px;text-align:center}
+.stat span{display:block;font-size:11.5px;color:#7c86a0;margin-bottom:2px}
+.stat strong{font-size:16px;color:#1a1a2e}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.btn-sm{padding:6px 12px;font-size:12px}
+.growth{width:100%;border-collapse:collapse;font-size:13px}
+.growth th{position:sticky;top:0;background:#f3f4fb;color:#5a6478;text-align:right;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+.growth th:first-child,.growth td:first-child{text-align:left}
+.growth td{padding:7px 10px;text-align:right;border-top:1px solid #f1f2f8;color:#475569}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Compound Interest Calculator",
+  "description": "Project how savings and investments grow with compound interest: initial deposit, monthly contributions, rate, and year-by-year growth. Free & private.",
+  "url": "https://www.husir.org/tools/compound-interest-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is compound interest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Interest on interest. Each period your balance earns interest, and next period that interest earns interest too — that is why long-term growth is not a straight line."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are monthly deposits handled?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Interest is credited at the end of each compounding period at the annual rate divided by the periods per year (monthly = 12, quarterly = 4, semi-annually = 2, yearly = 1), applied to the balance that has been in the account for the whole period. Monthly deposits are added at the end of each month and start earning from the next period."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this a guarantee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — rates change and investing involves risk. Treat the result as a planning estimate; savings accounts usually pay an APY quoted after compounding, so entering that APY as the rate is a reasonable approximation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it include taxes or inflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the projection is in nominal dollars. For an after-tax or \"today's money\" view, use a lower rate that accounts for taxes and inflation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my information uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — all calculations happen locally on your device, and the offline copy needs no internet."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Compound Interest Calculator", "item": "https://www.husir.org/tools/compound-interest-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Compound Interest Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>💰 Compound Interest Calculator</h1>
+<p class="subtitle">Savings &amp; investing · Monthly deposits · Year-by-year growth</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>See what your money can become. Start with an initial deposit, add a monthly contribution, pick an expected annual rate, and choose how often interest is compounded — monthly, quarterly, semi-annually, or yearly. The calculator projects the future value, separates your own deposits from the interest earned, and shows the balance growing year by year.</p>
+<p>Use it to compare a high-yield savings account versus investing, to sanity-check a 401(k) or IRA projection, or just to see how much earlier — or bigger — monthly deposits matter. Everything runs 100% in your browser: no account, no email, no upload.</p>
+<div class="faq">
+<p><strong>🧮 What is compound interest?</strong><br>Interest on interest. Each period your balance earns interest, and next period that interest earns interest too — that is why long-term growth is not a straight line.</p>
+<p><strong>💰 How are monthly deposits handled?</strong><br>Interest is credited at the end of each compounding period at the annual rate divided by the periods per year (monthly = 12, quarterly = 4, semi-annually = 2, yearly = 1), applied to the balance that has been in the account for the whole period. Monthly deposits are added at the end of each month and start earning from the next period.</p>
+<p><strong>📈 Is this a guarantee?</strong><br>No — rates change and investing involves risk. Treat the result as a planning estimate; savings accounts usually pay an APY quoted after compounding, so entering that APY as the rate is a reasonable approximation.</p>
+<p><strong>🧾 Does it include taxes or inflation?</strong><br>No — the projection is in nominal dollars. For an after-tax or "today's money" view, use a lower rate that accounts for taxes and inflation.</p>
+<p><strong>🔒 Is my information uploaded?</strong><br>No — all calculations happen locally on your device, and the offline copy needs no internet.</p>
+</div>
+<div class="formula"><b>📐 Key formulas</b><br>
+Lump-sum compound: A = P × (1 + r/f)^(f × t) — P = principal, r = annual rate, f = compounding periods per year, t = years<br>
+Simple interest: A = P × (1 + r × t)<br>
+This tool adds monthly deposits month by month: at each credit date, interest applies to the balance held for the full period, then that month's deposit is added
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>💰 Savings Details</h3></div>
+  <div class="grid3">
+    <div>
+      <div class="field-label">Initial deposit ($)</div>
+      <input type="number" id="principal" value="1000" step="100" min="0">
+    </div>
+    <div>
+      <div class="field-label">Monthly deposit ($)</div>
+      <input type="number" id="deposit" value="200" step="10" min="0">
+    </div>
+    <div>
+      <div class="field-label">Annual rate (%)</div>
+      <input type="number" id="rate" value="7" step="0.05" min="0" max="40">
+    </div>
+    <div>
+      <div class="field-label">Years</div>
+      <input type="number" id="years" value="20" step="1" min="1" max="80">
+    </div>
+    <div>
+      <div class="field-label">Compound frequency</div>
+      <select id="freq">
+        <option value="12" selected>Monthly (typical savings)</option>
+        <option value="4">Quarterly</option>
+        <option value="2">Semi-annually</option>
+        <option value="1">Annually</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="result-box" style="margin-top:0">
+    <div style="font-size:12px;color:#7c86a0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Future value (compound)</div>
+    <div class="result-big" id="fv">—</div>
+    <div class="result-sub" id="sumline">—</div>
+  </div>
+  <div class="grid3" style="margin-top:12px">
+    <div class="stat"><span>Total deposits</span><strong id="totDep">—</strong></div>
+    <div class="stat"><span>Interest earned</span><strong id="totInt">—</strong></div>
+    <div class="stat"><span>Simple interest (same deposits)</span><strong id="simple">—</strong></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header"><h3>📈 Year-by-Year Growth</h3><button class="btn btn-ghost btn-sm" id="toggleRows" type="button">Show all years</button></div>
+  <div style="max-height:360px;overflow:auto;border:1px solid #e6e9f5;border-radius:10px">
+    <table class="growth">
+      <thead><tr><th>Year</th><th>Balance</th><th>Deposited to date</th><th>Interest earned</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a><a href="../rule-of-72-simple-interest/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧮 Rule of 72 &amp; Simple Interest</a><a href="../budget-tracker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4CA; Budget Tracker</a><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+var showAll=false;
+function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function calc(){
+  var P=parseFloat($('principal').value)||0;
+  var pmt=parseFloat($('deposit').value)||0;
+  var r=(parseFloat($('rate').value)||0)/100;
+  var years=Math.floor(parseFloat($('years').value))||1;
+  var freq=parseInt($('freq').value,10)||12;
+  var per=Math.max(1,Math.round(12/freq));
+  var months=years*12;
+  var balance=P, base0=P, deposited=P, interestTotal=0;
+  var rows=[];
+  var simpleTotal=P + pmt*months + P*r*years;
+  for(var m=1;m<=months;m++){
+    if(m%per===0){
+      var interest=base0*(r/freq);
+      balance+=interest;
+      interestTotal+=interest;
+      base0=balance;
+    }
+    balance+=pmt;
+    deposited+=pmt;
+    if(m%12===0){
+      rows.push({year:m/12,balance:balance,deposited:deposited,interest:interestTotal});
+    }
+  }
+  $('fv').textContent=money(balance);
+  $('totDep').textContent=money(deposited);
+  $('totInt').textContent=money(interestTotal);
+  $('simple').textContent=money(simpleTotal);
+  $('sumline').textContent=money(P)+' initial + '+money(pmt)+'/mo for '+years+' yrs at '+(parseFloat($('rate').value)||0).toFixed(2)+'% compounded '+(freq===12?'monthly':freq===4?'quarterly':freq===2?'semi-annually':'annually');
+  renderTable(rows);
+}
+function renderTable(rows){
+  var limit=showAll?rows.length:Math.min(10,rows.length);
+  var html='';
+  for(var i=0;i<limit;i++){
+    var row=rows[i];
+    html+='<tr><td>'+row.year+'</td><td>'+money(row.balance)+'</td><td>'+money(row.deposited)+'</td><td>'+money(row.interest)+'</td></tr>';
+  }
+  $('tbody').innerHTML=html;
+}
+$('toggleRows').addEventListener('click',function(){
+  showAll=!showAll;
+  this.textContent=showAll?'Show first 10 years':'Show all years';
+  calc();
+});
+['principal','deposit','rate','years','freq'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('freq').addEventListener('change',calc);
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>401(k) Retirement Calculator — Savings & Employer Match | HuSir Tools</title>
+<meta name="description" content="Estimate how your 401(k) grows with your contributions, employer match, and compound returns. Project retirement income — free, private, no signup.">
+<link rel="canonical" href="https://www.husir.org/tools/401k-retirement-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="401(k) Retirement Calculator — Savings & Employer Match">
+<meta property="og:description" content="Estimate how your 401(k) grows with your contributions, employer match, and compound returns. Project retirement income — free, private, no signup.">
+<meta property="og:url" content="https://www.husir.org/tools/401k-retirement-calculator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="401(k) Retirement Calculator — Savings & Employer Match">
+<meta name="twitter:description" content="Estimate how your 401(k) grows with your contributions, employer match, and compound returns. Project retirement income — free, private, no signup.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.field-label{font-size:12.5px;color:#888;margin:10px 0 4px;font-weight:600;display:block}
+input[type=number],input[type=date],select{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fafbfc;margin-bottom:2px}
+input:focus,select:focus{border-color:#667eea;background:#fff}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin-top:8px}
+.radio-row{display:flex;gap:14px;margin-top:6px;font-size:13px;color:#555}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.result-box{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:14px 16px;text-align:center;margin-top:14px}
+.result-big{font-size:25px;font-weight:800;color:#4c1d95;word-break:break-word}
+.result-sub{font-size:12.5px;color:#7c86a0;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kpi{background:#f8faff;border:2px solid #e6e9f5;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:#7c86a0;font-weight:600;margin-bottom:3px}
+.kpi .v{font-size:17px;font-weight:800;color:#1a1a2e}
+.note{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+.tablewrap{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f3f4fb;color:#4c1d95;padding:8px 10px;text-align:left;font-size:12px}
+td{padding:7px 10px;border-bottom:1px solid #eef0f7;color:#475569}
+td:last-child,th:last-child{text-align:right}
+tr:last-child td{border-bottom:0}
+.flag{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 14px}.grid2,.grid3{grid-template-columns:1fr}}
+.rowline{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #f1f2f8;color:#475569}
+.rowline strong{color:#1a1a2e}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "401(k) Retirement Calculator",
+  "description": "Estimate how your 401(k) grows with your contributions, employer match, and compound returns. Project retirement income — free, private, no signup.",
+  "url": "https://www.husir.org/tools/401k-retirement-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much should I contribute?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At minimum, contribute enough to get the full employer match — that is free money. A common goal is 15% of income including the match. This tool lets you test a dollar amount or a percentage of salary."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the 2026 contribution limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The IRS elective deferral limit for 2026 is $24,000, plus a $7,500 catch-up if you are 50 or older (workers 60–63 may contribute up to $11,250 in catch-up). Limits rise most years — verify the current numbers at IRS.gov, and edit the fields if yours differ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does an employer match usually work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A typical formula is “50% of your contributions up to 6% of salary,” meaning the employer adds $0.50 for every $1 you put in until your contributions reach 6% of pay. Many plans also have a vesting schedule — unvested match money may be forfeited if you leave early."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What return should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "7% is a common long-term average for a diversified stock-heavy portfolio before inflation (about 4–5% after inflation). Try 5% for a conservative case and 9% for an aggressive one — the range shows how sensitive the future is to returns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What will my balance actually buy in retirement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 4% rule suggests you can withdraw about 4% of your balance in year one (rising with inflation) with a high chance of not outliving the money. That is a planning shorthand, not financial advice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is a simplified planning estimate. Fees, taxes on withdrawals, early-withdrawal rules, and your full retirement picture matter — talk to a plan advisor or fee-only professional before big decisions."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "401(k) Retirement Calculator", "item": "https://www.husir.org/tools/401k-retirement-calculator/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">401(k) Retirement Calculator</span></span></nav>
+
+<div class="title-wrap">
+<h1>📈 401(k) Retirement Calculator</h1>
+<p class="subtitle">Your contributions + employer match + compound growth · project your balance</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>A 401(k) is the most powerful retirement account most American workers have: contributions go in pre-tax (or post-tax into a Roth 401(k)), investment gains grow tax-deferred, and many employers add free matching money on top. This calculator projects how much your 401(k) could be worth by retirement when you combine your own contributions, an employer match, salary growth, and compound investment returns.</p>
+<p>It runs a year-by-year simulation from your current age to your planned retirement age: each year the balance earns your expected return, your contribution is added (capped at the IRS annual limit, with the age-50 catch-up added automatically), and your employer's match is credited up to the plan's cap. The result shows your projected balance, how much of it came from you versus your employer versus investment growth, and roughly what that could mean as monthly income using the common 4% withdrawal guideline.</p>
+<p>Everything is calculated locally in your browser — no account, no login, no data uploaded. The result is an estimate, not a guarantee: returns are never smooth, plans differ in match formulas, and you may change jobs, contribution rates, or markets along the way. Re-run it whenever your salary or contribution changes.</p>
+<div class="faq">
+<p><strong>💰 How much should I contribute?</strong><br>At minimum, contribute enough to get the full employer match — that is free money. A common goal is 15% of income including the match. This tool lets you test a dollar amount or a percentage of salary.</p>
+<p><strong>🏦 What is the 2026 contribution limit?</strong><br>The IRS elective deferral limit for 2026 is $24,000, plus a $7,500 catch-up if you are 50 or older (workers 60–63 may contribute up to $11,250 in catch-up). Limits rise most years — verify the current numbers at IRS.gov, and edit the fields if yours differ.</p>
+<p><strong>🤝 How does an employer match usually work?</strong><br>A typical formula is “50% of your contributions up to 6% of salary,” meaning the employer adds $0.50 for every $1 you put in until your contributions reach 6% of pay. Many plans also have a vesting schedule — unvested match money may be forfeited if you leave early.</p>
+<p><strong>📉 What return should I use?</strong><br>7% is a common long-term average for a diversified stock-heavy portfolio before inflation (about 4–5% after inflation). Try 5% for a conservative case and 9% for an aggressive one — the range shows how sensitive the future is to returns.</p>
+<p><strong>🏝️ What will my balance actually buy in retirement?</strong><br>The 4% rule suggests you can withdraw about 4% of your balance in year one (rising with inflation) with a high chance of not outliving the money. That is a planning shorthand, not financial advice.</p>
+<p><strong>⚠️ Is this financial advice?</strong><br>No. It is a simplified planning estimate. Fees, taxes on withdrawals, early-withdrawal rules, and your full retirement picture matter — talk to a plan advisor or fee-only professional before big decisions.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Yearly growth = balance × expected return<br>Your contribution = min(contribution, IRS limit + catch-up if 50+)<br>Employer match = min(contribution, salary × match cap) × match percent<br>4% rule income = projected balance × 4% ÷ 12 (monthly)
+</div>
+</div>
+</details>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 1 · Your situation</h3></div>
+<div class="grid2">
+<div>
+<label class="field-label">Current age</label>
+<input type="number" id="age" min="16" max="80" value="30">
+</div>
+<div>
+<label class="field-label">Planned retirement age</label>
+<input type="number" id="retAge" min="45" max="75" value="65">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Current 401(k) balance ($)</label>
+<input type="number" id="balance" min="0" step="500" value="15000">
+</div>
+<div>
+<label class="field-label">Annual salary ($)</label>
+<input type="number" id="salary" min="0" step="500" value="80000">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Your annual contribution</label>
+<input type="number" id="contrib" min="0" step="100" value="10000">
+<div class="radio-row">
+<label><input type="radio" name="cMode" value="dollar" checked> $ per year</label>
+<label><input type="radio" name="cMode" value="percent"> % of salary</label>
+</div>
+</div>
+<div>
+<label class="field-label">Employer match — percent of your contribution (%)</label>
+<input type="number" id="matchPct" min="0" max="200" step="5" value="50">
+<label class="field-label">…up to this percent of salary (%)</label>
+<input type="number" id="matchCap" min="0" max="30" step="1" value="6">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">Expected annual return before retirement (%)</label>
+<input type="number" id="ret" min="0" max="20" step="0.1" value="7">
+</div>
+<div>
+<label class="field-label">Annual salary growth (%)</label>
+<input type="number" id="salaryG" min="0" max="15" step="0.1" value="2">
+</div>
+</div>
+<div class="grid2">
+<div>
+<label class="field-label">IRS annual limit — 2026 ($)</label>
+<input type="number" id="limit" min="0" step="500" value="24000">
+</div>
+<div>
+<label class="field-label">Catch-up after age 50 — 2026 ($)</label>
+<input type="number" id="catchup" min="0" step="100" value="7500">
+<div class="checkline"><input type="checkbox" id="useCatchup" checked><span>Add catch-up automatically once I turn 50</span></div>
+</div>
+</div>
+<div style="text-align:center;margin-top:16px"><button class="btn btn-ghost" id="btnExample">Use example: $60k salary, 10% + 50% match</button></div>
+</div>
+
+<div class="panel">
+<div class="panel-header"><h3>Step 2 · Projected result at age <span id="retLabel">65</span></h3></div>
+<div class="result-box">
+<div style="font-size:12.5px;color:#7c86a0;margin-bottom:2px">Projected 401(k) balance</div>
+<div class="result-big" id="big">$0</div>
+<div class="result-sub" id="bigNote">—</div>
+</div>
+<div class="grid3">
+<div class="kpi"><div class="k">From you</div><div class="v" id="kYou">$0</div></div>
+<div class="kpi"><div class="k">From employer match</div><div class="v" id="kEmp">$0</div></div>
+<div class="kpi"><div class="k">From investment growth</div><div class="v" id="kGrowth">$0</div></div>
+</div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">💸 Estimated monthly income at retirement (4% rule)</div>
+<div class="rowline"><span>4% of balance per year</span><strong id="yr4">$0</strong></div>
+<div class="rowline" style="border-bottom:0"><span>Per month</span><strong id="mo4" style="color:#059669">$0</strong></div>
+</div>
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">📅 How it grows over time</div>
+<div class="tablewrap"><table id="tbl"></table></div>
+</div>
+<p class="note">Assumes one consistent contribution plan and ignores plan fees, taxes on withdrawals, and inflation. Returns are not guaranteed — treat this as a planning estimate, not financial advice. Contribution limits are editable because the IRS updates them most years.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">🛠 More Free Tools →</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">☕ Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../compound-interest-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B0; Compound Interest Calculator</a><a href="../paycheck-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4B5; Paycheck Calculator</a><a href="../social-security-age-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🧓 Social Security Age Calculator</a><a href="../loan-calculator/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3E2; Loan Calculator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+var $=function(id){return document.getElementById(id);};
+function money(x){return '$'+Math.round(x).toLocaleString('en-US');}
+function money2(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function num(id){return Math.max(0,parseFloat($(id).value)||0);}
+function mode(){return document.querySelector('input[name="cMode"]:checked').value;}
+function calc(){
+  var age=num('age'), retAge=Math.max(age+1,num('retAge'));
+  $('retLabel').textContent=Math.round(retAge);
+  var bal=num('balance'), salary=num('salary');
+  var contribRaw=num('contrib');
+  var matchPct=num('matchPct')/100, matchCap=num('matchCap')/100;
+  var rate=num('ret')/100, salG=num('salaryG')/100;
+  var limit=num('limit'), catchup=num('catchup');
+  var useCatchup=$('useCatchup').checked;
+  var years=Math.max(1,Math.floor(retAge-age));
+  var you=0, emp=0, growth=0;
+  var rows=[];
+  for(var y=0;y<years;y++){
+    var a=age+y;
+    var yrContrib=contribRaw;
+    if(mode()==='percent') yrContrib=salary*contribRaw/100;
+    if(useCatchup&&a>=50) yrContrib+=catchup;
+    yrContrib=Math.min(yrContrib,limit+(useCatchup&&a>=50?catchup:0));
+    var yrEmp=Math.min(yrContrib,salary*matchCap)*matchPct;
+    var g=bal*rate;
+    growth+=g; you+=yrContrib; emp+=yrEmp;
+    bal=bal+g+yrContrib+yrEmp;
+    if((y===0)||((a-age)%5===0)||(y===years-1)){
+      rows.push([a,bal,yrContrib,yrEmp]);
+    }
+    salary=salary*(1+salG);
+  }
+  $('big').textContent=money(bal);
+  $('bigNote').textContent=age+' → '+Math.round(retAge)+' · '+years+' year(s) of growth';
+  $('kYou').textContent=money(you);
+  $('kEmp').textContent=money(emp);
+  var growVal=Math.max(0,bal-you-emp);
+  $('kGrowth').textContent=money(growVal);
+  $('yr4').textContent=money2(bal*0.04);
+  $('mo4').textContent=money2(bal*0.04/12);
+  var tr='<tr><th>Age</th><th>Balance</th><th>You add that year</th><th>Employer adds</th></tr>';
+  for(var i=0;i<rows.length;i++){
+    tr+='<tr><td>'+rows[i][0]+'</td><td>'+money(rows[i][1])+'</td><td>'+money(rows[i][2])+'</td><td>'+money(rows[i][3])+'</td></tr>';
+  }
+  $('tbl').innerHTML=tr;
+}
+['age','retAge','balance','salary','contrib','matchPct','matchCap','ret','salaryG','limit','catchup'].forEach(function(id){$(id).addEventListener('input',calc);});
+document.querySelectorAll('input[name="cMode"]').forEach(function(r){r.addEventListener('change',calc);});
+$('useCatchup').addEventListener('change',calc);
+$('btnExample').addEventListener('click',function(){
+  $('age').value=30;$('retAge').value=65;$('balance').value=15000;$('salary').value=60000;
+  $('contrib').value=10;document.querySelector('input[name="cMode"][value="percent"]').checked=true;
+  $('matchPct').value=50;$('matchCap').value=6;$('ret').value=7;$('salaryG').value=2;
+  $('limit').value=24000;$('catchup').value=7500;$('useCatchup').checked=true;
+  calc();
+});
+calc();
+</script>
+</body>
+</html>

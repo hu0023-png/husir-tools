@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Compress Images in Browser — No Upload, Privacy First | HuSir Tools</title>
+<meta name="description" content="Compress JPG, PNG, and WebP images locally in your browser. Your pictures never leave your device.">
+<link rel="canonical" href="https://www.husir.org/tools/image-compress/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Compress Images in Browser — No Upload, Privacy First">
+<meta property="og:description" content="Compress JPG, PNG, and WebP images locally in your browser. Your pictures never leave your device.">
+<meta property="og:url" content="https://www.husir.org/tools/image-compress/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Compress Images in Browser — No Upload, Privacy First">
+<meta name="twitter:description" content="Compress JPG, PNG, and WebP images locally in your browser. Your pictures never leave your device.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<!-- PWA: allow "Add to Home Screen" on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Image Compressor">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+<style>
+/* ===== Reset & Vars ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f2f5; --card:#fff; --card2:#f8fafc;
+  --text:#111827; --text2:#6b7280; --text3:#9ca3af;
+  --border:#e5e7eb; --border2:#d1d5db;
+  --primary:#2563eb; --primary-h:#1d4ed8; --primary-light:#eff6ff;
+  --success:#059669; --success-bg:#ecfdf5;
+  --warn:#d97706; --warn-bg:#fffbeb;
+  --danger:#dc2626; --danger-bg:#fef2f2;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.1);
+  --radius:12px; --radius-sm:8px;
+  --transition:200ms ease;
+}
+.dark{
+  --bg:#0f172a; --card:#1e293b; --card2:#1a2332;
+  --text:#f1f5f9; --text2:#94a3b8; --text3:#64748b;
+  --border:#334155; --border2:#475569;
+  --primary:#3b82f6; --primary-h:#2563eb; --primary-light:#1e3a5f;
+  --success:#10b981; --success-bg:#064e3b;
+  --warn:#f59e0b; --warn-bg:#451a03;
+  --danger:#ef4444; --danger-bg:#450a0a;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.4);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;font-size:15px;transition:background var(--transition),color var(--transition)}
+/* ===== Header ===== */
+.header{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.header h1{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+.header h1 .icon{font-size:24px}
+.header-right{display:flex;align-items:center;gap:12px;position:absolute;top:0;right:0;height:100%;padding-right:24px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:13px;font-weight:600}
+.badge-lock{background:var(--success-bg);color:var(--success)}
+.btn-icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.btn-icon:hover{background:var(--bg);border-color:var(--border2)}
+/* ===== Layout ===== */
+.main{max-width:1100px;margin:0 auto;padding:20px 24px}
+.grid{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:start}
+/* ===== Sidebar: File List ===== */
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.file-list{display:flex;flex-direction:column;gap:8px;max-height:460px;overflow-y:auto}
+.file-item{background:var(--card);border:2px solid var(--border);border-radius:var(--radius-sm);padding:12px;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:10px}
+.file-item:hover{border-color:var(--border2)}
+.file-item.active{border-color:var(--primary);background:var(--primary-light)}
+.file-item .thumb{width:44px;height:44px;border-radius:6px;object-fit:cover;flex-shrink:0;background:var(--bg)}
+.file-item .info{flex:1;min-width:0}
+.file-item .name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-item .meta{font-size:12px;color:var(--text2);margin-top:1px}
+.file-item .del-btn{width:24px;height:24px;border-radius:50%;border:none;background:transparent;color:var(--text3);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--transition)}
+.file-item .del-btn:hover{background:var(--danger-bg);color:var(--danger)}
+.file-actions{display:flex;gap:8px}
+.file-actions button{flex:1}
+/* ===== Main Area ===== */
+.main-area{display:flex;flex-direction:column;gap:16px}
+/* Upload Zone */
+.dropzone{position:relative;overflow:hidden;border:2px dashed var(--border2);border-radius:var(--radius);padding:20px 24px;text-align:center;cursor:pointer;transition:all var(--transition);background:var(--card)}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--primary);background:var(--primary-light)}
+.dropzone-input{position:absolute;inset:0;opacity:0.01;cursor:pointer}
+/* Status bar */
+.status-bar{display:none;padding:8px 14px;background:var(--card);border-radius:var(--radius-sm);font-size:13px;color:var(--text2);text-align:center;border:1px solid var(--border)}
+.dropzone .dz-icon{font-size:32px;margin-bottom:6px}
+.dropzone .dz-title{font-size:16px;font-weight:600;margin-bottom:2px}
+.dropzone .dz-sub{font-size:14px;color:var(--text2)}
+.dropzone .dz-formats{font-size:12px;color:var(--text3);margin-top:4px}
+/* Settings Panel */
+.panel{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.panel-title{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.setting-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.setting-row:last-child{margin-bottom:0}
+.setting-label{font-size:14px;font-weight:600;color:var(--text2);min-width:48px}
+/* Format buttons */
+.fmt-group{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.fmt-btn{padding:8px 16px;border:none;background:var(--card);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:all var(--transition);border-right:1px solid var(--border)}
+.fmt-btn:last-child{border-right:none}
+.fmt-btn:hover{background:var(--bg)}
+.fmt-btn.active{background:var(--primary);color:#fff}
+/* Slider */
+.slider-wrap{flex:1;display:flex;align-items:center;gap:10px;min-width:160px}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border2);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.quality-val{font-size:16px;font-weight:700;color:var(--primary);min-width:36px;text-align:right}
+/* Number input */
+.num-input{width:90px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;text-align:center;background:var(--card);color:var(--text);outline:none;transition:all var(--transition)}
+.num-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+/* Presets */
+.preset-group{display:flex;gap:6px;flex-wrap:wrap}
+.preset-btn{padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.preset-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.preset-btn.active{border-color:var(--primary);background:var(--primary);color:#fff}
+/* ===== Preview ===== */
+.preview-section{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+.preview-title{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.preview-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.preview-col{text-align:center;min-width:0}
+.preview-col .col-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.preview-img-wrap{background:var(--bg);border-radius:var(--radius-sm);padding:8px;min-height:120px;display:flex;align-items:center;justify-content:center}
+.preview-img-wrap img{max-width:100%;max-height:380px;object-fit:contain;border-radius:4px}
+.preview-arrow{display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--text3);padding:0 8px;flex-shrink:0}
+.preview-stats{display:flex;justify-content:center;gap:16px;margin-top:6px;font-size:14px}
+.preview-stats .stat{display:flex;flex-direction:column;align-items:center}
+.preview-stats .stat-val{font-weight:700;font-size:15px}
+.preview-stats .stat-lbl{font-size:12px;color:var(--text2)}
+.savings{color:var(--success);font-weight:700}
+/* ===== EXIF Panel ===== */
+.exif-panel{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+.exif-panel .exif-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.exif-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.exif-item{background:var(--card2);border-radius:var(--radius-sm);padding:10px 12px}
+.exif-item .exif-key{font-size:12px;color:var(--text2);font-weight:600}
+.exif-item .exif-val{font-size:14px;font-weight:500;margin-top:2px;word-break:break-all}
+.exif-warning{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--warn-bg);color:var(--warn);border-radius:var(--radius-sm);font-size:13px;font-weight:600;margin-top:12px}
+.exif-none{color:var(--text3);font-size:14px;text-align:center;padding:20px}
+.gps-link{font-size:13px;color:var(--primary);text-decoration:none;margin-left:4px}
+.gps-link:hover{text-decoration:underline}
+/* ===== Buttons ===== */
+.btn{padding:10px 20px;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:600;cursor:pointer;transition:all var(--transition);display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-h);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.3)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{background:var(--bg);border-color:var(--border2)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid transparent}
+.btn-danger:hover{border-color:var(--danger)}
+.btn-block{width:100%}
+/* ===== Empty State ===== */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
+.empty-state .es-icon{font-size:64px;margin-bottom:12px}
+.empty-state .es-text{font-size:15px}
+/* ===== Toast ===== */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:#1e293b;color:#fff;padding:10px 20px;border-radius:24px;
+  font-size:14px;font-weight:500;z-index:999;
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+  animation:toastIn .3s ease,toastOut .3s ease 2s forwards;
+  pointer-events:none;
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0}}
+/* ===== Save Modal (iOS) ===== */
+.save-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.save-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.6);animation:fadeIn .2s ease}
+.save-modal-card{position:relative;background:var(--card);border-radius:var(--radius);padding:20px;max-width:360px;width:100%;text-align:center;box-shadow:var(--shadow-lg);animation:slideUp .3s ease}
+.save-modal-title{font-size:17px;font-weight:700}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+/* ===== Responsive ===== */
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .sidebar{order:1}
+  .main-area{order:0}
+  .file-list{flex-direction:row;overflow-x:auto;max-height:none;gap:8px;padding-bottom:4px}
+  .file-item{flex-shrink:0;width:140px;flex-direction:column;align-items:center;text-align:center;padding:10px 8px}
+  .file-item .thumb{width:56px;height:56px}
+  .file-item .name{font-size:11px;max-width:120px}
+  .file-actions{flex-direction:row}
+  .header h1{font-size:15px}
+  .header{padding:0 14px}
+  .main{padding:12px 14px}
+  /* Keep 3-col side-by-side, shrink images */
+  .preview-grid{gap:6px}
+  .preview-img-wrap{padding:6px;min-height:90px}
+  .preview-img-wrap img{max-height:200px}
+  .preview-col .col-label{font-size:11px;margin-bottom:4px}
+  .preview-stats{font-size:11px;gap:10px}
+  .preview-arrow{font-size:22px;padding:0 4px}
+}
+/* Narrow phones: 3-col stays, further shrink */
+@media(max-width:500px){
+  .preview-grid{gap:3px}
+  .preview-img-wrap{padding:4px;min-height:70px}
+  .preview-img-wrap img{max-height:130px}
+  .preview-col .col-label{font-size:10px}
+  .preview-stats{font-size:10px;gap:4px}
+  .preview-arrow{font-size:16px;padding:0 2px}
+  .preview-section{padding:10px}
+  .setting-row{flex-direction:column;align-items:flex-start;gap:8px}
+  .slider-wrap{width:100%}
+  .fmt-group{width:100%}
+  .fmt-btn{flex:1;text-align:center}
+  .preset-group{width:100%}
+  .preset-btn{flex:1;text-align:center}
+  .num-input{width:100%}
+  .exif-grid{grid-template-columns:1fr}
+}
+/* Crop panel */
+.crop-section{margin-top:8px}
+.crop-cat{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.crop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:5px;margin-bottom:10px}
+.crop-btn{padding:7px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:12px;cursor:pointer;transition:all var(--transition);text-align:center}
+.crop-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.crop-btn.active{border-color:var(--primary);background:var(--primary);color:#fff}
+.crop-btn .crop-name{font-weight:600}
+.crop-btn .crop-desc{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+.crop-btn.active .crop-desc{color:rgba(255,255,255,.7)}
+.crop-dpi{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);margin-top:4px}
+.crop-dpi input{width:60px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px;text-align:center;background:var(--card);color:var(--text)}
+.crop-info{font-size:11px;color:var(--text3);margin-top:4px}
+/* Crop overlay on preview */
+.crop-overlay-wrap{position:relative;display:inline-block;max-width:100%;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.crop-overlay-wrap img{display:block;max-width:100%;max-height:380px;border-radius:4px}
+.crop-overlay{position:absolute;inset:0;pointer-events:none}
+.crop-frame{position:absolute;border:2px dashed #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.5);cursor:move;pointer-events:auto}
+.crop-frame::after{content:attr(data-label);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;white-space:nowrap}
+@media(max-width:900px){
+  .crop-overlay-wrap img{max-height:200px}
+}
+@media(max-width:500px){
+  .crop-overlay-wrap img{max-height:130px}
+  .crop-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Image Compress & Privacy",
+  "description": "Compress JPG, PNG, and WebP images locally in your browser. Your pictures never leave your device.",
+  "url": "https://www.husir.org/tools/image-compress/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much can I compress without ruining quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For typical photos, a quality setting of 70–85% keeps a good look while cutting file size by roughly 50–80%. The preview shows the trade-off before you save."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which formats are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool processes the image formats your browser can open — commonly JPEG, PNG, and WebP. If a file does not load, try converting it to PNG or JPEG first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I remove location data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the metadata/EXIF removal option before downloading, especially before posting or sending photos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What file size should I aim for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Roughly 100–200 KB for web images, under 25 MB for Gmail attachments, and below whatever limit the shop or form requires."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Image Compress & Privacy", "item": "https://www.husir.org/tools/image-compress/"}]}</script>
+</head>
+<body><nav id="husir-crumb" aria-label="Breadcrumb" style="margin:8px 14px 0;font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Image Compress &amp; Privacy</span></span></nav>
+
+<!-- No-JS warning (e.g., iOS QuickLook) -->
+<!-- No-JS warning: only visible when JavaScript is disabled (e.g. iOS QuickLook) -->
+<noscript>
+<div style="background:#dc2626;color:#fff;text-align:center;padding:16px;font-size:15px;font-weight:600;line-height:1.6">
+  ⚠️ Please open this file in <u>Safari</u> or <u>Chrome</u><br>
+  <span style="font-size:13px;font-weight:400">
+    iOS Files: long press → Share → Safari<br>
+    Or visit on desktop browser:<br>
+    <code style="background:rgba(255,255,255,.2);padding:2px 8px;border-radius:4px">this file in a modern browser</code>
+  </span>
+</div>
+</noscript>
+
+<!-- JS-running check: removed by JS -->
+<div id="jsCheck" style="background:#f59e0b;color:#fff;text-align:center;padding:6px;font-size:13px;font-weight:600">
+  ⏳ Loading scripts......
+</div>
+
+<!-- ===== Header ===== -->
+<header class="header">
+  <h1><span class="icon">🔒</span>Image Compress & Privacy</h1>
+  <div class="header-right">
+    <span class="badge badge-lock">🔒 Local Processing</span>
+    <button class="btn-icon" id="themeToggle" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">🌓</button>
+  </div>
+</header>
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;max-width:1100px;margin:10px auto 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}.badge{display:none}.header-right{padding-right:14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Shrink images right in your browser so they load faster, fit in emails, and pass the upload limits on shop listings, forms, and messaging apps. Adjust quality, preview the savings, and process several files at once — handy for teachers, sellers, and anyone sharing photos on the web.</p>
+<p>Your pictures never leave the device: no upload step, no account, no hidden cloud copy. You can also strip metadata such as camera model and GPS location before exporting, and toggle dark mode for comfortable batch work in the evening.</p>
+<div class="faq">
+<p><strong>🎚️ How much can I compress without ruining quality?</strong><br>For typical photos, a quality setting of 70–85% keeps a good look while cutting file size by roughly 50–80%. The preview shows the trade-off before you save.</p>
+<p><strong>📄 Which formats are supported?</strong><br>The tool processes the image formats your browser can open — commonly JPEG, PNG, and WebP. If a file does not load, try converting it to PNG or JPEG first.</p>
+<p><strong>📍 How do I remove location data?</strong><br>Use the metadata/EXIF removal option before downloading, especially before posting or sending photos.</p>
+<p><strong>🎯 What file size should I aim for?</strong><br>Roughly 100–200 KB for web images, under 25 MB for Gmail attachments, and below whatever limit the shop or form requires.</p>
+</div>
+<div class="formula"><b>📐 Quick formulas</b><br>
+Saved space = original size − compressed size<br>Compression ratio = saved space ÷ original size × 100%<br>Typical photo: 50–80% smaller at quality 70–85%
+</div>
+</div>
+</details>
+
+
+
+<!-- ===== Main Content ===== -->
+<main class="main">
+  <div class="grid">
+
+    <!-- Sidebar: File List -->
+    <aside class="sidebar" id="sidebar">
+      <div class="file-list" id="fileList">
+        <div class="empty-state" id="emptyFiles">
+          <div class="es-icon">📁</div>
+          <div class="es-text">No images yet</div>
+          <div style="font-size:12px;margin-top:4px">Drop images or click above</div>
+        </div>
+      </div>
+      <div class="file-actions" id="fileActions" style="display:none">
+        <button class="btn btn-outline btn-sm" id="addMoreBtn">➕ Add More</button>
+        <button class="btn btn-outline btn-sm btn-danger" id="clearAllBtn">🗑 Clear All</button>
+      </div>
+    </aside>
+
+    <!-- Main Area -->
+    <div class="main-area">
+
+      <!-- Status bar: shows every step -->
+      <div class="status-bar" id="statusBar">🟢 Ready</div>
+
+      <!-- Drop Zone -->
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="image/*" multiple class="dropzone-input">
+        <div class="dz-icon">📥</div>
+        <div class="dz-title">Click to select images, or drag here</div>
+        <div class="dz-sub">Batch upload supported. All processing done locally in your browser.</div>
+        <div class="dz-formats">Supports: JPEG · PNG · WebP · HEIC · BMP · GIF · TIFF</div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="panel" id="settingsPanel" style="display:none">
+        <div class="panel-title">⚙️ Compression Settings</div>
+
+        <div class="setting-row">
+          <span class="setting-label">Format</span>
+          <div class="fmt-group" id="fmtGroup">
+            <button class="fmt-btn" data-fmt="webp">WebP</button>
+            <button class="fmt-btn active" data-fmt="jpeg">JPEG Recommended</button>
+            <button class="fmt-btn" data-fmt="png">PNG</button>
+          </div>
+          <span style="font-size:11px;color:var(--text3)" id="fmtHint">JPEG: Best compatibility, good for photos</span>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">Quality</span>
+          <div class="slider-wrap">
+            <input type="range" id="qualitySlider" min="10" max="100" value="85" step="1">
+            <span class="quality-val" id="qualityVal">85%</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">Max Width</span>
+          <input type="number" class="num-input" id="maxWidth" value="1920" min="0" max="10000" step="10">
+          <span style="font-size:12px;color:var(--text3)">px(0 = Keep original size)</span>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">Preset</span>
+          <div class="preset-group" id="presetGroup">
+            <button class="preset-btn" data-preset="wechat">💬 Social Share</button>
+            <button class="preset-btn" data-preset="email">📧 Email Attachment</button>
+            <button class="preset-btn" data-preset="web">🌐 Web Display</button>
+          </div>
+        </div>
+
+        <!-- Crop presets -->
+        <div class="crop-section" id="cropSection">
+          <div class="crop-cat">📷 Print Size</div>
+          <div class="crop-grid" id="cropPrint"></div>
+          <div class="crop-cat">📇 ID Photo</div>
+          <div class="crop-grid" id="cropID"></div>
+          <div class="crop-dpi">
+            Print DPI: <input type="number" id="cropDpi" value="300" min="72" max="1200" step="1">
+            <span id="cropDimHint"></span>
+          </div>
+          <div class="crop-dpi" style="margin-top:6px">
+            Crop Area: <input type="range" id="cropScale" min="20" max="100" value="100" style="flex:1">
+            <span id="cropScaleVal" style="min-width:32px;text-align:right;font-weight:600;color:var(--primary)">100%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-section" id="previewSection" style="display:none">
+        <div class="preview-title">📊 Compare</div>
+        <div class="preview-grid">
+          <div class="preview-col">
+            <div class="col-label">📷 Original <span id="cropLabel" style="font-size:10px;color:var(--primary)"></span></div>
+            <div class="preview-img-wrap">
+              <div class="crop-overlay-wrap" id="cropWrap">
+                <img id="previewOriginal" alt="Original">
+                <div class="crop-overlay" id="cropOverlay" style="display:none">
+                  <div class="crop-frame" id="cropFrame" data-label=""></div>
+                </div>
+              </div>
+            </div>
+            <div class="preview-stats">
+              <div class="stat"><span class="stat-val" id="origSize">-</span><span class="stat-lbl">File Size</span></div>
+              <div class="stat"><span class="stat-val" id="origDim">-</span><span class="stat-lbl">Dimensions</span></div>
+            </div>
+          </div>
+          <div class="preview-arrow" id="previewArrow">➡️</div>
+          <div class="preview-col">
+            <div class="col-label">✨ Compressed</div>
+            <div class="preview-img-wrap">
+              <img id="previewCompressed" alt="Compressed image">
+            </div>
+            <div class="preview-stats">
+              <div class="stat"><span class="stat-val" id="compSize">-</span><span class="stat-lbl">File Size</span></div>
+              <div class="stat"><span class="stat-val savings" id="savings">-</span><span class="stat-lbl">Saved</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" id="downloadOne">🔽 Download Current Image</button>
+          <button class="btn btn-outline" id="downloadAll">📦 DownloadAll (<span id="downloadCount">0</span> )</button>
+        </div>
+      </div>
+
+      <!-- EXIF Info -->
+      <div class="exif-panel" id="exifPanel" style="display:none">
+        <div class="exif-title">📍 Privacy Info Found in Original</div>
+        <div class="exif-grid" id="exifGrid"></div>
+        <div class="exif-warning" id="exifWarning" style="display:none">
+          ⚠️ The private info above (GPS location, device model, capture time, etc.) is <strong>all removed automatically</strong> from the compressed image
+        </div>
+        <div class="exif-none" id="exifNone" style="display:none">
+          ✅ No EXIF metadata detected, or already stripped
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script>
+// Remove loading indicator — proves JS is alive
+(function(){
+  const el = document.getElementById('jsCheck');
+  if(el){ el.style.display='none'; }
+})();
+
+try {
+
+/* ================================================================
+   IMAGE COMPRESSION & PRIVACY TOOL
+   All processing done locally in browser — nothing uploaded.
+   ================================================================ */
+
+// ============ DOM REFS ============
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+const dom = {
+  dropzone: $('#dropzone'),
+  fileInput: $('#fileInput'),
+  fileList: $('#fileList'),
+  emptyFiles: $('#emptyFiles'),
+  fileActions: $('#fileActions'),
+  settingsPanel: $('#settingsPanel'),
+  previewSection: $('#previewSection'),
+  exifPanel: $('#exifPanel'),
+  exifGrid: $('#exifGrid'),
+  exifWarning: $('#exifWarning'),
+  exifNone: $('#exifNone'),
+  previewOriginal: $('#previewOriginal'),
+  previewCompressed: $('#previewCompressed'),
+  origSize: $('#origSize'),
+  origDim: $('#origDim'),
+  compSize: $('#compSize'),
+  savings: $('#savings'),
+  qualitySlider: $('#qualitySlider'),
+  qualityVal: $('#qualityVal'),
+  maxWidth: $('#maxWidth'),
+  downloadOne: $('#downloadOne'),
+  downloadAll: $('#downloadAll'),
+  downloadCount: $('#downloadCount'),
+  themeToggle: $('#themeToggle'),
+  statusBar: $('#statusBar'),
+  // Crop elements
+  cropPrint: $('#cropPrint'),
+  cropID: $('#cropID'),
+  cropDpi: $('#cropDpi'),
+  cropDimHint: $('#cropDimHint'),
+  cropWrap: $('#cropWrap'),
+  cropOverlay: $('#cropOverlay'),
+  cropFrame: $('#cropFrame'),
+  cropLabel: $('#cropLabel'),
+  addMoreBtn: $('#addMoreBtn'),
+  clearAllBtn: $('#clearAllBtn'),
+  previewArrow: $('#previewArrow'),
+};
+
+// ============ CROP PRESETS ============
+const CROP_PRESETS = {
+  "Print Size": [
+    { name:'5×3.5 in', cmW:12.7, cmH:8.9,  desc:'Desk Frame' },
+    { name:'6×4 in', cmW:15.2, cmH:10.2, desc:'Standard Print' },
+    { name:'7×5 in', cmW:17.8, cmH:12.7, desc:'Photo Album' },
+    { name:'8×6 in', cmW:20.3, cmH:15.2, desc:'A5 Keepsake Print' },
+    { name:'10×8 in', cmW:25.4, cmH:20.3, desc:'Family Photo' },
+    { name:'12×10 in', cmW:30.5, cmH:25.4, desc:'Wall Poster' },
+  ],
+  "ID Photo": [
+    { name:'1 in', cmW:2.5, cmH:3.5,   desc:'Resume / Diploma' },
+    { name:'Small 2 in', cmW:3.3, cmH:4.8, desc:'Passport / Travel' },
+    { name:'2 in', cmW:3.5, cmH:5.3,   desc:'Certification' },
+    { name:'National ID', cmW:2.6, cmH:3.2, desc:'ID Card' },
+    { name:'US Visa', cmW:5.1, cmH:5.1, desc:'US Visa Square' },
+    { name:'Japan Visa', cmW:4.5, cmH:4.5, desc:'Japan Visa Square' },
+  ],
+};
+
+function buildCropButtons() {
+  for (const [cat, presets] of Object.entries(CROP_PRESETS)) {
+    const grid = cat === 'Print Size' ? dom.cropPrint : dom.cropID;
+    if (!grid) continue;
+    grid.innerHTML = '';
+    const noCrop = document.createElement('button');
+    noCrop.className = 'crop-btn active';
+    noCrop.innerHTML = '<span class="crop-name">No Crop</span>';
+    noCrop.onclick = () => selectCrop(null);
+    grid.appendChild(noCrop);
+    for (const p of presets) {
+      const btn = document.createElement('button');
+      btn.className = 'crop-btn';
+      btn.innerHTML = `<span class="crop-name">${p.name}</span><span class="crop-desc">${p.cmW}×${p.cmH}cm ${p.desc}</span>`;
+      btn.onclick = () => selectCrop(p);
+      grid.appendChild(btn);
+    }
+  }
+}
+
+function selectCrop(preset) {
+  if (!preset) {
+    state.crop = null;
+    if (dom.cropOverlay) dom.cropOverlay.style.display = 'none';
+    if (dom.cropLabel) dom.cropLabel.textContent = '';
+    if (dom.cropDimHint) dom.cropDimHint.textContent = '';
+    document.querySelectorAll('.crop-btn').forEach(b => {
+      const n = b.querySelector('.crop-name')?.textContent;
+      b.classList.toggle('active', n === 'No Crop');
+    });
+    if (state.selectedIdx >= 0) renderPreview();
+    return;
+  }
+  const dpi = parseInt(dom.cropDpi?.value) || 300;
+  const ratio = preset.cmW / preset.cmH;
+  const pxW = Math.round((preset.cmW / 2.54) * dpi);
+  const pxH = Math.round((preset.cmH / 2.54) * dpi);
+  state.crop = { name: preset.name, cmW: preset.cmW, cmH: preset.cmH, dpi, ratio, pxW, pxH, scale: 1, x: 0.5, y: 0.5 };
+  // Reset scale slider
+  const cs = $('#cropScale'); const csv = $('#cropScaleVal');
+  if (cs) cs.value = '100';
+  if (csv) csv.textContent = '100%';
+  if (dom.cropLabel) dom.cropLabel.textContent = ' → Crop to ' + preset.name;
+  if (dom.cropDimHint) dom.cropDimHint.textContent = 'Output ' + pxW + '×' + pxH + 'px @' + dpi + 'DPI';
+  document.querySelectorAll('.crop-btn').forEach(b => {
+    const n = b.querySelector('.crop-name')?.textContent;
+    b.classList.toggle('active', n === preset.name);
+  });
+  if (state.selectedIdx >= 0) renderPreview();
+}
+
+// ============ STATE ============
+const state = {
+  files: [],           // { id, file, origUrl, origSize, origW, origH, exif, compBlob, compUrl, compSize }
+  selectedIdx: -1,
+  settings: { format: 'jpeg', quality: 85, maxWidth: 1920 },
+  darkMode: null,      // null=auto, true=dark, false=light
+  crop: null,          // { name, cmW, cmH, dpi, ratio, pxW, pxH, scale, x, y }
+  updateTimer: null,
+};
+
+// ============ STATUS BAR ============
+function setStatus(msg, color) {
+  if (dom.statusBar) {
+    dom.statusBar.style.display = 'block';
+    dom.statusBar.textContent = msg;
+    dom.statusBar.style.color = color || 'var(--text2)';
+  }
+}
+
+// ============ UTILS ============
+function formatBytes(bytes) {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(i > 0 ? 1 : 0)) + ' ' + sizes[i];
+}
+
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2500);
+}
+
+function debounce(fn, ms) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+// ============ EXIF PARSER ============
+function parseExif(arrayBuffer) {
+  const data = new Uint8Array(arrayBuffer);
+  // Look for APP1 marker (0xFFE1) in JPEG
+  let offset = 2; // skip SOI marker (0xFFD8)
+  while (offset < data.length - 1) {
+    if (data[offset] !== 0xFF) return null;
+    const marker = data[offset + 1];
+    if (marker === 0xE1) break; // APP1
+    if (marker === 0xD8 || marker === 0xD9) return null; // Nested SOI or EOI
+    const segLen = (data[offset + 2] << 8) | data[offset + 3];
+    offset += 2 + segLen;
+    if (offset >= data.length) return null;
+  }
+  if (offset >= data.length - 1) return null;
+
+  // APP1 segment: 0xFF 0xE1 + length(2) + "Exif\0\0"(6) + TIFF data
+  // offset points to 0xFF, so Exif header starts at offset+4
+  const app1Start = offset + 4;  // Start of "Exif\0\0"
+  const app1Len = (data[offset + 2] << 8) | data[offset + 3];
+  if (app1Start + 6 > data.length) return null;
+
+  // Check "Exif\0\0" header
+  const exifHeader = String.fromCharCode(...data.slice(app1Start, app1Start + 6));
+  if (exifHeader !== 'Exif\x00\x00') return null;
+
+  const tiffStart = app1Start + 6;  // Start of TIFF data
+  const view = new DataView(data.buffer, tiffStart);
+  return parseTiff(view);
+}
+
+function parseTiff(view) {
+  if (view.byteLength < 8) return null;
+
+  const le = (view.getUint16(0) === 0x4949); // "II" = little-endian
+  const magic = view.getUint16(2, le);
+  if (magic !== 0x002A) return null;
+
+  const ifd0Offset = view.getUint32(4, le);
+  return parseIfd(view, ifd0Offset, le);
+}
+
+function parseIfd(view, offset, le) {
+  if (offset + 2 > view.byteLength) return null;
+
+  const numEntries = view.getUint16(offset, le);
+  const exif = {};
+
+  let gpsOffset = null;
+
+  for (let i = 0; i < numEntries; i++) {
+    const entryOff = offset + 2 + i * 12;
+    if (entryOff + 12 > view.byteLength) break;
+
+    const tag = view.getUint16(entryOff, le);
+    const type = view.getUint16(entryOff + 2, le);
+    const count = view.getUint32(entryOff + 4, le);
+    const valOff = entryOff + 8;
+
+    const typeSizes = { 1:1, 2:1, 3:2, 4:4, 5:8, 7:1, 9:4, 10:8 };
+    const typeSize = typeSizes[type] || 1;
+    const totalSize = typeSize * count;
+
+    let value;
+    if (totalSize <= 4) {
+      value = readInline(view, valOff, type, count, le);
+    } else {
+      const dataOff = view.getUint32(valOff, le);
+      value = readAtOffset(view, dataOff, type, count, le);
+    }
+
+    // Map known tags
+    switch (tag) {
+      case 0x010F: exif.make = value; break;
+      case 0x0110: exif.model = value; break;
+      case 0x0112: exif.orientation = value; break;
+      case 0x0132: exif.datetime = value; break;
+      case 0x9003: exif.datetimeOriginal = value; break;
+      case 0x829A: exif.exposureTime = value; break;
+      case 0x829D: exif.fNumber = value; break;
+      case 0x8827: exif.iso = value; break;
+      case 0x920A: exif.focalLength = value; break;
+      case 0x013B: exif.artist = value; break;
+      case 0x010E: exif.description = value; break;
+      case 0x9209: exif.flash = value; break;
+      case 0xA002: exif.pixelXDim = value; break;
+      case 0xA003: exif.pixelYDim = value; break;
+      case 0xA405: exif.focalLength35mm = value; break;
+      case 0x8825: gpsOffset = (typeof value === 'number') ? value : null; break;
+    }
+  }
+
+  // Parse GPS IFD
+  if (gpsOffset !== null && gpsOffset > 0) {
+    const gps = parseGpsIfd(view, gpsOffset, le);
+    if (gps) exif.gps = gps;
+  }
+
+  // Format values
+  return formatExif(exif);
+}
+
+function readInline(view, offset, type, count, le) {
+  switch (type) {
+    case 1: // BYTE
+    case 7: // UNDEFINED
+      if (count === 1) return view.getUint8(offset);
+      const bytes = [];
+      for (let i = 0; i < Math.min(count, 4); i++) bytes.push(view.getUint8(offset + i));
+      return bytes;
+    case 2: // ASCII
+      let str = '';
+      for (let i = 0; i < Math.min(count, 4); i++) {
+        const c = view.getUint8(offset + i);
+        if (c === 0) break;
+        str += String.fromCharCode(c);
+      }
+      return str;
+    case 3: // SHORT
+      if (count === 1) return view.getUint16(offset, le);
+      const shorts = [];
+      for (let i = 0; i < Math.min(count, 2); i++) shorts.push(view.getUint16(offset + i * 2, le));
+      return shorts;
+    case 4: // LONG
+      return view.getUint32(offset, le);
+    case 9: // SLONG
+      return view.getInt32(offset, le);
+    default:
+      return view.getUint32(offset, le);
+  }
+}
+
+function readAtOffset(view, offset, type, count, le) {
+  if (offset + count * ({1:1,2:1,3:2,4:4,5:8,7:1,9:4,10:8}[type]||1) > view.byteLength) return null;
+
+  switch (type) {
+    case 2: // ASCII string
+      let str = '';
+      for (let i = 0; i < count; i++) {
+        const c = view.getUint8(offset + i);
+        if (c === 0) break;
+        str += String.fromCharCode(c);
+      }
+      return str;
+    case 3: // SHORT[]
+      if (count === 1) return view.getUint16(offset, le);
+      const shorts = [];
+      for (let i = 0; i < count; i++) shorts.push(view.getUint16(offset + i * 2, le));
+      return shorts;
+    case 4: // LONG
+      return view.getUint32(offset, le);
+    case 5: // RATIONAL or RATIONAL[]
+      if (count === 1) {
+        const num = view.getUint32(offset, le);
+        const den = view.getUint32(offset + 4, le);
+        return den !== 0 ? num / den : 0;
+      }
+      const rationals = [];
+      for (let i = 0; i < count; i++) {
+        const num = view.getUint32(offset + i * 8, le);
+        const den = view.getUint32(offset + i * 8 + 4, le);
+        rationals.push(den !== 0 ? num / den : 0);
+      }
+      return rationals;
+    case 10: // SRATIONAL
+      const snum = view.getInt32(offset, le);
+      const sden = view.getInt32(offset + 4, le);
+      return sden !== 0 ? snum / sden : 0;
+    default:
+      return null;
+  }
+}
+
+function parseGpsIfd(view, offset, le) {
+  if (offset + 2 > view.byteLength) return null;
+  const numEntries = view.getUint16(offset, le);
+  const gps = {};
+
+  for (let i = 0; i < numEntries; i++) {
+    const entryOff = offset + 2 + i * 12;
+    if (entryOff + 12 > view.byteLength) break;
+
+    const tag = view.getUint16(entryOff, le);
+    const type = view.getUint16(entryOff + 2, le);
+    const count = view.getUint32(entryOff + 4, le);
+    const valOff = entryOff + 8;
+
+    const typeSizes = { 1:1, 2:1, 3:2, 4:4, 5:8, 7:1, 9:4, 10:8 };
+    const totalSize = (typeSizes[type] || 1) * count;
+
+    let value;
+    if (totalSize <= 4) {
+      value = readInline(view, valOff, type, count, le);
+    } else {
+      value = readAtOffset(view, view.getUint32(valOff, le), type, count, le);
+    }
+
+    switch (tag) {
+      case 0x0001: gps.latRef = value; break;
+      case 0x0002: gps.latitude = value; break;    // Array of 3 RATIONALs
+      case 0x0003: gps.lonRef = value; break;
+      case 0x0004: gps.longitude = value; break;    // Array of 3 RATIONALs
+      case 0x0006: gps.altitude = value; break;
+      case 0x001D: gps.dateStamp = value; break;
+    }
+  }
+
+  return gps;
+}
+
+function dmsToDecimal(dms, ref) {
+  if (!dms || !Array.isArray(dms) || dms.length < 3) return null;
+  let dec = dms[0] + dms[1] / 60 + dms[2] / 3600;
+  if (ref === 'S' || ref === 'W') dec = -dec;
+  return dec;
+}
+
+function formatExif(raw) {
+  const exif = {};
+
+  if (raw.make) exif['📱 Device make'] = raw.make;
+  if (raw.model) exif['📱 Device model'] = raw.model;
+  if (raw.datetimeOriginal || raw.datetime) {
+    exif['📅 Capture Time'] = raw.datetimeOriginal || raw.datetime;
+  }
+  if (raw.exposureTime !== undefined) {
+    if (raw.exposureTime <= 0.5) {
+      exif['⏱️ Shutter speed'] = `1/${Math.round(1/raw.exposureTime)} s`;
+    } else {
+      exif['⏱️ Shutter speed'] = `${raw.exposureTime} s`;
+    }
+  }
+  if (raw.fNumber !== undefined) exif['🔍 Aperture'] = `f/${raw.fNumber.toFixed(1)}`;
+  if (raw.iso !== undefined) exif['💡 ISO'] = String(raw.iso);
+  if (raw.focalLength !== undefined) {
+    exif['🔭 Focal length'] = `${Math.round(raw.focalLength)}mm`;
+  }
+  if (raw.focalLength35mm !== undefined) {
+    exif['🔭 35mm equivalent'] = `${raw.focalLength35mm}mm`;
+  }
+  if (raw.orientation !== undefined) {
+    const orients = {1:'Normal',2:'Flip Horizontal',3:'Rotate 180°',4:'Flip Vertical',5:'Rotate 90° CW + flip',6:'Rotate 90° CW',7:'Rotate 90° CCW + flip',8:'Rotate 90° CCW'};
+    exif['🔄 Orientation'] = orients[raw.orientation] || `Unknown (${raw.orientation})`;
+  }
+  if (raw.artist) exif['👤 Author'] = raw.artist;
+  if (raw.description) exif['📝 Description'] = raw.description;
+  if (raw.flash !== undefined) {
+    exif['💥 Flash'] = raw.flash === 0 ? 'Not triggered' : 'Triggered';
+  }
+
+  // GPS
+  if (raw.gps) {
+    const lat = dmsToDecimal(raw.gps.latitude, raw.gps.latRef);
+    const lon = dmsToDecimal(raw.gps.longitude, raw.gps.lonRef);
+    if (lat !== null && lon !== null) {
+      exif['📍 GPS latitude'] = `${lat.toFixed(6)}°`;
+      exif['📍 GPS longitude'] = `${lon.toFixed(6)}°`;
+      exif['🗺️ View location'] = `https://www.openstreetmap.org/?mlat=${lat.toFixed(6)}&mlon=${lon.toFixed(6)}#map=16/${lat.toFixed(6)}/${lon.toFixed(6)}`;
+    }
+    if (raw.gps.altitude !== undefined) {
+      exif['🏔️ Altitude'] = `${raw.gps.altitude.toFixed(1)} cm`;
+    }
+    if (raw.gps.dateStamp) {
+      exif['📅 GPS date'] = raw.gps.dateStamp;
+    }
+  }
+
+  return Object.keys(exif).length > 0 ? exif : null;
+}
+
+// Also try to parse WebP EXIF (stored as RIFF chunk)
+function parseWebPExif(arrayBuffer) {
+  const data = new Uint8Array(arrayBuffer);
+  if (data.length < 12) return null;
+  // Check RIFF header
+  if (String.fromCharCode(...data.slice(0,4)) !== 'RIFF') return null;
+  if (String.fromCharCode(...data.slice(8,12)) !== 'WEBP') return null;
+
+  // Scan chunks
+  let offset = 12;
+  while (offset + 8 <= data.length) {
+    const chunkId = String.fromCharCode(...data.slice(offset, offset + 4));
+    const chunkSize = (data[offset+4] | (data[offset+5]<<8) | (data[offset+6]<<16) | (data[offset+7]<<24));
+    if (chunkId === 'EXIF' && chunkSize > 6) {
+      const exifData = data.slice(offset + 8, offset + 8 + chunkSize);
+      const view = new DataView(exifData.buffer, exifData.byteOffset, exifData.byteLength);
+      return parseTiff(view);
+    }
+    offset += 8 + chunkSize;
+    if (chunkSize % 2) offset += 1; // padding
+  }
+  return null;
+}
+
+async function getExif(file) {
+  const buf = await file.arrayBuffer();
+  // Try JPEG EXIF first
+  const jpegExif = parseExif(buf);
+  if (jpegExif) return jpegExif;
+  // Try WebP EXIF
+  const webpExif = parseWebPExif(buf);
+  if (webpExif) return webpExif;
+  return null;
+}
+
+// ============ IMAGE PROCESSING ============
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(img);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Could not load image'));
+    };
+    img.src = url;
+  });
+}
+
+// ===== Crop overlay & drag =====
+function setupCropOverlay(f) {
+  if (!state.crop) {
+    if (dom.cropOverlay) dom.cropOverlay.style.display = 'none';
+    return;
+  }
+  const wrap = dom.cropWrap;
+  const img = dom.previewOriginal;
+  if (!wrap || !img || !img.complete) return;
+
+  dom.cropOverlay.style.display = 'block';
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  const dw = img.clientWidth, dh = img.clientHeight;
+
+  // Crop frame aspect ratio matches target — apply scale
+  const ratio = state.crop.ratio;
+  const scale = state.crop.scale || 1;
+  let maxFw, maxFh;
+  if (dw / dh > ratio) {
+    maxFh = dh; maxFw = dh * ratio;
+  } else {
+    maxFw = dw; maxFh = dw / ratio;
+  }
+  const fw = maxFw * scale;
+  const fh = maxFh * scale;
+
+  // Position from state (x, y are 0-1 fractions)
+  const maxX = dw - fw, maxY = dh - fh;
+  const left = Math.max(0, Math.min(state.crop.x * dw - fw / 2, maxX));
+  const top = Math.max(0, Math.min(state.crop.y * dh - fh / 2, maxY));
+  state.crop.x = (left + fw / 2) / dw;
+  state.crop.y = (top + fh / 2) / dh;
+
+  if (dom.cropFrame) {
+    dom.cropFrame.style.left = left + 'px';
+    dom.cropFrame.style.top = top + 'px';
+    dom.cropFrame.style.width = fw + 'px';
+    dom.cropFrame.style.height = fh + 'px';
+    dom.cropFrame.setAttribute('data-label', state.crop.name + ' ' + (state.crop.pxW || '') + '×' + (state.crop.pxH || '') + 'px');
+  }
+
+  // Drag
+  const frame = dom.cropFrame;
+  if (!frame) return;
+
+  const startDrag = (e) => {
+    e.preventDefault();
+    const t = e.touches ? e.touches[0] : e;
+    state.cropDrag = true;
+    state.cropStart = { x: t.clientX, y: t.clientY, cx: parseFloat(frame.style.left), cy: parseFloat(frame.style.top) };
+  };
+  const moveDrag = (e) => {
+    if (!state.cropDrag) return;
+    e.preventDefault();
+    const t = e.touches ? e.touches[0] : e;
+    const dx = t.clientX - state.cropStart.x;
+    const dy = t.clientY - state.cropStart.y;
+    let nx = state.cropStart.cx + dx;
+    let ny = state.cropStart.cy + dy;
+    const maxX = dw - fw, maxY = dh - fh;
+    nx = Math.max(0, Math.min(nx, maxX));
+    ny = Math.max(0, Math.min(ny, maxY));
+    frame.style.left = nx + 'px';
+    frame.style.top = ny + 'px';
+    state.crop.x = (nx + fw / 2) / dw;
+    state.crop.y = (ny + fh / 2) / dh;
+  };
+  const endDrag = () => {
+    if (!state.cropDrag) return;
+    state.cropDrag = false;
+    // Re-render compressed preview with new crop position
+    if (state.selectedIdx >= 0) renderCompressedOnly();
+  };
+
+  frame.onpointerdown = startDrag;
+  frame.ontouchstart = startDrag;
+  document.onpointermove = moveDrag;
+  document.ontouchmove = moveDrag;
+  document.onpointerup = endDrag;
+  document.ontouchend = endDrag;
+}
+
+async function renderCompressedOnly() {
+  const f = state.files[state.selectedIdx];
+  if (!f) return;
+  try {
+    dom.compSize.textContent = 'Compressing...';
+    const img = await loadImage(f.file);
+    const result = await compressImage(img, state.settings);
+    if (f.compUrl) URL.revokeObjectURL(f.compUrl);
+    f.compBlob = result.blob;
+    f.compUrl = URL.createObjectURL(result.blob);
+    f.compSize = result.blob.size;
+    dom.previewCompressed.src = f.compUrl;
+    dom.compSize.textContent = formatBytes(f.compSize);
+    const saved = f.origSize - f.compSize;
+    const pct = f.origSize > 0 ? Math.round((saved / f.origSize) * 100) : 0;
+    if (saved > 0) {
+      dom.savings.textContent = '-' + formatBytes(saved) + '(-' + pct + '%)';
+      dom.savings.style.color = 'var(--success)';
+    } else if (saved < 0) {
+      dom.savings.textContent = '+' + formatBytes(-saved) + '(+' + Math.abs(pct) + '%)';
+      dom.savings.style.color = 'var(--danger)';
+    } else {
+      dom.savings.textContent = 'No change';
+      dom.savings.style.color = 'var(--text2)';
+    }
+  } catch(e) { console.error(e); }
+}
+
+function compressImage(img, settings) {
+  const { format, quality, maxWidth } = settings;
+
+  let w = img.naturalWidth;
+  let h = img.naturalHeight;
+  let sx = 0, sy = 0, sw = w, sh = h; // Source crop region
+
+  // Apply crop if set
+  if (state.crop) {
+    const cropRatio = state.crop.ratio;
+    const scale = state.crop.scale || 1;
+    let maxCropW, maxCropH;
+    if (w / h > cropRatio) {
+      maxCropH = h; maxCropW = h * cropRatio;
+    } else {
+      maxCropW = w; maxCropH = w / cropRatio;
+    }
+    const cropW = maxCropW * scale;
+    const cropH = maxCropH * scale;
+    sx = (w - cropW) * state.crop.x;
+    sy = (h - cropH) * state.crop.y;
+    sw = cropW; sh = cropH;
+    // Target output at DPI resolution
+    w = state.crop.pxW || Math.round(sw);
+    h = state.crop.pxH || Math.round(sh);
+  } else if (maxWidth > 0 && w > maxWidth) {
+    const ratio = maxWidth / w;
+    w = maxWidth;
+    h = Math.round(h * ratio);
+  }
+
+  // Mobile canvas safety: cap at 4096px max dimension
+  const MAX_DIM = 4096;
+  if (w > MAX_DIM || h > MAX_DIM) {
+    const scale = Math.min(MAX_DIM / w, MAX_DIM / h);
+    w = Math.round(w * scale);
+    h = Math.round(h * scale);
+  }
+
+  // Cap total pixels to ~16 megapixels (mobile Safari limit)
+  const MAX_PX = 16 * 1024 * 1024;
+  if (w * h > MAX_PX) {
+    const scale = Math.sqrt(MAX_PX / (w * h));
+    w = Math.round(w * scale);
+    h = Math.round(h * scale);
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d');
+
+  // Use white background for JPEG (no alpha support)
+  if (format === 'jpeg') {
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+
+  const mimeMap = {
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    webp: 'image/webp',
+  };
+
+  const mime = mimeMap[format] || 'image/webp';
+  const q = format === 'png' ? undefined : quality / 100;
+
+  return new Promise((resolve, reject) => {
+    // toBlob with fallback to toDataURL
+    if (canvas.toBlob) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve({ blob, width: w, height: h });
+        } else {
+          // Fallback: some browsers return null for unsupported formats
+          fallbackToDataURL(canvas, mime, q, w, h, resolve);
+        }
+      }, mime, q);
+    } else {
+      fallbackToDataURL(canvas, mime, q, w, h, resolve);
+    }
+  });
+}
+
+function fallbackToDataURL(canvas, mime, quality, w, h, resolve) {
+  try {
+    const dataUrl = canvas.toDataURL(mime, quality);
+    const byteString = atob(dataUrl.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    resolve({ blob: new Blob([ab], { type: mime }), width: w, height: h });
+  } catch (e) {
+    // Last resort: PNG
+    const pngUrl = canvas.toDataURL('image/png');
+    const bs = atob(pngUrl.split(',')[1]);
+    const ab2 = new ArrayBuffer(bs.length);
+    const ia2 = new Uint8Array(ab2);
+    for (let i = 0; i < bs.length; i++) ia2[i] = bs.charCodeAt(i);
+    resolve({ blob: new Blob([ab2], { type: 'image/png' }), width: w, height: h });
+  }
+}
+
+// ============ UI RENDERING ============
+function renderFileList() {
+  const { files, selectedIdx } = state;
+  dom.fileList.innerHTML = '';
+
+  if (files.length === 0) {
+    dom.fileList.innerHTML = `
+      <div class="empty-state" id="emptyFiles">
+        <div class="es-icon">📁</div>
+        <div class="es-text">No images yet</div>
+        <div style="font-size:12px;margin-top:4px">Drop images or click above</div>
+      </div>`;
+    dom.fileActions.style.display = 'none';
+    dom.settingsPanel.style.display = 'none';
+    dom.previewSection.style.display = 'none';
+    dom.exifPanel.style.display = 'none';
+    return;
+  }
+
+  dom.fileActions.style.display = 'flex';
+  dom.settingsPanel.style.display = 'block';
+  dom.previewSection.style.display = 'block';
+  dom.exifPanel.style.display = 'block';
+
+  files.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = `file-item${i === selectedIdx ? ' active' : ''}`;
+    item.innerHTML = `
+      <img class="thumb" src="${f.origUrl}" alt="">
+      <div class="info">
+        <div class="name">${escapeHtml(f.file.name)}</div>
+        <div class="meta">${formatBytes(f.origSize)} · ${f.origW}×${f.origH}</div>
+      </div>
+      <button class="del-btn" data-idx="${i}" title="Remove">×</button>`;
+    item.addEventListener('click', (e) => {
+      if (e.target.closest('.del-btn')) return;
+      selectFile(i);
+    });
+    item.querySelector('.del-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeFile(i);
+    });
+    dom.fileList.appendChild(item);
+  });
+
+  dom.downloadCount.textContent = files.length;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function selectFile(idx) {
+  if (idx === state.selectedIdx) return;
+  state.selectedIdx = idx;
+  renderFileList();
+  renderPreview();
+
+  // Also show EXIF for newly selected file
+  const f = state.files[idx];
+  if (f) renderExif(f.exif);
+}
+
+function removeFile(idx) {
+  const f = state.files[idx];
+  if (f.origUrl) URL.revokeObjectURL(f.origUrl);
+  if (f.compUrl) URL.revokeObjectURL(f.compUrl);
+
+  state.files.splice(idx, 1);
+
+  if (state.files.length === 0) {
+    state.selectedIdx = -1;
+  } else if (state.selectedIdx >= state.files.length) {
+    state.selectedIdx = state.files.length - 1;
+  } else if (idx < state.selectedIdx) {
+    state.selectedIdx--;
+  }
+
+  renderFileList();
+  if (state.selectedIdx >= 0) {
+    renderPreview();
+    renderExif(state.files[state.selectedIdx].exif);
+  }
+}
+
+function renderExif(exif) {
+  dom.exifGrid.innerHTML = '';
+  dom.exifWarning.style.display = 'none';
+  dom.exifNone.style.display = 'none';
+
+  if (!exif || Object.keys(exif).length === 0) {
+    dom.exifNone.style.display = 'block';
+    dom.exifWarning.style.display = 'none';
+    return;
+  }
+
+  dom.exifWarning.style.display = 'flex';
+
+  for (const [key, val] of Object.entries(exif)) {
+    const item = document.createElement('div');
+    item.className = 'exif-item';
+
+    if (key === '🗺️ View location') {
+      item.innerHTML = `
+        <div class="exif-key">📍 GPS location</div>
+        <div class="exif-val">
+          <a class="gps-link" href="${escapeHtml(val)}" target="_blank" rel="noopener">
+            View on OpenStreetMap →
+          </a>
+        </div>`;
+    } else {
+      item.innerHTML = `
+        <div class="exif-key">${escapeHtml(key)}</div>
+        <div class="exif-val">${escapeHtml(String(val))}</div>`;
+    }
+    dom.exifGrid.appendChild(item);
+  }
+}
+
+async function renderPreview() {
+  const f = state.files[state.selectedIdx];
+  if (!f) return;
+
+  dom.previewOriginal.src = f.origUrl;
+  dom.origSize.textContent = formatBytes(f.origSize);
+  dom.origDim.textContent = `${f.origW} × ${f.origH}`;
+
+  // Crop overlay
+  setupCropOverlay(f);
+
+  // Show loading state
+  setStatus('🔄 Compressing preview...', 'var(--primary)');
+  dom.previewCompressed.src = '';
+  dom.compSize.textContent = 'Compressing...';
+  dom.savings.textContent = '';
+  dom.savings.style.color = 'var(--text2)';
+
+  try {
+    // Trigger compression with timeout guard
+    const img = await loadImage(f.file);
+    const result = await compressImage(img, state.settings);
+
+    // Revoke old compressed URL
+    if (f.compUrl) URL.revokeObjectURL(f.compUrl);
+
+    f.compBlob = result.blob;
+    f.compUrl = URL.createObjectURL(result.blob);
+    f.compSize = result.blob.size;
+
+    dom.previewCompressed.src = f.compUrl;
+    dom.compSize.textContent = formatBytes(f.compSize);
+
+    const saved = f.origSize - f.compSize;
+    const pct = f.origSize > 0 ? Math.round((saved / f.origSize) * 100) : 0;
+
+    if (saved > 0) {
+      dom.savings.textContent = `-${formatBytes(saved)}(-${pct}%)`;
+      dom.savings.style.color = 'var(--success)';
+      setStatus(`✅ Done — saved ${formatBytes(saved)} (${pct}%)`, 'var(--success)');
+    } else if (saved < 0) {
+      dom.savings.textContent = `+${formatBytes(-saved)}(+${Math.abs(pct)}%)`;
+      dom.savings.style.color = 'var(--danger)';
+      setStatus(`⚠️ Compressed file is larger (+${formatBytes(-saved)}) — lower the quality or pick another format`, 'var(--danger)');
+    } else {
+      dom.savings.textContent = 'No change';
+      dom.savings.style.color = 'var(--text2)';
+      setStatus('🟢 Ready', 'var(--text2)');
+    }
+  } catch (err) {
+    console.error('Preview render error:', err);
+    dom.compSize.textContent = 'Failed';
+    dom.compSize.style.color = 'var(--danger)';
+    dom.savings.textContent = err.message || 'Please try again';
+    dom.savings.style.color = 'var(--danger)';
+    setStatus(`❌ Compression failed: ${err.message}`, 'var(--danger)');
+    // Don't toast — show error directly in the UI
+  }
+}
+
+function updateSettings(partial) {
+  Object.assign(state.settings, partial);
+  // Update UI
+  dom.qualitySlider.value = state.settings.quality;
+  dom.qualityVal.textContent = state.settings.quality + '%';
+  dom.maxWidth.value = state.settings.maxWidth;
+
+  // Update format buttons & hint
+  const fmtHint = $('#fmtHint');
+  $$('.fmt-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.fmt === state.settings.format);
+  });
+  const hints = {
+    webp: 'WebP: smallest file size, best for web sharing',
+    jpeg: 'JPEG: Best compatibility, good for photos',
+    png: 'PNG: lossless format, keeps transparency, larger file size',
+  };
+  if (fmtHint) fmtHint.textContent = hints[state.settings.format] || hints.webp;
+
+  // Update preset buttons
+  $$('.preset-btn').forEach(b => b.classList.remove('active'));
+
+  // Re-render preview
+  if (state.selectedIdx >= 0) {
+    renderPreview();
+  }
+}
+
+// ============ FILE HANDLING ============
+async function addFiles(fileList) {
+  // On iOS, file.type is often empty for photos from the library.
+  // Check by extension instead of MIME type.
+  const imageExts = /\.(jpe?g|png|gif|webp|bmp|svg|tiff?|heic|heif)$/i;
+  const files = [...fileList].filter(f => {
+    if (f.type.startsWith('image/')) return true;
+    if (imageExts.test(f.name)) return true;
+    // Last resort: if no type and no known extension, try it anyway
+    if (!f.type) return true;
+    return false;
+  });
+
+  if (files.length === 0) {
+    setStatus('❌ No image files detected', 'var(--danger)');
+    toast('No image files detected. Please try again');
+    return;
+  }
+
+  setStatus(`🔍 Detected ${files.length} image(s) — loading...`, 'var(--primary)');
+
+  // Process each file
+  for (const file of files) {
+    setStatus(`⏳ Loading: ${file.name} (${formatBytes(file.size)})`, 'var(--primary)');
+
+    const origUrl = URL.createObjectURL(file);
+    let img, exif;
+
+    try {
+      [img, exif] = await Promise.all([
+        loadImage(file),
+        getExif(file).catch(() => null),
+      ]);
+    } catch (err) {
+      URL.revokeObjectURL(origUrl);
+      console.error('Load error:', file.name, err);
+      toast(`⚠️ Could not load: ${file.name}`);
+      continue;
+    }
+
+    state.files.push({
+      id: Date.now() + Math.random(),
+      file,
+      origUrl,
+      origSize: file.size,
+      origW: img.naturalWidth,
+      origH: img.naturalHeight,
+      exif,
+      compBlob: null,
+      compUrl: null,
+      compSize: 0,
+    });
+
+    setStatus(`✅ Added: ${file.name} — Compressing...`, 'var(--success)');
+  }
+
+  if (state.selectedIdx < 0 && state.files.length > 0) {
+    state.selectedIdx = 0;
+  }
+
+  renderFileList();
+  if (state.selectedIdx >= 0) {
+    renderPreview();
+    renderExif(state.files[state.selectedIdx].exif);
+  }
+}
+
+function clearAll() {
+  state.files.forEach(f => {
+    if (f.origUrl) URL.revokeObjectURL(f.origUrl);
+    if (f.compUrl) URL.revokeObjectURL(f.compUrl);
+  });
+  state.files = [];
+  state.selectedIdx = -1;
+  renderFileList();
+}
+
+// ============ DOWNLOAD ============
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function getOutputFilename(originalName, format) {
+  const extMap = { jpeg: '.jpg', png: '.png', webp: '.webp' };
+  const ext = extMap[format] || '.webp';
+  const dotIdx = originalName.lastIndexOf('.');
+  const base = dotIdx > 0 ? originalName.substring(0, dotIdx) : originalName;
+  return base + '_compressed' + ext;
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+
+  // iOS Safari: can't trigger download via a.click() on blob URL
+  if (isIOS()) {
+    // Try Web Share API first
+    if (navigator.share && navigator.canShare) {
+      const file = new File([blob], filename, { type: blob.type });
+      if (navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file] }).catch(() => openImageForSave(url));
+        return;
+      }
+    }
+    // Fallback: open image in new tab for long-press save
+    openImageForSave(url);
+    return;
+  }
+
+  // Android & Desktop: standard download
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function openImageForSave(url) {
+  const w = window.open(url, '_blank');
+  if (!w) {
+    // Popup blocked — show inline
+    showSaveModal(url);
+  }
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+function showSaveModal(url) {
+  // Remove existing modal if any
+  const existing = document.querySelector('.save-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.className = 'save-modal';
+  modal.innerHTML = `
+    <div class="save-modal-bg"></div>
+    <div class="save-modal-card">
+      <div class="save-modal-title">💾 Save Image</div>
+      <img src="${url}" style="max-width:100%;max-height:50vh;border-radius:8px;margin:12px 0">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px">
+        Long press image above → choose “Save to gallery”
+      </p>
+      <button class="btn btn-primary btn-block" id="saveModalClose">Close</button>
+    </div>`;
+  document.body.appendChild(modal);
+
+  modal.querySelector('.save-modal-bg').addEventListener('click', () => modal.remove());
+  modal.querySelector('#saveModalClose').addEventListener('click', () => modal.remove());
+}
+
+function downloadCurrent() {
+  const f = state.files[state.selectedIdx];
+  if (!f || !f.compBlob) {
+    toast('Add images first');
+    return;
+  }
+  const filename = getOutputFilename(f.file.name, state.settings.format);
+  downloadBlob(f.compBlob, filename);
+  toast(isIOS() ? '💡 Long press the image to save to gallery' : '✅ Download complete');
+}
+
+function downloadAll() {
+  if (state.files.length === 0) {
+    toast('No images to download');
+    return;
+  }
+
+  if (isIOS()) {
+    // iOS: compress all first, then open last image with save instructions
+    (async () => {
+      toast('⏳ Processing...');
+      for (const f of state.files) {
+        if (!f.compBlob) {
+          const img = await loadImage(f.file);
+          const result = await compressImage(img, state.settings);
+          if (f.compUrl) URL.revokeObjectURL(f.compUrl);
+          f.compBlob = result.blob;
+          f.compUrl = URL.createObjectURL(result.blob);
+          f.compSize = result.blob.size;
+        }
+      }
+      // For iOS, show first image with save modal
+      const first = state.files[0];
+      const filename = getOutputFilename(first.file.name, state.settings.format);
+      const url = URL.createObjectURL(first.compBlob);
+      showSaveModal(url);
+      toast(`💡 ${state.files.length} image(s) — long press each to save`);
+    })();
+    return;
+  }
+
+  // Android & Desktop: sequential downloads
+  let downloaded = 0;
+  const promises = state.files.map(async (f, i) => {
+    if (!f.compBlob) {
+      const img = await loadImage(f.file);
+      const result = await compressImage(img, state.settings);
+      if (f.compUrl) URL.revokeObjectURL(f.compUrl);
+      f.compBlob = result.blob;
+      f.compUrl = URL.createObjectURL(result.blob);
+      f.compSize = result.blob.size;
+    }
+    const filename = getOutputFilename(f.file.name, state.settings.format);
+    setTimeout(() => downloadBlob(f.compBlob, filename), i * 300);
+    downloaded++;
+  });
+
+  Promise.all(promises).then(() => {
+    toast(`✅ Downloaded ${downloaded} image(s)`);
+  });
+}
+
+// ============ EVENT HANDLERS ============
+
+// Drag & Drop
+dom.dropzone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dom.dropzone.classList.add('drag-over');
+});
+
+dom.dropzone.addEventListener('dragleave', () => {
+  dom.dropzone.classList.remove('drag-over');
+});
+
+dom.dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dom.dropzone.classList.remove('drag-over');
+  addFiles(e.dataTransfer.files);
+});
+
+// File input change handler (input overlays the dropzone, native tap works)
+dom.fileInput.addEventListener('change', () => {
+  setStatus('📂 File selection detected...', 'var(--primary)');
+  if (dom.fileInput.files.length > 0) {
+    setStatus(`📥 Processing ${dom.fileInput.files.length} file(s)...`, 'var(--primary)');
+    addFiles(dom.fileInput.files);
+    dom.fileInput.value = '';
+  } else {
+    setStatus('🟢 Ready', 'var(--text2)');
+  }
+});
+
+// Clipboard paste
+document.addEventListener('paste', (e) => {
+  const items = e.clipboardData?.items;
+  if (!items) return;
+  const files = [];
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      const file = item.getAsFile();
+      if (file) files.push(file);
+    }
+  }
+  if (files.length > 0) {
+    e.preventDefault();
+    addFiles(files);
+  }
+});
+
+// Settings: Format
+dom.settingsPanel.addEventListener('click', (e) => {
+  const btn = e.target.closest('.fmt-btn');
+  if (!btn) return;
+  updateSettings({ format: btn.dataset.fmt });
+});
+
+// Settings: Quality slider
+dom.qualitySlider.addEventListener('input', () => {
+  const q = parseInt(dom.qualitySlider.value);
+  dom.qualityVal.textContent = q + '%';
+  state.settings.quality = q;
+
+  // Debounced preview update — fast enough to feel real-time
+  if (state.updateTimer) clearTimeout(state.updateTimer);
+  state.updateTimer = setTimeout(() => {
+    if (state.selectedIdx >= 0) renderPreview();
+  }, 150);
+});
+
+dom.qualitySlider.addEventListener('change', () => {
+  if (state.updateTimer) clearTimeout(state.updateTimer);
+  if (state.selectedIdx >= 0) renderPreview();
+});
+
+// Settings: Max width
+dom.maxWidth.addEventListener('input', debounce(() => {
+  let val = parseInt(dom.maxWidth.value);
+  if (isNaN(val) || val < 0) val = 0;
+  state.settings.maxWidth = val;
+  if (state.selectedIdx >= 0) renderPreview();
+}, 400));
+
+// Presets
+const presets = {
+  wechat: { format: 'webp', quality: 80, maxWidth: 1080 },
+  email: { format: 'jpeg', quality: 70, maxWidth: 1200 },
+  web: { format: 'webp', quality: 75, maxWidth: 1920 },
+};
+
+// Download buttons
+dom.downloadOne.addEventListener('click', downloadCurrent);
+dom.downloadAll.addEventListener('click', downloadAll);
+
+// Add more button — scroll to dropzone
+dom.addMoreBtn.addEventListener('click', () => {
+  dom.dropzone.scrollIntoView({ behavior: 'smooth' });
+  // Brief highlight
+  dom.dropzone.style.borderColor = 'var(--primary)';
+  setTimeout(() => { dom.dropzone.style.borderColor = ''; }, 600);
+});
+
+// Clear all
+dom.clearAllBtn.addEventListener('click', () => {
+  if (state.files.length === 0) return;
+  if (confirm(`Clear all ${state.files.length} image(s)?`)) {
+    clearAll();
+  }
+});
+
+// Theme toggle
+function applyTheme() {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = state.darkMode === null ? prefersDark : state.darkMode;
+  document.documentElement.classList.toggle('dark', isDark);
+  dom.themeToggle.textContent = isDark ? '☀️' : '🌙';
+}
+
+dom.themeToggle.addEventListener('click', () => {
+  // Cycle: dark → light → auto → dark
+  state.darkMode = state.darkMode === true ? false : (state.darkMode === false ? null : true);
+  applyTheme();
+});
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (state.darkMode === null) applyTheme();
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  // Ctrl+O to open files
+  if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
+    e.preventDefault();
+    dom.fileInput.click();
+  }
+  // Arrow keys to navigate files
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    if (state.files.length > 1 && document.activeElement === document.body) {
+      e.preventDefault();
+      const delta = e.key === 'ArrowDown' ? 1 : -1;
+      const newIdx = (state.selectedIdx + delta + state.files.length) % state.files.length;
+      selectFile(newIdx);
+    }
+  }
+});
+
+// ============ INIT ============
+applyTheme();
+buildCropButtons();
+
+// Crop scale slider
+const cropScale = $('#cropScale');
+const cropScaleVal = $('#cropScaleVal');
+cropScale?.addEventListener('input', () => {
+  if (!state.crop) return;
+  state.crop.scale = parseInt(cropScale.value) / 100;
+  if (cropScaleVal) cropScaleVal.textContent = cropScale.value + '%';
+  if (state.selectedIdx >= 0) renderPreview();
+});
+
+// DPI change handler
+
+// DPI change handler
+dom.cropDpi?.addEventListener('input', () => {
+  if (!state.crop) return;
+  const dpi = parseInt(dom.cropDpi.value) || 300;
+  state.crop.dpi = dpi;
+  state.crop.pxW = Math.round((state.crop.cmW / 2.54) * dpi);
+  state.crop.pxH = Math.round((state.crop.cmH / 2.54) * dpi);
+  if (dom.cropDimHint) dom.cropDimHint.textContent = 'Output ' + state.crop.pxW + '×' + state.crop.pxH + 'px @' + dpi + 'DPI';
+  if (state.selectedIdx >= 0) renderPreview();
+});
+
+// Replace preset event listener - attach to settings panel directly
+dom.settingsPanel.addEventListener('click', (e) => {
+  const presetBtn = e.target.closest('.preset-btn');
+  if (!presetBtn) return;
+
+  const preset = presets[presetBtn.dataset.preset];
+  if (!preset) return;
+
+  $$('.preset-btn').forEach(b => b.classList.remove('active'));
+  presetBtn.classList.add('active');
+
+  updateSettings(preset);
+});
+
+console.log('🔒 Image Compress & Privacy ready');
+console.log('  - Drag images or click the upload area to start');
+console.log('  - Everything is processed locally in your browser — nothing is uploaded');
+console.log('  - Ctrl+V Paste from clipboard');
+console.log('  - Ctrl+O Select File');
+console.log('  - Use arrow keys to browse images');
+
+} catch (err) {
+  // Show error if JS fails to initialize
+  document.body.innerHTML = '<div style="max-width:500px;margin:60px auto;padding:24px;font-family:sans-serif;text-align:center">' +
+    '<h2 style="color:#dc2626">⚠️ Failed to initialize</h2>' +
+    '<p style="color:#666;margin:12px 0">Error: ' + err.message + '</p>' +
+    '<p style="font-size:13px;color:#999">Please try:<br>1. Open this file in <strong>Safari</strong><br>2. Make sure iOS is version 13 or newer<br>3. Don\'t preview from the Files app</p>' +
+    '<button onclick="location.reload()" style="margin-top:12px;padding:10px 24px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:15px;cursor:pointer">🔄 Retry</button>' +
+    '</div>';
+  console.error('Init error:', err);
+}
+</script>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../pdf-toolbox/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4C4; PDF Toolbox</a><a href="../grid-splitter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F9E9; Grid Image Splitter</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../id-photo-pro/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">🪪 ID Photo Maker</a></div></div>
+<div style="text-align:center;padding:16px 0 8px;"><a href="https://www.husir.org/tools/" target="_blank" style="color:var(--text);font-size:13px;text-decoration:none;opacity:0.6;">🛠 More Free Tools →</a></div>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:var(--text2,#6b7280);font-size:12px;font-weight:600;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--text,#111827)'" onmouseout="this.style.color='var(--text2,#6b7280)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:var(--text,#0f172a);text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid var(--border)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:var(--primary);text-decoration:none;font-size:13px;font-weight:600;transition:opacity 0.2s" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">☕ Buy me a coffee</a></div>
+
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>

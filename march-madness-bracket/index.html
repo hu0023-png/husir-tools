@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x1F3C6; March Madness Bracket Generator | HuSir Tools</title>
+<meta name="description" content="Generate a March Madness-style tournament bracket with seeds, pick winners round by round, auto-simulate, and crown a champion. 100% local, works offline, no sign-up.">
+<link rel="canonical" href="https://www.husir.org/tools/march-madness-bracket/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="🏆 March Madness Bracket Generator">
+<meta property="og:description" content="Generate a March Madness-style tournament bracket with seeds, pick winners round by round, auto-simulate, and crown a champion. 100% local, works offline, no sign-up.">
+<meta property="og:url" content="https://www.husir.org/tools/march-madness-bracket/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🏆 March Madness Bracket Generator">
+<meta name="twitter:description" content="Generate a March Madness-style tournament bracket with seeds, pick winners round by round, auto-simulate, and crown a champion. 100% local, works offline, no sign-up.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:32px 16px}
+.container{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.title-wrap{text-align:center}
+h1{text-align:center;color:#fff;font-size:28px;margin-bottom:2px;text-shadow:0 2px 4px rgba(0,0,0,.2);font-weight:800;letter-spacing:1px}
+.subtitle{text-align:center;color:rgba(255,255,255,.72);font-size:14px}
+.panel{background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.panel-header h3{font-size:16px;color:#333;font-weight:700}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.field-label{font-size:12px;color:#888;margin:0 0 4px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block}
+select{width:auto;padding:9px 12px;border:2px solid #e0e0e0;border-radius:9px;font-size:13.5px;font-family:inherit;outline:none;background:#fafbfc;color:#1a1a2e}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-ghost{background:#f0f0f0;color:#555}
+.btn-ghost:hover{background:#e0e0e0}
+.opt{display:flex;align-items:center;gap:7px;font-size:13px;color:#475569;cursor:pointer;padding-bottom:9px;user-select:none}
+.opt input{width:16px;height:16px;accent-color:#667eea}
+.bracket-wrap{background:#f8faff;border:2px solid #e6e9f5;border-radius:14px;margin-top:14px;overflow-x:auto;padding:14px 8px}
+.bracket{display:flex;gap:18px;align-items:flex-start;width:max-content;min-width:100%}
+.rcol{display:flex;flex-direction:column;gap:10px;min-width:180px}
+.rhead{font-size:11px;font-weight:800;color:#7c86a0;text-transform:uppercase;letter-spacing:1px;text-align:center;padding:4px 0 2px}
+.mcell{display:flex;flex-direction:column;gap:2px}
+.tbtn{display:flex;align-items:center;gap:7px;width:100%;text-align:left;border:2px solid #e6e9f5;background:#fff;border-radius:9px;padding:6px 8px;font-size:12.5px;font-weight:700;color:#1a1a2e;cursor:pointer;font-family:inherit;transition:all .12s;min-height:34px}
+.tbtn:hover{border-color:#667eea;background:#eef2ff}
+.tbtn.win{border-color:#059669;background:#ecfdf5;color:#065f46}
+.tbtn.win::after{content:"\2713";color:#059669;font-weight:900;margin-left:auto}
+.tbtn.auto{border-color:#d97706;background:#fffbeb;color:#92400e}
+.tbtn .seed{flex:0 0 auto;background:#eef2ff;color:#4c1d95;font-size:10px;font-weight:900;border-radius:5px;padding:1px 6px}
+.tbtn.wait{opacity:.45;cursor:default}
+.champ{border:2px solid #f59e0b;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-radius:14px;padding:12px 16px;margin-top:12px;text-align:center;font-weight:800;color:#92400e;display:none}
+.champ b{font-size:17px;color:#b45309}
+.status{font-size:13px;color:#475569;font-weight:600;margin-top:10px}
+.hint{font-size:11.5px;color:#98a1b3;margin-top:10px;line-height:1.6}
+@media(max-width:600px){body{padding:18px 10px}.container{gap:12px}h1{font-size:22px}.subtitle{font-size:12px}.panel{padding:16px 12px}.controls{flex-direction:column;align-items:stretch}.controls select{width:100%}}
+</style>
+<style id="husir-tool-nav-css">#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px)}#tool-back-nav:hover{background:rgba(17,24,39,.94)}@media(max-width:640px){#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}button,input[type=button],select,input,textarea{min-height:44px}}</style><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "🏆 March Madness Bracket Generator",
+  "description": "Generate a March Madness-style tournament bracket with seeds, pick winners round by round, auto-simulate, and crown a champion. 100% local, works offline, no sign-up.",
+  "url": "https://www.husir.org/tools/march-madness-bracket/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "🏆 How are the seeds arranged?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The classic pairing: in each 16-team region, round one pairs seeds 1–16, 8–9, 5–12, 4–13, 6–11, 3–14, 7–10, and 2–15. Winners advance to play adjacent matchups."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🎯 Why are some teams grayed out?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A later-round matchup only opens once both teams in the two games feeding it are decided. Pick earlier games first, or just Auto-play the whole bracket."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "📋 Can I use my own teams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — uncheck “Fill with college teams”, enter your own list (one team per line), and generate. Any list that is a power of two (8, 16, 32, 64) works."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "🔒 Is my bracket saved or sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It exists only on this page for this session. Refresh and you start fresh."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "March Madness Bracket Generator", "item": "https://www.husir.org/tools/march-madness-bracket/"}]}</script>
+</head>
+<body>
+<div class="container">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">March Madness Bracket Generator</span></span></nav>
+
+<div class="title-wrap">
+<h1>&#x1F3C6; March Madness Bracket Generator</h1>
+<p class="subtitle">Seeded tournament bracket &middot; pick winners round by round &middot; runs 100% in your browser</p>
+</div>
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 4px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}</style>
+
+<details class="info-block">
+<summary>&#x1F4D8; About this tool</summary>
+<div class="info-inner">
+<p>Every March, 64 college teams get a bracket and millions of people fill one out in ten minutes. This generator builds a standard seeded single-elimination bracket &mdash; 16-team region or the full 64-team field &mdash; with the classic 1-vs-16 matchups, then lets you click through each round to crown a champion.</p>
+<p>Start with the fun: it fills the field with familiar program names (or 8&ndash;64 of your own if you want a different game), then pick winners by tapping teams in each round. When both teams in a matchup are decided, the winner advances automatically into the next column. If you just want a finished sheet fast, press Auto-play and it simulates the entire tournament to a champion, then Reset to try again.</p>
+<p>Everything happens on your device &mdash; no account, no upload, works fully offline. Use it for an office pool, a classroom demo of bracket math, or just to feel the chaos before the real games tip off.</p>
+<div class="faq">
+<p><strong>&#x1F3C6; How are the seeds arranged?</strong><br>The classic pairing: in each 16-team region, round one pairs seeds 1&ndash;16, 8&ndash;9, 5&ndash;12, 4&ndash;13, 6&ndash;11, 3&ndash;14, 7&ndash;10, and 2&ndash;15. Winners advance to play adjacent matchups.</p>
+<p><strong>&#x1F3AF; Why are some teams grayed out?</strong><br>A later-round matchup only opens once both teams in the two games feeding it are decided. Pick earlier games first, or just Auto-play the whole bracket.</p>
+<p><strong>&#x1F4CB; Can I use my own teams?</strong><br>Yes &mdash; uncheck &ldquo;Fill with college teams&rdquo;, enter your own list (one team per line), and generate. Any list that is a power of two (8, 16, 32, 64) works.</p>
+<p><strong>&#x1F512; Is my bracket saved or sent anywhere?</strong><br>No. It exists only on this page for this session. Refresh and you start fresh.</p>
+</div>
+<div class="formula"><b>&#x1F4D0; Bracket math</b><br>
+A bracket with N teams has log&#8322;(N) rounds (64 &rarr; 32 &rarr; 16 &rarr; 8 &rarr; 4 &rarr; 2 &rarr; 1 champion) and N&minus;1 total games.
+</div>
+</div>
+</details>
+
+<div class="panel">
+  <div class="panel-header"><h3>&#x1F3C6; Tournament</h3><span style="font-size:11.5px;color:#98a1b3" id="progress"></span></div>
+  <div class="controls">
+    <div>
+      <label class="field-label" for="sizeSel">Field size</label>
+      <select id="sizeSel">
+        <option value="16">16 teams (one region)</option>
+        <option value="32" selected>32 teams (two regions)</option>
+        <option value="64">64 teams (full field)</option>
+      </select>
+    </div>
+    <div style="padding-bottom:9px">
+      <label class="opt"><input type="checkbox" id="useRandom" checked> Fill with college teams</label>
+    </div>
+    <button class="btn btn-ghost" id="newBtn" type="button">&#x1F504; New bracket</button>
+    <button class="btn btn-ghost" id="autoBtn" type="button">&#x23EF;&#xFE0F; Auto-play</button>
+    <button class="btn btn-ghost" id="resetBtn" type="button">&#x21BA;&#xFE0F; Reset picks</button>
+  </div>
+  <div id="customWrap" style="display:none">
+    <label class="field-label" for="custom">Your teams (one per line)</label>
+    <textarea id="custom" spellcheck="false" style="width:100%;min-height:90px;border:2px solid #e0e0e0;border-radius:9px;padding:8px 10px;font-size:13px;font-family:inherit;outline:none" placeholder="Wildcats&#10;Tigers&#10;Eagles&#10;..."></textarea>
+  </div>
+  <div class="bracket-wrap"><div class="bracket" id="bracket"></div></div>
+  <div class="champ" id="champ"></div>
+  <div class="status" id="status">Press New bracket to build a field, then click winners to advance.</div>
+  <p class="hint">Click a team to pick it as the winner. Later rounds unlock as earlier games are decided.</p>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px"><a href="https://www.husir.org/tools/" target="_blank" style="color:rgba(255,255,255,0.82);font-size:13px;text-decoration:none">&#x1F6E0; More Free Tools &#8594;</a></div>
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none">&#x1F4E5; Download Offline Version</a></div>
+<div style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6"><a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a></div>
+<div style="text-align:center;margin-top:36px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px">&#x2615; Buy me a coffee</a></div>
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../fantasy-football-draft/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C8; Fantasy Football Draft Kit</a><a href="../countdown-timer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x23F3; Countdown &amp; Event Timer</a><a href="../poll-vote-counter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4E3; Poll &amp; Vote Counter</a><a href="../decision-picker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3AF; Decision Picker</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</div>
+<script>
+function $(id){return document.getElementById(id);}
+var TEAMS=['Duke','North Carolina','Kansas','Kentucky','UCLA','Gonzaga','Purdue','UConn','Arizona','Houston','Tennessee','Alabama','Marquette','Baylor','Creighton','Auburn','Florida','Illinois','Iowa State','Michigan State','Wisconsin','BYU','San Diego State','Dayton','Grand Canyon','Colorado State','Utah State','Drake','Texas','Texas Tech','Michigan','Indiana','Oregon','Mississippi State','Cincinnati','Oklahoma','Arkansas','LSU','Ole Miss','South Carolina','Clemson','Virginia','Virginia Tech','Miami','Wake Forest','Pittsburgh','NC State','Syracuse','Louisville','Providence','St. John\u2019s','Seton Hall','Xavier','Butler','UAB','Memphis','South Florida','FAU','North Texas','Saint Mary\u2019s','Washington','Arizona State','Colorado','USC','Stanford','Missouri','Georgia','Nebraska','Northwestern','Maryland','Rutgers'];
+var ORDER16=[1,16,8,9,5,12,4,13,6,11,3,14,7,10,2,15];
+var ORDER8=[1,8,4,5,2,7,3,6];
+var size=32,teams=[],picks=[]; // picks[r][i] = slotIndex or null
+function slotOrder(n){var out=[],step=n>16?16:(n===16?16:8);for(var o=0;o<n;o+=step){var ord=step===8?ORDER8:ORDER16;for(var k=0;k<ord.length;k++){out.push(o+ord[k]-1);}}return out;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function seedLabel(slot,n){var step=n>16?16:(n===16?16:8);return (slot%step)+1;}
+function regionOf(slot,n){if(n<=16)return '';var step=n>16?16:8;var r=Math.floor(slot/step);return ['E','W','MW','S'][r]||'';}
+function build(n,random){
+  size=n;
+  var pool=shuffle(TEAMS);
+  if(random){
+    teams=[];
+    for(var i=0;i<n;i++)teams.push(pool[i%pool.length]);
+  }else{
+    var lines=$('custom').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    teams=[];
+    for(var i2=0;i2<n;i2++)teams.push(lines[i2]||('Team '+(i2+1)));
+  }
+  picks=[];
+  var ord=slotOrder(n);
+  var rounds=Math.log2(n);
+  var r;
+  for(r=0;r<rounds;r++){
+    var cnt=n/Math.pow(2,r+1);
+    var arr=[];
+    for(var m=0;m<cnt;m++)arr.push(null);
+    picks.push(arr);
+  }
+}
+function winnersOf(r){
+  // current winners for round r (0-indexed round number), i.e. results of round r
+  var out=[];
+  var prevN=size/Math.pow(2,r);
+  for(var i=0;i<prevN/2;i++){
+    if(picks[r][i]===null){out.push(null);continue;}
+    out.push(picks[r][i]);
+  }
+  return out;
+}
+function render(){
+  var rounds=Math.log2(size);
+  var box=$('bracket');box.innerHTML='';
+  var rnames=['Round 1','Round 2','Sweet 16','Elite 8','Final 4','Final','Champion'];
+  var used=0,total=size-1;
+  for(var r=0;r<rounds;r++){
+    var col=document.createElement('div');col.className='rcol';
+    var head=document.createElement('div');head.className='rhead';head.textContent=rnames[r]||('Round '+(r+1));
+    col.appendChild(head);
+    var cnt=size/Math.pow(2,r+1);
+    var wprev=null;
+    if(r>0){wprev=winnersOf(r-1);}
+    for(var m=0;m<cnt;m++){
+      var cell=document.createElement('div');cell.className='mcell';
+      var a,b;
+      if(r===0){
+        var ord=slotOrder(size);
+        a=ord[m*2];b=ord[m*2+1];
+      }else{
+        a=wprev[m*2];b=wprev[m*2+1];
+      }
+      var pick=picks[r][m];
+      cell.appendChild(teamBtn(r,m,a,0,pick));
+      cell.appendChild(teamBtn(r,m,b,1,pick));
+      if(r>0&&(a===null||b===null)){cell.style.opacity='.55';}
+      col.appendChild(cell);
+    }
+    box.appendChild(col);
+  }
+  var done=0;
+  picks.forEach(function(pr){pr.forEach(function(p){if(p!==null)done++;});});
+  $('progress').textContent=done+' of '+total+' games picked';
+  var ch=$('champ');
+  if(picks[rounds-1][0]!==null){
+    ch.style.display='block';
+    ch.innerHTML='\uD83C\uDFC6 Champion: <b>'+esc(teams[picks[rounds-1][0]])+'</b> \uD83C\uDFC6';
+  }else{ch.style.display='none';}
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function teamBtn(r,m,slot,side,pick){
+  var b=document.createElement('button');b.type='button';b.className='tbtn';
+  if(slot===null){b.className='tbtn wait';b.textContent='Waiting…';b.disabled=true;return b;}
+  var sel=r===0?slotOrder(size):null;
+  var isWin=pick===slot;
+  var wprev=null;
+  if(r>0){wprev=winnersOf(r-1);}
+  var avail=true;
+  if(r>0&&(wprev[m*2]===null||wprev[m*2+1]===null))avail=false;
+  if(isWin)b.className='tbtn win';
+  else if(!avail){b.className='tbtn wait';b.disabled=true;}
+  var seed=seedLabel(slot,size);
+  var reg=regionOf(slot,size);
+  var seedTxt=(r===0&&reg)?reg+' '+seed:''+seed;
+  b.innerHTML='<span class="seed">'+seedTxt+'</span>'+esc(teams[slot]);
+  b.addEventListener('click',function(){
+    if(!avail)return;
+    picks[r][m]=slot;
+    for(var rr=r+1;rr<picks.length;rr++){for(var i=0;i<picks[rr].length;i++)picks[rr][i]=null;}
+    render();
+  });
+  return b;
+}
+function resetPicks(){
+  picks.forEach(function(pr){for(var i=0;i<pr.length;i++)pr[i]=null;});
+  render();
+}
+function autoPlay(){
+  var rounds=Math.log2(size);
+  var r,m;
+  for(r=0;r<rounds;r++){
+    var wprev=null;
+    if(r>0)wprev=winnersOf(r-1);
+    var cnt=size/Math.pow(2,r+1);
+    for(m=0;m<cnt;m++){
+      var a,b;
+      if(r===0){var ord=slotOrder(size);a=ord[m*2];b=ord[m*2+1];}
+      else{a=wprev[m*2];b=wprev[m*2+1];}
+      picks[r][m]=(Math.random()<0.5)?a:b;
+    }
+  }
+  render();
+}
+$('sizeSel').addEventListener('change',function(){
+  var n=parseInt($('sizeSel').value,10);
+  build(n,$('useRandom').checked);
+  render();
+});
+$('useRandom').addEventListener('change',function(){
+  $('customWrap').style.display=this.checked?'none':'';
+  build(parseInt($('sizeSel').value,10),this.checked);
+  render();
+});
+$('newBtn').addEventListener('click',function(){
+  build(parseInt($('sizeSel').value,10),$('useRandom').checked);
+  render();
+});
+$('autoBtn').addEventListener('click',autoPlay);
+$('resetBtn').addEventListener('click',resetPicks);
+build(32,true);
+render();
+</script>
+</body>
+</html>

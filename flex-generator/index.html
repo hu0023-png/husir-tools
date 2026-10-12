@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Social Achievement Card Maker — Flex Card Generator | HuSir Tools</title>
+<meta name="description" content="Design playful achievement and flex cards for social media. No account, no upload, private browser tool.">
+<link rel="canonical" href="https://www.husir.org/tools/flex-generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HuSir Tools">
+<meta property="og:title" content="Free Social Achievement Card Maker — Flex Card Generator">
+<meta property="og:description" content="Design playful achievement and flex cards for social media. No account, no upload, private browser tool.">
+<meta property="og:url" content="https://www.husir.org/tools/flex-generator/">
+<meta property="og:image" content="https://www.husir.org/tools/og-tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Social Achievement Card Maker — Flex Card Generator">
+<meta name="twitter:description" content="Design playful achievement and flex cards for social media. No account, no upload, private browser tool.">
+<meta name="twitter:image" content="https://www.husir.org/tools/og-tools.png">
+<meta name="robots" content="index, follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC",sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:24px 20px 60px}
+.app h1{text-align:center;font-size:26px;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.app .sub{text-align:center;font-size:13px;color:#666;margin-bottom:28px}
+
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.tpl-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 16px;cursor:pointer;transition:all 0.25s;text-align:center}
+.tpl-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
+.tpl-card .tpl-icon{font-size:36px;margin-bottom:8px;display:block}
+.tpl-card .tpl-name{font-size:14px;font-weight:700;color:#ddd}
+.tpl-card .tpl-desc{font-size:11px;color:#888;margin-top:4px}
+
+/* Editor overlay */
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;display:none;align-items:center;justify-content:center;flex-direction:column}
+.overlay.show{display:flex}
+
+.editor{display:flex;gap:20px;align-items:flex-start;max-width:900px;width:95%}
+.preview-phone{flex-shrink:0;width:320px;background:#000;border-radius:32px;padding:12px;box-shadow:0 0 0 2px #333,0 20px 60px rgba(0,0,0,0.5)}
+.preview-phone .screen{width:100%;aspect-ratio:9/16;background:#fff;border-radius:22px;overflow:hidden;position:relative;font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif;color:#111}
+.preview-phone .notch{width:80px;height:24px;background:#000;border-radius:0 0 14px 14px;margin:0 auto 6px}
+
+.controls{flex:1;max-height:80vh;overflow-y:auto;padding-right:8px}
+.controls .section{margin-bottom:16px}
+.controls label{display:block;font-size:12px;color:#999;margin-bottom:5px;font-weight:600}
+.controls input,.controls textarea,.controls select{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;font-family:inherit;outline:none;resize:vertical}
+.controls textarea{min-height:60px}
+.controls input:focus,.controls textarea:focus{border-color:#f59e0b}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit;color:#fff;white-space:nowrap}
+.btn:active{transform:scale(0.96)}
+.btn-primary{background:linear-gradient(135deg,#f59e0b,#ef4444)}
+.btn-ghost{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12)}
+.btn-ghost:hover{background:rgba(255,255,255,0.14)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ===== Template Styles ===== */
+
+/* 1. Cash App */
+.tpl-wechat{background:#ededed;height:100%;display:flex;flex-direction:column}
+.tpl-wechat .wc-header{background:#1aad19;color:#fff;padding:40px 20px 16px;text-align:center;font-size:16px;font-weight:600}
+.tpl-wechat .wc-balance{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.tpl-wechat .wc-label{font-size:14px;color:#999;margin-bottom:8px}
+.tpl-wechat .wc-amount{font-size:48px;font-weight:300;color:#333}
+.tpl-wechat .wc-amount span{font-size:24px;margin-right:2px}
+.tpl-wechat .wc-card{background:#fff;margin:0 20px 20px;border-radius:14px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.tpl-wechat .wc-card-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#666;border-bottom:1px solid #f5f5f5}
+.tpl-wechat .wc-card-row:last-child{border:none}
+
+/* 2. Flight Check-in */
+.tpl-flight{background:#1a73e8;height:100%;padding:40px 24px 24px;color:#fff;display:flex;flex-direction:column}
+.tpl-flight .fl-logo{font-size:13px;opacity:0.7;margin-bottom:30px}
+.tpl-flight .fl-route{font-size:36px;font-weight:200;margin-bottom:4px;letter-spacing:2px}
+.tpl-flight .fl-date{font-size:14px;opacity:0.8;margin-bottom:30px}
+.tpl-flight .fl-card{background:rgba(255,255,255,0.15);border-radius:16px;padding:20px;backdrop-filter:blur(10px)}
+.tpl-flight .fl-row{display:flex;justify-content:space-between;padding:10px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.tpl-flight .fl-row:last-child{border:none}
+.tpl-flight .fl-row span:first-child{opacity:0.7}
+.tpl-flight .fl-seat{text-align:center;margin-top:20px;font-size:48px;font-weight:200}
+.tpl-flight .fl-barcode{height:40px;background:rgba(255,255,255,0.2);border-radius:8px;margin-top:20px}
+
+/* 3. Bank Balance */
+.tpl-bank{background:#0a1628;height:100%;display:flex;flex-direction:column;color:#fff}
+.tpl-bank .bk-header{padding:40px 24px 20px;display:flex;align-items:center;gap:12px}
+.tpl-bank .bk-logo{width:36px;height:36px;background:#c9a96e;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#0a1628}
+.tpl-bank .bk-name{font-size:16px;font-weight:600}
+.tpl-bank .bk-card{background:linear-gradient(135deg,#c9a96e,#a68b5b);margin:0 20px;border-radius:16px;padding:24px}
+.tpl-bank .bk-card-label{font-size:12px;opacity:0.7;margin-bottom:4px}
+.tpl-bank .bk-card-num{font-size:16px;letter-spacing:2px;margin-bottom:16px}
+.tpl-bank .bk-balance-label{font-size:12px;opacity:0.7;margin-bottom:2px}
+.tpl-bank .bk-balance{font-size:32px;font-weight:300}
+.tpl-bank .bk-txns{flex:1;padding:16px 24px;overflow-y:auto}
+.tpl-bank .bk-txn{display:flex;justify-content:space-between;padding:10px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8899aa}
+.tpl-bank .bk-txn .plus{color:#22c55e}
+
+/* 4. Event Ticket */
+.tpl-train{background:#fff;height:100%;display:flex;flex-direction:column}
+.tpl-train .tr-header{background:#1e6fff;color:#fff;padding:32px 20px 16px;text-align:center}
+.tpl-train .tr-title{font-size:13px;opacity:0.8}
+.tpl-train .tr-route{font-size:24px;font-weight:700;margin:8px 0}
+.tpl-train .tr-info{font-size:12px;opacity:0.8}
+.tpl-train .tr-body{padding:20px}
+.tpl-train .tr-row{display:flex;justify-content:space-between;padding:12px 0;font-size:14px;color:#333;border-bottom:1px solid #f0f0f0}
+.tpl-train .tr-row span:first-child{color:#999}
+.tpl-train .tr-seat-box{text-align:center;margin:20px 0}
+.tpl-train .tr-seat{font-size:56px;font-weight:200;color:#1e6fff}
+.tpl-train .tr-seat-sub{font-size:13px;color:#999}
+.tpl-train .tr-qr{width:80px;height:80px;background:#f0f0f0;margin:0 auto;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:11px}
+
+/* 5. Apple Store */
+.tpl-apple{background:#f5f5f7;height:100%;display:flex;flex-direction:column}
+.tpl-apple .ap-header{padding:40px 20px 16px;text-align:center;font-size:20px;font-weight:700;color:#1d1d1f}
+.tpl-apple .ap-sub{text-align:center;font-size:13px;color:#86868b;margin-bottom:20px}
+.tpl-apple .ap-item{padding:16px 24px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #e5e5ea}
+.tpl-apple .ap-icon{width:48px;height:48px;background:#e8e8ed;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.tpl-apple .ap-info{flex:1}
+.tpl-apple .ap-name{font-size:14px;color:#1d1d1f;font-weight:500}
+.tpl-apple .ap-date{font-size:12px;color:#86868b}
+.tpl-apple .ap-price{font-size:14px;color:#1d1d1f}
+.tpl-apple .ap-total{padding:20px 24px;text-align:right;font-size:18px;font-weight:700;color:#1d1d1f}
+
+/* 6. Year-End Summary */
+.tpl-alipay{background:#1677ff;height:100%;display:flex;flex-direction:column;color:#fff}
+.tpl-alipay .ali-header{padding:36px 20px 10px;text-align:center;font-size:15px;font-weight:600}
+.tpl-alipay .ali-amount{text-align:center;font-size:52px;font-weight:200;padding:10px 0}
+.tpl-alipay .ali-sub{text-align:center;font-size:13px;opacity:0.7;margin-bottom:20px}
+.tpl-alipay .ali-card{background:rgba(255,255,255,0.12);margin:0 20px 16px;border-radius:16px;padding:18px;backdrop-filter:blur(10px)}
+.tpl-alipay .ali-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.tpl-alipay .ali-row:last-child{border:none}
+
+/* 7. Stock Portfolio */
+.tpl-stock{background:#12161f;height:100%;display:flex;flex-direction:column;color:#e0e0e0}
+.tpl-stock .st-header{padding:36px 20px 12px;font-size:16px;font-weight:700;color:#fff}
+.tpl-stock .st-total{padding:0 20px;font-size:36px;font-weight:200;color:#22c55e}
+.tpl-stock .st-pl{font-size:13px;color:#22c55e;padding:0 20px 16px}
+.tpl-stock .st-list{flex:1;padding:0 20px}
+.tpl-stock .st-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tpl-stock .st-name{font-size:14px}
+.tpl-stock .st-code{font-size:11px;color:#666}
+.tpl-stock .st-price{text-align:right;font-size:14px}
+.tpl-stock .st-change{font-size:11px;color:#22c55e}
+
+/* 8. Salary Deposit */
+.tpl-salary{background:#1c1c1e;height:100%;display:flex;flex-direction:column;color:#fff}
+.tpl-salary .sal-header{padding:40px 24px 16px;text-align:center;font-size:13px;color:#8e8e93}
+.tpl-salary .sal-bank{padding:0 24px;font-size:15px;color:#8e8e93;text-align:center;margin-bottom:20px}
+.tpl-salary .sal-card{background:#2c2c2e;margin:0 20px;border-radius:16px;padding:24px;text-align:center}
+.tpl-salary .sal-label{font-size:13px;color:#8e8e93;margin-bottom:8px}
+.tpl-salary .sal-amount{font-size:44px;font-weight:200;color:#fff}
+.tpl-salary .sal-detail{padding:16px 24px}
+.tpl-salary .sal-row{display:flex;justify-content:space-between;padding:10px 0;font-size:13px;color:#8e8e93;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tpl-salary .sal-row span:last-child{color:#fff}
+.tpl-salary .sal-badge{text-align:center;padding:12px;font-size:12px;color:#22c55e}
+
+/* Mobile responsiveness */
+@media(max-width:700px){
+  .overlay{padding-top:50px;align-items:flex-start}
+  .overlay .top-bar{position:fixed;top:0;left:0;right:0;z-index:1001;background:rgba(0,0,0,0.95);padding:8px 12px;display:flex;align-items:center;gap:10px;margin:0;width:100%;max-width:100%;border-bottom:1px solid rgba(255,255,255,0.08)}
+  .editor{flex-direction:column;align-items:center;gap:12px;padding:0 8px}
+  .preview-phone{width:240px;padding:8px;border-radius:24px;flex-shrink:0}
+  .preview-phone .screen{border-radius:16px}
+  .preview-phone .notch{width:60px;height:18px;border-radius:0 0 10px 10px;margin-bottom:4px}
+  .controls{width:100%;max-height:none;overflow-y:visible;padding-bottom:20px}
+  .controls .section{margin-bottom:10px}
+  .controls input,.controls textarea,.controls select{padding:8px 12px;font-size:16px}
+  .mobile-save-btn{position:fixed;bottom:16px;right:16px;z-index:1001;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(239,68,68,0.4);display:flex;align-items:center;justify-content:center}
+}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+
+/* Export overlay for mobile */
+.export-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.export-overlay img{max-width:100%;max-height:100%;object-fit:contain}
+</style>
+
+<style id="husir-tool-nav-css">
+#tool-back-nav{position:fixed;top:12px;left:12px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:rgba(17,24,39,.82);color:#fff;font:600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-decoration:none;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#tool-back-nav:hover{background:rgba(17,24,39,.94)}
+@media (max-width:640px){
+#tool-back-nav{top:10px;left:10px;padding:11px 14px;font-size:14px}
+button:not(.btn-icon):not(.fs-close):not(.result-close):not(.save-close):not(.img-preview-close):not(.img-preview-dl):not(.habit-delete):not(.move-btn),input[type="button"],input[type="submit"],label.btn,a.card-btn,.btn-upgrade{min-height:44px !important;padding-left:14px !important;padding-right:14px !important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Social Achievement Card Maker",
+  "description": "Design playful achievement and flex cards for social media. No account, no upload, private browser tool.",
+  "url": "https://www.husir.org/tools/flex-generator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "HuSir Tools",
+    "url": "https://www.husir.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I use this to fool people?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. These are for entertainment only — do not use the images to misrepresent real documents, purchases, or achievements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many templates are there?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Eight different layouts are included; click through them to see which one fits your joke."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I save the result?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Download the finished image as PNG and share it anywhere you like."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my text uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — the image is generated locally on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What makes a good flex post?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Short, funny captions work best — the template handles the layout while your text carries the joke. Preview first, and never include real personal or financial details."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HuSir.org", "item": "https://www.husir.org/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://www.husir.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Social Achievement Card Maker", "item": "https://www.husir.org/tools/flex-generator/"}]}</script>
+</head>
+<body>
+
+<div class="app">
+<nav id="husir-crumb" aria-label="Breadcrumb" style="font:500 12.5px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"><span style="display:inline-block;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.10)"><a href="https://www.husir.org/" style="color:#64748b;text-decoration:none">HuSir.org</a><span style="color:#cbd5e1"> &#8250; </span><a href="https://www.husir.org/tools/" style="color:#64748b;text-decoration:none">Free Tools</a><span style="color:#cbd5e1"> &#8250; </span><span style="color:#334155">Social Achievement Card Maker</span></span></nav>
+
+  <h1>📸 Social Achievement Card Maker</h1>
+  <div class="sub">Social Media Brag Factory · 8 templates · For entertainment only</div>
+  
+
+
+<style>
+.info-block{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);color:#334155;font-size:14px;line-height:1.7;overflow:hidden;width:100%;margin:0 0 18px}
+.info-block summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;font-size:15px;font-weight:800;color:#0f172a;user-select:none;-webkit-user-select:none}
+.info-block summary::-webkit-details-marker{display:none}
+.info-block summary::after{content:"\25BE";color:#4c1d95;font-size:22px;line-height:1;transition:transform .2s}
+.info-block[open] summary::after{transform:rotate(180deg)}
+.info-block .info-inner{border-top:1px solid #eef2f7;padding:12px 18px 16px}
+.info-block p{margin:0 0 8px}
+.info-block .faq p{margin:9px 0 0;font-size:13.5px;color:#475569}
+.info-block .faq strong{color:#0f172a}
+.info-block .formula{background:#f5f3ff;border:1px dashed #a78bfa;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:13px;color:#3730a3}
+.info-block code{background:#eef2ff;border-radius:5px;padding:1px 5px;font-size:12.5px}
+@media(max-width:600px){.info-block summary{padding:12px 14px;font-size:14px}.info-block .info-inner{padding:10px 14px 14px}}
+</style>
+<!-- ===== INFO BLOCK (reusable page template) =====
+     One collapsible card under the title: scenario intro + FAQ +
+     reference. Swap the inner text per tool. Dependency-free so the
+     same markup works in tools/ and EN-offline/. -->
+<details class="info-block">
+<summary>📘 About this tool</summary>
+<div class="info-inner">
+<p>Make playful social-media flex posts in seconds — eight ready-made templates that turn a funny idea into a shareable image. They are great for harmless jokes among friends, group chats, and light entertainment content. Keep it light: the output is clearly meant for entertainment only.</p>
+<p>Everything runs locally in your browser — no upload, no account, no watermark. Pick a template, fill in your text, preview the result, and download or share the image.</p>
+<div class="faq">
+<p><strong>🤡 Can I use this to fool people?</strong><br>No. These are for entertainment only — do not use the images to misrepresent real documents, purchases, or achievements.</p>
+<p><strong>🧩 How many templates are there?</strong><br>Eight different layouts are included; click through them to see which one fits your joke.</p>
+<p><strong>📤 How do I save the result?</strong><br>Download the finished image as PNG and share it anywhere you like.</p>
+<p><strong>🔒 Is my text uploaded?</strong><br>No — the image is generated locally on your device.</p>
+<p><strong>💡 What makes a good flex post?</strong><br>Short, funny captions work best — the template handles the layout while your text carries the joke. Preview first, and never include real personal or financial details.</p>
+</div>
+<div class="formula"><b>📐 Quick reference</b><br>
+8 entertainment templates<br>PNG export, no watermark<br>Add your own caption before sharing — keep it honest and lighthearted
+</div>
+</div>
+</details>
+
+<div class="tpl-grid" id="tpl-grid"></div>
+</div>
+
+<div class="overlay" id="overlay">
+  <button class="mobile-save-btn" id="mobile-save-btn" onclick="exportImage()" style="display:none">💾</button>
+  <div class="top-bar" style="display:flex;align-items:center;gap:16px;margin-bottom:12px;width:95%;max-width:900px">
+    <button class="btn btn-ghost" onclick="closeEditor()" style="font-size:18px;padding:8px 14px">← Back</button>
+    <span style="font-size:14px;color:#aaa;flex:1" id="editor-title"></span>
+    <button class="btn btn-primary" onclick="exportImage()">📥 Save Image</button>
+  </div>
+  <div class="editor">
+    <div class="preview-phone">
+      <div class="notch"></div>
+      <div class="screen" id="preview-screen"></div>
+    </div>
+    <div class="controls" id="editor-controls"></div>
+  </div>
+</div>
+
+<script>
+// ===== Templates =====
+var templates = [
+  {
+    id: 'cashapp', icon: '💳', name: 'Cash App', desc: 'Six-figure balance flex',
+    defaults: { wc_amount: '582,361.47', wc_name: 'Cash Balance', wc_income: '12,500.00', wc_outcome: '3,280.00' },
+    fields: [
+      { key: 'wc_amount', label: 'Balance', type: 'text', placeholder: '582,361.47' },
+      { key: 'wc_income', label: 'Income This Month', type: 'text', placeholder: '12,500.00' },
+      { key: 'wc_outcome', label: 'Spent This Month', type: 'text', placeholder: '3,280.00' }
+    ],
+    render: function(d){
+      return '<div class="tpl-wechat">'+
+        '<div class="wc-header">Cash App</div>'+
+        '<div class="wc-balance"><div class="wc-label">'+d.wc_name+'</div>'+
+        '<div class="wc-amount"><span>$</span>'+d.wc_amount+'</div></div>'+
+        '<div class="wc-card">'+
+        '<div class="wc-card-row"><span>Income</span><span style="color:#00d632">+$'+d.wc_income+'</span></div>'+
+        '<div class="wc-card-row"><span>Spent</span><span>-$'+d.wc_outcome+'</span></div>'+
+        '<div class="wc-card-row"><span>Cash Card</span><span>View ›</span></div>'+
+        '</div></div>';
+    }
+  },
+  {
+    id: 'flight', icon: '✈️', name: 'First Class', desc: 'Delta One flex',
+    defaults: { fl_from: 'JFK', fl_to: 'LAX', fl_date: '2026-08-15', fl_time: '14:30', fl_seat: '1A', fl_gate: 'B22', fl_name: 'SMITH/JOHN' },
+    fields: [
+      { key: 'fl_from', label: 'From', type: 'text', placeholder: 'JFK' },
+      { key: 'fl_to', label: 'To', type: 'text', placeholder: 'LAX' },
+      { key: 'fl_date', label: 'Date', type: 'text', placeholder: '2026-08-15' },
+      { key: 'fl_time', label: 'Time', type: 'text', placeholder: '14:30' },
+      { key: 'fl_seat', label: 'Seat', type: 'text', placeholder: '1A' },
+      { key: 'fl_gate', label: 'Gate', type: 'text', placeholder: 'A12' },
+      { key: 'fl_name', label: 'Passenger', type: 'text', placeholder: 'ZHANG/SAN' }
+    ],
+    render: function(d){
+      return '<div class="tpl-flight">'+
+        '<div class="fl-logo">DELTA AIR LINES · Delta One</div>'+
+        '<div class="fl-route">'+d.fl_from+' → '+d.fl_to+'</div>'+
+        '<div class="fl-date">'+d.fl_date+' · '+d.fl_time+'</div>'+
+        '<div class="fl-card">'+
+        '<div class="fl-row"><span>Passenger</span><span>'+d.fl_name+'</span></div>'+
+        '<div class="fl-row"><span>Flight</span><span>DL0421</span></div>'+
+        '<div class="fl-row"><span>Gate</span><span>'+d.fl_gate+'</span></div>'+
+        '<div class="fl-row"><span>Cabin</span><span>Delta One (J)</span></div>'+
+        '</div>'+
+        '<div class="fl-seat">'+d.fl_seat+'</div>'+
+        '<div class="fl-barcode"></div></div>';
+    }
+  },
+  {
+    id: 'bank', icon: '🏦', name: 'Bank Balance', desc: 'Private Client flex',
+    defaults: { bk_amount: '2,350,000.00', bk_card: '4147 **** **** 8842', bk_name: 'John Smith' },
+    fields: [
+      { key: 'bk_amount', label: 'Balance', type: 'text', placeholder: '8,623,500.00' },
+      { key: 'bk_card', label: 'Card (masked)', type: 'text', placeholder: '6217 **** **** 8888' },
+      { key: 'bk_name', label: 'Cardholder', type: 'text', placeholder: 'John Smith' }
+    ],
+    render: function(d){
+      return '<div class="tpl-bank">'+
+        '<div class="bk-header"><div class="bk-logo">🏦</div><div class="bk-name">Chase · Private Client</div></div>'+
+        '<div class="bk-card">'+
+        '<div class="bk-card-label">Debit Card</div><div class="bk-card-num">'+d.bk_card+'</div>'+
+        '<div class="bk-balance-label">Available Balance</div><div class="bk-balance">$ '+d.bk_amount+'</div></div>'+
+        '<div class="bk-txns">'+
+        '<div class="bk-txn"><span>Dividend Income</span><span class="plus">+$ 42,500.00</span></div>'+
+        '<div class="bk-txn"><span>Salary Deposit</span><span class="plus">+$ 24,800.00</span></div>'+
+        '<div class="bk-txn"><span>Stock Sale</span><span class="plus">+$ 18,300.00</span></div>'+
+        '</div></div>';
+    }
+  },
+  {
+    id: 'event', icon: '🏀', name: 'Courtside', desc: 'NBA floor seats flex',
+    defaults: { tr_from: 'Lakers', tr_to: 'Celtics', tr_date: '2026-12-25', tr_time: '7:30 PM', tr_seat: 'FLR-A Row 1', tr_name: 'John Smith', tr_train: 'Crypto.com Arena' },
+    fields: [
+      { key: 'tr_from', label: 'Home Team', type: 'text', placeholder: 'Lakers' },
+      { key: 'tr_to', label: 'Away Team', type: 'text', placeholder: 'Celtics' },
+      { key: 'tr_date', label: 'Date', type: 'text', placeholder: '2026-08-20' },
+      { key: 'tr_time', label: 'Time', type: 'text', placeholder: '08:00' },
+      { key: 'tr_seat', label: 'Seat', type: 'text', placeholder: '01F' },
+      { key: 'tr_train', label: 'Venue', type: 'text', placeholder: 'G1' },
+      { key: 'tr_name', label: 'Passenger', type: 'text', placeholder: 'John Smith' }
+    ],
+    render: function(d){
+      return '<div class="tpl-train">'+
+        '<div class="tr-header"><div class="tr-title">Ticketmaster</div>'+
+        '<div class="tr-route">'+d.tr_from+' vs '+d.tr_to+'</div>'+
+        '<div class="tr-info">'+d.tr_date+' · '+d.tr_time+' · '+d.tr_train+'</div></div>'+
+        '<div class="tr-body">'+
+        '<div class="tr-row"><span>Passenger</span><span>'+d.tr_name+'</span></div>'+
+        '<div class="tr-row"><span>Section</span><span>Courtside Floor</span></div>'+
+        '<div class="tr-row"><span>Row</span><span>Row 1</span></div>'+
+        '<div class="tr-row"><span>Price</span><span>$ 8,500.00</span></div>'+
+        '<div class="tr-seat-box"><div class="tr-seat">'+d.tr_seat+'</div><div class="tr-seat-sub">Floor Seats</div></div>'+
+        '<div class="tr-qr">SCAN TO ENTER</div></div></div>';
+    }
+  },
+  {
+    id: 'apple', icon: '🍎', name: 'Apple Store', desc: 'Full ecosystem flex',
+    defaults: { ap_item1: 'MacBook Pro 16"', ap_price1: '$ 24,999', ap_item2: 'iPhone 16 Pro Max', ap_price2: '$ 11,999', ap_item3: 'AirPods Pro', ap_price3: '$ 1,899', ap_total: '$ 38,897' },
+    fields: [
+      { key: 'ap_item1', label: 'Item 1 Name', type: 'text', placeholder: 'MacBook Pro 16' },
+      { key: 'ap_price1', label: 'Item 1 Price', type: 'text', placeholder: '$ 24,999' },
+      { key: 'ap_item2', label: 'Item 2 Name', type: 'text', placeholder: 'iPhone 16 Pro Max' },
+      { key: 'ap_price2', label: 'Item 2 Price', type: 'text', placeholder: '$ 11,999' },
+      { key: 'ap_item3', label: 'Item 3 Name', type: 'text', placeholder: 'AirPods Pro' },
+      { key: 'ap_price3', label: 'Item 3 Price', type: 'text', placeholder: '$ 1,899' }
+    ],
+    render: function(d){
+      var total = (parseFloat(d.ap_price1.replace(/[^0-9.]/g,''))||0)+(parseFloat(d.ap_price2.replace(/[^0-9.]/g,''))||0)+(parseFloat(d.ap_price3.replace(/[^0-9.]/g,''))||0);
+      return '<div class="tpl-apple">'+
+        '<div class="ap-header">Apple Store</div><div class="ap-sub">Recent Purchases</div>'+
+        '<div class="ap-item"><div class="ap-icon">💻</div><div class="ap-info"><div class="ap-name">'+d.ap_item1+'</div><div class="ap-date">August 2026</div></div><div class="ap-price">'+d.ap_price1+'</div></div>'+
+        '<div class="ap-item"><div class="ap-icon">📱</div><div class="ap-info"><div class="ap-name">'+d.ap_item2+'</div><div class="ap-date">August 2026</div></div><div class="ap-price">'+d.ap_price2+'</div></div>'+
+        '<div class="ap-item"><div class="ap-icon">🎧</div><div class="ap-info"><div class="ap-name">'+d.ap_item3+'</div><div class="ap-date">August 2026</div></div><div class="ap-price">'+d.ap_price3+'</div></div>'+
+        '<div class="ap-total">Total: $ '+total.toLocaleString()+'</div></div>';
+    }
+  },
+  {
+    id: 'amex', icon: '📊', name: 'Amex Annual', desc: 'Centurion flex',
+    defaults: { ali_amount: '847,320.00', ali_year: '2026', ali_top1: 'Fine Dining', ali_top2: 'Travel & Hotels', ali_top3: 'Luxury Shopping' },
+    fields: [
+      { key: 'ali_amount', label: 'Annual Spend', type: 'text', placeholder: '2,865,420.00' },
+      { key: 'ali_year', label: 'Year', type: 'text', placeholder: '2026' },
+      { key: 'ali_top1', label: 'Top Category 1', type: 'text', placeholder: 'Fine Dining' },
+      { key: 'ali_top2', label: 'Top Category 2', type: 'text', placeholder: 'Travel & Hotels' },
+      { key: 'ali_top3', label: 'Top Category 3', type: 'text', placeholder: 'Luxury Shopping' }
+    ],
+    render: function(d){
+      return '<div class="tpl-alipay">'+
+        '<div class="ali-header">American Express · '+d.ali_year+' Year-End</div>'+
+        '<div class="ali-amount">$ '+d.ali_amount+'</div>'+
+        '<div class="ali-sub">Annual Spend · Higher than 99% of Cardmembers</div>'+
+        '<div class="ali-card">'+
+        '<div class="ali-row"><span>🥇 Top Spend</span><span>'+d.ali_top1+'</span></div>'+
+        '<div class="ali-row"><span>🥈 Top Spend</span><span>'+d.ali_top2+'</span></div>'+
+        '<div class="ali-row"><span>🥉 Top Spend</span><span>'+d.ali_top3+'</span></div>'+
+        '<div class="ali-row"><span>📈 Cashback Earned</span><span>+$ 12,860</span></div>'+
+        '</div></div>';
+    }
+  },
+  {
+    id: 'stock', icon: '📈', name: 'Portfolio', desc: 'All-time high flex',
+    defaults: { st_total: '1,425,800.00', st_pl: '+142,580.00', st_rate: '+11.11%' },
+    fields: [
+      { key: 'st_total', label: 'Portfolio Value', type: 'text', placeholder: '5,862,000.00' },
+      { key: 'st_pl', label: 'Todays P&L', type: 'text', placeholder: '+586,200.00' },
+      { key: 'st_rate', label: 'Return %', type: 'text', placeholder: '+11.11%' }
+    ],
+    render: function(d){
+      return '<div class="tpl-stock">'+
+        '<div class="st-header">Robinhood · Portfolio</div>'+
+        '<div class="st-total">$ '+d.st_total+'</div>'+
+        '<div class="st-pl">Today '+d.st_pl+' ('+d.st_rate+'%)</div>'+
+        '<div class="st-list">'+
+        '<div class="st-item"><div><div class="st-name">AAPL</div><div class="st-code">Apple Inc.</div></div><div><div class="st-price">195.50</div><div class="st-change">+4.8%</div></div></div>'+
+        '<div class="st-item"><div><div class="st-name">NVDA</div><div class="st-code">NVIDIA Corp.</div></div><div><div class="st-price">138.25</div><div class="st-change">+3.2%</div></div></div>'+
+        '<div class="st-item"><div><div class="st-name">MSFT</div><div class="st-code">Microsoft</div></div><div><div class="st-price">458.70</div><div class="st-change">+1.7%</div></div></div>'+
+        '<div class="st-item"><div><div class="st-name">TSLA</div><div class="st-code">Tesla Inc.</div></div><div><div class="st-price">242.30</div><div class="st-change">+2.1%</div></div></div>'+
+        '</div></div>';
+    }
+  },
+  {
+    id: 'salary', icon: '💰', name: 'Payday', desc: 'Six-figure monthly flex',
+    defaults: { sal_amount: '42,800.00', sal_company: 'Google', sal_month: 'July 2026' },
+    fields: [
+      { key: 'sal_amount', label: 'Amount', type: 'text', placeholder: '128,500.00' },
+      { key: 'sal_company', label: 'Company', type: 'text', placeholder: 'Google' },
+      { key: 'sal_month', label: 'Pay Period', type: 'text', placeholder: 'July 2026' }
+    ],
+    render: function(d){
+      return '<div class="tpl-salary">'+
+        '<div class="sal-header">Direct Deposit</div>'+
+        '<div class="sal-bank">Chase · '+d.sal_company+'</div>'+
+        '<div class="sal-card"><div class="sal-label">'+d.sal_month+' Paycheck</div>'+
+        '<div class="sal-amount">$ '+d.sal_amount+'</div></div>'+
+        '<div class="sal-detail">'+
+        '<div class="sal-row"><span>Base Salary</span><span>$ 28,000.00</span></div>'+
+        '<div class="sal-row"><span>RSU Vest</span><span>$ 10,500.00</span></div>'+
+        '<div class="sal-row"><span>Perks Allowance</span><span>$ 4,300.00</span></div>'+
+        '<div class="sal-row"><span>Tax Withholding</span><span>-$ 8,440.00</span></div>'+
+        '</div><div class="sal-badge">✓ Deposited today at 9:30 AM</div></div>';
+    }
+  }
+];
+
+var currentTpl = null;
+var currentData = {};
+
+// ===== Render Cards =====
+document.getElementById('tpl-grid').innerHTML = templates.map(function(t){
+  return '<div class="tpl-card" onclick="openTpl(\''+t.id+'\')"><span class="tpl-icon">'+t.icon+'</span><div class="tpl-name">'+t.name+'</div><div class="tpl-desc">'+t.desc+'</div></div>';
+}).join('');
+
+// ===== Open Editor =====
+function openTpl(id){
+  currentTpl = templates.find(function(t){ return t.id === id });
+  currentData = JSON.parse(JSON.stringify(currentTpl.defaults));
+  document.getElementById('editor-title').textContent = currentTpl.icon + ' ' + currentTpl.name;
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  // Show floating save button on mobile
+  if (window.innerWidth < 700) document.getElementById('mobile-save-btn').style.display = 'flex';
+  renderPreview();
+  renderControls();
+}
+
+function closeEditor(){
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('mobile-save-btn').style.display = 'none';
+  document.body.style.overflow = '';
+  currentTpl = null;
+}
+
+function renderPreview(){
+  document.getElementById('preview-screen').innerHTML = currentTpl.render(currentData);
+}
+
+function renderControls(){
+  var html = currentTpl.fields.map(function(f){
+    return '<div class="section"><label>'+f.label+'</label><input type="'+f.type+'" value="'+currentData[f.key]+'" placeholder="'+f.placeholder+'" oninput="updateField(\''+f.key+'\',this.value)"></div>';
+  }).join('');
+  document.getElementById('editor-controls').innerHTML = html;
+}
+
+function updateField(key, value){
+  currentData[key] = value;
+  renderPreview();
+  // Auto-update Apple Store total
+  if (currentTpl.id === 'apple'){
+    var total = (parseFloat(currentData.ap_price1.replace(/[^0-9.]/g,''))||0)+(parseFloat(currentData.ap_price2.replace(/[^0-9.]/g,''))||0)+(parseFloat(currentData.ap_price3.replace(/[^0-9.]/g,''))||0);
+    currentData.ap_total = '$ '+total.toLocaleString();
+  }
+}
+
+// ===== Export Image =====
+function exportImage(){
+  var screen = document.getElementById('preview-screen');
+  var phone = screen.closest('.preview-phone');
+
+  // Temporarily enlarge for export
+  var origW = phone.style.width;
+  phone.style.width = '375px';
+  phone.style.borderRadius = '0';
+  phone.style.padding = '0';
+
+  html2canvas(screen, {
+    scale: 2,
+    backgroundColor: '#ffffff',
+    useCORS: true,
+    logging: false
+  }).then(function(canvas){
+    phone.style.width = origW;
+    phone.style.borderRadius = '32px';
+    phone.style.padding = '12px';
+
+    var dataUrl = canvas.toDataURL('image/png');
+    var isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      var overlay = document.createElement('div');
+      overlay.className = 'export-overlay';
+      overlay.onclick = function(){ overlay.remove(); };
+      var img = document.createElement('img');
+      img.src = dataUrl;
+      overlay.appendChild(img);
+      document.body.appendChild(overlay);
+    } else {
+      var a = document.createElement('a');
+      a.download = currentTpl.id + '.png';
+      a.href = dataUrl;
+      a.click();
+    }
+  }).catch(function(){
+    // fallback: no html2canvas, just show the data
+    toast('Please screenshot the preview area');
+  });
+}
+
+function toast(msg){
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:10px 20px;background:#1a1a2e;border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#ffe66d;font-weight:600;z-index:99999;font-size:13px;pointer-events:none';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove() }, 2000);
+}
+
+// ESC to close
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && currentTpl) closeEditor();
+});
+
+// Dynamically load html2canvas
+var script = document.createElement('script');
+script.src = 'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js';
+script.onerror = function(){ console.log('html2canvas load failed, will use screenshot fallback'); };
+document.head.appendChild(script);
+</script>
+
+<div style="text-align:center;padding:8px 0 4px"><a href="https://www.husir.org/tools/dl.php" style="color:rgba(255,255,255,0.78);font-size:12px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.78)'">&#x1F4E5; Download Offline Version</a></div>
+
+<div id="husir-more-link" style="text-align:center;margin:16px 0 8px;padding:0 16px;font-size:13px;line-height:1.6">
+  
+
+<a href="https://www.husir.org/en/" target="_blank" style="color:#ffffff;text-decoration:underline;text-underline-offset:2px;font-weight:700">HuSir is still writing honest reflections on faith, society, and the human heart &rarr; Learn about HuSir</a>
+</div>
+<div style="text-align:center;margin-top:40px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.1)"><a href="https://3350178180297.gumroad.com/l/knjnbv" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">☕ Buy me a coffee</a></div>
+
+
+<div style="text-align:center;margin:30px auto 6px;padding:0 14px"><div style="font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;margin-bottom:12px">Related Tools</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><a href="../card-maker/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3A8; Quote Card &amp; Logo Maker</a><a href="../social-image-resizer/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F4D0; Social Media Image Resizer</a><a href="../certificate-crafter/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x1F3C5; Certificate Maker</a><a href="../handwriting-gen/index.html" style="text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;background:rgba(127,127,127,.14);border:1px solid rgba(127,127,127,.34);display:inline-flex;align-items:center;gap:5px">&#x270D;&#xFE0F; Handwriting Generator</a></div></div>
+<a id="tool-back-nav" href="https://www.husir.org/tools/" aria-label="Back to all tools">&#8592; All Tools</a>
+</body>
+</html>
