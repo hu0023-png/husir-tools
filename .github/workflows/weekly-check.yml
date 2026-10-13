@@ -1,0 +1,79 @@
+name: Weekly check
+
+on:
+  schedule:
+    - cron: "0 1 * * 1"        # 每周一 09:00（北京）＝ 01:00 UTC
+  workflow_dispatch:            # 也可以手动点一下立刻跑
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 体检：线上工具清单 vs 仓库
+        id: check
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          out=$(python3 scripts/weekly-check.py 2>&1)
+          code=$?
+          echo "$out" | tee /tmp/report.txt
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: 有问题就开 issue，恢复正常就关掉
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODE: ${{ steps.check.outputs.code }}
+        run: |
+          set -u
+          LABEL=health-check
+          gh label create "$LABEL" --color FBCA04 --description "每周自动体检" 2>/dev/null || true
+          OPEN=$(gh issue list --label "$LABEL" --state open --json number --jq 'length')
+
+          if [ "$CODE" = "0" ]; then
+            if [ "$OPEN" != "0" ]; then
+              for n in $(gh issue list --label "$LABEL" --state open --json number --jq '.[].number'); do
+                gh issue close "$n" --comment "这次体检恢复正常，自动关闭。"
+              done
+            fi
+            echo "体检通过，没问题。"
+            exit 0
+          fi
+
+          if [ "$CODE" = "4" ]; then
+            TITLE="每周体检：这次没跑成（网络或被拦）"
+          else
+            TITLE="每周体检：仓库与网站不一致"
+          fi
+
+          {
+            echo "自动体检的输出："
+            echo
+            echo '```'
+            cat /tmp/report.txt
+            echo '```'
+            echo
+            echo "处理办法（在 Codex 里说一句也行）："
+            echo
+            echo '```'
+            echo 'cd ~/.codex/husir-distribution'
+            echo 'python3 repo-sync.py --check'
+            echo 'GITHUB_TOKEN=<临时 token> python3 repo-sync.py --push'
+            echo '```'
+            echo
+            echo "下次体检恢复正常会**自动关闭**本 issue。"
+          } > /tmp/body.md
+
+          if [ "$OPEN" = "0" ]; then
+            gh issue create --label "$LABEL" --title "$TITLE" --body-file /tmp/body.md
+          else
+            echo "已有未关闭的体检 issue（$OPEN 个），不重复开。"
+          fi
